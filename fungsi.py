@@ -29,3 +29,12 @@ def download_excel(df):
 # Fungsi untuk membuat logo
 def logo():
     add_logo("https://storage.googleapis.com/bukanamel/img/instansi-logo.png", height=200)
+
+# Fungsi page config
+def page_config():
+    st.set_page_config(
+        page_title="Sistem Informasi Pelaporan Pengadaan Barang dan Jasa",
+        page_icon="🧊",
+        layout="wide",
+        initial_sidebar_state="expanded",
+    )

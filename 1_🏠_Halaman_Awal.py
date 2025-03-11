@@ -16,12 +16,7 @@ from st_social_media_links import SocialMediaIcons
 from fungsi import *
 
 # Konfigurasi Halaman
-st.set_page_config(
-    page_title="Dashboard",
-    page_icon=":bar_chart:",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+page_config()
 
 # Membuat Logo
 logo()
