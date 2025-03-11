@@ -20,3 +20,15 @@ page_config()
 
 # Membuat Logo
 logo()
+
+# Membuat UKPBJ
+region_config()
+
+daerah = list(region_config().keys())
+tahuns = list(range(2023, 2025))
+
+pilih = st.sidebar.selectbox("Pilih Daerah", daerah)
+tahun = st.sidebar.selectbox("Pilih Tahun", tahuns)
+
+# Membuat Judul Halaman
+st.title("SIRUP")
