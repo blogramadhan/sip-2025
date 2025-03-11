@@ -1,0 +1,13 @@
+duckdb
+openpyxl
+pandas
+polars
+numpy
+streamlit
+babel
+plotly.express
+streamlit-aggrid
+streamlit-extras
+st_social_media_links
+xlsxwriter
+validators
