@@ -16,22 +16,20 @@ from st_social_media_links import SocialMediaIcons
 # Library Tambahan
 from fungsi import *
 
+# Konfigurasi Page Conf
 page_config()
 
 # Membuat Logo
 logo()
 
-# # Membuat Menu Sidebar
-# sidebar_menu().run()
+# Membuat UKPBJ
+region_config()
 
-# # Membuat UKPBJ
-# region_config()
+daerah = list(region_config().keys())
+tahuns = list(range(datetime.now().year, datetime.now().year-3, -1))
 
-# daerah = list(region_config().keys())
-# tahuns = list(range(datetime.now().year, datetime.now().year-3, -1))
-
-# pilih = st.sidebar.selectbox("Pilih Daerah", daerah)
-# tahun = st.sidebar.selectbox("Pilih Tahun", tahuns)
+pilih = st.sidebar.selectbox("Pilih Daerah", daerah)
+tahun = st.sidebar.selectbox("Pilih Tahun", tahuns)
 
 # Membuat Judul Halaman
 st.title("SIRUP")

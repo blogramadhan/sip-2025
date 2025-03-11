@@ -67,12 +67,3 @@ def sidebar_menu():
         ],
     }
     return st.navigation(pages)
-
-# def sidebar_menu():
-#     pages = {
-#         "Daftar Menu": [
-#             st.Page("1_🏠_Halaman_Awal.py", title="H o m e"),
-#             st.Page("2_📋_SIRUP.py", title="SIRUP"),
-#         ],
-#     }
-#     return st.navigation(pages)
