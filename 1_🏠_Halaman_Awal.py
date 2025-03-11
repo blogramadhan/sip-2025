@@ -26,13 +26,6 @@ st.set_page_config(
 # Membuat Logo
 logo()
 
-menu_sidebar = {
-    "Your account": [
-        st.Page("1_🏠_Halaman_Awal.py", title="H o m e"),
-    ]
-}
-st.navigation(menu_sidebar)
-
 # Membuat Judul Halaman
 st.title("Sistem Informasi Pelaporan - Biro Pengadaan Barang dan Jasa")
 
