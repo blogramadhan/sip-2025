@@ -25,11 +25,11 @@ logo()
 sidebar_menu().run()
 
 # Membuat Judul Halaman
-st.title("Sistem Informasi Pelaporan - Biro Pengadaan Barang dan Jasa")
+# st.title("Sistem Informasi Pelaporan - Biro Pengadaan Barang dan Jasa")
 
-# Membuat Social Media Links
-SocialMediaIcons([
-    "https://www.facebook.com/biropbjkalbar",
-    "https://youtube.com/@biropengadaanbarangdanjasa8573?si=jHg5uFTfMQjbF_a3", 
-    "https://www.instagram.com/barjaskalbar"
-]).render()
+# # Membuat Social Media Links
+# SocialMediaIcons([
+#     "https://www.facebook.com/biropbjkalbar",
+#     "https://youtube.com/@biropengadaanbarangdanjasa8573?si=jHg5uFTfMQjbF_a3", 
+#     "https://www.instagram.com/barjaskalbar"
+# ]).render()
