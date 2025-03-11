@@ -17,9 +17,9 @@ from streamlit_extras.app_logo import add_logo
 def read_df(url, format='parquet'):
     return pd.read_parquet(url) if format=='parquet' else pd.read_excel(url)
 
-@st.cache_data(ttl=3600) 
-def read_df_duckdb(url, format='parquet'):
-    return duckdb.read_parquet(url).df() if format=='parquet' else duckdb.read_excel(url).df()
+# @st.cache_data(ttl=3600) 
+# def read_df_duckdb(url, format='parquet'):
+#     return duckdb.read_parquet(url).df() if format=='parquet' else duckdb.read_excel(url).df()
 
 def download_excel(df):
     buffer = io.BytesIO()

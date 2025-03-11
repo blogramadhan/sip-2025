@@ -35,3 +35,28 @@ kodeLPSE = selected_daerah.get("LPSE")
 con = duckdb.connect(database=':memory:')
 con.sql("INSTALL httpfs")
 con.sql("LOAD httpfs")
+
+# Dataset SIRUP (PARQUET)
+DatasetRUPPP = f"https://data.pbj.my.id/{kodeRUP}/sirup/RUP-PaketPenyedia-Terumumkan{tahun}.parquet"
+DatasetRUPPS = f"https://data.pbj.my.id/{kodeRUP}/sirup/RUP-PaketSwakelola-Terumumkan{tahun}.parquet"
+DatasetRUPSA = f"https://data.pbj.my.id/{kodeRUP}/sirup/RUP-StrukturAnggaranPD{tahun}.parquet"
+
+# Dataset SIRUP (PARQUET) 31 Maret Tahun Berjalan
+DatasetRUPPP31Mar = f"https://data.pbj.my.id/{kodeRUP}/sirup/RUP-PaketPenyedia-Terumumkan-{tahun}-03-31.parquet"
+DatasetRUPPS31Mar = f"https://data.pbj.my.id/{kodeRUP}/sirup/RUP-PaketSwakelola-Terumumkan-{tahun}-03-31.parquet"
+DatasetRUPSA31Mar = f"https://data.pbj.my.id/{kodeRUP}/sirup/RUP-StrukturAnggaranPD-{tahun}-03-31.parquet"
+
+# Dataframe RUP
+try:
+    # Baca dataset RUP Paket Penyedia
+    dfRUPPP = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPPP}')").df()
+    dfRUPPS = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPPS}')").df()
+    dfRUPSA = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPSA}')").df()
+
+    # Baca dataset RUP 31 Maret Tahun Berjalan
+    dfRUPPP31Mar = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPPP31Mar}')").df()
+    dfRUPPS31Mar = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPPS31Mar}')").df()
+    dfRUPSA31Mar = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPSA31Mar}')").df()
+    
+except Exception as e:
+    st.error(f"Error: {e}")
