@@ -66,3 +66,38 @@ try:
 
 except Exception as e:
     st.error(f"Error: {e}")
+
+#####
+# Konten Data RUP
+#####
+
+# Buat Tab Menu
+menu_rup_1, menu_rup_2, menu_rup_3, menu_rup_4, menu_rup_5, menu_rup_6 = st.tabs([
+    "PROFIL RUP", "STRUKTUR ANGGARAN", "RUP PAKET PENYEDIA", 
+    "RUP PAKET SWAKELOLA", "PERSENTASE INPUT RUP", "PERSENTASE INPUT RUP (31 MAR)"
+])
+
+with menu_rup_1:
+    st.title("PROFIL RUP")
+    st.write("Profil RUP")
+
+with menu_rup_2:
+    st.title("STRUKTUR ANGGARAN")
+    st.write("Struktur Anggaran")
+
+with menu_rup_3:
+    st.title("RUP PAKET PENYEDIA")
+    st.write("RUP Paket Penyedia")
+
+with menu_rup_4:
+    st.title("RUP PAKET SWAKELOLA")
+    st.write("RUP Paket Swakelola")
+
+with menu_rup_5:
+    st.title("PERSENTASE INPUT RUP")
+    st.write("Persentase Input RUP")
+
+with menu_rup_6:
+    st.title("PERSENTASE INPUT RUP (31 MAR)")
+    st.write("Persentase Input RUP (31 Mar)")
+
