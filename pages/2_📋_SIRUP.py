@@ -33,8 +33,8 @@ kodeLPSE = selected_daerah.get("LPSE")
 
 # Perispan DuckDB
 con = duckdb.connect(database=':memory:')
-con.sql("INSTALL httpfs")
-con.sql("LOAD httpfs")
+# con.sql("INSTALL httpfs")
+# con.sql("LOAD httpfs")
 
 # Dataset SIRUP (PARQUET)
 DatasetRUPPP = f"https://data.pbj.my.id/{kodeRUP}/sirup/RUP-PaketPenyedia-Terumumkan{tahun}.parquet"
@@ -53,12 +53,6 @@ try:
     dfRUPPS = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPPS}')").df()
     dfRUPSA = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPSA}')").df()
 
-    # Baca dataset RUP 31 Maret Tahun Berjalan
-    dfRUPPP31Mar = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPPP31Mar}')").df()
-    dfRUPPS31Mar = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPPS31Mar}')").df()
-    dfRUPSA31Mar = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPSA31Mar}')").df()
-
 except Exception as e:
     st.error(f"Error: {e}")
 
-st.dataframe(dfRUPPP)
