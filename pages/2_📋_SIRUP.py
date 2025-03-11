@@ -31,4 +31,4 @@ tahuns = list(range(datetime.now().year, datetime.now().year-3, -1))
 pilih = st.sidebar.selectbox("Pilih Daerah", daerah)
 tahun = st.sidebar.selectbox("Pilih Tahun", tahuns)
 
-selected_daerah = region_config.get(pilih, {})
+selected_daerah = region_config().get(pilih, {})
