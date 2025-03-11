@@ -28,3 +28,11 @@ add_logo()
 
 # Membuat Judul Halaman
 st.title("Sistem Informasi Pelaporan - Biro Pengadaan Barang dan Jasa")
+
+# Membuat Social Media Links
+social_media = SocialMediaIcons(
+    "https://www.facebook.com/biropbjkalbar",
+    "https://youtube.com/@biropengadaanbarangdanjasa8573?si=jHg5uFTfMQjbF_a3",
+    "https://www.instagram.com/barjaskalbar",
+)
+social_media.render()
