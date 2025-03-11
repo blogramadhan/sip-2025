@@ -38,3 +38,23 @@ def page_config():
             layout="wide",
             initial_sidebar_state="expanded",
         )
+
+# Fungsi region config
+def region_config():
+    return {
+        "PROV. KALBAR": {"folder": "prov", "RUP": "D197", "LPSE": "97"},
+        "KOTA PONTIANAK": {"folder": "ptk", "RUP": "D199", "LPSE": "62"},
+        "KAB. KUBU RAYA": {"folder": "kkr", "RUP": "D202", "LPSE": "188"},
+        "KAB. MEMPAWAH": {"folder": "mpw", "RUP": "D552", "LPSE": "118"},
+        "KOTA SINGKAWANG": {"folder": "skw", "RUP": "D200", "LPSE": "132"},
+        "KAB. BENGKAYANG": {"folder": "bky", "RUP": "D206", "LPSE": "444"},
+        "KAB. LANDAK": {"folder": "ldk", "RUP": "D205", "LPSE": "496"},
+        "KAB. SANGGAU": {"folder": "sgu", "RUP": "D204", "LPSE": "298"},
+        "KAB. SEKADAU": {"folder": "skd", "RUP": "D198", "LPSE": "175"},
+        "KAB. MELAWI": {"folder": "mlw", "RUP": "D210", "LPSE": "540"},
+        "KAB. SINTANG": {"folder": "stg", "RUP": "D211", "LPSE": "345"},
+        "KAB. KAPUAS HULU": {"folder": "kph", "RUP": "D209", "LPSE": "488"},
+        "KAB. KETAPANG": {"folder": "ktp", "RUP": "D201", "LPSE": "110"},
+        "KAB. TANGGERANG": {"folder": "tgr", "RUP": "D50", "LPSE": "333"},
+        "KAB. KATINGAN": {"folder": "ktg", "RUP": "D236", "LPSE": "438"}
+    }
