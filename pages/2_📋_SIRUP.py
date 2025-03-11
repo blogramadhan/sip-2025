@@ -31,41 +31,36 @@ kodeFolder = selected_daerah.get("folder")
 kodeRUP = selected_daerah.get("RUP")
 kodeLPSE = selected_daerah.get("LPSE")
 
-# Perispan DuckDB
+# Koneksi DuckDB
 con = duckdb.connect(database=':memory:')
-# con.sql("INSTALL httpfs")
-# con.sql("LOAD httpfs")
 
-# Dataset SIRUP (PARQUET)
-DatasetRUPPP = f"https://data.pbj.my.id/{kodeRUP}/sirup/RUP-PaketPenyedia-Terumumkan{tahun}.parquet"
-DatasetRUPPS = f"https://data.pbj.my.id/{kodeRUP}/sirup/RUP-PaketSwakelola-Terumumkan{tahun}.parquet"
-DatasetRUPSA = f"https://data.pbj.my.id/{kodeRUP}/sirup/RUP-StrukturAnggaranPD{tahun}.parquet"
+# URL Dataset SIRUP
+base_url = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+datasets = {
+    'PP': f"{base_url}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
+    'PS': f"{base_url}/RUP-PaketSwakelola-Terumumkan{tahun}.parquet", 
+    'SA': f"{base_url}/RUP-StrukturAnggaranPD{tahun}.parquet"
+}
 
-# Dataset SIRUP (PARQUET) 31 Maret Tahun Berjalan
-DatasetRUPPP31Mar = f"https://data.pbj.my.id/{kodeRUP}/sirup/RUP-PaketPenyedia-Terumumkan-{tahun}-03-31.parquet"
-DatasetRUPPS31Mar = f"https://data.pbj.my.id/{kodeRUP}/sirup/RUP-PaketSwakelola-Terumumkan-{tahun}-03-31.parquet"
-DatasetRUPSA31Mar = f"https://data.pbj.my.id/{kodeRUP}/sirup/RUP-StrukturAnggaranPD-{tahun}-03-31.parquet"
-
-# Dataframe RUP
 try:
-    # Baca dataset RUP Paket Penyedia, Swakelola, dan Struktur Anggaran
-    dfRUPPP = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPPP}')").df()
-    dfRUPPS = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPPS}')").df()
-    dfRUPSA = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPSA}')").df()
+    # Baca dataset RUP
+    dfRUPPP = con.sql(f"SELECT * FROM read_parquet('{datasets['PP']}')").df()
+    dfRUPPS = con.sql(f"SELECT * FROM read_parquet('{datasets['PS']}')").df()
+    dfRUPSA = con.sql(f"SELECT * FROM read_parquet('{datasets['SA']}')").df()
 
-    # Query RUP Paket Penyedia
+    # Filter data RUP Penyedia
     dfRUPPP_umumkan = con.execute("SELECT * FROM dfRUPPP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
     dfRUPPP_umumkan_ukm = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_ukm = 'UKM'").df()
     dfRUPPP_umumkan_pdn = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_pdn = 'PDN'").df()
 
-    # Query RUP Paket Swakelola
-    sqlRUPPS = """
-        SELECT nama_satker, kd_rup, nama_paket, pagu, tipe_swakelola, volume_pekerjaan, uraian_pekerjaan, 
-        tgl_pengumuman_paket, tgl_awal_pelaksanaan_kontrak, nama_ppk, status_umumkan_rup
-        FROM df_RUPPS
+    # Filter data RUP Swakelola
+    dfRUPPS_umumkan = con.execute("""
+        SELECT nama_satker, kd_rup, nama_paket, pagu, tipe_swakelola, volume_pekerjaan, 
+               uraian_pekerjaan, tgl_pengumuman_paket, tgl_awal_pelaksanaan_kontrak, 
+               nama_ppk, status_umumkan_rup
+        FROM df_RUPPS 
         WHERE status_umumkan_rup = 'Terumumkan'
-    """
-    dfRUPPS_umumkan = con.execute(sqlRUPPS).df()
+    """).df()
 
     namaopd = dfRUPPP_umumkan['nama_satker'].unique()
 
