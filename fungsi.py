@@ -32,9 +32,9 @@ def logo():
 
 # Fungsi page config
 def page_config():
-    st.set_page_config(
-        page_title="Sistem Informasi Pelaporan Pengadaan Barang dan Jasa",
-        page_icon="🧊",
-        layout="wide",
-        initial_sidebar_state="expanded",
-    )
+    return st.set_page_config(
+            page_title="Sistem Informasi Pelaporan Pengadaan Barang dan Jasa",
+            page_icon="🧊",
+            layout="wide",
+            initial_sidebar_state="expanded",
+        )
