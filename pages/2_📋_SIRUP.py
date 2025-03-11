@@ -57,6 +57,8 @@ try:
     dfRUPPP31Mar = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPPP31Mar}')").df()
     dfRUPPS31Mar = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPPS31Mar}')").df()
     dfRUPSA31Mar = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPSA31Mar}')").df()
-    
+
 except Exception as e:
     st.error(f"Error: {e}")
+
+st.dataframe(dfRUPPP)
