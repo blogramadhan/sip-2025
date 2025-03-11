@@ -26,7 +26,7 @@ logo()
 region_config()
 
 daerah = list(region_config().keys())
-tahuns = list(range(datetime.now().year, datetime.now().year-2, -1))
+tahuns = list(range(datetime.now().year, datetime.now().year-3, -1))
 
 pilih = st.sidebar.selectbox("Pilih Daerah", daerah)
 tahun = st.sidebar.selectbox("Pilih Tahun", tahuns)
