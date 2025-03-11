@@ -58,7 +58,7 @@ try:
         SELECT nama_satker, kd_rup, nama_paket, pagu, tipe_swakelola, volume_pekerjaan, 
                uraian_pekerjaan, tgl_pengumuman_paket, tgl_awal_pelaksanaan_kontrak, 
                nama_ppk, status_umumkan_rup
-        FROM df_RUPPS 
+        FROM dfRUPPS 
         WHERE status_umumkan_rup = 'Terumumkan'
     """).df()
 
