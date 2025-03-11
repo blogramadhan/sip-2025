@@ -114,6 +114,21 @@ with menu_rup_5:
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
 
+        st.dataframe(
+            ir_gabung_final,
+            column_config={
+                "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
+                "RUP_PENYEDIA": "RUP PAKET PENYEDIA",
+                "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
+                "TOTAL_RUP": "TOTAL RUP",
+                "SELISIH": "SELISIH",
+                "PERSEN": "PERSENTASE"
+            },
+            hide_index=True,
+            use_container_width=True,
+            height=1000
+        )
+
     except Exception as e:
         st.error(f"Error: {e}")
 
