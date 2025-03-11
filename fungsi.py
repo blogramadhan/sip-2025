@@ -29,3 +29,15 @@ def download_excel(df):
 # Fungsi untuk membuat logo
 def logo():
     add_logo("https://storage.googleapis.com/bukanamel/img/instansi-logo.png", height=200)
+
+# Menu Sidebar
+menu_sidebar = {
+    "Your account": [
+        st.Page("create_account.py", title="Create your account"),
+        st.Page("manage_account.py", title="Manage your account"),
+    ],
+    "Resources": [
+        st.Page("learn.py", title="Learn about us"),
+        st.Page("trial.py", title="Try it out"),
+    ],
+}
