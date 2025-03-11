@@ -95,7 +95,7 @@ with menu_rup_4:
 
 with menu_rup_5:
     st.title("PERSENTASE INPUT RUP")
-    st.write("Persentase Input RUP")
+    st.header(f"{pilih} TAHUN {tahun}")
 
 with menu_rup_6:
     st.title("PERSENTASE INPUT RUP (31 MAR)")
