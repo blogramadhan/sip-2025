@@ -53,7 +53,12 @@ try:
     dfRUPPS = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPPS}')").df()
     dfRUPSA = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPSA}')").df()
 
+    # Query RUP Paket Penyedia
+    dfRUPPP_umumkan = con.execute("SELECT * FROM dfRUPPP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
+    dfRUPPP_umumkan_ukm = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_ukm = 'UKM'").df()
+    dfRUPPP_umumkan_pdn = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_pdn = 'PDN'").df()
+
+    namaopd = dfRUPPP_umumkan['nama_satker'].unique()
+
 except Exception as e:
     st.error(f"Error: {e}")
-
-st.dataframe(dfRUPPP)
