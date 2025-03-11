@@ -48,11 +48,6 @@ try:
     dfRUPPS = read_df_duckdb(datasets['PS'])
     dfRUPSA = read_df_duckdb(datasets['SA'])
 
-    # dfRUPPP = con.sql(f"SELECT * FROM read_parquet('{datasets['PP']}')").df()
-    # dfRUPPS = con.sql(f"SELECT * FROM read_parquet('{datasets['PS']}')").df()
-    # dfRUPSA = con.sql(f"SELECT * FROM read_parquet('{datasets['SA']}')").df()
-
-
     # Filter data RUP Penyedia
     dfRUPPP_umumkan = con.execute("SELECT * FROM dfRUPPP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
     dfRUPPP_umumkan_ukm = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_ukm = 'UKM'").df()
