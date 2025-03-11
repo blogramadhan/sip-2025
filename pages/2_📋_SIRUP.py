@@ -73,8 +73,8 @@ except Exception as e:
 
 # Buat Tab Menu
 menu_rup_1, menu_rup_2, menu_rup_3, menu_rup_4, menu_rup_5, menu_rup_6 = st.tabs([
-    "PROFIL RUP", "STRUKTUR ANGGARAN", "RUP PAKET PENYEDIA", 
-    "RUP PAKET SWAKELOLA", "PERSENTASE INPUT RUP", "PERSENTASE INPUT RUP (31 MAR)"
+    "| PROFIL RUP |", "| STRUKTUR ANGGARAN |", "| RUP PAKET PENYEDIA |", 
+    "| RUP PAKET SWAKELOLA |", "| PERSENTASE INPUT RUP |", "| PERSENTASE INPUT RUP (31 MAR) |"
 ])
 
 with menu_rup_1:
