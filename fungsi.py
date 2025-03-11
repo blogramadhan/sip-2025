@@ -58,3 +58,13 @@ def region_config():
         "KAB. TANGGERANG": {"folder": "tgr", "RUP": "D50", "LPSE": "333"},
         "KAB. KATINGAN": {"folder": "ktg", "RUP": "D236", "LPSE": "438"}
     }
+
+# Fungsi untuk membuat menu sidebar
+def sidebar_menu():
+    pages = {
+        "Daftar Menu": [
+            st.Page("1_🏠_Halaman_Awal.py", title="H o m e"),
+            st.Page("2_📋_SIRUP.py", title="SIRUP"),
+        ],
+    }
+    return st.navigation(pages)
