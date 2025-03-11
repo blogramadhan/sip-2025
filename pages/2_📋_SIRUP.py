@@ -48,7 +48,7 @@ DatasetRUPSA31Mar = f"https://data.pbj.my.id/{kodeRUP}/sirup/RUP-StrukturAnggara
 
 # Dataframe RUP
 try:
-    # Baca dataset RUP Paket Penyedia
+    # Baca dataset RUP Paket Penyedia, Swakelola, dan Struktur Anggaran
     dfRUPPP = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPPP}')").df()
     dfRUPPS = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPPS}')").df()
     dfRUPSA = con.sql(f"SELECT * FROM read_parquet('{DatasetRUPSA}')").df()
@@ -57,6 +57,15 @@ try:
     dfRUPPP_umumkan = con.execute("SELECT * FROM dfRUPPP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
     dfRUPPP_umumkan_ukm = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_ukm = 'UKM'").df()
     dfRUPPP_umumkan_pdn = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_pdn = 'PDN'").df()
+
+    # Query RUP Paket Swakelola
+    sqlRUPPS = """
+        SELECT nama_satker, kd_rup, nama_paket, pagu, tipe_swakelola, volume_pekerjaan, uraian_pekerjaan, 
+        tgl_pengumuman_paket, tgl_awal_pelaksanaan_kontrak, nama_ppk, status_umumkan_rup
+        FROM df_RUPPS
+        WHERE status_umumkan_rup = 'Terumumkan'
+    """
+    dfRUPPS_umumkan = con.execute(sqlRUPPS).df()
 
     namaopd = dfRUPPP_umumkan['nama_satker'].unique()
 
