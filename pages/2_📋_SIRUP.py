@@ -23,12 +23,7 @@ page_config()
 logo()
 
 # Membuat UKPBJ
-region_config()
-
-daerah = list(region_config().keys())
-tahuns = list(range(datetime.now().year, datetime.now().year-3, -1))
-
-pilih = st.sidebar.selectbox("Pilih Daerah", daerah)
-tahun = st.sidebar.selectbox("Pilih Tahun", tahuns)
-
-selected_daerah = region_config().get(pilih, {})
+daerah = region_config()
+pilih = st.sidebar.selectbox("Pilih Daerah", list(config.keys()))
+tahun = st.sidebar.selectbox("Pilih Tahun", range(datetime.now().year, datetime.now().year-3, -1))
+selected_daerah = daerah.get(pilih, {})
