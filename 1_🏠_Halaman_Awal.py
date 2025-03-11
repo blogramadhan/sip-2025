@@ -24,7 +24,7 @@ st.set_page_config(
 )
 
 # Membuat Logo
-add_logo()
+logo()
 
 # Membuat Judul Halaman
 st.title("Sistem Informasi Pelaporan - Biro Pengadaan Barang dan Jasa")

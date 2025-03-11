@@ -27,5 +27,5 @@ def download_excel(df):
     return buffer.getvalue()
 
 # Fungsi untuk membuat logo
-def add_logo():
+def logo():
     add_logo("https://storage.googleapis.com/bukanamel/img/instansi-logo.png", height=200)
