@@ -28,9 +28,8 @@ logo()
 
 menu_sidebar = {
     "Your account": [
-    ],
-    "Resources": [
-    ],
+        st.Page("1_🏠_Halaman_Awal.py", title="H o m e"),
+    ]
 }
 st.navigation(menu_sidebar)
 
