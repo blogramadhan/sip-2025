@@ -30,10 +30,8 @@ logo()
 st.title("Sistem Informasi Pelaporan - Biro Pengadaan Barang dan Jasa")
 
 # Membuat Social Media Links
-social_media_links = [
+SocialMediaIcons([
     "https://www.facebook.com/biropbjkalbar",
-    "https://youtube.com/@biropengadaanbarangdanjasa8573?si=jHg5uFTfMQjbF_a3",
-    "https://www.instagram.com/barjaskalbar",
-]
-social_media_icons = SocialMediaIcons(social_media_links)
-social_media_icons.render()
+    "https://youtube.com/@biropengadaanbarangdanjasa8573?si=jHg5uFTfMQjbF_a3", 
+    "https://www.instagram.com/barjaskalbar"
+]).render()
