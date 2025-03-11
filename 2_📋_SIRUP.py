@@ -16,7 +16,6 @@ from st_social_media_links import SocialMediaIcons
 # Library Tambahan
 from fungsi import *
 
-# Konfigurasi Halaman
 page_config()
 
 # Membuat Logo
