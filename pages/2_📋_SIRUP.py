@@ -22,6 +22,9 @@ page_config()
 # Membuat Logo
 logo()
 
+# Membuat Menu Sidebar
+sidebar_menu().run()
+
 # Membuat UKPBJ
 region_config()
 
