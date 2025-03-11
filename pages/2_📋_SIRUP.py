@@ -98,14 +98,14 @@ with menu_rup_5:
     st.header(f"{pilih} TAHUN {tahun}")
 
     try:
-        ir_strukturanggaran = con.execute("SELECT nama_satker AS NAMA_SATKER, CAST(belanja_pengadaan AS DECIMAL(20,2)) AS STRUKTUR_ANGGARAN FROM dfRUPSA WHERE STRUKTUR_ANGGARAN > 0").df()
-        ir_paketpenyedia = con.execute("SELECT nama_satker AS NAMA_SATKER, CAST(SUM(pagu) AS DECIMAL(20,2)) AS RUP_PENYEDIA FROM dfRUPPP_umumkan GROUP BY NAMA_SATKER").df()
-        ir_paketswakelola = con.execute("SELECT nama_satker AS NAMA_SATKER, CAST(SUM(pagu) AS DECIMAL(20,2)) AS RUP_SWAKELOLA FROM dfRUPPS_umumkan GROUP BY NAMA_SATKER").df()   
+        ir_strukturanggaran = con.execute("SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA WHERE STRUKTUR_ANGGARAN > 0").df()
+        ir_paketpenyedia = con.execute("SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP_umumkan GROUP BY NAMA_SATKER").df()
+        ir_paketswakelola = con.execute("SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS_umumkan GROUP BY NAMA_SATKER").df()   
 
         ir_gabung = pd.merge(pd.merge(ir_strukturanggaran, ir_paketpenyedia, how='left', on='NAMA_SATKER'), ir_paketswakelola, how='left', on='NAMA_SATKER')
-        ir_gabung_totalrup = ir_gabung.assign(TOTAL_RUP = lambda x: x.RUP_PENYEDIA.fillna(0) + x.RUP_SWAKELOLA.fillna(0))
-        ir_gabung_selisih = ir_gabung_totalrup.assign(SELISIH = lambda x: x.STRUKTUR_ANGGARAN - x.RUP_PENYEDIA.fillna(0) - x.RUP_SWAKELOLA.fillna(0)) 
-        ir_gabung_final = ir_gabung_selisih.assign(PERSEN = lambda x: round(((x.RUP_PENYEDIA.fillna(0) + x.RUP_SWAKELOLA.fillna(0)) / x.STRUKTUR_ANGGARAN * 100), 2))
+        ir_gabung_totalrup = ir_gabung.assign(TOTAL_RUP = lambda x: x.RUP_PENYEDIA + x.RUP_SWAKELOLA)
+        ir_gabung_selisih = ir_gabung_totalrup.assign(SELISIH = lambda x: x.STRUKTUR_ANGGARAN - x.RUP_PENYEDIA - x.RUP_SWAKELOLA) 
+        ir_gabung_final = ir_gabung_selisih.assign(PERSEN = lambda x: round(((x.RUP_PENYEDIA + x.RUP_SWAKELOLA) / x.STRUKTUR_ANGGARAN * 100), 2)).fillna(0)
 
         st.download_button(
             label="📥 Download  % Input RUP", 
@@ -117,42 +117,12 @@ with menu_rup_5:
         st.dataframe(
             ir_gabung_final,
             column_config={
-                "STRUKTUR_ANGGARAN": st.column_config.NumberColumn(
-                    "STRUKTUR ANGGARAN",
-                    help="Nilai Struktur Anggaran",
-                    min_value=0,
-                    format="Rp {:20,.2f}"
-                ),
-                "RUP_PENYEDIA": st.column_config.NumberColumn(
-                    "RUP PAKET PENYEDIA", 
-                    help="Nilai RUP Paket Penyedia",
-                    min_value=0,
-                    format="Rp {:20,.2f}"
-                ),
-                "RUP_SWAKELOLA": st.column_config.NumberColumn(
-                    "RUP PAKET SWAKELOLA",
-                    help="Nilai RUP Paket Swakelola", 
-                    min_value=0,
-                    format="Rp {:20,.2f}"
-                ),
-                "TOTAL_RUP": st.column_config.NumberColumn(
-                    "TOTAL RUP",
-                    help="Total Nilai RUP",
-                    min_value=0,
-                    format="Rp {:20,.2f}"
-                ),
-                "SELISIH": st.column_config.NumberColumn(
-                    "SELISIH",
-                    help="Selisih Nilai",
-                    min_value=0,
-                    format="Rp {:20,.2f}"
-                ),
-                "PERSEN": st.column_config.NumberColumn(
-                    "PERSENTASE",
-                    help="Persentase Input RUP",
-                    min_value=0,
-                    format="%.2f%%"
-                )
+                "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
+                "RUP_PENYEDIA": "RUP PAKET PENYEDIA",
+                "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
+                "TOTAL_RUP": "TOTAL RUP",
+                "SELISIH": "SELISIH",
+                "PERSEN": "PERSENTASE"
             },
             hide_index=True,
             use_container_width=True,
