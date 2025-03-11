@@ -5,6 +5,7 @@ import numpy as np
 import plotly.express as px
 import duckdb
 import openpyxl
+from datetime import datetime
 # Library Currency
 from babel.numbers import format_currency
 # Library Streamlit-Extras
@@ -25,7 +26,7 @@ logo()
 region_config()
 
 daerah = list(region_config().keys())
-tahuns = list(range(2024, 2022, -1))
+tahuns = list(range(datetime.now().year, datetime.now().year-2, -1))
 
 pilih = st.sidebar.selectbox("Pilih Daerah", daerah)
 tahun = st.sidebar.selectbox("Pilih Tahun", tahuns)
