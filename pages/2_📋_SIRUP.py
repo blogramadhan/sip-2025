@@ -98,27 +98,39 @@ with menu_rup_5:
     st.header(f"{pilih} TAHUN {tahun}")
 
     try:
-        ir_strukturanggaran = con.execute("SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA WHERE STRUKTUR_ANGGARAN > 0").df()
-        ir_paketpenyedia = con.execute("SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP_umumkan GROUP BY NAMA_SATKER").df()
-        ir_paketswakelola = con.execute("SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS_umumkan GROUP BY NAMA_SATKER").df()   
+        # Query data dari database
+        queries = {
+            'strukturanggaran': "SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA WHERE STRUKTUR_ANGGARAN > 0",
+            'paketpenyedia': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP_umumkan GROUP BY NAMA_SATKER",
+            'paketswakelola': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS_umumkan GROUP BY NAMA_SATKER"
+        }
+        
+        # Eksekusi query dan merge dataframe
+        dfs = {k: con.execute(v).df() for k,v in queries.items()}
+        ir_gabung = pd.merge(pd.merge(dfs['strukturanggaran'], dfs['paketpenyedia'], how='left', on='NAMA_SATKER'), 
+                            dfs['paketswakelola'], how='left', on='NAMA_SATKER')
+        
+        # Kalkulasi kolom tambahan
+        ir_gabung_final = (ir_gabung
+            .assign(TOTAL_RUP = lambda x: x.RUP_PENYEDIA + x.RUP_SWAKELOLA)
+            .assign(SELISIH = lambda x: x.STRUKTUR_ANGGARAN - x.TOTAL_RUP)
+            .assign(PERSEN = lambda x: round((x.TOTAL_RUP / x.STRUKTUR_ANGGARAN * 100), 2))
+            .fillna(0))
 
-        ir_gabung = pd.merge(pd.merge(ir_strukturanggaran, ir_paketpenyedia, how='left', on='NAMA_SATKER'), ir_paketswakelola, how='left', on='NAMA_SATKER')
-        ir_gabung_totalrup = ir_gabung.assign(TOTAL_RUP = lambda x: x.RUP_PENYEDIA + x.RUP_SWAKELOLA)
-        ir_gabung_selisih = ir_gabung_totalrup.assign(SELISIH = lambda x: x.STRUKTUR_ANGGARAN - x.RUP_PENYEDIA - x.RUP_SWAKELOLA) 
-        ir_gabung_final = ir_gabung_selisih.assign(PERSEN = lambda x: round(((x.RUP_PENYEDIA + x.RUP_SWAKELOLA) / x.STRUKTUR_ANGGARAN * 100), 2)).fillna(0)
-
+        # Download button
         st.download_button(
-            label="📥 Download  % Input RUP", 
-            data=download_excel(ir_gabung_final), 
-            file_name=f"TabelPersenInputRUP_{pilih}_{tahun}.xlsx",
+            label="📥 Download  % Input RUP",
+            data=download_excel(ir_gabung_final),
+            file_name=f"TabelPersenInputRUP_{pilih}_{tahun}.xlsx", 
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
 
+        # Tampilkan dataframe
         st.dataframe(
             ir_gabung_final,
             column_config={
                 "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
-                "RUP_PENYEDIA": "RUP PAKET PENYEDIA",
+                "RUP_PENYEDIA": "RUP PAKET PENYEDIA", 
                 "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
                 "TOTAL_RUP": "TOTAL RUP",
                 "SELISIH": "SELISIH",
