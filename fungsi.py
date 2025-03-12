@@ -13,11 +13,11 @@ from streamlit_extras.metric_cards import style_metric_cards
 from streamlit_extras.app_logo import add_logo
 
 # Fungsi untuk membaca dan mengunduh dataframe
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=21600)
 def read_df(url, format='parquet'):
     return pd.read_parquet(url) if format=='parquet' else pd.read_excel(url)
 
-@st.cache_data(ttl=3600) 
+@st.cache_data(ttl=21600) 
 def read_df_duckdb(url, format='parquet'):
     return duckdb.read_parquet(url).df() if format=='parquet' else duckdb.read_excel(url).df()
 
