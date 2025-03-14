@@ -28,7 +28,7 @@ def download_excel(df):
 
 # Fungsi untuk membuat logo
 def logo():
-    st.logo(image="https://storage.googleapis.com/bukanamel/img/instansi-logo.png", size="large")
+    st.logo(image="https://storage.googleapis.com/bukanamel/img/instansi-logo.png", icon_image="https://storage.googleapis.com/bukanamel/img/instansi-logo.png", size="large")
 
 # Fungsi page config
 def page_config():
