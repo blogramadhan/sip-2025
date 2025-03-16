@@ -6,6 +6,8 @@ import duckdb
 import openpyxl
 import io
 import xlsxwriter
+import pandas as pd
+from io import BytesIO
 # Library Currency
 from babel.numbers import format_currency
 # Library Streamlit-Extras
@@ -22,9 +24,15 @@ def read_df_duckdb(url, format='parquet'):
     return duckdb.read_parquet(url).df() if format=='parquet' else duckdb.read_excel(url).df()
 
 def download_excel(df):
-    buffer = io.BytesIO()
-    df.to_excel(buffer, index=False, sheet_name='Sheet1', engine='xlsxwriter')
-    return buffer.getvalue()
+    output = BytesIO()
+    # Konversi Polars DataFrame ke Pandas DataFrame jika diperlukan
+    if hasattr(df, 'to_pandas'):
+        df = df.to_pandas()
+    # Tulis ke excel
+    with pd.ExcelWriter(output, engine='openpyxl') as writer:
+        df.to_excel(writer, sheet_name='Sheet1', index=False)
+    output.seek(0)
+    return output.read()
 
 # Fungsi untuk membuat logo
 def logo():
