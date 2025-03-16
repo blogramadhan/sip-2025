@@ -1,13 +1,11 @@
 # Library Utama
 import streamlit as st
-import polars as pl
+import pandas as pd
 import plotly.express as px
 import duckdb
 import openpyxl
 import io
 import xlsxwriter
-import pandas as pd
-from io import BytesIO
 # Library Currency
 from babel.numbers import format_currency
 # Library Streamlit-Extras
@@ -17,22 +15,16 @@ from streamlit_extras.app_logo import add_logo
 # Fungsi untuk membaca dan mengunduh dataframe
 @st.cache_data(ttl=21600)
 def read_df(url, format='parquet'):
-    return pl.read_parquet(url) if format=='parquet' else pl.read_excel(url)
+    return pd.read_parquet(url) if format=='parquet' else pd.read_excel(url)
 
 @st.cache_data(ttl=21600) 
 def read_df_duckdb(url, format='parquet'):
     return duckdb.read_parquet(url).df() if format=='parquet' else duckdb.read_excel(url).df()
 
 def download_excel(df):
-    output = BytesIO()
-    # Konversi Polars DataFrame ke Pandas DataFrame jika diperlukan
-    if hasattr(df, 'to_pandas'):
-        df = df.to_pandas()
-    # Tulis ke excel
-    with pd.ExcelWriter(output, engine='openpyxl') as writer:
-        df.to_excel(writer, sheet_name='Sheet1', index=False)
-    output.seek(0)
-    return output.read()
+    buffer = io.BytesIO()
+    df.to_excel(buffer, index=False, sheet_name='Sheet1', engine='xlsxwriter')
+    return buffer.getvalue()
 
 # Fungsi untuk membuat logo
 def logo():

@@ -1,6 +1,6 @@
 # Library Utama
 import streamlit as st
-import polars as pl
+import pandas as pd
 import numpy as np
 import plotly.express as px
 import duckdb

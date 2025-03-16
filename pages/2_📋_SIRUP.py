@@ -1,6 +1,6 @@
 # Library Utama
 import streamlit as st
-import polars as pl
+import pandas as pd
 import numpy as np
 import plotly.express as px
 import duckdb
@@ -44,14 +44,14 @@ datasets = {
 
 try:
     # Baca dataset RUP
-    dfRUPPP = read_df(datasets['PP'])
-    dfRUPPS = read_df(datasets['PS'])
-    dfRUPSA = read_df(datasets['SA'])
+    dfRUPPP = read_df_duckdb(datasets['PP'])
+    dfRUPPS = read_df_duckdb(datasets['PS'])
+    dfRUPSA = read_df_duckdb(datasets['SA'])
 
     # Filter data RUP Penyedia
-    dfRUPPP_umumkan = con.execute("SELECT * FROM dfRUPPP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").pl()
-    dfRUPPP_umumkan_ukm = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_ukm = 'UKM'").pl()
-    dfRUPPP_umumkan_pdn = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_pdn = 'PDN'").pl()
+    dfRUPPP_umumkan = con.execute("SELECT * FROM dfRUPPP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
+    dfRUPPP_umumkan_ukm = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_ukm = 'UKM'").df()
+    dfRUPPP_umumkan_pdn = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_pdn = 'PDN'").df()
 
     # Filter data RUP Swakelola
     dfRUPPS_umumkan = con.execute("""
@@ -60,7 +60,7 @@ try:
                nama_ppk, status_umumkan_rup
         FROM dfRUPPS 
         WHERE status_umumkan_rup = 'Terumumkan'
-    """).pl()
+    """).df()
 
     namaopd = dfRUPPP_umumkan['nama_satker'].unique()
 
@@ -105,22 +105,17 @@ with menu_rup_5:
             'paketswakelola': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS_umumkan GROUP BY NAMA_SATKER"
         }
         
-        # Eksekusi query dan join dataframe menggunakan Polars
-        dfs = {k: pl.from_pandas(con.execute(v).df()) for k,v in queries.items()}
+        # Eksekusi query dan merge dataframe
+        dfs = {k: con.execute(v).df() for k,v in queries.items()}
+        ir_gabung = pd.merge(pd.merge(dfs['strukturanggaran'], dfs['paketpenyedia'], how='left', on='NAMA_SATKER'), 
+                            dfs['paketswakelola'], how='left', on='NAMA_SATKER')
         
-        # Join menggunakan sintaks Polars
-        ir_gabung = (dfs['strukturanggaran']
-                    .join(dfs['paketpenyedia'], on='NAMA_SATKER', how='left')
-                    .join(dfs['paketswakelola'], on='NAMA_SATKER', how='left'))
-        
-        # Kalkulasi kolom tambahan menggunakan sintaks Polars
+        # Kalkulasi kolom tambahan
         ir_gabung_final = (ir_gabung
-            .with_columns([
-                (pl.col('RUP_PENYEDIA') + pl.col('RUP_SWAKELOLA')).alias('TOTAL_RUP'),
-                (pl.col('STRUKTUR_ANGGARAN') - (pl.col('RUP_PENYEDIA') + pl.col('RUP_SWAKELOLA'))).alias('SELISIH'),
-                ((pl.col('RUP_PENYEDIA') + pl.col('RUP_SWAKELOLA')) / pl.col('STRUKTUR_ANGGARAN') * 100).round(2).alias('PERSEN')
-            ])
-            .fill_null(0))
+            .assign(TOTAL_RUP = lambda x: x.RUP_PENYEDIA + x.RUP_SWAKELOLA)
+            .assign(SELISIH = lambda x: x.STRUKTUR_ANGGARAN - x.TOTAL_RUP)
+            .assign(PERSEN = lambda x: round((x.TOTAL_RUP / x.STRUKTUR_ANGGARAN * 100), 2))
+            .fillna(0))
 
         # Download button
         st.download_button(
