@@ -1,6 +1,6 @@
 # Library Utama
 import streamlit as st
-import pandas as pd
+import polars as pl
 import plotly.express as px
 import duckdb
 import openpyxl
@@ -15,7 +15,7 @@ from streamlit_extras.app_logo import add_logo
 # Fungsi untuk membaca dan mengunduh dataframe
 @st.cache_data(ttl=21600)
 def read_df(url, format='parquet'):
-    return pd.read_parquet(url) if format=='parquet' else pd.read_excel(url)
+    return pl.read_parquet(url) if format=='parquet' else pl.read_excel(url)
 
 @st.cache_data(ttl=21600) 
 def read_df_duckdb(url, format='parquet'):

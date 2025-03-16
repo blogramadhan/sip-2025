@@ -1,6 +1,6 @@
 # Library Utama
 import streamlit as st
-import pandas as pd
+import polars as pl
 import numpy as np
 import plotly.express as px
 import duckdb
@@ -49,9 +49,9 @@ try:
     dfRUPSA = read_df_duckdb(datasets['SA'])
 
     # Filter data RUP Penyedia
-    dfRUPPP_umumkan = con.execute("SELECT * FROM dfRUPPP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
-    dfRUPPP_umumkan_ukm = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_ukm = 'UKM'").df()
-    dfRUPPP_umumkan_pdn = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_pdn = 'PDN'").df()
+    dfRUPPP_umumkan = con.execute("SELECT * FROM dfRUPPP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").pl()
+    dfRUPPP_umumkan_ukm = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_ukm = 'UKM'").pl()
+    dfRUPPP_umumkan_pdn = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_pdn = 'PDN'").pl()
 
     # Filter data RUP Swakelola
     dfRUPPS_umumkan = con.execute("""
@@ -60,7 +60,7 @@ try:
                nama_ppk, status_umumkan_rup
         FROM dfRUPPS 
         WHERE status_umumkan_rup = 'Terumumkan'
-    """).df()
+    """).pl()
 
     namaopd = dfRUPPP_umumkan['nama_satker'].unique()
 
@@ -107,7 +107,7 @@ with menu_rup_5:
         
         # Eksekusi query dan merge dataframe
         dfs = {k: con.execute(v).df() for k,v in queries.items()}
-        ir_gabung = pd.merge(pd.merge(dfs['strukturanggaran'], dfs['paketpenyedia'], how='left', on='NAMA_SATKER'), 
+        ir_gabung = pl.merge(pl.merge(dfs['strukturanggaran'], dfs['paketpenyedia'], how='left', on='NAMA_SATKER'), 
                             dfs['paketswakelola'], how='left', on='NAMA_SATKER')
         
         # Kalkulasi kolom tambahan
