@@ -44,9 +44,9 @@ datasets = {
 
 try:
     # Baca dataset RUP
-    dfRUPPP = read_df_duckdb(datasets['PP'])
-    dfRUPPS = read_df_duckdb(datasets['PS'])
-    dfRUPSA = read_df_duckdb(datasets['SA'])
+    dfRUPPP = read_df(datasets['PP'])
+    dfRUPPS = read_df(datasets['PS'])
+    dfRUPSA = read_df(datasets['SA'])
 
     # Filter data RUP Penyedia
     dfRUPPP_umumkan = con.execute("SELECT * FROM dfRUPPP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").pl()
