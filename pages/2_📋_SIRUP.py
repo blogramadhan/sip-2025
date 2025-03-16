@@ -105,17 +105,22 @@ with menu_rup_5:
             'paketswakelola': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS_umumkan GROUP BY NAMA_SATKER"
         }
         
-        # Eksekusi query dan merge dataframe
-        dfs = {k: con.execute(v).df() for k,v in queries.items()}
-        ir_gabung = pl.merge(pl.merge(dfs['strukturanggaran'], dfs['paketpenyedia'], how='left', on='NAMA_SATKER'), 
-                            dfs['paketswakelola'], how='left', on='NAMA_SATKER')
+        # Eksekusi query dan join dataframe menggunakan Polars
+        dfs = {k: pl.from_pandas(con.execute(v).df()) for k,v in queries.items()}
         
-        # Kalkulasi kolom tambahan
+        # Join menggunakan sintaks Polars
+        ir_gabung = (dfs['strukturanggaran']
+                    .join(dfs['paketpenyedia'], on='NAMA_SATKER', how='left')
+                    .join(dfs['paketswakelola'], on='NAMA_SATKER', how='left'))
+        
+        # Kalkulasi kolom tambahan menggunakan sintaks Polars
         ir_gabung_final = (ir_gabung
-            .assign(TOTAL_RUP = lambda x: x.RUP_PENYEDIA + x.RUP_SWAKELOLA)
-            .assign(SELISIH = lambda x: x.STRUKTUR_ANGGARAN - x.TOTAL_RUP)
-            .assign(PERSEN = lambda x: round((x.TOTAL_RUP / x.STRUKTUR_ANGGARAN * 100), 2))
-            .fillna(0))
+            .with_columns([
+                (pl.col('RUP_PENYEDIA') + pl.col('RUP_SWAKELOLA')).alias('TOTAL_RUP'),
+                (pl.col('STRUKTUR_ANGGARAN') - (pl.col('RUP_PENYEDIA') + pl.col('RUP_SWAKELOLA'))).alias('SELISIH'),
+                ((pl.col('RUP_PENYEDIA') + pl.col('RUP_SWAKELOLA')) / pl.col('STRUKTUR_ANGGARAN') * 100).round(2).alias('PERSEN')
+            ])
+            .fill_null(0))
 
         # Download button
         st.download_button(
