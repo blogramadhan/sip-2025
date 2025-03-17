@@ -40,9 +40,9 @@ datasets = {
     'PP': f"{base_url}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
     'PS': f"{base_url}/RUP-PaketSwakelola-Terumumkan{tahun}.parquet", 
     'SA': f"{base_url}/RUP-StrukturAnggaranPD{tahun}.parquet",
-    'PP31': f"{base_url}/RUP-PaketPenyedia-Terumumkan31Mar-{tahun}-03-31.parquet",
-    'PS31': f"{base_url}/RUP-PaketSwakelola-Terumumkan31Mar-{tahun}-03-31.parquet",
-    'SA31': f"{base_url}/RUP-StrukturAnggaranPD31Mar-{tahun}-03-31.parquet"
+    'PP31': f"{base_url}/RUP-PaketPenyedia-Terumumkan-{tahun}-03-31.parquet",
+    'PS31': f"{base_url}/RUP-PaketSwakelola-Terumumkan-{tahun}-03-31.parquet",
+    'SA31': f"{base_url}/RUP-StrukturAnggaranPD-{tahun}-03-31.parquet"
 }
 
 try:
