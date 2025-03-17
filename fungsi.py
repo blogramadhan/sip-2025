@@ -70,53 +70,43 @@ def sidebar_menu():
 
 # Fungsi Get Rup Data
 def get_rup_data(queries, con):
-    """Mengambil dan memproses data RUP dari database"""
+    """Mengambil dan memproses data RUP"""
     try:
-        # Eksekusi query dan simpan hasilnya
+        # Ambil data dari setiap query
         dfs = {}
-        for k, v in queries.items():
-            try:
-                result = con.execute(v).df()
-                if result is not None and not result.empty:
-                    dfs[k] = result
-                else:
-                    st.warning(f"Query {k} menghasilkan data kosong")
-                    return pd.DataFrame()  # Return DataFrame kosong jika tidak ada data
-            except Exception as e:
-                st.error(f"Error saat mengeksekusi query {k}: {str(e)}")
-                return pd.DataFrame()  # Return DataFrame kosong jika terjadi error
-        
-        # Pastikan semua dataframe yang diperlukan tersedia
-        if len(dfs) != len(queries):
-            st.warning("Beberapa query tidak menghasilkan data")
-            return pd.DataFrame()
-        
-        # Lakukan merge data
-        keys = list(queries.keys())
-        ir_gabung = pd.merge(dfs[keys[0]], dfs[keys[1]], how='left', on='NAMA_SATKER')
-        ir_gabung = pd.merge(ir_gabung, dfs[keys[2]], how='left', on='NAMA_SATKER')
-        
-        # Hitung kolom tambahan
-        result = (ir_gabung
-            .assign(TOTAL_RUP=lambda x: x.RUP_PENYEDIA.fillna(0) + x.RUP_SWAKELOLA.fillna(0))
-            .assign(SELISIH=lambda x: x.STRUKTUR_ANGGARAN.fillna(0) - (x.RUP_PENYEDIA.fillna(0) + x.RUP_SWAKELOLA.fillna(0)))
-            .assign(PERSEN=lambda x: round((x.TOTAL_RUP / x.STRUKTUR_ANGGARAN * 100).fillna(0), 2))
-            .fillna(0))
-        
-        return result
-        
-    except Exception as e:
-        st.error(f"Error dalam pemrosesan data: {str(e)}")
-        return pd.DataFrame()  # Return DataFrame kosong jika terjadi error
+        for name, query in queries.items():
+            result = con.execute(query).df()
+            if result.empty:
+                st.warning(f"Query {name} tidak menghasilkan data")
+                return pd.DataFrame()
+            dfs[name] = result
 
-# Fungsi Display Rup Data
+        # Gabungkan data
+        keys = list(queries.keys())
+        result = dfs[keys[0]]
+        for key in keys[1:]:
+            result = pd.merge(result, dfs[key], how='left', on='NAMA_SATKER')
+
+        # Hitung total dan persentase
+        return (result
+            .assign(
+                TOTAL_RUP=lambda x: x.RUP_PENYEDIA.fillna(0) + x.RUP_SWAKELOLA.fillna(0),
+                SELISIH=lambda x: x.STRUKTUR_ANGGARAN.fillna(0) - x.TOTAL_RUP,
+                PERSEN=lambda x: round((x.TOTAL_RUP / x.STRUKTUR_ANGGARAN * 100).fillna(0), 2)
+            )
+            .fillna(0))
+
+    except Exception as e:
+        st.error(f"Error: {str(e)}")
+        return pd.DataFrame()
+
 def display_rup_data(data, title, pilih, tahun, suffix=""):
-    """Menampilkan data RUP dalam format yang sesuai"""
+    """Menampilkan data RUP"""
     st.title(title)
     st.header(f"{pilih} TAHUN {tahun}")
     
     try:
-        # Download button
+        # Tombol download
         st.download_button(
             label=f"📥 Download  % Input RUP{suffix}",
             data=download_excel(data),
@@ -124,13 +114,13 @@ def display_rup_data(data, title, pilih, tahun, suffix=""):
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
 
-        # Tampilkan dataframe
+        # Tampilkan tabel
         st.dataframe(
             data,
             column_config={
                 "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
-                "RUP_PENYEDIA": "RUP PAKET PENYEDIA",
-                "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA", 
+                "RUP_PENYEDIA": "RUP PAKET PENYEDIA", 
+                "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
                 "TOTAL_RUP": "TOTAL RUP",
                 "SELISIH": "SELISIH",
                 "PERSEN": "PERSENTASE"
