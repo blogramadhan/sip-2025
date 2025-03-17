@@ -13,8 +13,6 @@ from streamlit_extras.metric_cards import style_metric_cards
 from streamlit_extras.app_logo import add_logo
 # Library Social Media Links
 from st_social_media_links import SocialMediaIcons
-# Library AgGrid
-from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode
 # Library Tambahan
 from fungsi import *
 
@@ -130,49 +128,19 @@ with menu_rup_5:
         )
 
         # Tampilkan dataframe
-        gb = GridOptionsBuilder.from_dataframe(ir_gabung_final)
-        gb.configure_default_column(
-            groupable=True,
-            value=True,
-            enableRowGroup=True,
-            aggFunc="sum",
-            editable=False,
-            wrapText=True,
-            autoHeight=True
-        )
-        gb.configure_column(
-            "STRUKTUR_ANGGARAN",
-            header_name="STRUKTUR ANGGARAN"
-        )
-        gb.configure_column(
-            "RUP_PENYEDIA",
-            header_name="RUP PAKET PENYEDIA"
-        )
-        gb.configure_column(
-            "RUP_SWAKELOLA", 
-            header_name="RUP PAKET SWAKELOLA"
-        )
-        gb.configure_column(
-            "TOTAL_RUP",
-            header_name="TOTAL RUP"
-        )
-        gb.configure_column(
-            "SELISIH",
-            header_name="SELISIH"
-        )
-        gb.configure_column(
-            "PERSEN",
-            header_name="PERSENTASE"
-        )
-        
-        gridOptions = gb.build()
-        
-        AgGrid(
+        st.dataframe(
             ir_gabung_final,
-            gridOptions=gridOptions,
-            enable_enterprise_modules=True,
-            allow_unsafe_jscode=True,
-            update_mode=GridUpdateMode.SELECTION_CHANGED
+            column_config={
+                "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
+                "RUP_PENYEDIA": "RUP PAKET PENYEDIA", 
+                "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
+                "TOTAL_RUP": "TOTAL RUP",
+                "SELISIH": "SELISIH",
+                "PERSEN": "PERSENTASE"
+            },
+            hide_index=True,
+            use_container_width=True,
+            height=1000
         )
 
     except Exception as e:
