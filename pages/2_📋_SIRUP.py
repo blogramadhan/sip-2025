@@ -16,155 +16,135 @@ from st_social_media_links import SocialMediaIcons
 # Library Tambahan
 from fungsi import *
 
-def init_page():
-    page_config()
-    logo()
+# Konfigurasi Page Conf
+page_config()
 
-def get_dataset_urls(kode_rup, tahun):
-    base_url = f"https://data.pbj.my.id/{kode_rup}/sirup"
-    return {
-        'PP': f"{base_url}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
-        'PS': f"{base_url}/RUP-PaketSwakelola-Terumumkan{tahun}.parquet", 
-        'SA': f"{base_url}/RUP-StrukturAnggaranPD{tahun}.parquet",
-        'PP31': f"{base_url}/RUP-PaketPenyedia-Terumumkan-{tahun}-03-31.parquet",
-        'PS31': f"{base_url}/RUP-PaketSwakelola-Terumumkan-{tahun}-03-31.parquet",
-        'SA31': f"{base_url}/RUP-StrukturAnggaranPD-{tahun}-03-31.parquet"
-    }
+# Membuat Logo
+logo()
 
-def load_regular_data(con, datasets):
-    """Load dan register data RUP reguler"""
+# Membuat UKPBJ
+daerah = region_config()
+pilih = st.sidebar.selectbox("Pilih Daerah", list(daerah.keys()))
+tahun = st.sidebar.selectbox("Pilih Tahun", range(datetime.now().year, datetime.now().year-3, -1))
+selected_daerah = daerah.get(pilih, {})
+kodeFolder = selected_daerah.get("folder")
+kodeRUP = selected_daerah.get("RUP")
+kodeLPSE = selected_daerah.get("LPSE")
+
+# Koneksi DuckDB
+con = duckdb.connect(database=':memory:')
+
+# URL Dataset SIRUP
+base_url = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+datasets = {
+    'PP': f"{base_url}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
+    'PS': f"{base_url}/RUP-PaketSwakelola-Terumumkan{tahun}.parquet", 
+    'SA': f"{base_url}/RUP-StrukturAnggaranPD{tahun}.parquet"
+}
+
+try:
+    # Baca dataset RUP
     dfRUPPP = read_df_duckdb(datasets['PP'])
     dfRUPPS = read_df_duckdb(datasets['PS'])
     dfRUPSA = read_df_duckdb(datasets['SA'])
-    
-    con.register('dfRUPPP', dfRUPPP)
-    con.register('dfRUPPS', dfRUPPS)
-    con.register('dfRUPSA', dfRUPSA)
-    
-    return process_regular_data(con)
 
-def process_regular_data(con):
-    """Proses dan filter data RUP reguler"""
-    dfRUPPP_umumkan = con.execute("""
-        SELECT * FROM dfRUPPP 
-        WHERE status_umumkan_rup = 'Terumumkan' 
-        AND status_aktif_rup = 'TRUE' 
-        AND metode_pengadaan <> '0'
-    """).df()
-    con.register('dfRUPPP_umumkan', dfRUPPP_umumkan)
-    
+    # Filter data RUP Penyedia
+    dfRUPPP_umumkan = con.execute("SELECT * FROM dfRUPPP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
+    dfRUPPP_umumkan_ukm = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_ukm = 'UKM'").df()
+    dfRUPPP_umumkan_pdn = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_pdn = 'PDN'").df()
+
+    # Filter data RUP Swakelola
     dfRUPPS_umumkan = con.execute("""
-        SELECT nama_satker, kd_rup, nama_paket, pagu, tipe_swakelola, 
-               volume_pekerjaan, uraian_pekerjaan, tgl_pengumuman_paket, 
-               tgl_awal_pelaksanaan_kontrak, nama_ppk, status_umumkan_rup
+        SELECT nama_satker, kd_rup, nama_paket, pagu, tipe_swakelola, volume_pekerjaan, 
+               uraian_pekerjaan, tgl_pengumuman_paket, tgl_awal_pelaksanaan_kontrak, 
+               nama_ppk, status_umumkan_rup
         FROM dfRUPPS 
         WHERE status_umumkan_rup = 'Terumumkan'
     """).df()
-    con.register('dfRUPPS_umumkan', dfRUPPS_umumkan)
-    
-    return dfRUPPP_umumkan, dfRUPPS_umumkan
 
-def load_march_data(con, datasets, tahun):
-    """Load dan register data RUP 31 Maret"""
-    if tahun > datetime.now().year:
-        return False
-        
+    namaopd = dfRUPPP_umumkan['nama_satker'].unique()
+
+except Exception as e:
+    st.error(f"Error: {e}")
+
+#####
+# Konten Data RUP
+#####
+
+# Buat Tab Menu
+menu_rup_1, menu_rup_2, menu_rup_3, menu_rup_4, menu_rup_5, menu_rup_6 = st.tabs([
+    "| PROFIL RUP |", "| STRUKTUR ANGGARAN |", "| RUP PAKET PENYEDIA |", 
+    "| RUP PAKET SWAKELOLA |", "| PERSENTASE INPUT RUP |", "| PERSENTASE INPUT RUP (31 MAR) |"
+])
+
+with menu_rup_1:
+    st.title("PROFIL RUP")
+    st.write("Profil RUP")
+
+with menu_rup_2:
+    st.title("STRUKTUR ANGGARAN")
+    st.write("Struktur Anggaran")
+
+with menu_rup_3:
+    st.title("RUP PAKET PENYEDIA")
+    st.write("RUP Paket Penyedia")
+
+with menu_rup_4:
+    st.title("RUP PAKET SWAKELOLA")
+    st.write("RUP Paket Swakelola")
+
+with menu_rup_5:
+    st.title("PERSENTASE INPUT RUP")
+    st.header(f"{pilih} TAHUN {tahun}")
+
     try:
-        dfRUPPP31 = read_df_duckdb(datasets['PP31'])
-        dfRUPPS31 = read_df_duckdb(datasets['PS31'])
-        dfRUPSA31 = read_df_duckdb(datasets['SA31'])
+        # Query data dari database
+        queries = {
+            'strukturanggaran': "SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA WHERE STRUKTUR_ANGGARAN > 0",
+            'paketpenyedia': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP_umumkan GROUP BY NAMA_SATKER",
+            'paketswakelola': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS_umumkan GROUP BY NAMA_SATKER"
+        }
         
-        con.register('dfRUPPP31', dfRUPPP31)
-        con.register('dfRUPPS31', dfRUPPS31)
-        con.register('dfRUPSA31', dfRUPSA31)
+        # Eksekusi query dan merge dataframe
+        dfs = {k: con.execute(v).df() for k,v in queries.items()}
+        ir_gabung = pd.merge(pd.merge(dfs['strukturanggaran'], dfs['paketpenyedia'], how='left', on='NAMA_SATKER'), 
+                            dfs['paketswakelola'], how='left', on='NAMA_SATKER')
         
-        process_march_data(con)
-        return True
-    except Exception:
-        return False
+        # Kalkulasi kolom tambahan
+        ir_gabung_final = (ir_gabung
+            .assign(TOTAL_RUP = lambda x: x.RUP_PENYEDIA + x.RUP_SWAKELOLA)
+            .assign(SELISIH = lambda x: x.STRUKTUR_ANGGARAN - x.TOTAL_RUP)
+            .assign(PERSEN = lambda x: round((x.TOTAL_RUP / x.STRUKTUR_ANGGARAN * 100), 2))
+            .fillna(0))
 
-def process_march_data(con):
-    """Proses dan filter data RUP 31 Maret"""
-    dfRUPPP31_umumkan = con.execute("""
-        SELECT * FROM dfRUPPP31 
-        WHERE status_umumkan_rup = 'Terumumkan' 
-        AND status_aktif_rup = 'TRUE' 
-        AND metode_pengadaan <> '0'
-    """).df()
-    dfRUPPS31_umumkan = con.execute("SELECT * FROM dfRUPPS31 WHERE status_umumkan_rup = 'Terumumkan'").df()
-    
-    con.register('dfRUPPP31_umumkan', dfRUPPP31_umumkan)
-    con.register('dfRUPPS31_umumkan', dfRUPPS31_umumkan)
+        # Download button
+        st.download_button(
+            label="📥 Download  % Input RUP",
+            data=download_excel(ir_gabung_final),
+            file_name=f"TabelPersenInputRUP_{pilih}_{tahun}.xlsx", 
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
 
-def display_tabs(pilih, tahun, con, data_31mar_tersedia):
-    menu_tabs = st.tabs([
-        "| PROFIL RUP |", "| STRUKTUR ANGGARAN |", "| RUP PAKET PENYEDIA |",
-        "| RUP PAKET SWAKELOLA |", "| PERSENTASE INPUT RUP |", "| PERSENTASE INPUT RUP (31 MAR) |"
-    ])
-    
-    with menu_tabs[0]:
-        st.title("PROFIL RUP")
-        st.write("Profil RUP")
-    
-    with menu_tabs[4]:  # Tab Persentase Input RUP
-        display_percentage_tab(con, pilih, tahun)
-    
-    with menu_tabs[5]:  # Tab Persentase Input RUP 31 MAR
-        display_march_percentage_tab(con, pilih, tahun, data_31mar_tersedia)
+        # Tampilkan dataframe
+        st.dataframe(
+            ir_gabung_final,
+            column_config={
+                "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
+                "RUP_PENYEDIA": "RUP PAKET PENYEDIA", 
+                "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
+                "TOTAL_RUP": "TOTAL RUP",
+                "SELISIH": "SELISIH",
+                "PERSEN": "PERSENTASE"
+            },
+            hide_index=True,
+            use_container_width=True,
+            height=1000
+        )
 
-def display_percentage_tab(con, pilih, tahun):
-    queries = {
-        'strukturanggaran': "SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA WHERE belanja_pengadaan > 0",
-        'paketpenyedia': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP_umumkan GROUP BY NAMA_SATKER",
-        'paketswakelola': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS_umumkan GROUP BY NAMA_SATKER"
-    }
-    data = get_rup_data(queries, con)
-    if not data.empty:
-        display_rup_data(data, "PERSENTASE INPUT RUP", pilih, tahun)
-    else:
-        st.warning("Tidak ada data yang tersedia untuk ditampilkan")
-
-def display_march_percentage_tab(con, pilih, tahun, data_31mar_tersedia):
-    if not data_31mar_tersedia:
-        st.info(f"Data 31 Maret {tahun} belum tersedia")
-        return
-        
-    queries31 = {
-        'strukturanggaran31': "SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA31 WHERE belanja_pengadaan > 0",
-        'paketpenyedia31': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP31_umumkan GROUP BY NAMA_SATKER",
-        'paketswakelola31': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS31_umumkan GROUP BY NAMA_SATKER"
-    }
-    data31 = get_rup_data(queries31, con)
-    if not data31.empty:
-        display_rup_data(data31, "PERSENTASE INPUT RUP (31 MAR)", pilih, tahun, " 31 Mar")
-    else:
-        st.warning("Data 31 Maret tidak memiliki entri yang dapat ditampilkan")
-
-def main():
-    init_page()
-    
-    # Setup awal
-    daerah = region_config()
-    pilih = st.sidebar.selectbox("Pilih Daerah", list(daerah.keys()))
-    tahun = st.sidebar.selectbox("Pilih Tahun", range(datetime.now().year, datetime.now().year-3, -1))
-    
-    selected_daerah = daerah.get(pilih, {})
-    datasets = get_dataset_urls(selected_daerah.get("RUP"), tahun)
-    
-    # Inisialisasi DuckDB
-    con = duckdb.connect(database=':memory:')
-    
-    try:
-        # Load dan proses data
-        dfRUPPP_umumkan, dfRUPPS_umumkan = load_regular_data(con, datasets)
-        data_31mar_tersedia = load_march_data(con, datasets, tahun)
-        
-        # Tampilkan UI
-        display_tabs(pilih, tahun, con, data_31mar_tersedia)
-        
     except Exception as e:
         st.error(f"Error: {e}")
 
-if __name__ == "__main__":
-    main()
-    
+with menu_rup_6:
+    st.title("PERSENTASE INPUT RUP (31 MAR)")
+    st.write("Persentase Input RUP (31 Mar)")
+
