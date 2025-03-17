@@ -143,14 +143,37 @@ with menu_rup_5:
     
 
 with menu_rup_6:
-    queries31 = {
-        'strukturanggaran31': "SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA31 WHERE belanja_pengadaan > 0",
-        'paketpenyedia31': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP31_umumkan GROUP BY NAMA_SATKER",
-        'paketswakelola31': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS31_umumkan GROUP BY NAMA_SATKER"
-    }
-    data31 = get_rup_data(queries31, con)
-    if not data31.empty:
-        display_rup_data(data31, "PERSENTASE INPUT RUP (31 MAR)", pilih, tahun, " 31 Mar")
+    if tahun <= datetime.now().year:
+        try:
+            # Cek apakah data 31 Maret tersedia
+            dfRUPPP31 = read_df_duckdb(datasets['PP31'])
+            dfRUPPS31 = read_df_duckdb(datasets['PS31'])
+            dfRUPSA31 = read_df_duckdb(datasets['SA31'])
+            
+            # Register DataFrame ke DuckDB
+            con.register('dfRUPPP31', dfRUPPP31)
+            con.register('dfRUPPS31', dfRUPPS31)
+            con.register('dfRUPSA31', dfRUPSA31)
+            
+            # Filter data
+            dfRUPPP31_umumkan = con.execute("SELECT * FROM dfRUPPP31 WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
+            dfRUPPS31_umumkan = con.execute("SELECT * FROM dfRUPPS31 WHERE status_umumkan_rup = 'Terumumkan'").df()
+            con.register('dfRUPPP31_umumkan', dfRUPPP31_umumkan)
+            con.register('dfRUPPS31_umumkan', dfRUPPS31_umumkan)
+            
+            # Query dan tampilkan data
+            queries31 = {
+                'strukturanggaran31': "SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA31 WHERE belanja_pengadaan > 0",
+                'paketpenyedia31': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP31_umumkan GROUP BY NAMA_SATKER",
+                'paketswakelola31': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS31_umumkan GROUP BY NAMA_SATKER"
+            }
+            data31 = get_rup_data(queries31, con)
+            if not data31.empty:
+                display_rup_data(data31, "PERSENTASE INPUT RUP (31 MAR)", pilih, tahun, " 31 Mar")
+            else:
+                st.warning("Data 31 Maret tidak memiliki entri yang dapat ditampilkan")
+        except Exception as e:
+            st.info("Data 31 Maret belum tersedia")
     else:
-        st.warning("Data 31 Maret belum tersedia")
+        st.info(f"Data 31 Maret {tahun} belum tersedia karena tahun yang dipilih adalah tahun yang akan datang")
     
