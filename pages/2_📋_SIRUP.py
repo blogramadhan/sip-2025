@@ -69,7 +69,7 @@ try:
             data_31mar_tersedia = True
         except Exception as e:
             data_31mar_tersedia = False
-            st.warning(f"Data 31 Maret {tahun} belum tersedia")
+            # st.warning(f"Data 31 Maret {tahun} belum tersedia")
     else:
         data_31mar_tersedia = False
         st.info(f"Data 31 Maret {tahun} belum tersedia karena tahun yang dipilih adalah tahun yang akan datang")
