@@ -130,32 +130,27 @@ with menu_rup_4:
     st.write("RUP Paket Swakelola")
 
 with menu_rup_5:
-    try:
-        queries = {
-            'strukturanggaran': "SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA WHERE belanja_pengadaan > 0",
-            'paketpenyedia': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP_umumkan GROUP BY NAMA_SATKER",
-            'paketswakelola': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS_umumkan GROUP BY NAMA_SATKER"
-        }
-        data = get_rup_data(queries, con)
-        if not data.empty:
-            display_rup_data(data, "PERSENTASE INPUT RUP", pilih, tahun)
-        else:
-            st.warning("Tidak ada data yang tersedia untuk ditampilkan")
-    except Exception as e:
-        st.error(f"Terjadi kesalahan: {str(e)}")
+    queries = {
+        'strukturanggaran': "SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA WHERE belanja_pengadaan > 0",
+        'paketpenyedia': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP_umumkan GROUP BY NAMA_SATKER",
+        'paketswakelola': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS_umumkan GROUP BY NAMA_SATKER"
+    }
+    data = get_rup_data(queries, con)
+    if not data.empty:
+        display_rup_data(data, "PERSENTASE INPUT RUP", pilih, tahun)
+    else:
+        st.warning("Tidak ada data yang tersedia untuk ditampilkan")
+    
 
 with menu_rup_6:
-    try:
-        queries31 = {
-            'strukturanggaran31': "SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA31 WHERE belanja_pengadaan > 0",
-            'paketpenyedia31': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP31_umumkan GROUP BY NAMA_SATKER",
-            'paketswakelola31': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS31_umumkan GROUP BY NAMA_SATKER"
-        }
-        data31 = get_rup_data(queries31, con)
-        if not data31.empty:
-            display_rup_data(data31, "PERSENTASE INPUT RUP (31 MAR)", pilih, tahun, " 31 Mar")
-        else:
-            st.warning("Data 31 Maret belum tersedia")
-    except Exception as e:
-        st.error(f"Terjadi kesalahan pada data 31 Maret: {str(e)}")
-
+    queries31 = {
+        'strukturanggaran31': "SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA31 WHERE belanja_pengadaan > 0",
+        'paketpenyedia31': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP31_umumkan GROUP BY NAMA_SATKER",
+        'paketswakelola31': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS31_umumkan GROUP BY NAMA_SATKER"
+    }
+    data31 = get_rup_data(queries31, con)
+    if not data31.empty:
+        display_rup_data(data31, "PERSENTASE INPUT RUP (31 MAR)", pilih, tahun, " 31 Mar")
+    else:
+        st.warning("Data 31 Maret belum tersedia")
+    
