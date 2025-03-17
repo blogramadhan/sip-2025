@@ -41,7 +41,7 @@ datasets = {
     'PS': f"{base_url}/RUP-PaketSwakelola-Terumumkan{tahun}.parquet", 
     'SA': f"{base_url}/RUP-StrukturAnggaranPD{tahun}.parquet",
     'PP31': f"{base_url}/RUP-PaketPenyedia-Terumumkan-{tahun}-03-31.parquet",
-    'PS31': f"{base_url}/RUP-PaketSwakelola-Terumumkanr-{tahun}-03-31.parquet",
+    'PS31': f"{base_url}/RUP-PaketSwakelola-Terumumkan-{tahun}-03-31.parquet",
     'SA31': f"{base_url}/RUP-StrukturAnggaranPD-{tahun}-03-31.parquet"
 }
 
@@ -168,7 +168,7 @@ with menu_rup_6:
         
         # Eksekusi query dan merge dataframe
         dfs31 = {k: con.execute(v).df() for k,v in queries31.items()}
-        
+
         ir_gabung_final31 = (dfs31['strukturanggaran31']
             .merge(dfs31['paketpenyedia31'], how='left', on='NAMA_SATKER')
             .merge(dfs31['paketswakelola31'], how='left', on='NAMA_SATKER')
