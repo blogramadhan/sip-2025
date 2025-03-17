@@ -67,3 +67,50 @@ def sidebar_menu():
         ],
     }
     return st.navigation(pages)
+
+# Fungsi Get Rup Data
+def get_rup_data(queries, con):
+    """Mengambil dan memproses data RUP dari database"""
+    dfs = {k: con.execute(v).df() for k,v in queries.items()}
+    ir_gabung = pd.merge(pd.merge(dfs[list(queries.keys())[0]], dfs[list(queries.keys())[1]], how='left', on='NAMA_SATKER'),
+                        dfs[list(queries.keys())[2]], how='left', on='NAMA_SATKER')
+    
+    return (ir_gabung
+        .assign(TOTAL_RUP = lambda x: x.RUP_PENYEDIA + x.RUP_SWAKELOLA)
+        .assign(SELISIH = lambda x: x.STRUKTUR_ANGGARAN - x.TOTAL_RUP)
+        .assign(PERSEN = lambda x: round((x.TOTAL_RUP / x.STRUKTUR_ANGGARAN * 100), 2))
+        .fillna(0))
+
+# Fungsi Display Rup Data
+def display_rup_data(data, title, pilih, tahun, suffix=""):
+    """Menampilkan data RUP dalam format yang sesuai"""
+    st.title(title)
+    st.header(f"{pilih} TAHUN {tahun}")
+    
+    try:
+        # Download button
+        st.download_button(
+            label=f"📥 Download  % Input RUP{suffix}",
+            data=download_excel(data),
+            file_name=f"TabelPersenInputRUP{suffix}_{pilih}_{tahun}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+
+        # Tampilkan dataframe
+        st.dataframe(
+            data,
+            column_config={
+                "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
+                "RUP_PENYEDIA": "RUP PAKET PENYEDIA",
+                "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA", 
+                "TOTAL_RUP": "TOTAL RUP",
+                "SELISIH": "SELISIH",
+                "PERSEN": "PERSENTASE"
+            },
+            hide_index=True,
+            use_container_width=True,
+            height=1000
+        )
+
+    except Exception as e:
+        st.error(f"Error: {e}")

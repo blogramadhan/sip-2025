@@ -39,7 +39,10 @@ base_url = f"https://data.pbj.my.id/{kodeRUP}/sirup"
 datasets = {
     'PP': f"{base_url}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
     'PS': f"{base_url}/RUP-PaketSwakelola-Terumumkan{tahun}.parquet", 
-    'SA': f"{base_url}/RUP-StrukturAnggaranPD{tahun}.parquet"
+    'SA': f"{base_url}/RUP-StrukturAnggaranPD{tahun}.parquet",
+    'PP31': f"{base_url}/RUP-PaketPenyedia-Terumumkan31Mar-{tahun}-03-31.parquet",
+    'PS31': f"{base_url}/RUP-PaketSwakelola-Terumumkan31Mar-{tahun}-03-31.parquet",
+    'SA31': f"{base_url}/RUP-StrukturAnggaranPD31Mar-{tahun}-03-31.parquet"
 }
 
 try:
@@ -48,10 +51,19 @@ try:
     dfRUPPS = read_df_duckdb(datasets['PS'])
     dfRUPSA = read_df_duckdb(datasets['SA'])
 
+    # Baca dataset RUP 31 Mar
+    dfRUPPP31 = read_df_duckdb(datasets['PP31'])
+    dfRUPPS31 = read_df_duckdb(datasets['PS31'])
+    dfRUPSA31 = read_df_duckdb(datasets['SA31'])
+
     # Filter data RUP Penyedia
     dfRUPPP_umumkan = con.execute("SELECT * FROM dfRUPPP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
     dfRUPPP_umumkan_ukm = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_ukm = 'UKM'").df()
     dfRUPPP_umumkan_pdn = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_pdn = 'PDN'").df()
+
+    # Filter data RUP Penyedia 31 Mar
+    dfRUPPP31_umumkan = con.execute("SELECT * FROM dfRUPPP31 WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
+    dfRUPPS31_umumkan = con.execute("SELECT * FROM dfRUPPS31 WHERE status_umumkan_rup = 'Terumumkan'").df()
 
     # Filter data RUP Swakelola
     dfRUPPS_umumkan = con.execute("""
@@ -94,57 +106,20 @@ with menu_rup_4:
     st.write("RUP Paket Swakelola")
 
 with menu_rup_5:
-    st.title("PERSENTASE INPUT RUP")
-    st.header(f"{pilih} TAHUN {tahun}")
-
-    try:
-        # Query data dari database
-        queries = {
-            'strukturanggaran': "SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA WHERE STRUKTUR_ANGGARAN > 0",
-            'paketpenyedia': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP_umumkan GROUP BY NAMA_SATKER",
-            'paketswakelola': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS_umumkan GROUP BY NAMA_SATKER"
-        }
-        
-        # Eksekusi query dan merge dataframe
-        dfs = {k: con.execute(v).df() for k,v in queries.items()}
-        ir_gabung = pd.merge(pd.merge(dfs['strukturanggaran'], dfs['paketpenyedia'], how='left', on='NAMA_SATKER'), 
-                            dfs['paketswakelola'], how='left', on='NAMA_SATKER')
-        
-        # Kalkulasi kolom tambahan
-        ir_gabung_final = (ir_gabung
-            .assign(TOTAL_RUP = lambda x: x.RUP_PENYEDIA + x.RUP_SWAKELOLA)
-            .assign(SELISIH = lambda x: x.STRUKTUR_ANGGARAN - x.TOTAL_RUP)
-            .assign(PERSEN = lambda x: round((x.TOTAL_RUP / x.STRUKTUR_ANGGARAN * 100), 2))
-            .fillna(0))
-
-        # Download button
-        st.download_button(
-            label="📥 Download  % Input RUP",
-            data=download_excel(ir_gabung_final),
-            file_name=f"TabelPersenInputRUP_{pilih}_{tahun}.xlsx", 
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
-
-        # Tampilkan dataframe
-        st.dataframe(
-            ir_gabung_final,
-            column_config={
-                "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
-                "RUP_PENYEDIA": "RUP PAKET PENYEDIA", 
-                "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
-                "TOTAL_RUP": "TOTAL RUP",
-                "SELISIH": "SELISIH",
-                "PERSEN": "PERSENTASE"
-            },
-            hide_index=True,
-            use_container_width=True,
-            height=1000
-        )
-
-    except Exception as e:
-        st.error(f"Error: {e}")
+    queries = {
+        'strukturanggaran': "SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA WHERE STRUKTUR_ANGGARAN > 0",
+        'paketpenyedia': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP_umumkan GROUP BY NAMA_SATKER",
+        'paketswakelola': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS_umumkan GROUP BY NAMA_SATKER"
+    }
+    data = get_rup_data(queries, con)
+    display_rup_data(data, "PERSENTASE INPUT RUP", pilih, tahun)
 
 with menu_rup_6:
-    st.title("PERSENTASE INPUT RUP (31 MAR)")
-    st.write("Persentase Input RUP (31 Mar)")
+    queries31 = {
+        'strukturanggaran31': "SELECT nama_satker AS NAMA_SATKER, belanja_pengadaan AS STRUKTUR_ANGGARAN FROM dfRUPSA31 WHERE STRUKTUR_ANGGARAN > 0",
+        'paketpenyedia31': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_PENYEDIA FROM dfRUPPP31_umumkan GROUP BY NAMA_SATKER",
+        'paketswakelola31': "SELECT nama_satker AS NAMA_SATKER, SUM(pagu) AS RUP_SWAKELOLA FROM dfRUPPS31_umumkan GROUP BY NAMA_SATKER"
+    }
+    data31 = get_rup_data(queries31, con)
+    display_rup_data(data31, "PERSENTASE INPUT RUP (31 MAR)", pilih, tahun, " 31 Mar")
 
