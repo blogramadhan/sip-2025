@@ -173,7 +173,7 @@ with menu_rup_6:
             else:
                 st.warning("Data 31 Maret tidak memiliki entri yang dapat ditampilkan")
         except Exception as e:
-            st.info("Data 31 Maret belum tersedia")
+            st.error("Data 31 Maret belum tersedia")
     else:
         st.info(f"Data 31 Maret {tahun} belum tersedia karena tahun yang dipilih adalah tahun yang akan datang")
     
