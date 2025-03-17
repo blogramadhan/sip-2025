@@ -131,11 +131,26 @@ with menu_rup_5:
         st.dataframe(
             ir_gabung_final,
             column_config={
-                "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
-                "RUP_PENYEDIA": "RUP PAKET PENYEDIA", 
-                "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
-                "TOTAL_RUP": "TOTAL RUP",
-                "SELISIH": "SELISIH",
+                "STRUKTUR_ANGGARAN": st.column_config.NumberColumn(
+                    "STRUKTUR ANGGARAN",
+                    format="Rp %,.2f"
+                ),
+                "RUP_PENYEDIA": st.column_config.NumberColumn(
+                    "RUP PAKET PENYEDIA",
+                    format="Rp %,.2f"
+                ),
+                "RUP_SWAKELOLA": st.column_config.NumberColumn(
+                    "RUP PAKET SWAKELOLA", 
+                    format="Rp %,.2f"
+                ),
+                "TOTAL_RUP": st.column_config.NumberColumn(
+                    "TOTAL RUP",
+                    format="Rp %,.2f"
+                ),
+                "SELISIH": st.column_config.NumberColumn(
+                    "SELISIH",
+                    format="Rp %,.2f"
+                ),
                 "PERSEN": "PERSENTASE"
             },
             hide_index=True,
