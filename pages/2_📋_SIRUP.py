@@ -133,25 +133,40 @@ with menu_rup_5:
             column_config={
                 "STRUKTUR_ANGGARAN": st.column_config.NumberColumn(
                     "STRUKTUR ANGGARAN",
-                    format="Rp %,.2f"
+                    help="Nilai Struktur Anggaran",
+                    min_value=0,
+                    format="Rp {:,.2f}"
                 ),
                 "RUP_PENYEDIA": st.column_config.NumberColumn(
                     "RUP PAKET PENYEDIA",
-                    format="Rp %,.2f"
+                    help="Nilai RUP Paket Penyedia",
+                    min_value=0,
+                    format="Rp {:,.2f}"
                 ),
                 "RUP_SWAKELOLA": st.column_config.NumberColumn(
-                    "RUP PAKET SWAKELOLA", 
-                    format="Rp %,.2f"
+                    "RUP PAKET SWAKELOLA",
+                    help="Nilai RUP Paket Swakelola",
+                    min_value=0,
+                    format="Rp {:,.2f}"
                 ),
                 "TOTAL_RUP": st.column_config.NumberColumn(
                     "TOTAL RUP",
-                    format="Rp %,.2f"
+                    help="Total Nilai RUP",
+                    min_value=0,
+                    format="Rp {:,.2f}"
                 ),
                 "SELISIH": st.column_config.NumberColumn(
                     "SELISIH",
-                    format="Rp %,.2f"
+                    help="Selisih Nilai",
+                    min_value=0,
+                    format="Rp {:,.2f}"
                 ),
-                "PERSEN": "PERSENTASE"
+                "PERSEN": st.column_config.NumberColumn(
+                    "PERSENTASE",
+                    help="Persentase Input RUP",
+                    min_value=0,
+                    format="{:.2f}%"
+                )
             },
             hide_index=True,
             use_container_width=True,
@@ -204,12 +219,42 @@ with menu_rup_6:
         st.dataframe(
             ir_gabung_final31,
             column_config={
-                "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
-                "RUP_PENYEDIA": "RUP PAKET PENYEDIA",
-                "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
-                "TOTAL_RUP": "TOTAL RUP",
-                "SELISIH": "SELISIH",
-                "PERSEN": "PERSENTASE"
+                "STRUKTUR_ANGGARAN": st.column_config.NumberColumn(
+                    "STRUKTUR ANGGARAN",
+                    help="Nilai Struktur Anggaran",
+                    min_value=0,
+                    format="Rp {:,.2f}"
+                ),
+                "RUP_PENYEDIA": st.column_config.NumberColumn(
+                    "RUP PAKET PENYEDIA",
+                    help="Nilai RUP Paket Penyedia",
+                    min_value=0,
+                    format="Rp {:,.2f}"
+                ),
+                "RUP_SWAKELOLA": st.column_config.NumberColumn(
+                    "RUP PAKET SWAKELOLA",
+                    help="Nilai RUP Paket Swakelola",
+                    min_value=0,
+                    format="Rp {:,.2f}"
+                ),
+                "TOTAL_RUP": st.column_config.NumberColumn(
+                    "TOTAL RUP",
+                    help="Total Nilai RUP",
+                    min_value=0,
+                    format="Rp {:,.2f}"
+                ),
+                "SELISIH": st.column_config.NumberColumn(
+                    "SELISIH",
+                    help="Selisih Nilai",
+                    min_value=0,
+                    format="Rp {:,.2f}"
+                ),
+                "PERSEN": st.column_config.NumberColumn(
+                    "PERSENTASE",
+                    help="Persentase Input RUP",
+                    min_value=0,
+                    format="{:.2f}%"
+                )
             },
             hide_index=True,
             use_container_width=True,
