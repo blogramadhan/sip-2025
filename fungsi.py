@@ -71,15 +71,43 @@ def sidebar_menu():
 # Fungsi Get Rup Data
 def get_rup_data(queries, con):
     """Mengambil dan memproses data RUP dari database"""
-    dfs = {k: con.execute(v).df() for k,v in queries.items()}
-    ir_gabung = pd.merge(pd.merge(dfs[list(queries.keys())[0]], dfs[list(queries.keys())[1]], how='left', on='NAMA_SATKER'),
-                        dfs[list(queries.keys())[2]], how='left', on='NAMA_SATKER')
-    
-    return (ir_gabung
-        .assign(TOTAL_RUP = lambda x: x.RUP_PENYEDIA + x.RUP_SWAKELOLA)
-        .assign(SELISIH = lambda x: x.STRUKTUR_ANGGARAN - x.TOTAL_RUP)
-        .assign(PERSEN = lambda x: round((x.TOTAL_RUP / x.STRUKTUR_ANGGARAN * 100), 2))
-        .fillna(0))
+    try:
+        # Eksekusi query dan simpan hasilnya
+        dfs = {}
+        for k, v in queries.items():
+            try:
+                result = con.execute(v).df()
+                if result is not None and not result.empty:
+                    dfs[k] = result
+                else:
+                    st.warning(f"Query {k} menghasilkan data kosong")
+                    return pd.DataFrame()  # Return DataFrame kosong jika tidak ada data
+            except Exception as e:
+                st.error(f"Error saat mengeksekusi query {k}: {str(e)}")
+                return pd.DataFrame()  # Return DataFrame kosong jika terjadi error
+        
+        # Pastikan semua dataframe yang diperlukan tersedia
+        if len(dfs) != len(queries):
+            st.warning("Beberapa query tidak menghasilkan data")
+            return pd.DataFrame()
+        
+        # Lakukan merge data
+        keys = list(queries.keys())
+        ir_gabung = pd.merge(dfs[keys[0]], dfs[keys[1]], how='left', on='NAMA_SATKER')
+        ir_gabung = pd.merge(ir_gabung, dfs[keys[2]], how='left', on='NAMA_SATKER')
+        
+        # Hitung kolom tambahan
+        result = (ir_gabung
+            .assign(TOTAL_RUP=lambda x: x.RUP_PENYEDIA.fillna(0) + x.RUP_SWAKELOLA.fillna(0))
+            .assign(SELISIH=lambda x: x.STRUKTUR_ANGGARAN.fillna(0) - (x.RUP_PENYEDIA.fillna(0) + x.RUP_SWAKELOLA.fillna(0)))
+            .assign(PERSEN=lambda x: round((x.TOTAL_RUP / x.STRUKTUR_ANGGARAN * 100).fillna(0), 2))
+            .fillna(0))
+        
+        return result
+        
+    except Exception as e:
+        st.error(f"Error dalam pemrosesan data: {str(e)}")
+        return pd.DataFrame()  # Return DataFrame kosong jika terjadi error
 
 # Fungsi Display Rup Data
 def display_rup_data(data, title, pilih, tahun, suffix=""):
