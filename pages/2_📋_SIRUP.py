@@ -51,19 +51,35 @@ try:
     dfRUPPS = read_df_duckdb(datasets['PS'])
     dfRUPSA = read_df_duckdb(datasets['SA'])
 
-    # Baca dataset RUP 31 Mar
-    dfRUPPP31 = read_df_duckdb(datasets['PP31'])
-    dfRUPPS31 = read_df_duckdb(datasets['PS31'])
-    dfRUPSA31 = read_df_duckdb(datasets['SA31'])
+    # Register DataFrame ke DuckDB
+    con.register('dfRUPPP', dfRUPPP)
+    con.register('dfRUPPS', dfRUPPS)
+    con.register('dfRUPSA', dfRUPSA)
+
+    # Baca dataset RUP 31 Mar jika tahun <= tahun sekarang
+    if tahun <= datetime.now().year:
+        try:
+            dfRUPPP31 = read_df_duckdb(datasets['PP31'])
+            dfRUPPS31 = read_df_duckdb(datasets['PS31'])
+            dfRUPSA31 = read_df_duckdb(datasets['SA31'])
+            # Register DataFrame 31 Mar ke DuckDB
+            con.register('dfRUPPP31', dfRUPPP31)
+            con.register('dfRUPPS31', dfRUPPS31)
+            con.register('dfRUPSA31', dfRUPSA31)
+            data_31mar_tersedia = True
+        except Exception as e:
+            data_31mar_tersedia = False
+            st.warning(f"Data 31 Maret {tahun} belum tersedia")
+    else:
+        data_31mar_tersedia = False
+        st.info(f"Data 31 Maret {tahun} belum tersedia karena tahun yang dipilih adalah tahun yang akan datang")
 
     # Filter data RUP Penyedia
     dfRUPPP_umumkan = con.execute("SELECT * FROM dfRUPPP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
+    con.register('dfRUPPP_umumkan', dfRUPPP_umumkan)
+    
     dfRUPPP_umumkan_ukm = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_ukm = 'UKM'").df()
     dfRUPPP_umumkan_pdn = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_pdn = 'PDN'").df()
-
-    # Filter data RUP Penyedia 31 Mar
-    dfRUPPP31_umumkan = con.execute("SELECT * FROM dfRUPPP31 WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
-    dfRUPPS31_umumkan = con.execute("SELECT * FROM dfRUPPS31 WHERE status_umumkan_rup = 'Terumumkan'").df()
 
     # Filter data RUP Swakelola
     dfRUPPS_umumkan = con.execute("""
@@ -73,6 +89,14 @@ try:
         FROM dfRUPPS 
         WHERE status_umumkan_rup = 'Terumumkan'
     """).df()
+    con.register('dfRUPPS_umumkan', dfRUPPS_umumkan)
+
+    # Filter data RUP Penyedia 31 Mar jika tersedia
+    if data_31mar_tersedia:
+        dfRUPPP31_umumkan = con.execute("SELECT * FROM dfRUPPP31 WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
+        dfRUPPS31_umumkan = con.execute("SELECT * FROM dfRUPPS31 WHERE status_umumkan_rup = 'Terumumkan'").df()
+        con.register('dfRUPPP31_umumkan', dfRUPPP31_umumkan)
+        con.register('dfRUPPS31_umumkan', dfRUPPS31_umumkan)
 
     namaopd = dfRUPPP_umumkan['nama_satker'].unique()
 
