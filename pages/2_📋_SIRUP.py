@@ -146,45 +146,28 @@ with menu_rup_5:
         #     height=1000
         # )
 
-        # Aggrid
-        gd_input_rup = GridOptionsBuilder.from_dataframe(ir_gabung_final)
+        # Konfigurasi dan tampilkan grid
+        gd = GridOptionsBuilder.from_dataframe(ir_gabung_final)
         
-        # Konfigurasi dasar grid
-        gd_input_rup.configure_default_column(
-            groupable=True, 
-            value=True,
-            enableRowGroup=True,
-            aggFunc="sum",
-            editable=True,
-            autoSizeColumns=True,
-            wrapText=True
-        )
+        # Set konfigurasi default dan kolom numerik
+        gd.configure_default_column(groupable=True, value=True, enableRowGroup=True, 
+                                  aggFunc="sum", editable=True, autoSizeColumns=True)
         
-        # Konfigurasi kolom numerik dengan format mata uang
-        numeric_columns = ["STRUKTUR_ANGGARAN", "RUP_PENYEDIA", "RUP_SWAKELOLA", "TOTAL_RUP", "SELISIH"]
-        for col in numeric_columns:
-            gd_input_rup.configure_column(
-                col,
-                type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
-                valueGetter=f"data.{col}.toLocaleString('id-ID', {{style: 'currency', currency: 'IDR', maximumFractionDigits:2}})"
-            )
-            
-        # Konfigurasi fitur grid
-        gd_input_rup.configure_pagination(enabled=True, paginationAutoPageSize=True)
-        gd_input_rup.configure_side_bar()
-        gd_input_rup.configure_selection('multiple')
+        for col in ["STRUKTUR_ANGGARAN", "RUP_PENYEDIA", "RUP_SWAKELOLA", "TOTAL_RUP", "SELISIH"]:
+            gd.configure_column(col, 
+                              type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
+                              valueGetter=f"data.{col}.toLocaleString('id-ID', {{style: 'currency', currency: 'IDR', maximumFractionDigits:2}})")
         
-        gridOptions = gd_input_rup.build()
+        gd.configure_pagination()
+        gd.configure_side_bar()
+        gd.configure_selection('multiple')
         
-        # Tampilkan grid
-        AgGrid(
-            ir_gabung_final,
-            gridOptions=gridOptions,
-            enable_enterprise_modules=True,
-            update_mode=GridUpdateMode.MODEL_CHANGED,
-            fit_columns_on_grid_load=True,
-            key='InputRUP'
-        )
+        AgGrid(ir_gabung_final,
+               gridOptions=gd.build(),
+               enable_enterprise_modules=True, 
+               update_mode=GridUpdateMode.MODEL_CHANGED,
+               fit_columns_on_grid_load=True,
+               key='InputRUP')
         
     except Exception as e:
         st.error(f"Error: {e}")
