@@ -101,7 +101,7 @@ with menu_rup_2:
                    SUM(belanja_non_pengadaan) AS BELANJA_NON_PENGADAAN,
                    SUM(belanja_pengadaan) AS BELANJA_PENGADAAN,
                    SUM(total_belanja) AS TOTAL_BELANJA
-            FROM df_RUPSA WHERE BELANJA_PENGADAAN > 0
+            FROM dfRUPSA WHERE BELANJA_PENGADAAN > 0
             GROUP BY nama_satker ORDER BY total_belanja DESC""").df()
 
         # Setup grid
