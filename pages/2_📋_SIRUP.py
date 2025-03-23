@@ -168,7 +168,7 @@ with menu_rup_5:
                update_mode=GridUpdateMode.MODEL_CHANGED,
                fit_columns_on_grid_load=True,
                key='InputRUP')
-        
+ 
     except Exception as e:
         st.error(f"Error: {e}")
 
