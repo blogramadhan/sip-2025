@@ -8,6 +8,9 @@ import openpyxl
 from datetime import datetime
 # Library Currency
 from babel.numbers import format_currency
+# Library Aggrid
+from st_aggrid import AgGrid
+from st_aggrid.grid_options_builder import GridOptionsBuilder
 # Library Streamlit-Extras
 from streamlit_extras.metric_cards import style_metric_cards
 from streamlit_extras.app_logo import add_logo
@@ -128,21 +131,34 @@ with menu_rup_5:
         )
 
         # Tampilkan dataframe
-        st.dataframe(
-            ir_gabung_final,
-            column_config={
-                "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
-                "RUP_PENYEDIA": "RUP PAKET PENYEDIA",
-                "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
-                "TOTAL_RUP": "TOTAL RUP",
-                "SELISIH": "SELISIH",
-                "PERSEN": "PERSENTASE"
-            },
-            hide_index=True,
-            use_container_width=True,
-            height=1000
-        )
+        # st.dataframe(
+        #     ir_gabung_final,
+        #     column_config={
+        #         "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
+        #         "RUP_PENYEDIA": "RUP PAKET PENYEDIA",
+        #         "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
+        #         "TOTAL_RUP": "TOTAL RUP",
+        #         "SELISIH": "SELISIH",
+        #         "PERSEN": "PERSENTASE"
+        #     },
+        #     hide_index=True,
+        #     use_container_width=True,
+        #     height=1000
+        # )
 
+        # Aggrid
+        gd_input_rup = GridOptionsBuilder.from_dataframe(ir_gabung_final)
+        gd_input_rup.configure_pagination()
+        gd_input_rup.configure_side_bar()
+        gd_input_rup.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc="sum", editable=True)
+        gd_input_rup.configure_column("STRUKTUR_ANGGARAN", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.STRUKTUR_ANGGARAN.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+        gd_input_rup.configure_column("RUP_PENYEDIA", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.RUP_PENYEDIA.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+        gd_input_rup.configure_column("RUP_SWAKELOLA", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.RUP_SWAKELOLA.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+        gd_input_rup.configure_column("TOTAL_RUP", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.TOTAL_RUP.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+        gd_input_rup.configure_column("SELISIH", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.SELISIH.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+
+        AgGrid(ir_gabung_final, gridOptions=gd_input_rup.build(), enable_enterprise_modules=True, key='InputRUP')
+        
     except Exception as e:
         st.error(f"Error: {e}")
 
@@ -186,20 +202,33 @@ with menu_rup_6:
         )
 
         # Tampilkan dataframe
-        st.dataframe(
-            ir_gabung_final31,
-            column_config={
-                "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
-                "RUP_PENYEDIA": "RUP PAKET PENYEDIA",
-                "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
-                "TOTAL_RUP": "TOTAL RUP",
-                "SELISIH": "SELISIH",
-                "PERSEN": "PERSENTASE"
-            },
-            hide_index=True,
-            use_container_width=True,
-            height=1000
-        )
-        
+        # st.dataframe(
+        #     ir_gabung_final31,
+        #     column_config={
+        #         "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
+        #         "RUP_PENYEDIA": "RUP PAKET PENYEDIA",
+        #         "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
+        #         "TOTAL_RUP": "TOTAL RUP",
+        #         "SELISIH": "SELISIH",
+        #         "PERSEN": "PERSENTASE"
+        #     },
+        #     hide_index=True,
+        #     use_container_width=True,
+        #     height=1000
+        # )
+
+        # Aggrid
+        gd_input_rup_31Mar = GridOptionsBuilder.from_dataframe(ir_gabung_final31)
+        gd_input_rup_31Mar.configure_pagination()
+        gd_input_rup_31Mar.configure_side_bar()
+        gd_input_rup_31Mar.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc="sum", editable=True)
+        gd_input_rup_31Mar.configure_column("STRUKTUR_ANGGARAN", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.STRUKTUR_ANGGARAN.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+        gd_input_rup_31Mar.configure_column("RUP_PENYEDIA", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.RUP_PENYEDIA.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+        gd_input_rup_31Mar.configure_column("RUP_SWAKELOLA", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.RUP_SWAKELOLA.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+        gd_input_rup_31Mar.configure_column("TOTAL_RUP", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.TOTAL_RUP.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+        gd_input_rup_31Mar.configure_column("SELISIH", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.SELISIH.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+
+        AgGrid(ir_gabung_final31, gridOptions=gd_input_rup_31Mar.build(), enable_enterprise_modules=True, key='31Maret')
+
     except Exception as e:
         st.error(f"Error: {e}")
