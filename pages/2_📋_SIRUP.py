@@ -131,21 +131,6 @@ with menu_rup_5:
         )
 
         # Tampilkan dataframe
-        # st.dataframe(
-        #     ir_gabung_final,
-        #     column_config={
-        #         "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
-        #         "RUP_PENYEDIA": "RUP PAKET PENYEDIA",
-        #         "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
-        #         "TOTAL_RUP": "TOTAL RUP",
-        #         "SELISIH": "SELISIH",
-        #         "PERSEN": "PERSENTASE"
-        #     },
-        #     hide_index=True,
-        #     use_container_width=True,
-        #     height=1000
-        # )
-
         # Konfigurasi dan tampilkan grid
         gd = GridOptionsBuilder.from_dataframe(ir_gabung_final)
         
@@ -212,21 +197,6 @@ with menu_rup_6:
         )
 
         # Tampilkan dataframe
-        # st.dataframe(
-        #     ir_gabung_final31,
-        #     column_config={
-        #         "STRUKTUR_ANGGARAN": "STRUKTUR ANGGARAN",
-        #         "RUP_PENYEDIA": "RUP PAKET PENYEDIA",
-        #         "RUP_SWAKELOLA": "RUP PAKET SWAKELOLA",
-        #         "TOTAL_RUP": "TOTAL RUP",
-        #         "SELISIH": "SELISIH",
-        #         "PERSEN": "PERSENTASE"
-        #     },
-        #     hide_index=True,
-        #     use_container_width=True,
-        #     height=1000
-        # )
-
         # Konfigurasi dan tampilkan grid
         gd31 = GridOptionsBuilder.from_dataframe(ir_gabung_final31)
 
