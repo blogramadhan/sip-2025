@@ -91,6 +91,37 @@ with menu_rup_2:
     st.title("STRUKTUR ANGGARAN")
     st.header(f"{pilih} TAHUN {tahun}")
 
+    try:
+        # Query dan tampilkan data
+        df_sa = con.execute("""
+            SELECT nama_satker AS NAMA_SATKER,
+                   SUM(belanja_operasi) AS BELANJA_OPERASI,
+                   SUM(belanja_modal) AS BELANJA_MODAL, 
+                   SUM(belanja_btt) AS BELANJA_BTT,
+                   SUM(belanja_non_pengadaan) AS BELANJA_NON_PENGADAAN,
+                   SUM(belanja_pengadaan) AS BELANJA_PENGADAAN,
+                   SUM(total_belanja) AS TOTAL_BELANJA
+            FROM df_RUPSA WHERE BELANJA_PENGADAAN > 0
+            GROUP BY nama_satker ORDER BY total_belanja DESC""").df()
+
+        # Setup grid
+        gd = GridOptionsBuilder.from_dataframe(df_sa)
+        gd.configure_default_column(groupable=True, value=True, enableRowGroup=True,
+                                  aggFunc="sum", editable=True, autoSizeColumns=True)
+        
+        # Format numerik
+        for col in df_sa.select_dtypes('number').columns:
+            gd.configure_column(col, type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
+                              valueGetter=f"data.{col}.toLocaleString('id-ID', {{style:'currency',currency:'IDR',maximumFractionDigits:2}})")
+
+        gd.configure_pagination().configure_side_bar().configure_selection('multiple')
+        AgGrid(df_sa, gridOptions=gd.build(), enable_enterprise_modules=True,
+               update_mode=GridUpdateMode.MODEL_CHANGED, fit_columns_on_grid_load=True,
+               key='StrukturAnggaran')
+
+    except Exception as e:
+        st.error(f"Error: {e}")
+
 with menu_rup_3:
     st.title("RUP PAKET PENYEDIA")
     st.header(f"{pilih} TAHUN {tahun}")
@@ -98,6 +129,12 @@ with menu_rup_3:
 with menu_rup_4:
     st.title("RUP PAKET SWAKELOLA")
     st.header(f"{pilih} TAHUN {tahun}")
+
+    try:
+        st.write("RUP PAKET SWAKELOLA")
+
+    except Exception as e:
+        st.error(f"Error: {e}")
 
 with menu_rup_5:
     st.title("PERSENTASE INPUT RUP")
