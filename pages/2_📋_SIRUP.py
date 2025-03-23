@@ -227,18 +227,28 @@ with menu_rup_6:
         #     height=1000
         # )
 
-        # Aggrid
-        gd_input_rup_31Mar = GridOptionsBuilder.from_dataframe(ir_gabung_final31)
-        gd_input_rup_31Mar.configure_pagination()
-        gd_input_rup_31Mar.configure_side_bar()
-        gd_input_rup_31Mar.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc="sum", editable=True)
-        gd_input_rup_31Mar.configure_column("STRUKTUR_ANGGARAN", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.STRUKTUR_ANGGARAN.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
-        gd_input_rup_31Mar.configure_column("RUP_PENYEDIA", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.RUP_PENYEDIA.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
-        gd_input_rup_31Mar.configure_column("RUP_SWAKELOLA", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.RUP_SWAKELOLA.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
-        gd_input_rup_31Mar.configure_column("TOTAL_RUP", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.TOTAL_RUP.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
-        gd_input_rup_31Mar.configure_column("SELISIH", type=["numericColumn", "numberColumnFilter", "customNumericFormat"], valueGetter = "data.SELISIH.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+        # Konfigurasi dan tampilkan grid
+        gd31 = GridOptionsBuilder.from_dataframe(ir_gabung_final31)
 
-        AgGrid(ir_gabung_final31, gridOptions=gd_input_rup_31Mar.build(), enable_enterprise_modules=True, key='31Maret')
+        # Set konfigurasi default dan kolom numerik
+        gd31.configure_default_column(groupable=True, value=True, enableRowGroup=True, 
+                                  aggFunc="sum", editable=True, autoSizeColumns=True)
+        
+        for col in ["STRUKTUR_ANGGARAN", "RUP_PENYEDIA", "RUP_SWAKELOLA", "TOTAL_RUP", "SELISIH"]:
+            gd31.configure_column(col, 
+                              type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
+                              valueGetter=f"data.{col}.toLocaleString('id-ID', {{style: 'currency', currency: 'IDR', maximumFractionDigits:2}})")
+            
+        gd31.configure_pagination()
+        gd31.configure_side_bar()
+        gd31.configure_selection('multiple')
+
+        AgGrid(ir_gabung_final31,
+               gridOptions=gd31.build(),
+               enable_enterprise_modules=True, 
+               update_mode=GridUpdateMode.MODEL_CHANGED,
+               fit_columns_on_grid_load=True,
+               key='InputRUP31Mar')
 
     except Exception as e:
         st.error(f"Error: {e}")
