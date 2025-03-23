@@ -146,6 +146,13 @@ with menu_rup_5:
         #     height=1000
         # )
 
+        # Pilihan jumlah baris per halaman
+        rows_per_page = st.selectbox(
+            "Jumlah Baris per Halaman",
+            options=[10, 25, 50, 100],
+            index=1  # Default 25 baris
+        )
+
         # Aggrid
         gd_input_rup = GridOptionsBuilder.from_dataframe(ir_gabung_final)
         
@@ -170,7 +177,7 @@ with menu_rup_5:
             )
             
         # Konfigurasi fitur grid
-        gd_input_rup.configure_pagination(paginationAutoPageSize=True)
+        gd_input_rup.configure_pagination(enabled=True, paginationPageSize=rows_per_page)
         gd_input_rup.configure_side_bar()
         gd_input_rup.configure_selection('multiple')
         
