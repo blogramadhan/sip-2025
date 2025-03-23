@@ -89,15 +89,15 @@ with menu_rup_1:
 
 with menu_rup_2:
     st.title("STRUKTUR ANGGARAN")
-    st.write("Struktur Anggaran")
+    st.write(f"{pilih} TAHUN {tahun}")
 
 with menu_rup_3:
     st.title("RUP PAKET PENYEDIA")
-    st.write("RUP Paket Penyedia")
+    st.write(f"{pilih} TAHUN {tahun}")
 
 with menu_rup_4:
     st.title("RUP PAKET SWAKELOLA")
-    st.write("RUP Paket Swakelola")
+    st.header(f"{pilih} TAHUN {tahun}")
 
 with menu_rup_5:
     st.title("PERSENTASE INPUT RUP")
