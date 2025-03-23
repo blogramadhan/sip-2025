@@ -89,11 +89,11 @@ with menu_rup_1:
 
 with menu_rup_2:
     st.title("STRUKTUR ANGGARAN")
-    st.write(f"{pilih} TAHUN {tahun}")
+    st.header(f"{pilih} TAHUN {tahun}")
 
 with menu_rup_3:
     st.title("RUP PAKET PENYEDIA")
-    st.write(f"{pilih} TAHUN {tahun}")
+    st.header(f"{pilih} TAHUN {tahun}")
 
 with menu_rup_4:
     st.title("RUP PAKET SWAKELOLA")
