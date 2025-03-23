@@ -105,18 +105,24 @@ with menu_rup_2:
             GROUP BY nama_satker ORDER BY total_belanja DESC""").df()
 
         # Setup grid
-        gd = GridOptionsBuilder.from_dataframe(df_sa)
-        gd.configure_default_column(groupable=True, value=True, enableRowGroup=True,
+        gdsa = GridOptionsBuilder.from_dataframe(df_sa)
+        gdsa.configure_default_column(groupable=True, value=True, enableRowGroup=True,
                                   aggFunc="sum", editable=True, autoSizeColumns=True)
         
-        # Format numerik
-        for col in df_sa.select_dtypes('number').columns:
-            gd.configure_column(col, type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
+        for col in ["BELANJA_OPERASI", "BELANJA_MODAL", "BELANJA_BTT", "BELANJA_NON_PENGADAAN", "BELANJA_PENGADAAN", "TOTAL_BELANJA"]:
+            gdsa.configure_column(col, 
+                              type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
                               valueGetter=f"data.{col}.toLocaleString('id-ID', {{style:'currency',currency:'IDR',maximumFractionDigits:2}})")
+        
+        gdsa.configure_pagination()
+        gdsa.configure_side_bar()
+        gdsa.configure_selection('multiple')
 
-        gd.configure_pagination().configure_side_bar().configure_selection('multiple')
-        AgGrid(df_sa, gridOptions=gd.build(), enable_enterprise_modules=True,
-               update_mode=GridUpdateMode.MODEL_CHANGED, fit_columns_on_grid_load=True,
+        AgGrid(df_sa, 
+               gridOptions=gdsa.build(), 
+               enable_enterprise_modules=True,
+               update_mode=GridUpdateMode.MODEL_CHANGED, 
+               fit_columns_on_grid_load=True,
                key='StrukturAnggaran')
 
     except Exception as e:
