@@ -114,14 +114,14 @@ with menu_rup_2:
                               type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
                               valueGetter=f"data.{col}.toLocaleString('id-ID', {{style:'currency',currency:'IDR',maximumFractionDigits:2}})")
         
-        gdsa.configure_pagination(paginationPageSize=30)  # Set lebih banyak baris per halaman
-        # gdsa.configure_selection('multiple')
+        gdsa.configure_pagination(paginationAutoPageSize=False, paginationPageSize=30)  # Set lebih banyak baris per halaman
 
         AgGrid(df_sa, 
                gridOptions=gdsa.build(), 
                enable_enterprise_modules=True,
                update_mode=GridUpdateMode.MODEL_CHANGED, 
                fit_columns_on_grid_load=True,
+               height=600,
                key='StrukturAnggaran')
 
     except Exception as e:
