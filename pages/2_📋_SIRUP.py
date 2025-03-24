@@ -115,7 +115,7 @@ with menu_rup_2:
                               valueGetter=f"data.{col}.toLocaleString('id-ID', {{style:'currency',currency:'IDR',maximumFractionDigits:2}})")
         
         gdsa.configure_pagination()
-        gdsa.configure_side_bar()
+        # gdsa.configure_side_bar()
         gdsa.configure_selection('multiple')
 
         AgGrid(df_sa, 
