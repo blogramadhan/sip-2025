@@ -120,6 +120,8 @@ with menu_rup_2:
 
         AgGrid(df_sa, 
                gridOptions=gdsa.build(), 
+               paginationAutoPageSize=False,
+               paginationPageSize=30,
                enable_enterprise_modules=True,
                update_mode=GridUpdateMode.MODEL_CHANGED, 
                fit_columns_on_grid_load=True,
