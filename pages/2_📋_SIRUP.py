@@ -121,7 +121,7 @@ with menu_rup_2:
                enable_enterprise_modules=True,
                update_mode=GridUpdateMode.MODEL_CHANGED, 
                fit_columns_on_grid_load=True,
-               height=600,
+               height=1000,
                key='StrukturAnggaran')
 
     except Exception as e:
