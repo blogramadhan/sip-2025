@@ -361,15 +361,14 @@ with menu_rup_1:
 
                 with grafik_rup_mp_pd_tab_1_1:
 
-                    st.dataframe(
-                        dfRUPPP_PD_mp_hitung,
-                        column_config={
-                            "METODE_PENGADAAN": "METODE PENGADAAN",
-                            "JUMLAH_PAKET": "JUMLAH PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
+                    gd_mp_hitung = GridOptionsBuilder.from_dataframe(dfRUPPP_PD_mp_hitung)
+                    gd_mp_hitung.configure_default_column(autoSizeColumns=True)
+                    AgGrid(dfRUPPP_PD_mp_hitung, 
+                           gridOptions=gd_mp_hitung.build(),
+                           fit_columns_on_grid_load=True,
+                           autoSizeColumns=True,
+                           width='100%',
+                           height=min(400, 35 * (len(dfRUPPP_PD_mp_hitung) + 1)))
 
                 with grafik_rup_mp_pd_tab_1_2:
 
@@ -400,15 +399,18 @@ with menu_rup_1:
 
                 with grafik_rup_mp_pd_tab_2_1:
 
-                    st.dataframe(
-                        dfRUPPP_PD_mp_nilai, 
-                        column_config={
-                            "METODE_PENGADAAN": "METODE PENGADAAN",
-                            "NILAI_PAKET": "NILAI PAKET (Rp.)"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
+                    gd_mp_nilai = GridOptionsBuilder.from_dataframe(dfRUPPP_PD_mp_nilai)
+                    gd_mp_nilai.configure_default_column(autoSizeColumns=True)
+                    gd_mp_nilai.configure_column("NILAI_PAKET", 
+                                              type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
+                                              valueGetter="data.NILAI_PAKET.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+                    AgGrid(dfRUPPP_PD_mp_nilai, 
+                           gridOptions=gd_mp_nilai.build(),
+                           enable_enterprise_modules=True,
+                           fit_columns_on_grid_load=True,
+                           autoSizeColumns=True,
+                           width='100%',
+                           height=min(400, 35 * (len(dfRUPPP_PD_mp_nilai) + 1)))
             
                 with grafik_rup_mp_pd_tab_2_2:
 
@@ -446,15 +448,14 @@ with menu_rup_1:
 
                 with grafik_rup_jp_pd_tab_1_1:
 
-                    st.dataframe(
-                        dfRUPPP_PD_jp_hitung,
-                        column_config={
-                            "JENIS_PENGADAAN": "JENIS PENGADAAN",
-                            "JUMLAH_PAKET": "JUMLAH PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True    
-                    )
+                    gd_jp_hitung = GridOptionsBuilder.from_dataframe(dfRUPPP_PD_jp_hitung)
+                    gd_jp_hitung.configure_default_column(autoSizeColumns=True)
+                    AgGrid(dfRUPPP_PD_jp_hitung, 
+                           gridOptions=gd_jp_hitung.build(),
+                           fit_columns_on_grid_load=True,
+                           autoSizeColumns=True,
+                           width='100%',
+                           height=min(400, 35 * (len(dfRUPPP_PD_jp_hitung) + 1)))
 
                 with grafik_rup_jp_pd_tab_1_2:
 
@@ -485,15 +486,18 @@ with menu_rup_1:
 
                 with grafik_rup_jp_pd_tab_2_1:
 
-                    st.dataframe(
-                        dfRUPPP_PD_jp_nilai, 
-                        column_config={
-                            "JENIS_PENGADAAN": "JENIS PENGADAAN",
-                            "NILAI_PAKET": "NILAI PAKET (Rp.)"
-                        },
-                        use_container_width=True,
-                        hide_index=True   
-                    )
+                    gd_jp_nilai = GridOptionsBuilder.from_dataframe(dfRUPPP_PD_jp_nilai)
+                    gd_jp_nilai.configure_default_column(autoSizeColumns=True)
+                    gd_jp_nilai.configure_column("NILAI_PAKET", 
+                                              type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
+                                              valueGetter="data.NILAI_PAKET.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+                    AgGrid(dfRUPPP_PD_jp_nilai, 
+                           gridOptions=gd_jp_nilai.build(),
+                           enable_enterprise_modules=True,
+                           fit_columns_on_grid_load=True,
+                           autoSizeColumns=True,
+                           width='100%',
+                           height=min(400, 35 * (len(dfRUPPP_PD_jp_nilai) + 1)))
 
                 with grafik_rup_jp_pd_tab_2_2:
 
