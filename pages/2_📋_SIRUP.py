@@ -193,7 +193,25 @@ with menu_rup_1:
 
                 with grafik_rup_ukm_pd_tab_1_2:
 
-                    figukmh = px.pie(dfRUPPP_PD_ukm_hitung, values='JUMLAH_PAKET', names='STATUS_UKM', title='Grafik Status UKM - Jumlah Paket', hole=.3)
+                    # Membuat grafik pie yang lebih menarik dengan warna yang lebih cerah
+                    figukmh = px.pie(
+                        dfRUPPP_PD_ukm_hitung, 
+                        values='JUMLAH_PAKET', 
+                        names='STATUS_UKM', 
+                        title='Grafik Status UKM - Jumlah Paket',
+                        hole=.4,  # Memperbesar lubang di tengah untuk tampilan donat yang lebih menarik
+                        color_discrete_sequence=px.colors.qualitative.Bold,  # Menggunakan palet warna yang lebih cerah
+                        labels={'STATUS_UKM': 'Status UKM', 'JUMLAH_PAKET': 'Jumlah Paket'}  # Label yang lebih deskriptif
+                    )
+                    
+                    # Menyesuaikan tampilan grafik
+                    figukmh.update_traces(
+                        textposition='inside', 
+                        textinfo='percent+label',
+                        marker=dict(line=dict(color='#FFFFFF', width=2))  # Menambahkan garis putih di antara segmen
+                    )
+                    
+                    # Menampilkan grafik dengan ukuran otomatis mengikuti lebar kolom
                     st.plotly_chart(figukmh, theme="streamlit", use_container_width=True)
 
             with grafik_rup_ukm_pd_tab_2:
