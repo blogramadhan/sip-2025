@@ -132,14 +132,15 @@ with menu_rup_3:
     st.header(f"{pilih} TAHUN {tahun}")
 
     try:
+        # Pilih Perangkat Daerah
         rup_pp = st.selectbox("Pilih Perangkat Daerah :", namaopd)
-        
         st.divider()
-        
         st.subheader(rup_pp)
-
+        
+        # Ambil data RUP Paket Penyedia untuk PD yang dipilih
         dfRUPPP_PD = con.execute(f"SELECT * FROM dfRUPPP_umumkan WHERE nama_satker = '{rup_pp}'").df()
-
+        
+        # Tombol unduh data
         unduhRUPPP_PD = download_excel(dfRUPPP_PD)
         st.download_button(
             label="📥 Unduh RUP PAKET PENYEDIA",
@@ -147,26 +148,27 @@ with menu_rup_3:
             file_name=f"RUP_PAKET_PENYEDIA_{rup_pp}_{tahun}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
-
-        querisPP = """
-            SELECT nama_paket AS NAMA_PAKET, kd_rup AS ID_RUP, metode_pengadaan AS METODE_PEMILIHAN, jenis_pengadaan AS JENIS_PENGADAAN,  
-            status_pradipa AS STATUS_PRADIPA, status_pdn AS STATUS_PDN, status_ukm AS STATUS_UKM, tgl_pengumuman_paket AS TANGGAL_PENGUMUMAN, 
-            tgl_awal_pemilihan AS TANGGAL_RENCANA_PEMILIHAN, pagu AS PAGU FROM dfRUPPP_PD
-        """
-        df_pp = con.execute(querisPP).df()
-
-        # Setup grid
+        
+        # Query dan tampilkan data dalam grid
+        df_pp = con.execute("""
+            SELECT nama_paket AS NAMA_PAKET, kd_rup AS ID_RUP, metode_pengadaan AS METODE_PEMILIHAN, 
+                   jenis_pengadaan AS JENIS_PENGADAAN, status_pradipa AS STATUS_PRADIPA, 
+                   status_pdn AS STATUS_PDN, status_ukm AS STATUS_UKM, 
+                   tgl_pengumuman_paket AS TANGGAL_PENGUMUMAN, 
+                   tgl_awal_pemilihan AS TANGGAL_RENCANA_PEMILIHAN, pagu AS PAGU 
+            FROM dfRUPPP_PD
+        """).df()
+        
+        # Konfigurasi grid
         gdpp = GridOptionsBuilder.from_dataframe(df_pp)
         gdpp.configure_default_column(groupable=True, value=True, enableRowGroup=True,
                                   aggFunc="sum", editable=True, autoSizeColumns=True)
-        
-        for col in ["PAGU"]:
-            gdpp.configure_column(col, 
-                              type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
-                              valueGetter=f"data.{col}.toLocaleString('id-ID', {{style: 'currency', currency: 'IDR', maximumFractionDigits:2}})")
-        
+        gdpp.configure_column("PAGU", 
+                          type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
+                          valueGetter="data.PAGU.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
         gdpp.configure_pagination(paginationAutoPageSize=False)
-
+        
+        # Tampilkan grid
         AgGrid(df_pp,
                gridOptions=gdpp.build(),
                enable_enterprise_modules=True,
