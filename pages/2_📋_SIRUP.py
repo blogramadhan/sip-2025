@@ -231,15 +231,14 @@ with menu_rup_1:
 
                 with grafik_rup_pdn_pd_tab_1_1:
 
-                    st.dataframe(
-                        dfRUPPP_PD_pdn_hitung,
-                        column_config={
-                            "STATUS_PDN": "STATUS PDN",
-                            "JUMLAH_PAKET": "JUMLAH PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
+                    gd_pdn_hitung = GridOptionsBuilder.from_dataframe(dfRUPPP_PD_pdn_hitung)
+                    gd_pdn_hitung.configure_default_column(autoSizeColumns=True)
+                    AgGrid(dfRUPPP_PD_pdn_hitung, 
+                           gridOptions=gd_pdn_hitung.build(),
+                           fit_columns_on_grid_load=True,
+                           autoSizeColumns=True,
+                           width='100%',
+                           height=min(400, 35 * (len(dfRUPPP_PD_pdn_hitung) + 1)))
 
                 with grafik_rup_pdn_pd_tab_1_2:
 
@@ -252,15 +251,18 @@ with menu_rup_1:
 
                 with grafik_rup_pdn_pd_tab_2_1:
 
-                    st.dataframe(
-                        dfRUPPP_PD_pdn_nilai,
-                        column_config={
-                            "STATUS_PDN": "STATUS PDN",
-                            "NILAI_PAKET": "NILAI PAKET (Rp.)"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
+                    gd_pdn_nilai = GridOptionsBuilder.from_dataframe(dfRUPPP_PD_pdn_nilai)
+                    gd_pdn_nilai.configure_default_column(autoSizeColumns=True)
+                    gd_pdn_nilai.configure_column("NILAI_PAKET", 
+                                              type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
+                                              valueGetter="data.NILAI_PAKET.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+                    AgGrid(dfRUPPP_PD_pdn_nilai, 
+                           gridOptions=gd_pdn_nilai.build(),
+                           enable_enterprise_modules=True,
+                           fit_columns_on_grid_load=True,
+                           autoSizeColumns=True,
+                           width='100%',
+                           height=min(400, 35 * (len(dfRUPPP_PD_pdn_nilai) + 1)))
 
                 with grafik_rup_pdn_pd_tab_2_2:
 
