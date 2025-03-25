@@ -182,16 +182,6 @@ with menu_rup_1:
 
                 with grafik_rup_ukm_pd_tab_1_1:
 
-                    # st.dataframe(
-                    #     dfRUPPP_PD_ukm_hitung,
-                    #     column_config={
-                    #         "STATUS_UKM": "STATUS UKM",
-                    #         "JUMLAH_PAKET": "JUMLAH PAKET"
-                    #     },
-                    #     use_container_width=True,
-                    #     hide_index=True
-                    # )
-
                     gd_ukm_hitung = GridOptionsBuilder.from_dataframe(dfRUPPP_PD_ukm_hitung)
                     gd_ukm_hitung.configure_default_column(autoSizeColumns=True)
                     AgGrid(dfRUPPP_PD_ukm_hitung, 
@@ -211,16 +201,6 @@ with menu_rup_1:
                 grafik_rup_ukm_pd_tab_2_1, grafik_rup_ukm_pd_tab_2_2 = st.columns((3,7))
 
                 with grafik_rup_ukm_pd_tab_2_1:
-
-                    # st.dataframe(
-                    #     dfRUPPP_PD_ukm_nilai,
-                    #     column_config={
-                    #         "STATUS_UKM": "STATUS UKM",
-                    #         "NILAI_PAKET": "NILAI PAKET (Rp.)"
-                    #     },
-                    #     use_container_width=True,
-                    #     hide_index=True
-                    # )
 
                     gd_ukm_nilai = GridOptionsBuilder.from_dataframe(dfRUPPP_PD_ukm_nilai)
                     gd_ukm_nilai.configure_default_column(autoSizeColumns=True)
