@@ -227,7 +227,8 @@ with menu_rup_1:
                                               valueGetter="data.NILAI_PAKET.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
                     AgGrid(dfRUPPP_PD_ukm_nilai, 
                            gridOptions=gd_ukm_nilai.build(),
-                           fit_columns_on_grid_load=True)
+                           fit_columns_on_grid_load=True,
+                           height=min(400, 35 * (len(dfRUPPP_PD_ukm_nilai) + 1)))
 
                 with grafik_rup_ukm_pd_tab_2_2:
 
