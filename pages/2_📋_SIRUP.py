@@ -148,32 +148,32 @@ with menu_rup_3:
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
 
-        # querisPP = """
-        #     SELECT nama_paket AS NAMA_PAKET, kd_rup AS ID_RUP, metode_pengadaan AS METODE_PEMILIHAN, jenis_pengadaan AS JENIS_PENGADAAN,  
-        #     status_pradipa AS STATUS_PRADIPA, status_pdn AS STATUS_PDN, status_ukm AS STATUS_UKM, tgl_pengumuman_paket AS TANGGAL_PENGUMUMAN, 
-        #     tgl_awal_pemilihan AS TANGGAL_RENCANA_PEMILIHAN, pagu AS PAGU FROM df_RUPPP_PD_tbl
-        # """
-        # df_pp = con.execute(querisPP).df()
+        querisPP = """
+            SELECT nama_paket AS NAMA_PAKET, kd_rup AS ID_RUP, metode_pengadaan AS METODE_PEMILIHAN, jenis_pengadaan AS JENIS_PENGADAAN,  
+            status_pradipa AS STATUS_PRADIPA, status_pdn AS STATUS_PDN, status_ukm AS STATUS_UKM, tgl_pengumuman_paket AS TANGGAL_PENGUMUMAN, 
+            tgl_awal_pemilihan AS TANGGAL_RENCANA_PEMILIHAN, pagu AS PAGU FROM df_RUPPP_PD_tbl
+        """
+        df_pp = con.execute(querisPP).df()
 
-        # # Setup grid
-        # gdpp = GridOptionsBuilder.from_dataframe(df_pp)
-        # gdpp.configure_default_column(groupable=True, value=True, enableRowGroup=True,
-        #                           aggFunc="sum", editable=True, autoSizeColumns=True)
+        # Setup grid
+        gdpp = GridOptionsBuilder.from_dataframe(df_pp)
+        gdpp.configure_default_column(groupable=True, value=True, enableRowGroup=True,
+                                  aggFunc="sum", editable=True, autoSizeColumns=True)
         
-        # for col in ["PAGU"]:
-        #     gdpp.configure_column(col, 
-        #                       type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
-        #                       valueGetter=f"data.{col}.toLocaleString('id-ID', {{style: 'currency', currency: 'IDR', maximumFractionDigits:2}})")
+        for col in ["PAGU"]:
+            gdpp.configure_column(col, 
+                              type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
+                              valueGetter=f"data.{col}.toLocaleString('id-ID', {{style: 'currency', currency: 'IDR', maximumFractionDigits:2}})")
         
-        # gdpp.configure_pagination(paginationAutoPageSize=False)
+        gdpp.configure_pagination(paginationAutoPageSize=False)
 
-        # AgGrid(df_pp,
-        #        gridOptions=gdpp.build(),
-        #        enable_enterprise_modules=True,
-        #        update_mode=GridUpdateMode.MODEL_CHANGED,
-        #        fit_columns_on_grid_load=True,
-        #        height=800,
-        #        key='RUPPP_PD')
+        AgGrid(df_pp,
+               gridOptions=gdpp.build(),
+               enable_enterprise_modules=True,
+               update_mode=GridUpdateMode.MODEL_CHANGED,
+               fit_columns_on_grid_load=True,
+               height=800,
+               key='RUPPP_PD')
 
     except Exception as e:
         st.error(f"Error: {e}")
