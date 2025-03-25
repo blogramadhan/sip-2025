@@ -138,7 +138,7 @@ with menu_rup_3:
         
         st.subheader(rup_pp)
 
-        dfRUPPP_PD = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE nama_satker = @rup_pp").df()
+        dfRUPPP_PD = con.execute(f"SELECT * FROM dfRUPPP_umumkan WHERE nama_satker = '{rup_pp}'").df()
 
         unduhRUPPP_PD = download_excel(dfRUPPP_PD)
         st.download_button(
