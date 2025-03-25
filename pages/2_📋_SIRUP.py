@@ -89,7 +89,6 @@ with menu_rup_1:
 
     try:
         opd = st.selectbox("Pilih Perangkat Daerah :", namaopd, key='rup_profil')
-        st.divider()
 
         dfRUPPP_PD_Profil = con.execute(f"SELECT * FROM dfRUPPP_umumkan WHERE nama_satker = '{opd}'").df()
         dfRUPPS_PD_Profil = con.execute(f"SELECT * FROM dfRUPPS_umumkan WHERE nama_satker = '{opd}'").df()
@@ -125,6 +124,8 @@ with menu_rup_1:
                 file_name=f"ProfilRUPPS_{opd}_{tahun}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
+
+        st.divider()
 
         st.subheader("STRUKTUR ANGGARAN")
             
