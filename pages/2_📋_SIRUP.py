@@ -205,7 +205,7 @@ with menu_rup_4:
         # Query dan tampilkan data dalam grid
         df_ps = con.execute("""
             SELECT nama_paket AS NAMA_PAKET, kd_rup AS ID_RUP, tipe_swakelola AS TIPE_SWAKELOLA, 
-                   tgl_pengumuman_paket AS TANGGAL_PENGUMUMAN, tgl_awal_pelaksanaan_kontrak AS TANGGAL_PELAKSANAAN
+                   tgl_pengumuman_paket AS TANGGAL_PENGUMUMAN, tgl_awal_pelaksanaan_kontrak AS TANGGAL_PELAKSANAAN,
                    pagu AS PAGU 
             FROM dfRUPPS_PD
         """).df()
