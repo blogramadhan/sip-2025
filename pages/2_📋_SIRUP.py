@@ -140,6 +140,34 @@ with menu_rup_1:
         colsapd13.metric(label="Belanja Pengadaan", value="{:,.2f}".format(belanja_total_pd))  
 
         st.divider() 
+
+        st.subheader("POSISI INPUT RUP")
+
+        jumlah_total_rup_pd = dfRUPPP_PD_Profil.shape[0] + dfRUPPS_PD_Profil.shape[0]
+        nilai_total_rup_pd = dfRUPPP_PD_Profil['pagu'].sum() + dfRUPPS_PD_Profil['pagu'].sum()
+        persen_capaian_rup_pd = nilai_total_rup_pd / belanja_pengadaan_pd
+
+        colirpd11, colirpd12, colirpd13 = st.columns(3)
+        colirpd11.subheader("Jumlah Total")
+        colirpd12.metric(label="Jumlah Total Paket RUP", value="{:,}".format(jumlah_total_rup_pd))
+        colirpd13.metric(label="Nilai Total Paket RUP", value="{:,.2f}".format(nilai_total_rup_pd))
+
+        colirpd21, colirpd22, colirpd23 = st.columns(3)
+        colirpd21.subheader("Paket Penyedia")
+        colirpd22.metric(label="Jumlah Total Paket Penyedia", value="{:,}".format(dfRUPPP_PD_Profil.shape[0]))
+        colirpd23.metric(label="Nilai Total Paket Penyedia", value="{:,.2f}".format(dfRUPPP_PD_Profil['pagu'].sum()))
+
+        colirpd31, colirpd32, colirpd33 = st.columns(3)
+        colirpd31.subheader("Paket Swakelola")
+        colirpd32.metric(label="Jumlah Total Paket Swakelola", value="{:,}".format(dfRUPPS_PD_Profil.shape[0]))
+        colirpd33.metric(label="Nilai Total Paket Swakelola", value="{:,.2f}".format(dfRUPPS_PD_Profil['pagu'].sum()))
+
+        colirpd41, colirpd42, colirpd43 = st.columns(3)
+        colirpd41.subheader("")
+        colirpd42.subheader("")
+        colirpd43.metric(label="Persentase Capaian RUP", value="{:.2%}".format(persen_capaian_rup_pd))
+
+        st.divider()
             
         
     except Exception as e:
