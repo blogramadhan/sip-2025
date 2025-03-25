@@ -368,7 +368,7 @@ with menu_rup_1:
                            fit_columns_on_grid_load=True,
                            autoSizeColumns=True,
                            width='100%',
-                           height=min(400, 35 * (len(dfRUPPP_PD_mp_hitung) + 1)))
+                           height=35 * (len(dfRUPPP_PD_mp_hitung) + 1))
 
                 with grafik_rup_mp_pd_tab_1_2:
 
@@ -410,7 +410,7 @@ with menu_rup_1:
                            fit_columns_on_grid_load=True,
                            autoSizeColumns=True,
                            width='100%',
-                           height=min(400, 35 * (len(dfRUPPP_PD_mp_nilai) + 1)))
+                           height=35 * (len(dfRUPPP_PD_mp_nilai) + 1))
             
                 with grafik_rup_mp_pd_tab_2_2:
 
@@ -455,7 +455,7 @@ with menu_rup_1:
                            fit_columns_on_grid_load=True,
                            autoSizeColumns=True,
                            width='100%',
-                           height=min(400, 35 * (len(dfRUPPP_PD_jp_hitung) + 1)))
+                           height=35 * (len(dfRUPPP_PD_jp_hitung) + 1))
 
                 with grafik_rup_jp_pd_tab_1_2:
 
@@ -497,7 +497,7 @@ with menu_rup_1:
                            fit_columns_on_grid_load=True,
                            autoSizeColumns=True,
                            width='100%',
-                           height=min(400, 35 * (len(dfRUPPP_PD_jp_nilai) + 1)))
+                           height=35 * (len(dfRUPPP_PD_jp_nilai) + 1))
 
                 with grafik_rup_jp_pd_tab_2_2:
 
