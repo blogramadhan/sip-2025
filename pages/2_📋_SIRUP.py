@@ -128,6 +128,18 @@ with menu_rup_1:
         st.divider()
 
         st.subheader("STRUKTUR ANGGARAN")
+
+        belanja_pengadaan_pd = dfRUPSA_PD_Profil['belanja_pengadaan'].sum()
+        belanja_operasional_pd = dfRUPSA_PD_Profil['belanja_operasi'].sum()
+        belanja_modal_pd = dfRUPSA_PD_Profil['belanja_modal'].sum()
+        belanja_total_pd = belanja_operasional_pd + belanja_modal_pd
+
+        colsapd11, colsapd12, colsapd13 = st.columns(3)
+        colsapd11.metric(label="Belanja Operasional", value="{:,.2f}".format(belanja_operasional_pd))
+        colsapd12.metric(label="Belanja Modal", value="{:,.2f}".format(belanja_modal_pd))
+        colsapd13.metric(label="Belanja Pengadaan", value="{:,.2f}".format(belanja_total_pd))  
+
+        st.divider() 
             
         
     except Exception as e:
