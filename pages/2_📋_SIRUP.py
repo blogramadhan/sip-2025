@@ -133,9 +133,10 @@ with menu_rup_3:
 
     try:
         rup_pp = st.selectbox("Pilih Perangkat Daerah :", namaopd)
+        
         st.divider()
-        # dfRUPPP_PD = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE nama_satker = @rup_pp").df()
-        # st.subheader(rup_pp)
+        
+        st.subheader(rup_pp)
 
         # unduhRUPPP_PD = download_excel(dfRUPPP_PD)
         # st.download_button(
