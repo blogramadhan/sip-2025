@@ -192,7 +192,7 @@ with menu_rup_1:
                     #     hide_index=True
                     # )
 
-                    st.AgGrid(dfRUPPP_PD_ukm_hitung)
+                    AgGrid(dfRUPPP_PD_ukm_hitung)
 
                 with grafik_rup_ukm_pd_tab_1_2:
 
@@ -215,7 +215,7 @@ with menu_rup_1:
                     #     hide_index=True
                     # )
 
-                    st.AgGrid(dfRUPPP_PD_ukm_nilai)
+                    AgGrid(dfRUPPP_PD_ukm_nilai)
 
                 with grafik_rup_ukm_pd_tab_2_2:
 
