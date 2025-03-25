@@ -182,15 +182,17 @@ with menu_rup_1:
 
                 with grafik_rup_ukm_pd_tab_1_1:
 
-                    st.dataframe(
-                        dfRUPPP_PD_ukm_hitung,
-                        column_config={
-                            "STATUS_UKM": "STATUS UKM",
-                            "JUMLAH_PAKET": "JUMLAH PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
+                    # st.dataframe(
+                    #     dfRUPPP_PD_ukm_hitung,
+                    #     column_config={
+                    #         "STATUS_UKM": "STATUS UKM",
+                    #         "JUMLAH_PAKET": "JUMLAH PAKET"
+                    #     },
+                    #     use_container_width=True,
+                    #     hide_index=True
+                    # )
+
+                    st.AgGrid(dfRUPPP_PD_ukm_hitung)
 
                 with grafik_rup_ukm_pd_tab_1_2:
 
@@ -203,15 +205,17 @@ with menu_rup_1:
 
                 with grafik_rup_ukm_pd_tab_2_1:
 
-                    st.dataframe(
-                        dfRUPPP_PD_ukm_nilai,
-                        column_config={
-                            "STATUS_UKM": "STATUS UKM",
-                            "NILAI_PAKET": "NILAI PAKET (Rp.)"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
+                    # st.dataframe(
+                    #     dfRUPPP_PD_ukm_nilai,
+                    #     column_config={
+                    #         "STATUS_UKM": "STATUS UKM",
+                    #         "NILAI_PAKET": "NILAI PAKET (Rp.)"
+                    #     },
+                    #     use_container_width=True,
+                    #     hide_index=True
+                    # )
+
+                    st.AgGrid(dfRUPPP_PD_ukm_nilai)
 
                 with grafik_rup_ukm_pd_tab_2_2:
 
