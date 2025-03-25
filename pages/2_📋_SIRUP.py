@@ -411,3 +411,5 @@ with menu_rup_6:
 
     except Exception as e:
         st.error(f"Error: {e}")
+
+style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
