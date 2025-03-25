@@ -412,7 +412,8 @@ with menu_rup_1:
                         names='METODE_PENGADAAN', 
                         title='Grafik Metode Pengadaan - Nilai Paket',
                         hole=.4,  # Memperbesar hole untuk tampilan donat yang lebih menarik
-                        color_discrete_sequence=px.colors.qualitative.Vivid  # Menggunakan palet warna yang lebih menarik
+                        color_discrete_sequence=px.colors.qualitative.Vivid,  # Menggunakan palet warna yang lebih menarik
+                        labels={'METODE_PENGADAAN': 'Metode Pengadaan', 'NILAI_PAKET': 'Nilai Paket (Rp.)'}  # Label yang lebih deskriptif
                     )
                     
                     # Memperbaiki tampilan grafik
@@ -420,12 +421,6 @@ with menu_rup_1:
                         textposition='inside', 
                         textinfo='percent+label',
                         marker=dict(line=dict(color='#FFFFFF', width=2))
-                    )
-                    
-                    # Memperbaiki layout
-                    figmpn.update_layout(
-                        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
-                        margin=dict(t=50, b=20, l=20, r=20)
                     )
                     
                     # Menampilkan grafik dengan ukuran otomatis mengikuti lebar kolom
@@ -464,6 +459,7 @@ with menu_rup_1:
                         title='Grafik Jenis Pengadaan - Jumlah Paket',
                         hole=.4,  # Memperbesar hole untuk tampilan donat yang lebih menarik
                         color_discrete_sequence=px.colors.qualitative.Bold,  # Menggunakan palet warna yang lebih menarik
+                        labels={'JENIS_PENGADAAN': 'Jenis Pengadaan', 'JUMLAH_PAKET': 'Jumlah Paket'}  # Label yang lebih deskriptif
                     )
                     
                     # Memperbaiki tampilan grafik
@@ -471,12 +467,6 @@ with menu_rup_1:
                         textposition='inside', 
                         textinfo='percent+label',
                         marker=dict(line=dict(color='#FFFFFF', width=2))
-                    )
-                    
-                    # Memperbaiki layout
-                    figjph.update_layout(
-                        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
-                        margin=dict(t=50, b=20, l=20, r=20)
                     )
                     
                     # Menampilkan grafik dengan ukuran otomatis mengikuti lebar kolom
@@ -508,6 +498,7 @@ with menu_rup_1:
                         title='Grafik Jenis Pengadaan - Nilai Paket',
                         hole=.4,  # Memperbesar hole untuk tampilan donat yang lebih menarik
                         color_discrete_sequence=px.colors.qualitative.Bold,  # Menggunakan palet warna yang lebih menarik
+                        labels={'JENIS_PENGADAAN': 'Jenis Pengadaan', 'NILAI_PAKET': 'Nilai Paket (Rp)'}  # Label yang lebih deskriptif
                     )
                     
                     # Memperbaiki tampilan grafik
@@ -515,12 +506,6 @@ with menu_rup_1:
                         textposition='inside', 
                         textinfo='percent+label',
                         marker=dict(line=dict(color='#FFFFFF', width=2))
-                    )
-                    
-                    # Memperbaiki layout
-                    figjpn.update_layout(
-                        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
-                        margin=dict(t=50, b=20, l=20, r=20)
                     )
                     
                     # Menampilkan grafik dengan ukuran otomatis mengikuti lebar kolom
