@@ -88,10 +88,46 @@ with menu_rup_1:
     st.header(f"{pilih} TAHUN {tahun}")
 
     try:
-        rup_profil = st.selectbox("Pilih Perangkat Daerah :", namaopd, key='rup_profil')
+        opd = st.selectbox("Pilih Perangkat Daerah :", namaopd, key='rup_profil')
         st.divider()
 
-       
+        dfRUPPP_PD_Profil = con.execute(f"SELECT * FROM df_RUPPP_umumkan WHERE nama_satker = '{opd}'").df()
+        dfRUPPS_PD_Profil = con.execute(f"SELECT * FROM df_RUPPS_umumkan WHERE nama_satker = '{opd}'").df()
+        dfRUPSA_PD_Profil = con.execute(f"SELECT * FROM df_RUPSA WHERE nama_satker = '{opd}'").df()
+
+        dfRUPPP_PD_mp_hitung = con.execute("SELECT metode_pengadaan AS METODE_PENGADAAN, COUNT(metode_pengadaan) AS JUMLAH_PAKET FROM dfRUPPP_PD_Profil WHERE metode_pengadaan IS NOT NULL GROUP BY metode_pengadaan").df()
+        dfRUPPP_PD_mp_nilai = con.execute("SELECT metode_pengadaan AS METODE_PENGADAAN, SUM(pagu) AS NILAI_PAKET FROM dfRUPPP_PD_Profil WHERE metode_pengadaan IS NOT NULL GROUP BY metode_pengadaan").df()
+        dfRUPPP_PD_jp_hitung = con.execute("SELECT jenis_pengadaan AS JENIS_PENGADAAN, COUNT(jenis_pengadaan) AS JUMLAH_PAKET FROM dfRUPPP_PD_Profil WHERE jenis_pengadaan IS NOT NULL GROUP BY jenis_pengadaan").df()
+        dfRUPPP_PD_jp_nilai = con.execute("SELECT jenis_pengadaan AS JENIS_PENGADAAN, SUM(pagu) AS NILAI_PAKET FROM dfRUPPP_PD_Profil WHERE jenis_pengadaan IS NOT NULL GROUP BY Jenis_pengadaan").df()
+        dfRUPPP_PD_ukm_hitung = con.execute("SELECT status_ukm AS STATUS_UKM, COUNT(status_ukm) AS JUMLAH_PAKET FROM dfRUPPP_PD_Profil WHERE status_ukm IS NOT NULL GROUP BY status_ukm").df()
+        dfRUPPP_PD_ukm_nilai = con.execute("SELECT status_ukm AS STATUS_UKM, SUM(pagu) AS NILAI_PAKET FROM dfRUPPP_PD_Profil WHERE status_ukm IS NOT NULL GROUP BY status_ukm").df()
+        dfRUPPP_PD_pdn_hitung = con.execute("SELECT status_pdn AS STATUS_PDN, COUNT(status_pdn) AS JUMLAH_PAKET FROM dfRUPPP_PD_Profil WHERE status_pdn IS NOT NULL GROUP BY status_pdn").df()
+        dfRUPPP_PD_pdn_nilai = con.execute("SELECT status_pdn AS STATUS_PDN, SUM(pagu) AS NILAI_PAKET FROM dfRUPPP_PD_Profil WHERE status_pdn IS NOT NULL GROUP BY status_pdn").df()
+
+        ### Unduh Dataframe Analisa Profil RUP Daerah Perangkat Daerah
+        unduh_RUPPP_PD_Profil = download_excel(dfRUPPP_PD_Profil)
+        unduh_RUPPS_PD_Profil = download_excel(dfRUPPS_PD_Profil)       
+
+        ProfilPD1, ProfilPD2, ProfilPD3 = st.columns((6,2,2))
+        with ProfilPD1:
+            st.subheader(f"{opd}")
+        with ProfilPD2:
+            st.download_button(
+                label=" Unduh RUP Paket Penyedia",
+                data=unduh_RUPPP_PD_Profil,
+                file_name=f"ProfilRUPPP_{opd}_{tahun}.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+        with ProfilPD3:
+            st.download_button(
+                label=" Unduh RUP Paket Swakelola",
+                data=unduh_RUPPS_PD_Profil,
+                file_name=f"ProfilRUPPS_{opd}_{tahun}.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+
+        st.subheader("STRUKTUR ANGGARAN")
+            
         
     except Exception as e:
         st.error(f"Error: {e}")
