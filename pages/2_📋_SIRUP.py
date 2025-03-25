@@ -133,7 +133,7 @@ with menu_rup_3:
 
     try:
         # Pilih Perangkat Daerah
-        rup_pp = st.selectbox("Pilih Perangkat Daerah :", namaopd)
+        rup_pp = st.selectbox("Pilih Perangkat Daerah :", namaopd, key='rup_pp')
         st.divider()
         st.subheader(rup_pp)
         
@@ -186,7 +186,7 @@ with menu_rup_4:
 
     try:
         # Pilih Perangkat Daerah
-        rup_ps = st.selectbox("Pilih Perangkat Daerah :", namaopd)
+        rup_ps = st.selectbox("Pilih Perangkat Daerah :", namaopd, key='rup_ps')
         st.divider()
         st.subheader(rup_ps)
         
