@@ -278,7 +278,25 @@ with menu_rup_1:
 
                 with grafik_rup_pdn_pd_tab_1_2:
 
-                    figpdnh = px.pie(dfRUPPP_PD_pdn_hitung, values='JUMLAH_PAKET', names='STATUS_PDN', title='Grafik Status PDN - Jumlah Paket', hole=.3)
+                    # Membuat grafik pie yang lebih menarik dengan warna yang lebih cerah
+                    figpdnh = px.pie(
+                        dfRUPPP_PD_pdn_hitung, 
+                        values='JUMLAH_PAKET', 
+                        names='STATUS_PDN', 
+                        title='Grafik Status PDN - Jumlah Paket',
+                        hole=.4,  # Memperbesar lubang di tengah untuk tampilan donat yang lebih menarik
+                        color_discrete_sequence=px.colors.qualitative.Bold,  # Menggunakan palet warna yang lebih cerah
+                        labels={'STATUS_PDN': 'Status PDN', 'JUMLAH_PAKET': 'Jumlah Paket'}  # Label yang lebih deskriptif
+                    )
+                    
+                    # Menyesuaikan tampilan grafik
+                    figpdnh.update_traces(
+                        textposition='inside', 
+                        textinfo='percent+label',
+                        marker=dict(line=dict(color='#FFFFFF', width=2))  # Menambahkan garis putih di antara segmen
+                    )
+                    
+                    # Menampilkan grafik dengan ukuran otomatis mengikuti lebar kolom
                     st.plotly_chart(figpdnh, theme="streamlit", use_container_width=True)
 
             with grafik_rup_pdn_pd_tab_2:
@@ -302,8 +320,26 @@ with menu_rup_1:
 
                 with grafik_rup_pdn_pd_tab_2_2:
 
-                    figpdnn = px.pie(dfRUPPP_PD_pdn_nilai, values='NILAI_PAKET', names='STATUS_PDN', title='Grafik Status PDN - Nilai Paket', hole=.3)
-                    st.plotly_chart(figpdnn, theme='streamlit', use_container_width=True)
+                    # Membuat grafik pie yang lebih menarik dengan warna yang lebih cerah
+                    figpdnn = px.pie(
+                        dfRUPPP_PD_pdn_nilai, 
+                        values='NILAI_PAKET', 
+                        names='STATUS_PDN', 
+                        title='Grafik Status PDN - Nilai Paket',
+                        hole=.4,  # Memperbesar lubang di tengah untuk tampilan donat yang lebih menarik
+                        color_discrete_sequence=px.colors.qualitative.Bold,  # Menggunakan palet warna yang lebih cerah
+                        labels={'STATUS_PDN': 'Status PDN', 'NILAI_PAKET': 'Nilai Paket'}  # Label yang lebih deskriptif
+                    )
+                    
+                    # Menyesuaikan tampilan grafik
+                    figpdnn.update_traces(
+                        textposition='inside', 
+                        textinfo='percent+label',
+                        marker=dict(line=dict(color='#FFFFFF', width=2))  # Menambahkan garis putih di antara segmen
+                    )
+                    
+                    # Menampilkan grafik dengan ukuran otomatis mengikuti lebar kolom
+                    st.plotly_chart(figpdnn, theme="streamlit", use_container_width=True)
             
         
     except Exception as e:
