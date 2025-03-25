@@ -138,13 +138,15 @@ with menu_rup_3:
         
         st.subheader(rup_pp)
 
-        # unduhRUPPP_PD = download_excel(dfRUPPP_PD)
-        # st.download_button(
-        #     label="Unduh RUP PAKET PENYEDIA",
-        #     data=unduhRUPPP_PD,
-        #     file_name=f"RUP_PAKET_PENYEDIA_{rup_pp}_{tahun}.xlsx",
-        #     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        # )
+        dfRUPPP_PD = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE nama_satker = @rup_pp").df()
+
+        unduhRUPPP_PD = download_excel(dfRUPPP_PD)
+        st.download_button(
+            label="Unduh RUP PAKET PENYEDIA",
+            data=unduhRUPPP_PD,
+            file_name=f"RUP_PAKET_PENYEDIA_{rup_pp}_{tahun}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
 
         # querisPP = """
         #     SELECT nama_paket AS NAMA_PAKET, kd_rup AS ID_RUP, metode_pengadaan AS METODE_PEMILIHAN, jenis_pengadaan AS JENIS_PENGADAAN,  
