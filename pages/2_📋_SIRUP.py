@@ -341,6 +341,103 @@ with menu_rup_1:
                     # Menampilkan grafik dengan ukuran otomatis mengikuti lebar kolom
                     st.plotly_chart(figpdnn, theme="streamlit", use_container_width=True)
             
+        with st.container(border=True):
+
+            st.subheader("BERDASARKAN METODE PENGADAAN")
+
+            ### Tabel dan Grafik RUP Berdasarkan Metode Pengadaan Perangkat Daerah
+            grafik_rup_mp_pd_tab_1, grafik_rup_mp_pd_tab_2 = st.tabs(["| Berdasarkan Jumlah Paket - MP |", "| Berdasarkan Nilai Paket - MP |"])
+
+            with grafik_rup_mp_pd_tab_1:
+
+                grafik_rup_mp_pd_tab_1_1, grafik_rup_mp_pd_tab_1_2 = st.columns((3,7))
+
+                with grafik_rup_mp_pd_tab_1_1:
+
+                    st.dataframe(
+                        dfRUPPP_PD_mp_hitung,
+                        column_config={
+                            "METODE_PENGADAAN": "METODE PENGADAAN",
+                            "JUMLAH_PAKET": "JUMLAH PAKET"
+                        },
+                        use_container_width=True,
+                        hide_index=True
+                    )
+
+                with grafik_rup_mp_pd_tab_1_2:
+
+                    figmph = px.pie(dfRUPPP_PD_mp_hitung, values='JUMLAH_PAKET', names='METODE_PENGADAAN', title='Grafik Metode Pengadaan - Jumlah Paket', hole=.3)
+                    st.plotly_chart(figmph, theme="streamlit", use_container_width=True)
+
+            with grafik_rup_mp_pd_tab_2:
+
+                grafik_rup_mp_pd_tab_2_1, grafik_rup_mp_pd_tab_2_2 = st.columns((3,7))
+
+                with grafik_rup_mp_pd_tab_2_1:
+
+                    st.dataframe(
+                        dfRUPPP_PD_mp_nilai, 
+                        column_config={
+                            "METODE_PENGADAAN": "METODE PENGADAAN",
+                            "NILAI_PAKET": "NILAI PAKET (Rp.)"
+                        },
+                        use_container_width=True,
+                        hide_index=True
+                    )
+            
+                with grafik_rup_mp_pd_tab_2_2:
+
+                    figmpn = px.pie(dfRUPPP_PD_mp_nilai, values='NILAI_PAKET', names='METODE_PENGADAAN', title='Grafik Metode Pengadaan - Nilai Paket', hole=.3)
+                    st.plotly_chart(figmpn, theme='streamlit', use_container_width=True)
+
+        with st.container(border=True):
+        
+            st.subheader("BERDASARKAN JENIS PENGADAAN")
+
+            ### Tabel dan Grafik RUP Berdasarkan jenis pengadaan Perangkat Daerah
+            grafik_rup_jp_pd_tab_1, grafik_rup_jp_pd_tab_2 = st.tabs(["| Berdasarkan Jumlah Paket - JP |", "| Berdasarkan Nilai Paket - JP |"])
+
+            with grafik_rup_jp_pd_tab_1:
+
+                grafik_rup_jp_pd_tab_1_1, grafik_rup_jp_pd_tab_1_2 = st.columns((3,7))
+
+                with grafik_rup_jp_pd_tab_1_1:
+
+                    st.dataframe(
+                        dfRUPPP_PD_jp_hitung,
+                        column_config={
+                            "JENIS_PENGADAAN": "JENIS PENGADAAN",
+                            "JUMLAH_PAKET": "JUMLAH PAKET"
+                        },
+                        use_container_width=True,
+                        hide_index=True    
+                    )
+
+                with grafik_rup_jp_pd_tab_1_2:
+
+                    figjph = px.pie(dfRUPPP_PD_jp_hitung, values='JUMLAH_PAKET', names='JENIS_PENGADAAN', title='Grafik Jenis Pengadaan - Jumlah Paket', hole=.3)
+                    st.plotly_chart(figjph, theme="streamlit", use_container_width=True)
+
+            with grafik_rup_jp_pd_tab_2:
+
+                grafik_rup_jp_pd_tab_2_1, grafik_rup_jp_pd_tab_2_2 = st.columns((3,7))
+
+                with grafik_rup_jp_pd_tab_2_1:
+
+                    st.dataframe(
+                        dfRUPPP_PD_jp_nilai, 
+                        column_config={
+                            "JENIS_PENGADAAN": "JENIS PENGADAAN",
+                            "NILAI_PAKET": "NILAI PAKET (Rp.)"
+                        },
+                        use_container_width=True,
+                        hide_index=True   
+                    )
+
+                with grafik_rup_jp_pd_tab_2_2:
+
+                    figjpn = px.pie(dfRUPPP_PD_jp_nilai, values='NILAI_PAKET', names='JENIS_PENGADAAN', title='Grafik Jenis Pengadaan - Nilai Paket', hole=.3)
+                    st.plotly_chart(figjpn, theme='streamlit', use_container_width=True)    
         
     except Exception as e:
         st.error(f"Error: {e}")
