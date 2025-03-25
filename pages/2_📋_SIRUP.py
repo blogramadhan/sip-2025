@@ -91,9 +91,9 @@ with menu_rup_1:
         opd = st.selectbox("Pilih Perangkat Daerah :", namaopd, key='rup_profil')
         st.divider()
 
-        dfRUPPP_PD_Profil = con.execute(f"SELECT * FROM df_RUPPP_umumkan WHERE nama_satker = '{opd}'").df()
-        dfRUPPS_PD_Profil = con.execute(f"SELECT * FROM df_RUPPS_umumkan WHERE nama_satker = '{opd}'").df()
-        dfRUPSA_PD_Profil = con.execute(f"SELECT * FROM df_RUPSA WHERE nama_satker = '{opd}'").df()
+        dfRUPPP_PD_Profil = con.execute(f"SELECT * FROM dfRUPPP_umumkan WHERE nama_satker = '{opd}'").df()
+        dfRUPPS_PD_Profil = con.execute(f"SELECT * FROM dfRUPPS_umumkan WHERE nama_satker = '{opd}'").df()
+        dfRUPSA_PD_Profil = con.execute(f"SELECT * FROM dfRUPSA WHERE nama_satker = '{opd}'").df()
 
         dfRUPPP_PD_mp_hitung = con.execute("SELECT metode_pengadaan AS METODE_PENGADAAN, COUNT(metode_pengadaan) AS JUMLAH_PAKET FROM dfRUPPP_PD_Profil WHERE metode_pengadaan IS NOT NULL GROUP BY metode_pengadaan").df()
         dfRUPPP_PD_mp_nilai = con.execute("SELECT metode_pengadaan AS METODE_PENGADAAN, SUM(pagu) AS NILAI_PAKET FROM dfRUPPP_PD_Profil WHERE metode_pengadaan IS NOT NULL GROUP BY metode_pengadaan").df()
