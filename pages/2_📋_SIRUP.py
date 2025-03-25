@@ -197,6 +197,8 @@ with menu_rup_1:
                     AgGrid(dfRUPPP_PD_ukm_hitung, 
                            gridOptions=gd_ukm_hitung.build(),
                            fit_columns_on_grid_load=True,
+                           autoSizeColumns=True,
+                           width='100%',
                            height=min(400, 35 * (len(dfRUPPP_PD_ukm_hitung) + 1)))
 
                 with grafik_rup_ukm_pd_tab_1_2:
