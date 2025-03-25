@@ -182,14 +182,18 @@ with menu_rup_1:
 
                 with grafik_rup_ukm_pd_tab_1_1:
 
-                    gd_ukm_hitung = GridOptionsBuilder.from_dataframe(dfRUPPP_PD_ukm_hitung)
+                    # Membuat dataframe dengan judul kolom menggunakan spasi
+                    df_ukm_hitung_display = dfRUPPP_PD_ukm_hitung.copy()
+                    df_ukm_hitung_display.columns = [col.replace('_', ' ') for col in dfRUPPP_PD_ukm_hitung.columns]
+                    
+                    gd_ukm_hitung = GridOptionsBuilder.from_dataframe(df_ukm_hitung_display)
                     gd_ukm_hitung.configure_default_column(autoSizeColumns=True)
-                    AgGrid(dfRUPPP_PD_ukm_hitung, 
+                    AgGrid(df_ukm_hitung_display, 
                            gridOptions=gd_ukm_hitung.build(),
                            fit_columns_on_grid_load=True,
                            autoSizeColumns=True,
                            width='100%',
-                           height=min(400, 35 * (len(dfRUPPP_PD_ukm_hitung) + 1)))
+                           height=min(400, 35 * (len(df_ukm_hitung_display) + 1)))
 
                 with grafik_rup_ukm_pd_tab_1_2:
 
