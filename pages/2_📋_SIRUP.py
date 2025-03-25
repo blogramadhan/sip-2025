@@ -168,6 +168,102 @@ with menu_rup_1:
         colirpd43.metric(label="Persentase Capaian RUP", value="{:.2%}".format(persen_capaian_rup_pd))
 
         st.divider()
+
+        with st.container(border=True):
+
+            st.subheader("STATUS UKM DAN PDN")
+
+            ### Tabel dan Grafik RUP Status UKM Perangkat Daerah
+            grafik_rup_ukm_pd_tab_1, grafik_rup_ukm_pd_tab_2 = st.tabs(["| Berdasarkan Jumlah Paket - UKM |", "| Berdasarkan Nilai Paket - UKM |"])
+
+            with grafik_rup_ukm_pd_tab_1:
+
+                grafik_rup_ukm_pd_tab_1_1, grafik_rup_ukm_pd_tab_1_2 = st.columns((3,7))
+
+                with grafik_rup_ukm_pd_tab_1_1:
+
+                    st.dataframe(
+                        dfRUPPP_PD_ukm_hitung,
+                        column_config={
+                            "STATUS_UKM": "STATUS UKM",
+                            "JUMLAH_PAKET": "JUMLAH PAKET"
+                        },
+                        use_container_width=True,
+                        hide_index=True
+                    )
+
+                with grafik_rup_ukm_pd_tab_1_2:
+
+                    figukmh = px.pie(dfRUPPP_PD_ukm_hitung, values='JUMLAH_PAKET', names='STATUS_UKM', title='Grafik Status UKM - Jumlah Paket', hole=.3)
+                    st.plotly_chart(figukmh, theme="streamlit", use_container_width=True)
+
+            with grafik_rup_ukm_pd_tab_2:
+
+                grafik_rup_ukm_pd_tab_2_1, grafik_rup_ukm_pd_tab_2_2 = st.columns((3,7))
+
+                with grafik_rup_ukm_pd_tab_2_1:
+
+                    st.dataframe(
+                        dfRUPPP_PD_ukm_nilai,
+                        column_config={
+                            "STATUS_UKM": "STATUS UKM",
+                            "NILAI_PAKET": "NILAI PAKET (Rp.)"
+                        },
+                        use_container_width=True,
+                        hide_index=True
+                    )
+
+                with grafik_rup_ukm_pd_tab_2_2:
+
+                    figukmn = px.pie(dfRUPPP_PD_ukm_nilai, values='NILAI_PAKET', names='STATUS_UKM', title='Grafik Status UKM - Nilai Paket', hole=.3)
+                    st.plotly_chart(figukmn, theme='streamlit', use_container_width=True)
+
+            st.divider()
+
+            ### Tabel dan Grafik RUP Status PDN Perangkat Daerah
+            grafik_rup_pdn_pd_tab_1, grafik_rup_pdn_pd_tab_2 = st.tabs(["| Berdasarkan Jumlah Paket - PDN |", "| Berdasarkan Nilai Paket - PDN |"])
+
+            with grafik_rup_pdn_pd_tab_1:
+
+                grafik_rup_pdn_pd_tab_1_1, grafik_rup_pdn_pd_tab_1_2 = st.columns((3,7))
+
+                with grafik_rup_pdn_pd_tab_1_1:
+
+                    st.dataframe(
+                        dfRUPPP_PD_pdn_hitung,
+                        column_config={
+                            "STATUS_PDN": "STATUS PDN",
+                            "JUMLAH_PAKET": "JUMLAH PAKET"
+                        },
+                        use_container_width=True,
+                        hide_index=True
+                    )
+
+                with grafik_rup_pdn_pd_tab_1_2:
+
+                    figpdnh = px.pie(dfRUPPP_PD_pdn_hitung, values='JUMLAH_PAKET', names='STATUS_PDN', title='Grafik Status PDN - Jumlah Paket', hole=.3)
+                    st.plotly_chart(figpdnh, theme="streamlit", use_container_width=True)
+
+            with grafik_rup_pdn_pd_tab_2:
+
+                grafik_rup_pdn_pd_tab_2_1, grafik_rup_pdn_pd_tab_2_2 = st.columns((3,7))
+
+                with grafik_rup_pdn_pd_tab_2_1:
+
+                    st.dataframe(
+                        dfRUPPP_PD_pdn_nilai,
+                        column_config={
+                            "STATUS_PDN": "STATUS PDN",
+                            "NILAI_PAKET": "NILAI PAKET (Rp.)"
+                        },
+                        use_container_width=True,
+                        hide_index=True
+                    )
+
+                with grafik_rup_pdn_pd_tab_2_2:
+
+                    figpdnn = px.pie(dfRUPPP_PD_pdn_nilai, values='NILAI_PAKET', names='STATUS_PDN', title='Grafik Status PDN - Nilai Paket', hole=.3)
+                    st.plotly_chart(figpdnn, theme='streamlit', use_container_width=True)
             
         
     except Exception as e:
