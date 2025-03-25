@@ -192,7 +192,11 @@ with menu_rup_1:
                     #     hide_index=True
                     # )
 
-                    AgGrid(dfRUPPP_PD_ukm_hitung)
+                    gd_ukm_hitung = GridOptionsBuilder.from_dataframe(dfRUPPP_PD_ukm_hitung)
+                    gd_ukm_hitung.configure_default_column(autoSizeColumns=True)
+                    AgGrid(dfRUPPP_PD_ukm_hitung, 
+                           gridOptions=gd_ukm_hitung.build(),
+                           fit_columns_on_grid_load=True)
 
                 with grafik_rup_ukm_pd_tab_1_2:
 
@@ -215,7 +219,14 @@ with menu_rup_1:
                     #     hide_index=True
                     # )
 
-                    AgGrid(dfRUPPP_PD_ukm_nilai)
+                    gd_ukm_nilai = GridOptionsBuilder.from_dataframe(dfRUPPP_PD_ukm_nilai)
+                    gd_ukm_nilai.configure_default_column(autoSizeColumns=True)
+                    gd_ukm_nilai.configure_column("NILAI_PAKET", 
+                                              type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
+                                              valueGetter="data.NILAI_PAKET.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+                    AgGrid(dfRUPPP_PD_ukm_nilai, 
+                           gridOptions=gd_ukm_nilai.build(),
+                           fit_columns_on_grid_load=True)
 
                 with grafik_rup_ukm_pd_tab_2_2:
 
