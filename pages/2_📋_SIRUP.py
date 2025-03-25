@@ -88,11 +88,18 @@ with menu_rup_1:
     st.header(f"{pilih} TAHUN {tahun}")
 
     try:
-        opd = st.selectbox("Pilih Perangkat Daerah :", namaopd, key='rup_profil')
+        # Tambahkan opsi "Semua Perangkat Daerah" di awal daftar
+        opd_options = ["Semua Perangkat Daerah"] + list(namaopd)
+        opd = st.selectbox("Pilih Perangkat Daerah :", opd_options, key='rup_profil')
 
-        dfRUPPP_PD_Profil = con.execute(f"SELECT * FROM dfRUPPP_umumkan WHERE nama_satker = '{opd}'").df()
-        dfRUPPS_PD_Profil = con.execute(f"SELECT * FROM dfRUPPS_umumkan WHERE nama_satker = '{opd}'").df()
-        dfRUPSA_PD_Profil = con.execute(f"SELECT * FROM dfRUPSA WHERE nama_satker = '{opd}'").df()
+        if opd == "Semua Perangkat Daerah":
+            dfRUPPP_PD_Profil = dfRUPPP_umumkan.copy()
+            dfRUPPS_PD_Profil = dfRUPPS_umumkan.copy()
+            dfRUPSA_PD_Profil = dfRUPSA.copy()
+        else:
+            dfRUPPP_PD_Profil = con.execute(f"SELECT * FROM dfRUPPP_umumkan WHERE nama_satker = '{opd}'").df()
+            dfRUPPS_PD_Profil = con.execute(f"SELECT * FROM dfRUPPS_umumkan WHERE nama_satker = '{opd}'").df()
+            dfRUPSA_PD_Profil = con.execute(f"SELECT * FROM dfRUPSA WHERE nama_satker = '{opd}'").df()
 
         dfRUPPP_PD_mp_hitung = con.execute("SELECT metode_pengadaan AS METODE_PENGADAAN, COUNT(metode_pengadaan) AS JUMLAH_PAKET FROM dfRUPPP_PD_Profil WHERE metode_pengadaan IS NOT NULL GROUP BY metode_pengadaan").df()
         dfRUPPP_PD_mp_nilai = con.execute("SELECT metode_pengadaan AS METODE_PENGADAAN, SUM(pagu) AS NILAI_PAKET FROM dfRUPPP_PD_Profil WHERE metode_pengadaan IS NOT NULL GROUP BY metode_pengadaan").df()
