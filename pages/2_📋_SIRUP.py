@@ -113,14 +113,14 @@ with menu_rup_1:
             st.subheader(f"{opd}")
         with ProfilPD2:
             st.download_button(
-                label=" Unduh RUP Paket Penyedia",
+                label="📥 Unduh RUP Paket Penyedia",
                 data=unduh_RUPPP_PD_Profil,
                 file_name=f"ProfilRUPPP_{opd}_{tahun}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
         with ProfilPD3:
             st.download_button(
-                label=" Unduh RUP Paket Swakelola",
+                label="📥 Unduh RUP Paket Swakelola",
                 data=unduh_RUPPS_PD_Profil,
                 file_name=f"ProfilRUPPS_{opd}_{tahun}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
