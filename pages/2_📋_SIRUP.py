@@ -366,7 +366,25 @@ with menu_rup_1:
 
                 with grafik_rup_mp_pd_tab_1_2:
 
-                    figmph = px.pie(dfRUPPP_PD_mp_hitung, values='JUMLAH_PAKET', names='METODE_PENGADAAN', title='Grafik Metode Pengadaan - Jumlah Paket', hole=.3)
+                    # Membuat grafik pie yang lebih menarik dengan warna yang lebih cerah
+                    figmph = px.pie(
+                        dfRUPPP_PD_mp_hitung, 
+                        values='JUMLAH_PAKET', 
+                        names='METODE_PENGADAAN', 
+                        title='Grafik Metode Pengadaan - Jumlah Paket',
+                        hole=.4,  # Memperbesar lubang di tengah untuk tampilan donat yang lebih menarik
+                        color_discrete_sequence=px.colors.qualitative.Bold,  # Menggunakan palet warna yang lebih cerah
+                        labels={'METODE_PENGADAAN': 'Metode Pengadaan', 'JUMLAH_PAKET': 'Jumlah Paket'}  # Label yang lebih deskriptif
+                    )
+                    
+                    # Menyesuaikan tampilan grafik
+                    figmph.update_traces(
+                        textposition='inside', 
+                        textinfo='percent+label',
+                        marker=dict(line=dict(color='#FFFFFF', width=2))  # Menambahkan garis putih di antara segmen
+                    )
+                    
+                    # Menampilkan grafik dengan ukuran otomatis mengikuti lebar kolom
                     st.plotly_chart(figmph, theme="streamlit", use_container_width=True)
 
             with grafik_rup_mp_pd_tab_2:
@@ -387,7 +405,30 @@ with menu_rup_1:
             
                 with grafik_rup_mp_pd_tab_2_2:
 
-                    figmpn = px.pie(dfRUPPP_PD_mp_nilai, values='NILAI_PAKET', names='METODE_PENGADAAN', title='Grafik Metode Pengadaan - Nilai Paket', hole=.3)
+                    # Membuat grafik pie yang lebih menarik dengan warna dan layout yang lebih baik
+                    figmpn = px.pie(
+                        dfRUPPP_PD_mp_nilai, 
+                        values='NILAI_PAKET', 
+                        names='METODE_PENGADAAN', 
+                        title='Grafik Metode Pengadaan - Nilai Paket',
+                        hole=.4,  # Memperbesar hole untuk tampilan donat yang lebih menarik
+                        color_discrete_sequence=px.colors.qualitative.Vivid  # Menggunakan palet warna yang lebih menarik
+                    )
+                    
+                    # Memperbaiki tampilan grafik
+                    figmpn.update_traces(
+                        textposition='inside', 
+                        textinfo='percent+label',
+                        marker=dict(line=dict(color='#FFFFFF', width=2))
+                    )
+                    
+                    # Memperbaiki layout
+                    figmpn.update_layout(
+                        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
+                        margin=dict(t=50, b=20, l=20, r=20)
+                    )
+                    
+                    # Menampilkan grafik dengan ukuran otomatis mengikuti lebar kolom
                     st.plotly_chart(figmpn, theme='streamlit', use_container_width=True)
 
         with st.container(border=True):
@@ -415,7 +456,30 @@ with menu_rup_1:
 
                 with grafik_rup_jp_pd_tab_1_2:
 
-                    figjph = px.pie(dfRUPPP_PD_jp_hitung, values='JUMLAH_PAKET', names='JENIS_PENGADAAN', title='Grafik Jenis Pengadaan - Jumlah Paket', hole=.3)
+                    # Membuat grafik pie yang lebih menarik dengan warna dan layout yang lebih baik
+                    figjph = px.pie(
+                        dfRUPPP_PD_jp_hitung, 
+                        values='JUMLAH_PAKET', 
+                        names='JENIS_PENGADAAN', 
+                        title='Grafik Jenis Pengadaan - Jumlah Paket',
+                        hole=.4,  # Memperbesar hole untuk tampilan donat yang lebih menarik
+                        color_discrete_sequence=px.colors.qualitative.Bold,  # Menggunakan palet warna yang lebih menarik
+                    )
+                    
+                    # Memperbaiki tampilan grafik
+                    figjph.update_traces(
+                        textposition='inside', 
+                        textinfo='percent+label',
+                        marker=dict(line=dict(color='#FFFFFF', width=2))
+                    )
+                    
+                    # Memperbaiki layout
+                    figjph.update_layout(
+                        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
+                        margin=dict(t=50, b=20, l=20, r=20)
+                    )
+                    
+                    # Menampilkan grafik dengan ukuran otomatis mengikuti lebar kolom
                     st.plotly_chart(figjph, theme="streamlit", use_container_width=True)
 
             with grafik_rup_jp_pd_tab_2:
@@ -436,8 +500,31 @@ with menu_rup_1:
 
                 with grafik_rup_jp_pd_tab_2_2:
 
-                    figjpn = px.pie(dfRUPPP_PD_jp_nilai, values='NILAI_PAKET', names='JENIS_PENGADAAN', title='Grafik Jenis Pengadaan - Nilai Paket', hole=.3)
-                    st.plotly_chart(figjpn, theme='streamlit', use_container_width=True)    
+                    # Membuat grafik pie yang lebih menarik dengan warna dan layout yang lebih baik
+                    figjpn = px.pie(
+                        dfRUPPP_PD_jp_nilai, 
+                        values='NILAI_PAKET', 
+                        names='JENIS_PENGADAAN', 
+                        title='Grafik Jenis Pengadaan - Nilai Paket',
+                        hole=.4,  # Memperbesar hole untuk tampilan donat yang lebih menarik
+                        color_discrete_sequence=px.colors.qualitative.Bold,  # Menggunakan palet warna yang lebih menarik
+                    )
+                    
+                    # Memperbaiki tampilan grafik
+                    figjpn.update_traces(
+                        textposition='inside', 
+                        textinfo='percent+label',
+                        marker=dict(line=dict(color='#FFFFFF', width=2))
+                    )
+                    
+                    # Memperbaiki layout
+                    figjpn.update_layout(
+                        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
+                        margin=dict(t=50, b=20, l=20, r=20)
+                    )
+                    
+                    # Menampilkan grafik dengan ukuran otomatis mengikuti lebar kolom
+                    st.plotly_chart(figjpn, theme='streamlit', use_container_width=True)
         
     except Exception as e:
         st.error(f"Error: {e}")
