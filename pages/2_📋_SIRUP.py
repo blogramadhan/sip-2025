@@ -84,8 +84,12 @@ menu_rup_1, menu_rup_2, menu_rup_3, menu_rup_4, menu_rup_5, menu_rup_6 = st.tabs
 ])
 
 with menu_rup_1:
-    st.title("PROFIL RUP")
-    st.write("Profil RUP")
+    st.header(f"Profil RUP {pilih} PERANGKAT DAERAH TAHUN {tahun}")
+
+    rup_profil = st.selectbox("Pilih Perangkat Daerah :", namaopd, key='rup_profil')
+    st.divider()
+
+   
 
 with menu_rup_2:
     st.title("STRUKTUR ANGGARAN")
