@@ -142,7 +142,7 @@ with menu_rup_3:
 
         unduhRUPPP_PD = download_excel(dfRUPPP_PD)
         st.download_button(
-            label="Unduh RUP PAKET PENYEDIA",
+            label="📥 Unduh RUP PAKET PENYEDIA",
             data=unduhRUPPP_PD,
             file_name=f"RUP_PAKET_PENYEDIA_{rup_pp}_{tahun}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -213,7 +213,7 @@ with menu_rup_5:
         
         # Download button
         st.download_button(
-            label="📥 Download  % Input RUP",
+            label="📥 Unduh  % Input RUP",
             data=download_excel(ir_gabung_final),
             file_name=f"TabelPersenInputRUP_{pilih}_{tahun}.xlsx", 
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -278,7 +278,7 @@ with menu_rup_6:
         
         # Download button
         st.download_button(
-            label="📥 Download  % Input RUP (31 Mar)",
+            label="📥 Unduh  % Input RUP (31 Mar)",
             data=download_excel(ir_gabung_final31),
             file_name=f"TabelPersenInputRUP31Mar_{pilih}_{tahun}.xlsx", 
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
