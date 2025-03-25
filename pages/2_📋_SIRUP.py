@@ -185,7 +185,48 @@ with menu_rup_4:
     st.header(f"{pilih} TAHUN {tahun}")
 
     try:
-        st.write("RUP PAKET SWAKELOLA")
+        # Pilih Perangkat Daerah
+        rup_ps = st.selectbox("Pilih Perangkat Daerah :", namaopd)
+        st.divider()
+        st.subheader(rup_ps)
+        
+        # Ambil data RUP Paket Penyedia untuk PD yang dipilih
+        dfRUPPS_PD = con.execute(f"SELECT * FROM dfRUPPS_umumkan WHERE nama_satker = '{rup_ps}'").df()
+        
+        # Tombol unduh data
+        unduhRUPPS_PD = download_excel(dfRUPPS_PD)
+        st.download_button(
+            label="📥 Unduh RUP PAKET SWAKELOLA",
+            data=unduhRUPPS_PD,
+            file_name=f"RUP_PAKET_SWAKELOLA_{rup_ps}_{tahun}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+        
+        # Query dan tampilkan data dalam grid
+        df_ps = con.execute("""
+            SELECT nama_paket AS NAMA_PAKET, kd_rup AS ID_RUP, tipe_swakelola AS TIPE_SWAKELOLA, 
+                   tgl_pengumuman_paket AS TANGGAL_PENGUMUMAN, tgl_awal_pelaksanaan_kontrak AS TANGGAL_PELAKSANAAN
+                   pagu AS PAGU 
+            FROM dfRUPPS_PD
+        """).df()
+        
+        # Konfigurasi grid
+        gdps = GridOptionsBuilder.from_dataframe(df_ps)
+        gdps.configure_default_column(groupable=True, value=True, enableRowGroup=True,
+                                  aggFunc="sum", editable=True, autoSizeColumns=True)
+        gdps.configure_column("PAGU", 
+                          type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
+                          valueGetter="data.PAGU.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+        gdps.configure_pagination(paginationAutoPageSize=False)
+        
+        # Tampilkan grid
+        AgGrid(df_ps,
+               gridOptions=gdps.build(),
+               enable_enterprise_modules=True,
+               update_mode=GridUpdateMode.MODEL_CHANGED,
+               fit_columns_on_grid_load=True,
+               height=800,
+               key='RUPPS_PS')
 
     except Exception as e:
         st.error(f"Error: {e}")
