@@ -30,15 +30,6 @@ def download_excel(df):
 def logo():
     st.logo(image="https://storage.googleapis.com/bukanamel/img/sip-spse.png", icon_image="https://storage.googleapis.com/bukanamel/img/sip-spse-icon.png", size="large")
 
-# Fungsi page config
-# def page_config():
-#     return st.set_page_config(
-#             page_title="Sistem Informasi Pelaporan Pengadaan Barang dan Jasa",
-#             page_icon=":bar_chart:",
-#             layout="wide",
-#             initial_sidebar_state="expanded",
-#         )
-
 # Fungsi region config
 def region_config():
     return {
