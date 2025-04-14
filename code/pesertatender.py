@@ -69,11 +69,16 @@ try:
     st.divider()
 
     # Filter berdasarkan sumber dana
-    sumber_dana_pt = st.radio("**Sumber Dana :**", df_PesertaTenderDetail['sumber_dana'].unique(), key="DataPesertaTender")
+    sumber_dana_options = list(df_PesertaTenderDetail['sumber_dana'].unique())
+    sumber_dana_options.insert(0, "SEMUA")
+    sumber_dana_pt = st.radio("**Sumber Dana :**", sumber_dana_options, key="DataPesertaTender")
     st.write(f"Anda memilih : **{sumber_dana_pt}**")
 
     # Filter data
-    df_filtered = df_PesertaTenderDetail.query(f"sumber_dana == '{sumber_dana_pt}'")
+    if sumber_dana_pt == "SEMUA":
+        df_filtered = df_PesertaTenderDetail
+    else:
+        df_filtered = df_PesertaTenderDetail.query(f"sumber_dana == '{sumber_dana_pt}'")
     
     # Hitung statistik
     peserta_daftar = df_filtered.query("nilai_penawaran == 0 and nilai_terkoreksi == 0")
@@ -92,9 +97,12 @@ try:
     # Filter berdasarkan status dan satker
     col_status, col_satker = st.columns((2,8))
     with col_status:
-        status_pemenang_pt = st.radio("**Tabel Data Peserta :**", ["PEMENANG", "MENDAFTAR", "MENAWAR"])
+        status_pemenang_options = ["PEMENANG", "MENDAFTAR", "MENAWAR", "SEMUA"]
+        status_pemenang_pt = st.radio("**Tabel Data Peserta :**", status_pemenang_options)
     with col_satker:
-        status_opd_pt = st.selectbox("**Pilih Satker :**", df_filtered['nama_satker'].unique())
+        satker_options = list(df_filtered['nama_satker'].unique())
+        satker_options.insert(0, "SEMUA")
+        status_opd_pt = st.selectbox("**Pilih Satker :**", satker_options)
 
     st.divider()
 
@@ -102,23 +110,38 @@ try:
     query_conditions = {
         "PEMENANG": "NILAI_PENAWARAN > 0 AND NILAI_TERKOREKSI > 0 AND pemenang = 1",
         "MENDAFTAR": "NILAI_PENAWARAN = 0 AND NILAI_TERKOREKSI = 0",
-        "MENAWAR": "NILAI_PENAWARAN > 0 AND NILAI_TERKOREKSI > 0"
+        "MENAWAR": "NILAI_PENAWARAN > 0 AND NILAI_TERKOREKSI > 0",
+        "SEMUA": "1=1"  # Kondisi yang selalu benar untuk menampilkan semua data
     }
     
     # Ambil data sesuai filter
-    jumlah_PeserteTender = con.execute(f"""
-        SELECT 
-            nama_paket AS NAMA_PAKET, 
-            nama_penyedia AS NAMA_PENYEDIA, 
-            npwp_penyedia AS NPWP_PENYEDIA, 
-            pagu AS PAGU, 
-            hps AS HPS, 
-            nilai_penawaran AS NILAI_PENAWARAN, 
-            nilai_terkoreksi AS NILAI_TERKOREKSI 
-        FROM df_filtered 
-        WHERE NAMA_SATKER = '{status_opd_pt}' 
-        AND {query_conditions[status_pemenang_pt]}
-    """).df()
+    if status_opd_pt == "SEMUA":
+        jumlah_PeserteTender = con.execute(f"""
+            SELECT 
+                nama_paket AS NAMA_PAKET, 
+                nama_penyedia AS NAMA_PENYEDIA, 
+                npwp_penyedia AS NPWP_PENYEDIA, 
+                pagu AS PAGU, 
+                hps AS HPS, 
+                nilai_penawaran AS NILAI_PENAWARAN, 
+                nilai_terkoreksi AS NILAI_TERKOREKSI 
+            FROM df_filtered 
+            WHERE {query_conditions[status_pemenang_pt]}
+        """).df()
+    else:
+        jumlah_PeserteTender = con.execute(f"""
+            SELECT 
+                nama_paket AS NAMA_PAKET, 
+                nama_penyedia AS NAMA_PENYEDIA, 
+                npwp_penyedia AS NPWP_PENYEDIA, 
+                pagu AS PAGU, 
+                hps AS HPS, 
+                nilai_penawaran AS NILAI_PENAWARAN, 
+                nilai_terkoreksi AS NILAI_TERKOREKSI 
+            FROM df_filtered 
+            WHERE NAMA_SATKER = '{status_opd_pt}' 
+            AND {query_conditions[status_pemenang_pt]}
+        """).df()
 
     # Tampilkan metrik hasil filter
     cols = st.columns(4)
