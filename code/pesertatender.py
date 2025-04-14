@@ -91,7 +91,7 @@ try:
     # Query conditions
     query_conditions = {
         "PEMENANG": "NILAI_PENAWARAN > 0 AND NILAI_TERKOREKSI > 0 AND pemenang = 1",
-        "MENDAFTAR": "NILAI_PENAWARAN = 0 AND NILAI_TERKOREKSI = 0",
+        "MENDAFTAR": "NILAI_PENAWARAN IS NULL AND NILAI_TERKOREKSI IS NULL",
         "MENAWAR": "NILAI_PENAWARAN > 0 AND NILAI_TERKOREKSI > 0",
         "SEMUA": "1=1"
     }
