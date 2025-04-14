@@ -81,7 +81,7 @@ try:
         df_filtered = df_PesertaTenderDetail.query(f"sumber_dana == '{sumber_dana_pt}'")
     
     # Hitung statistik
-    peserta_daftar = df_filtered.query("nilai_penawaran == 0 and nilai_terkoreksi == 0")
+    peserta_daftar = df_filtered.query("nilai_penawaran == null and nilai_terkoreksi == null")
     peserta_nawar = df_filtered.query("nilai_penawaran > 0 and nilai_terkoreksi > 0")
     peserta_menang = df_filtered.query("nilai_penawaran > 0 and nilai_terkoreksi > 0 and pemenang == 1")
 
@@ -97,7 +97,7 @@ try:
     # Filter berdasarkan status dan satker
     col_status, col_satker = st.columns((2,8))
     with col_status:
-        status_pemenang_options = ["PEMENANG", "MENDAFTAR", "MENAWAR", "SEMUA"]
+        status_pemenang_options = ["SEMUA", "PEMENANG", "MENDAFTAR", "MENAWAR"]
         status_pemenang_pt = st.radio("**Tabel Data Peserta :**", status_pemenang_options)
     with col_satker:
         satker_options = list(df_filtered['nama_satker'].unique())
