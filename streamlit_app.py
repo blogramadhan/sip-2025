@@ -36,6 +36,7 @@ pages = {
         st.Page("./code/tender.py", title="🏛️ Tender"),
         st.Page("./code/nontender.py", title="📝 Non Tender"),
         st.Page("./code/epurchasing.py", title="🛒 E-Purchasing"),
+        st.Page("./code/pesertatender.py", title="👥 Peserta Tender"),
     ],
     "MONITORING": [
         st.Page("./code/itkp.py", title="🎯 ITKP"),
