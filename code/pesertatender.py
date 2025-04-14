@@ -2,24 +2,17 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.express as px
 import duckdb
-import openpyxl
 from datetime import datetime
-# Library Currency
-from babel.numbers import format_currency
 # Library Aggrid
 from st_aggrid import AgGrid, GridUpdateMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 # Library Streamlit-Extras
 from streamlit_extras.metric_cards import style_metric_cards
-from streamlit_extras.app_logo import add_logo
-# Library Social Media Links
-from st_social_media_links import SocialMediaIcons
 # Library Tambahan
 from fungsi import *
 
-# Membuat UKPBJ
+# Konfigurasi daerah dan tahun
 daerah = region_config()
 pilih = st.sidebar.selectbox("Pilih Daerah", list(daerah.keys()))
 tahun = st.sidebar.selectbox("Pilih Tahun", range(datetime.now().year, datetime.now().year-3, -1))
@@ -42,7 +35,7 @@ datasets = {
 
 try:
     st.title("PESERTA TENDER")
-
+    
     # Baca dataset
     df_RUPMasterSatker = read_df_duckdb(datasets['RUPMasterSatker'])
     df_SPSETenderPengumuman = read_df_duckdb(datasets['SPSETenderPengumuman'])
@@ -66,19 +59,12 @@ try:
             mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
 
-    st.divider()
-
     # Filter berdasarkan sumber dana
-    sumber_dana_options = list(df_PesertaTenderDetail['sumber_dana'].unique())
-    sumber_dana_options.insert(0, "SEMUA")
+    sumber_dana_options = ["SEMUA"] + list(df_PesertaTenderDetail['sumber_dana'].unique())
     sumber_dana_pt = st.radio("**Sumber Dana :**", sumber_dana_options, key="DataPesertaTender")
-    st.write(f"Anda memilih : **{sumber_dana_pt}**")
-
+    
     # Filter data
-    if sumber_dana_pt == "SEMUA":
-        df_filtered = df_PesertaTenderDetail
-    else:
-        df_filtered = df_PesertaTenderDetail.query(f"sumber_dana == '{sumber_dana_pt}'")
+    df_filtered = df_PesertaTenderDetail if sumber_dana_pt == "SEMUA" else df_PesertaTenderDetail.query(f"sumber_dana == '{sumber_dana_pt}'")
     
     # Hitung statistik
     peserta_daftar = df_filtered.query("nilai_penawaran.isnull() and nilai_terkoreksi.isnull()")
@@ -97,51 +83,34 @@ try:
     # Filter berdasarkan status dan satker
     col_status, col_satker = st.columns((2,8))
     with col_status:
-        status_pemenang_options = ["SEMUA", "PEMENANG", "MENDAFTAR", "MENAWAR"]
-        status_pemenang_pt = st.radio("**Tabel Data Peserta :**", status_pemenang_options)
+        status_pemenang_pt = st.radio("**Tabel Data Peserta :**", ["SEMUA", "PEMENANG", "MENDAFTAR", "MENAWAR"])
     with col_satker:
-        satker_options = list(df_filtered['nama_satker'].unique())
-        satker_options.insert(0, "SEMUA")
+        satker_options = ["SEMUA"] + list(df_filtered['nama_satker'].unique())
         status_opd_pt = st.selectbox("**Pilih Satker :**", satker_options)
 
-    st.divider()
-
-    # Query berdasarkan status
+    # Query conditions
     query_conditions = {
         "PEMENANG": "NILAI_PENAWARAN > 0 AND NILAI_TERKOREKSI > 0 AND pemenang = 1",
         "MENDAFTAR": "NILAI_PENAWARAN = 0 AND NILAI_TERKOREKSI = 0",
         "MENAWAR": "NILAI_PENAWARAN > 0 AND NILAI_TERKOREKSI > 0",
-        "SEMUA": "1=1"  # Kondisi yang selalu benar untuk menampilkan semua data
+        "SEMUA": "1=1"
     }
     
-    # Ambil data sesuai filter
-    if status_opd_pt == "SEMUA":
-        jumlah_PeserteTender = con.execute(f"""
-            SELECT 
-                nama_paket AS NAMA_PAKET, 
-                nama_penyedia AS NAMA_PENYEDIA, 
-                npwp_penyedia AS NPWP_PENYEDIA, 
-                pagu AS PAGU, 
-                hps AS HPS, 
-                nilai_penawaran AS NILAI_PENAWARAN, 
-                nilai_terkoreksi AS NILAI_TERKOREKSI 
-            FROM df_filtered 
-            WHERE {query_conditions[status_pemenang_pt]}
-        """).df()
-    else:
-        jumlah_PeserteTender = con.execute(f"""
-            SELECT 
-                nama_paket AS NAMA_PAKET, 
-                nama_penyedia AS NAMA_PENYEDIA, 
-                npwp_penyedia AS NPWP_PENYEDIA, 
-                pagu AS PAGU, 
-                hps AS HPS, 
-                nilai_penawaran AS NILAI_PENAWARAN, 
-                nilai_terkoreksi AS NILAI_TERKOREKSI 
-            FROM df_filtered 
-            WHERE NAMA_SATKER = '{status_opd_pt}' 
-            AND {query_conditions[status_pemenang_pt]}
-        """).df()
+    # SQL query berdasarkan filter
+    satker_filter = "" if status_opd_pt == "SEMUA" else f"AND NAMA_SATKER = '{status_opd_pt}'"
+    
+    jumlah_PeserteTender = con.execute(f"""
+        SELECT 
+            nama_paket AS NAMA_PAKET, 
+            nama_penyedia AS NAMA_PENYEDIA, 
+            npwp_penyedia AS NPWP_PENYEDIA, 
+            pagu AS PAGU, 
+            hps AS HPS, 
+            nilai_penawaran AS NILAI_PENAWARAN, 
+            nilai_terkoreksi AS NILAI_TERKOREKSI 
+        FROM df_filtered 
+        WHERE {query_conditions[status_pemenang_pt]} {satker_filter}
+    """).df()
 
     # Tampilkan metrik hasil filter
     cols = st.columns(4)
@@ -156,10 +125,8 @@ try:
 
     st.divider()
 
-    # Konfigurasi dan tampilkan tabel
+    # Konfigurasi tabel
     gd = GridOptionsBuilder.from_dataframe(jumlah_PeserteTender)
-    
-    # Konfigurasi kolom
     gd.configure_default_column(groupable=True, value=True, enableRowGroup=True, 
                               aggFunc="sum", editable=True, autoSizeColumns=True)
     
