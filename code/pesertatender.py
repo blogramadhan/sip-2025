@@ -81,7 +81,7 @@ try:
         df_filtered = df_PesertaTenderDetail.query(f"sumber_dana == '{sumber_dana_pt}'")
     
     # Hitung statistik
-    peserta_daftar = df_filtered.query("nilai_penawaran == null and nilai_terkoreksi == null")
+    peserta_daftar = df_filtered.query("nilai_penawaran.isnull() and nilai_terkoreksi.isnull()")
     peserta_nawar = df_filtered.query("nilai_penawaran > 0 and nilai_terkoreksi > 0")
     peserta_menang = df_filtered.query("nilai_penawaran > 0 and nilai_terkoreksi > 0 and pemenang == 1")
 
