@@ -29,7 +29,7 @@ logo()
 # Membuat Navigation Bar
 pages = {
     "RENCANA DAN PERSIPAN": [
-        st.Page("./code/rup.py", title="📋 Rencana Umum Pengadaan"),
+        st.Page("./code/rup.py", title="📋 Rencana Pengadaan"),
         st.Page("./code/sipraja.py", title="🔧 Persiapan Pengadaan"),
     ],
     "PROSES PENGADAAN": [
