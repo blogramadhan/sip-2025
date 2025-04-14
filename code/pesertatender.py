@@ -133,22 +133,35 @@ try:
 
     st.divider()
 
+    # Konfigurasi dan tampilkan tabel
+    gd = GridOptionsBuilder.from_dataframe(jumlah_PeserteTender)
+    
+    # Konfigurasi kolom
+    gd.configure_default_column(groupable=True, value=True, enableRowGroup=True, 
+                              aggFunc="sum", editable=True, autoSizeColumns=True)
+    
+    # Format kolom mata uang
+    for col in ["PAGU", "HPS", "NILAI_PENAWARAN", "NILAI_TERKOREKSI"]:
+        gd.configure_column(col, 
+                          type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
+                          valueGetter=f"data.{col}.toLocaleString('id-ID', {{style: 'currency', currency: 'IDR', maximumFractionDigits:2}})")
+    
+    # Konfigurasi nama kolom
+    gd.configure_column("NAMA_PAKET", headerName="NAMA PAKET")
+    gd.configure_column("NAMA_PENYEDIA", headerName="NAMA PENYEDIA")
+    gd.configure_column("NPWP_PENYEDIA", headerName="NPWP PENYEDIA")
+    gd.configure_pagination(paginationAutoPageSize=False)
+    
     # Tampilkan tabel
-    st.dataframe(
-        jumlah_PeserteTender,
-        column_config={
-            "NAMA_PAKET": "NAMA PAKET",
-            "NAMA_PENYEDIA": "NAMA PENYEDIA",
-            "NPWP_PENYEDIA": "NPWP PENYEDIA",
-            "PAGU": "PAGU",
-            "HPS": "HPS",
-            "NILAI_PENAWARAN": "NILAI PENAWARAN",
-            "NILAI_TERKOREKSI": "NILAI TERKOREKSI"
-        },
-        use_container_width=True,
-        hide_index=True,
-        height=1000
-    )
+    AgGrid(jumlah_PeserteTender,
+           gridOptions=gd.build(),
+           enable_enterprise_modules=True, 
+           update_mode=GridUpdateMode.MODEL_CHANGED,
+           fit_columns_on_grid_load=True,
+           height=800,
+           key='PesertaTender')
 
 except Exception as e:
     st.error(f"Error: {e}")
+
+style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
