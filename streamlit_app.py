@@ -21,18 +21,18 @@ logo()
 # Struktur navigasi aplikasi
 pages = {
     "RENCANA DAN PERSIPAN": [
-        st.Page("./code/rup.py", title="📅 Rencana Pengadaan"),
-        st.Page("./code/sipraja.py", title="⚙️ Persiapan Pengadaan"),
+        st.Page("./code/rup.py", title=" 📅  Rencana Pengadaan"),
+        st.Page("./code/sipraja.py", title=" ⚙️  Persiapan Pengadaan"),
     ],
     "PROSES PENGADAAN": [
-        st.Page("./code/tender.py", title="🔨 Tender"),
-        st.Page("./code/nontender.py", title="📄 Non Tender"),
-        st.Page("./code/epurchasing.py", title="🛍️ E-Purchasing"),
-        st.Page("./code/pesertatender.py", title="👨‍💼 Peserta Tender"),
+        st.Page("./code/tender.py", title=" 🔨  Tender"),
+        st.Page("./code/nontender.py", title=" 📄  Non Tender"),
+        st.Page("./code/epurchasing.py", title=" 🛍️  E-Purchasing"),
+        st.Page("./code/pesertatender.py", title=" 👨‍💼  Peserta Tender"),
     ],
     "MONITORING": [
-        st.Page("./code/itkp.py", title="📊 ITKP"),
-        st.Page("./code/nilaisikap.py", title="⭐ NILAI SIKAP"),
+        st.Page("./code/itkp.py", title=" 📊  ITKP"),
+        st.Page("./code/nilaisikap.py", title=" ⭐  NILAI SIKAP"),
     ]
 }
 
