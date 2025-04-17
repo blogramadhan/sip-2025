@@ -33,7 +33,12 @@ def proses_data_sikap(jenis, kd_field):
         
         # Baca dataset
         dataset_pengumuman = f"https://data.pbj.my.id/{kodeLPSE}/spse/SPSE-{jenis}Pengumuman{tahun}.parquet"
-        dataset_sikap = f"https://data.pbj.my.id/{kodeRUP}/sikap/SIKaP-PenilaianKinerjaPenyedia-{jenis}{tahun}.parquet"
+        
+        # Penyesuaian nama dataset untuk NonTender
+        if jenis == "NonTender":
+            dataset_sikap = f"https://data.pbj.my.id/{kodeRUP}/sikap/SiKAP-PenilaianKinerjaPenyedia{tahun}.parquet"
+        else:
+            dataset_sikap = f"https://data.pbj.my.id/{kodeRUP}/sikap/SIKaP-PenilaianKinerjaPenyedia-{jenis}{tahun}.parquet"
         
         df_pengumuman = read_df_duckdb(dataset_pengumuman)
         df_sikap = read_df_duckdb(dataset_sikap)
