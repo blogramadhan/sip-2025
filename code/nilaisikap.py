@@ -108,8 +108,11 @@ def proses_data_sikap(jenis, kd_field):
             update_mode=GridUpdateMode.MODEL_CHANGED
         )
         
-    except Exception:
-        st.error(f"Gagal Analisa Penilaian SIKAP {jenis}")
+    # except Exception:
+    #     st.error(f"Gagal Analisa Penilaian SIKAP {jenis}")
+
+    except Exception as e:
+        st.error(f"Gagal Analisa Penilaian SIKAP {jenis}: {e}")
 
 # Proses data untuk Tender dan NonTender
 with menu_tender:
