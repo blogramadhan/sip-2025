@@ -36,7 +36,7 @@ def proses_data_sikap(jenis, kd_field):
         
         # Penyesuaian nama dataset untuk NonTender
         if jenis == "NonTender":
-            dataset_sikap = f"https://data.pbj.my.id/{kodeRUP}/sikap/SIKaP-PenilaianKinerjaPenyedia-NonTender{tahun}.parquet"
+            dataset_sikap = f"https://data.pbj.my.id/{kodeRUP}/sikap/SiKAP-PenilaianKinerjaPenyedia-NonTender{tahun}.parquet"
         else:
             dataset_sikap = f"https://data.pbj.my.id/{kodeRUP}/sikap/SIKaP-PenilaianKinerjaPenyedia-{jenis}{tahun}.parquet"
         
