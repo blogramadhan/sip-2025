@@ -36,7 +36,7 @@ def proses_data_sikap(jenis, kd_field):
         
         # Penyesuaian nama dataset untuk NonTender
         if jenis == "NonTender":
-            dataset_sikap = f"https://data.pbj.my.id/{kodeRUP}/sikap/SiKAP-PenilaianKinerjaPenyedia-NonTender{tahun}.parquet"
+            dataset_sikap = f"https://data.pbj.my.id/{kodeRUP}/sikap/SiKAP-PenilaianKinerjaPenyedia-{jenis}{tahun}.parquet"
         else:
             dataset_sikap = f"https://data.pbj.my.id/{kodeRUP}/sikap/SIKaP-PenilaianKinerjaPenyedia-{jenis}{tahun}.parquet"
         
@@ -117,9 +117,6 @@ def proses_data_sikap(jenis, kd_field):
             update_mode=GridUpdateMode.MODEL_CHANGED
         )
         
-    # except Exception:
-    #     st.error(f"Gagal Analisa Penilaian SIKAP {jenis}")
-
     except Exception as e:
         st.error(f"Gagal Analisa Penilaian SIKAP {jenis}: {e}")
 
