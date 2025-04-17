@@ -44,9 +44,11 @@ def proses_data_sikap(jenis, kd_field):
         df_sikap = read_df_duckdb(dataset_sikap)
         
         # Query data
-        status_field = f"status_{kd_field.lower()}"
         if jenis == "NonTender":
             status_field = "status_nontender"
+        else:
+            status_field = "status_tender"
+            
         df_pengumuman_filter = con.execute(f"SELECT {kd_field}, nama_satker, pagu, hps, jenis_pengadaan, mtd_pemilihan FROM df_pengumuman WHERE {status_field} = 'Selesai'").df()
         df_sikap_filter = con.execute(f"SELECT {kd_field}, nama_paket, nama_ppk, nama_penyedia, npwp_penyedia, indikator_penilaian, nilai_indikator, total_skors FROM df_sikap").df()
         df_sikap_ok = df_pengumuman_filter.merge(df_sikap_filter, how='right', on=kd_field)
