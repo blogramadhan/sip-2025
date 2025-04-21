@@ -79,10 +79,10 @@ with menu_rup_1:
 
     try:
         # Tambahkan opsi "Semua Perangkat Daerah" di awal daftar
-        opd_options = ["Semua Perangkat Daerah"] + list(namaopd)
+        opd_options = ["SEMUA PERANGKAT DAERAH"] + list(namaopd)
         opd = st.selectbox("Pilih Perangkat Daerah :", opd_options, key='rup_profil')
 
-        if opd == "Semua Perangkat Daerah":
+        if opd == "SEMUA PERANGKAT DAERAH":
             dfRUPPP_PD_Profil = dfRUPPP_umumkan.copy()
             dfRUPPS_PD_Profil = dfRUPPS_umumkan.copy()
             dfRUPSA_PD_Profil = dfRUPSA.copy()
