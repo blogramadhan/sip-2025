@@ -176,7 +176,27 @@ try:
             
             col1, col2 = st.columns((3.5,6.5))
             with col1:
-                create_aggrid(tabel_nilai_ukm, key="grid_nilai_ukm")
+                # Membuat grid dengan format rupiah yang benar
+                gb = GridOptionsBuilder.from_dataframe(tabel_nilai_ukm)
+                gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, 
+                                          aggFunc="sum", editable=False)
+                gb.configure_column("PENYEDIA_UKM", headerName="PENYEDIA UKM")
+                gb.configure_column("NILAI_UKM", 
+                                  type=["numericColumn", "numberColumnFilter", "customNumericFormat"], 
+                                  valueFormatter="'Rp ' + data.toLocaleString('id-ID', {minimumFractionDigits: 0, maximumFractionDigits: 0})")
+                
+                gridOptions = gb.build()
+                AgGrid(
+                    tabel_nilai_ukm,
+                    gridOptions=gridOptions,
+                    fit_columns_on_grid_load=True,
+                    height=350,
+                    width='100%',
+                    theme='streamlit',
+                    enable_enterprise_modules=False,
+                    key="grid_nilai_ukm",
+                    allow_unsafe_jscode=True
+                )
             with col2:
                 colors = px.colors.qualitative.Bold
                 fig = go.Figure(data=[go.Pie(
