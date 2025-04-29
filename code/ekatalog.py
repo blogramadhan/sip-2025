@@ -582,7 +582,7 @@ try:
         AgGrid(
             df_etalase,
             gridOptions=gb.build(),
-            height=50,
+            height=False,
             fit_columns_on_grid_load=True,
             allow_unsafe_jscode=True,
             theme='streamlit'
