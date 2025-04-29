@@ -509,13 +509,14 @@ try:
                 
             with col2:
                 fig = go.Figure()
-                # Membuat gradient warna untuk bar
-                colors = px.colors.sequential.Oranges
                 fig.add_trace(go.Bar(
                     x=tabel_nilai_pu['NAMA_PENYEDIA'],
                     y=tabel_nilai_pu['NILAI_TRANSAKSI'],
                     text=[f'{x:,.0f}' for x in tabel_nilai_pu['NILAI_TRANSAKSI']],
                     textposition='outside',
+                    marker=dict(
+                        color=tabel_nilai_pu['NILAI_TRANSAKSI'],
+                        colorscale='Oranges',
                     marker_color='rgba(255, 127, 14, 0.8)',
                     marker_line_color='rgba(204, 85, 0, 1.0)',
                     marker_line_width=1.5
