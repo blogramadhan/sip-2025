@@ -520,7 +520,9 @@ try:
                             width=1.5
                         ),
                         opacity=0.8
-                    )
+                    ),
+                    hoverinfo='x+y',
+                    hovertemplate='<b>%{x}</b><br>Nilai: Rp %{y:,.0f}<extra></extra>'
                 ))
                 fig.update_layout(
                     title='Grafik Nilai Transaksi Katalog - Pelaku Usaha',
