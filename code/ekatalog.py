@@ -535,7 +535,7 @@ try:
         # Header dan tombol unduh
         etalase1, etalase2 = st.columns((8,2))
         with etalase1:
-            st.header(f"TRANSAKSI E-KATALOG (ETALASE) - {pilih} - TAHUN {tahun}")
+            st.header(f"{pilih} - TAHUN {tahun}")
         with etalase2:
             st.download_button(
                 label="📥 Data Transaksi E-Katalog",
@@ -603,6 +603,7 @@ try:
 
         # Analisis berdasarkan Pelaku Usaha
         with st.container(border=True):
+
             st.subheader("Berdasarkan Pelaku Usaha (10 Besar)")
             
             tab1, tab2 = st.tabs(["Jumlah Transaksi", "Nilai Transaksi"])
