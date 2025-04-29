@@ -42,21 +42,24 @@ datasets = {
 
 try:
     st.title("TRANSAKSI E-KATALOG")
-    st.header(f"{pilih} TAHUN {tahun}")
 
-    # Baca dataset E-Katalog
+    # Baca dan gabungkan dataset E-Katalog
     dfECAT = read_df_duckdb(datasets['ECAT'])
-    dfECAT_KD = read_df_duckdb(datasets['ECAT_KD'])
-    dfECAT_IS = read_df_duckdb(datasets['ECAT_IS'])
-    dfECAT_PD = read_df_duckdb(datasets['ECAT_PD'])
-
-    # Gabungkan dataset menjadi satu dataframe lengkap
-    dfECAT_OK = (dfECAT.merge(dfECAT_KD, how='left', on='kd_komoditas')
+    dfECAT_OK = (dfECAT
+                 .merge(read_df_duckdb(datasets['ECAT_KD']), how='left', on='kd_komoditas')
                  .drop('nama_satker', axis=1)
-                 .merge(dfECAT_IS, left_on='satker_id', right_on='kd_satker', how='left')
-                 .merge(dfECAT_PD, how='left', on='kd_penyedia'))
+                 .merge(read_df_duckdb(datasets['ECAT_IS']), left_on='satker_id', right_on='kd_satker', how='left')
+                 .merge(read_df_duckdb(datasets['ECAT_PD']), how='left', on='kd_penyedia'))
 
-
+    # Header dan tombol unduh
+    col1, col2 = st.columns([8,2])
+    col1.header(f"{pilih} TAHUN {tahun}")
+    col2.download_button(
+        label="📥 Unduh E-Katalog",
+        data=download_excel(dfECAT_OK),
+        file_name=f"Transaksi_E-Katalog_{pilih}_{tahun}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
 
 except Exception as e:
     st.error(f"Error: {e}")
