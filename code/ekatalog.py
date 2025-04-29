@@ -195,23 +195,39 @@ try:
                        width='100%',
                        height=min(400, 35 * (len(tabel_jumlah_komoditas) + 1)))
             with col2:
-                fig = go.Figure(go.Bar(
+                colors = px.colors.sequential.Viridis
+                fig = go.Figure()
+                fig.add_trace(go.Bar(
                     x=tabel_jumlah_komoditas['NAMA_KOMODITAS'],
                     y=tabel_jumlah_komoditas['JUMLAH_TRANSAKSI'],
                     text=tabel_jumlah_komoditas['JUMLAH_TRANSAKSI'],
                     textposition='outside',
-                    marker_color='rgba(58, 71, 80, 0.8)',
-                    marker_line_color='rgba(8, 48, 107, 1.0)',
-                    marker_line_width=1.5
+                    marker=dict(
+                        color=colors,
+                        line=dict(width=1.5, color='rgba(0,0,0,0.5)')
+                    ),
+                    hoverinfo='x+y',
+                    hovertemplate='<b>%{x}</b><br>Jumlah: %{y}<extra></extra>'
                 ))
                 fig.update_layout(
-                    title='Grafik Jumlah Transaksi e-Katalog - Nama Komoditas',
-                    xaxis_title='Nama Komoditas',
-                    yaxis_title='Jumlah Transaksi',
+                    title={
+                        'text': 'Grafik Jumlah Transaksi e-Katalog - Nama Komoditas',
+                        'y':0.95,
+                        'x':0.5,
+                        'xanchor': 'center',
+                        'yanchor': 'top',
+                        'font': dict(size=18, color='#1f77b4')
+                    },
+                    xaxis_title='<b>Nama Komoditas</b>',
+                    yaxis_title='<b>Jumlah Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
-                    margin=dict(t=50, b=100, l=10, r=10)
+                    margin=dict(t=80, b=100, l=10, r=10),
+                    plot_bgcolor='rgba(240,240,240,0.8)',
+                    paper_bgcolor='white',
+                    showlegend=False
                 )
-                fig.update_xaxes(tickangle=45)
+                fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
+                fig.update_yaxes(gridcolor='rgba(0,0,0,0.1)')
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         
         with tab2:
@@ -241,23 +257,40 @@ try:
                        height=min(400, 35 * (len(tabel_nilai_komoditas) + 1)))
                 
             with col2:
-                fig = go.Figure(go.Bar(
+                colors = px.colors.sequential.Plasma
+                fig = go.Figure()
+                fig.add_trace(go.Bar(
                     x=tabel_nilai_komoditas['NAMA_KOMODITAS'],
                     y=tabel_nilai_komoditas['NILAI_TRANSAKSI'],
                     text=[f'{x:,.0f}' for x in tabel_nilai_komoditas['NILAI_TRANSAKSI']],
                     textposition='outside',
-                    marker_color='rgba(26, 118, 255, 0.8)',
-                    marker_line_color='rgba(8, 48, 107, 1.0)',
-                    marker_line_width=1.5
+                    marker=dict(
+                        color=tabel_nilai_komoditas['NILAI_TRANSAKSI'],
+                        colorscale='Bluered',
+                        line=dict(width=1.5, color='rgba(0,0,0,0.5)')
+                    ),
+                    hoverinfo='x+y',
+                    hovertemplate='<b>%{x}</b><br>Nilai: Rp %{y:,.0f}<extra></extra>'
                 ))
                 fig.update_layout(
-                    title='Grafik Nilai Transaksi e-Katalog - Nama Komoditas',
-                    xaxis_title='Nama Komoditas',
-                    yaxis_title='Nilai Transaksi',
+                    title={
+                        'text': 'Grafik Nilai Transaksi e-Katalog - Nama Komoditas',
+                        'y':0.95,
+                        'x':0.5,
+                        'xanchor': 'center',
+                        'yanchor': 'top',
+                        'font': dict(size=18, color='#1f77b4')
+                    },
+                    xaxis_title='<b>Nama Komoditas</b>',
+                    yaxis_title='<b>Nilai Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
-                    margin=dict(t=50, b=100, l=10, r=10)
+                    margin=dict(t=80, b=100, l=10, r=10),
+                    plot_bgcolor='rgba(240,240,240,0.8)',
+                    paper_bgcolor='white',
+                    showlegend=False
                 )
-                fig.update_xaxes(tickangle=45)
+                fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
+                fig.update_yaxes(gridcolor='rgba(0,0,0,0.1)')
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
     # Berdasarkan Perangkat Daerah
@@ -287,23 +320,40 @@ try:
                        width='100%',
                        height=min(400, 35 * (len(tabel_jumlah_pd) + 1)))
             with col2:
-                fig = go.Figure(go.Bar(
+                colors = px.colors.qualitative.Prism
+                fig = go.Figure()
+                fig.add_trace(go.Bar(
                     x=tabel_jumlah_pd['NAMA_SATKER'],
                     y=tabel_jumlah_pd['JUMLAH_TRANSAKSI'],
                     text=tabel_jumlah_pd['JUMLAH_TRANSAKSI'],
                     textposition='outside',
-                    marker_color='rgba(152, 78, 163, 0.8)',
-                    marker_line_color='rgba(102, 0, 102, 1.0)',
-                    marker_line_width=1.5
+                    marker=dict(
+                        color=colors[:len(tabel_jumlah_pd)],
+                        line=dict(width=1.5, color='rgba(0,0,0,0.5)'),
+                        opacity=0.9
+                    ),
+                    hoverinfo='x+y',
+                    hovertemplate='<b>%{x}</b><br>Jumlah: %{y}<extra></extra>'
                 ))
                 fig.update_layout(
-                    title='Grafik Jumlah Transaksi e-Katalog - Perangkat Daerah',
-                    xaxis_title='Perangkat Daerah',
-                    yaxis_title='Jumlah Transaksi',
+                    title={
+                        'text': 'Grafik Jumlah Transaksi e-Katalog - Perangkat Daerah',
+                        'y':0.95,
+                        'x':0.5,
+                        'xanchor': 'center',
+                        'yanchor': 'top',
+                        'font': dict(size=18, color='#1f77b4')
+                    },
+                    xaxis_title='<b>Perangkat Daerah</b>',
+                    yaxis_title='<b>Jumlah Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
-                    margin=dict(t=50, b=100, l=10, r=10)
+                    margin=dict(t=80, b=100, l=10, r=10),
+                    plot_bgcolor='rgba(240,240,240,0.8)',
+                    paper_bgcolor='white',
+                    showlegend=False
                 )
-                fig.update_xaxes(tickangle=45)
+                fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
+                fig.update_yaxes(gridcolor='rgba(0,0,0,0.1)')
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         
         with tab2:
@@ -332,23 +382,40 @@ try:
                        height=min(400, 35 * (len(tabel_nilai_pd) + 1)))
                 
             with col2:
-                fig = go.Figure(go.Bar(
+                fig = go.Figure()
+                fig.add_trace(go.Bar(
                     x=tabel_nilai_pd['NAMA_SATKER'],
                     y=tabel_nilai_pd['NILAI_TRANSAKSI'],
                     text=[f'{x:,.0f}' for x in tabel_nilai_pd['NILAI_TRANSAKSI']],
                     textposition='outside',
-                    marker_color='rgba(214, 39, 40, 0.8)',
-                    marker_line_color='rgba(150, 0, 0, 1.0)',
-                    marker_line_width=1.5
+                    marker=dict(
+                        color=tabel_nilai_pd['NILAI_TRANSAKSI'],
+                        colorscale='Tealrose',
+                        line=dict(width=1.5, color='rgba(0,0,0,0.5)'),
+                        opacity=0.9
+                    ),
+                    hoverinfo='x+y',
+                    hovertemplate='<b>%{x}</b><br>Nilai: Rp %{y:,.0f}<extra></extra>'
                 ))
                 fig.update_layout(
-                    title='Grafik Nilai Transaksi e-Katalog - Perangkat Daerah',
-                    xaxis_title='Perangkat Daerah',
-                    yaxis_title='Nilai Transaksi',
+                    title={
+                        'text': 'Grafik Nilai Transaksi e-Katalog - Perangkat Daerah',
+                        'y':0.95,
+                        'x':0.5,
+                        'xanchor': 'center',
+                        'yanchor': 'top',
+                        'font': dict(size=18, color='#1f77b4')
+                    },
+                    xaxis_title='<b>Perangkat Daerah</b>',
+                    yaxis_title='<b>Nilai Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
-                    margin=dict(t=50, b=100, l=10, r=10)
+                    margin=dict(t=80, b=100, l=10, r=10),
+                    plot_bgcolor='rgba(240,240,240,0.8)',
+                    paper_bgcolor='white',
+                    showlegend=False
                 )
-                fig.update_xaxes(tickangle=45)
+                fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
+                fig.update_yaxes(gridcolor='rgba(0,0,0,0.1)')
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
     # Berdasarkan Pelaku Usaha
@@ -379,23 +446,40 @@ try:
                        width='100%',
                        height=min(400, 35 * (len(tabel_jumlah_pu) + 1)))
             with col2:
-                fig = go.Figure(go.Bar(
+                fig = go.Figure()
+                fig.add_trace(go.Bar(
                     x=tabel_jumlah_pu['NAMA_PENYEDIA'],
                     y=tabel_jumlah_pu['JUMLAH_TRANSAKSI'],
                     text=tabel_jumlah_pu['JUMLAH_TRANSAKSI'],
                     textposition='outside',
-                    marker_color='rgba(44, 160, 44, 0.8)',
-                    marker_line_color='rgba(0, 100, 0, 1.0)',
-                    marker_line_width=1.5
+                    marker=dict(
+                        color=tabel_jumlah_pu['JUMLAH_TRANSAKSI'],
+                        colorscale='Greens',
+                        line=dict(width=1.5, color='rgba(0,0,0,0.5)'),
+                        opacity=0.9
+                    ),
+                    hoverinfo='x+y',
+                    hovertemplate='<b>%{x}</b><br>Jumlah: %{y}<extra></extra>'
                 ))
                 fig.update_layout(
-                    title='Grafik Jumlah Transaksi Katalog - Pelaku Usaha',
-                    xaxis_title='Pelaku Usaha',
-                    yaxis_title='Jumlah Transaksi',
+                    title={
+                        'text': 'Grafik Jumlah Transaksi Katalog - Pelaku Usaha',
+                        'y':0.95,
+                        'x':0.5,
+                        'xanchor': 'center',
+                        'yanchor': 'top',
+                        'font': dict(size=18, color='#1f77b4')
+                    },
+                    xaxis_title='<b>Pelaku Usaha</b>',
+                    yaxis_title='<b>Jumlah Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
-                    margin=dict(t=50, b=100, l=10, r=10)
+                    margin=dict(t=80, b=100, l=10, r=10),
+                    plot_bgcolor='rgba(240,240,240,0.8)',
+                    paper_bgcolor='white',
+                    showlegend=False
                 )
-                fig.update_xaxes(tickangle=45)
+                fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
+                fig.update_yaxes(gridcolor='rgba(0,0,0,0.1)')
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         
         with tab2:
@@ -424,7 +508,10 @@ try:
                        height=min(400, 35 * (len(tabel_nilai_pu) + 1)))
                 
             with col2:
-                fig = go.Figure(go.Bar(
+                fig = go.Figure()
+                # Membuat gradient warna untuk bar
+                colors = px.colors.sequential.Oranges
+                fig.add_trace(go.Bar(
                     x=tabel_nilai_pu['NAMA_PENYEDIA'],
                     y=tabel_nilai_pu['NILAI_TRANSAKSI'],
                     text=[f'{x:,.0f}' for x in tabel_nilai_pu['NILAI_TRANSAKSI']],
