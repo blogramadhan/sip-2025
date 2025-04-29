@@ -531,6 +531,155 @@ try:
     with menu_purchasing_1_2:
         st.title("TRANSAKSI E-KATALOG (ETALASE)")
 
+        #### Buat tombol unduh dataset
+        # Header dan tombol unduh
+        etalase1, etalase2 = st.columns((8,2))
+        with etalase1:
+            st.header(f"TRANSAKSI E-KATALOG (ETALASE) - {pilih} - TAHUN {tahun}")
+        with etalase2:
+            st.download_button(
+                label="📥 Data Transaksi E-Katalog",
+                data=download_excel(dfECAT_OK),
+                file_name=f"TransaksiEKATALOG-{kodeFolder}-{tahun}.xlsx",
+                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                key="Download_Katalog_Etalase"
+            )
+
+        st.divider()
+
+        # Filter data
+        col_filter1, col_filter2, col_filter3, col_filter4 = st.columns((1,1,2,6))
+        
+        with col_filter1:
+            jenis_katalog_array = np.insert(dfECAT_OK['jenis_katalog'].unique(), 0, "Gabungan")
+            jenis_katalog_etalase = st.radio("**Jenis Katalog**", jenis_katalog_array, key="Etalase_Jenis_Katalog")
+        
+        with col_filter2:
+            nama_sumber_dana_etalase = st.radio("**Sumber Dana**", ["Gabungan", "APBD", "BLUD"], key="Etalase_Sumber_Dana")
+        
+        with col_filter3:
+            status_paket_array = np.insert(dfECAT_OK['status_paket'].unique(), 0, "Gabungan")
+            status_paket_etalase = st.radio("**Status Paket**", status_paket_array, key="Etalase_Status_Paket")
+
+        # Query data berdasarkan filter
+        df_ECAT_ETALASE_Query = "SELECT * FROM dfECAT_OK WHERE 1=1"
+        
+        if jenis_katalog_etalase != "Gabungan":
+            df_ECAT_ETALASE_Query += f" AND jenis_katalog = '{jenis_katalog_etalase}'"
+        
+        if nama_sumber_dana_etalase != "Gabungan":
+            if "APBD" in nama_sumber_dana_etalase:
+                df_ECAT_ETALASE_Query += f" AND nama_sumber_dana LIKE '%APBD%'"
+            else:
+                df_ECAT_ETALASE_Query += f" AND nama_sumber_dana = '{nama_sumber_dana_etalase}'"
+        
+        if status_paket_etalase != "Gabungan":
+            df_ECAT_ETALASE_Query += f" AND status_paket = '{status_paket_etalase}'"
+
+        df_ECAT_ETALASE = con.execute(df_ECAT_ETALASE_Query).df()
+
+        with col_filter4:
+            nama_komoditas = st.selectbox("Pilih Etalase Belanja:", df_ECAT_ETALASE['nama_komoditas'].unique(), key="Etalase_Nama_Komoditas")
+        
+        st.write(f"Filter: **{jenis_katalog_etalase}** | **{nama_sumber_dana_etalase}** | **{status_paket_etalase}**")
+
+        # Filter data berdasarkan komoditas
+        df_ECAT_ETALASE_filter = con.execute(f"SELECT * FROM df_ECAT_ETALASE WHERE nama_komoditas = '{nama_komoditas}'").df()
+
+        # Hitung metrik
+        jumlah_produk = df_ECAT_ETALASE_filter['kd_produk'].nunique()
+        jumlah_penyedia = df_ECAT_ETALASE_filter['kd_penyedia'].nunique()
+        jumlah_trx = df_ECAT_ETALASE_filter['no_paket'].nunique()
+        nilai_trx = df_ECAT_ETALASE_filter['total_harga'].sum()
+
+        # Tampilkan metrik
+        col1, col2, col3, col4 = st.columns(4)
+        col1.metric(label="Jumlah Produk", value=f"{jumlah_produk:,}")
+        col2.metric(label="Jumlah Penyedia", value=f"{jumlah_penyedia:,}")
+        col3.metric(label="Jumlah Transaksi", value=f"{jumlah_trx:,}")
+        col4.metric(label="Nilai Transaksi", value=f"Rp {nilai_trx:,.2f}")
+
+        st.divider()
+
+        # Analisis berdasarkan Pelaku Usaha
+        with st.container(border=True):
+            st.subheader("Berdasarkan Pelaku Usaha (10 Besar)")
+            
+            tab1, tab2 = st.tabs(["Jumlah Transaksi", "Nilai Transaksi"])
+            
+            with tab1:
+                # Query data jumlah transaksi
+                sql_jumlah_trx = """
+                    SELECT nama_penyedia AS NAMA_PENYEDIA, COUNT(DISTINCT(no_paket)) AS JUMLAH_TRANSAKSI
+                    FROM df_ECAT_ETALASE_filter 
+                    WHERE NAMA_PENYEDIA IS NOT NULL
+                    GROUP BY NAMA_PENYEDIA 
+                    ORDER BY JUMLAH_TRANSAKSI DESC 
+                    LIMIT 10
+                """
+                tabel_jumlah_trx = con.execute(sql_jumlah_trx).df()
+                
+                col1, col2 = st.columns((4,6))
+                with col1:
+                    st.dataframe(
+                        tabel_jumlah_trx,
+                        column_config={
+                            "NAMA_PENYEDIA": "NAMA PENYEDIA",
+                            "JUMLAH_TRANSAKSI": "JUMLAH TRANSAKSI"
+                        },
+                        use_container_width=True,
+                        hide_index=True
+                    )
+                
+                with col2:
+                    fig = px.bar(
+                        tabel_jumlah_trx, 
+                        x='NAMA_PENYEDIA', 
+                        y='JUMLAH_TRANSAKSI', 
+                        text_auto='.2s', 
+                        title='Grafik Jumlah Transaksi Katalog per Pelaku Usaha'
+                    )
+                    fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+                    st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+            
+            with tab2:
+                # Query data nilai transaksi
+                sql_nilai_trx = """
+                    SELECT nama_penyedia AS NAMA_PENYEDIA, SUM(total_harga) AS NILAI_TRANSAKSI
+                    FROM df_ECAT_ETALASE_filter 
+                    WHERE NAMA_PENYEDIA IS NOT NULL
+                    GROUP BY NAMA_PENYEDIA 
+                    ORDER BY NILAI_TRANSAKSI DESC 
+                    LIMIT 10
+                """
+                tabel_nilai_trx = con.execute(sql_nilai_trx).df()
+                
+                col1, col2 = st.columns((4,6))
+                with col1:
+                    st.dataframe(
+                        tabel_nilai_trx,
+                        column_config={
+                            "NAMA_PENYEDIA": "NAMA PENYEDIA",
+                            "NILAI_TRANSAKSI": st.column_config.NumberColumn(
+                                "NILAI TRANSAKSI (Rp)",
+                                format="Rp %.2f"
+                            )
+                        },
+                        use_container_width=True,
+                        hide_index=True
+                    )
+                
+                with col2:
+                    fig = px.bar(
+                        tabel_nilai_trx, 
+                        x='NAMA_PENYEDIA', 
+                        y='NILAI_TRANSAKSI', 
+                        text_auto='.2s', 
+                        title='Grafik Nilai Transaksi Katalog per Pelaku Usaha'
+                    )
+                    fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+                    st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+
     with menu_purchasing_1_3:
         st.title("TABEL NILAI ETALASE")
         # Ambil dan olah data etalase
@@ -588,7 +737,6 @@ try:
             height=900
         )
             
-
 except Exception as e:
     st.error(f"Error: {e}")
 
