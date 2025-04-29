@@ -578,13 +578,14 @@ try:
         gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=50)
         gb.configure_grid_options(domLayout='normal')
         
-        # Tampilkan tabel
+        # Tampilkan tabel dengan tinggi yang menyesuaikan secara otomatis
         AgGrid(
             df_etalase,
             gridOptions=gb.build(),
             fit_columns_on_grid_load=True,
             allow_unsafe_jscode=True,
-            theme='streamlit'
+            theme='streamlit',
+            height='auto'
         )
             
 
