@@ -585,7 +585,7 @@ try:
             fit_columns_on_grid_load=True,
             allow_unsafe_jscode=True,
             theme='streamlit',
-            height=600
+            height=900
         )
             
 
