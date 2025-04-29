@@ -549,7 +549,7 @@ try:
         
         col1, col2 = st.columns((8,2))
         with col1:
-            st.header(f"TABEL NILAI ETALASE - {pilih} - TAHUN {tahun}")
+            st.header(f"{pilih} - TAHUN {tahun}")
         with col2:
             st.download_button(
                 label = "📥 Download Tabel Nilai Etalase",
@@ -561,17 +561,24 @@ try:
         st.divider()
 
         # Tampilkan data
-        st.dataframe(
+        # Menggunakan AgGrid untuk menampilkan data
+        gb = GridOptionsBuilder.from_dataframe(df_etalase)
+        gb.configure_column("NAMA_KOMODITAS", header_name="NAMA KOMODITAS", width=300)
+        gb.configure_column("LOKAL", header_name="LOKAL (Rp.)", type=["numericColumn", "numberColumnFilter"], valueFormatter="data ? 'Rp ' + data.toLocaleString() : ''", width=200)
+        gb.configure_column("NASIONAL", header_name="NASIONAL (Rp.)", type=["numericColumn", "numberColumnFilter"], valueFormatter="data ? 'Rp ' + data.toLocaleString() : ''", width=200)
+        gb.configure_column("SEKTORAL", header_name="SEKTORAL (Rp.)", type=["numericColumn", "numberColumnFilter"], valueFormatter="data ? 'Rp ' + data.toLocaleString() : ''", width=200)
+        
+        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=15)
+        gb.configure_grid_options(domLayout='normal')
+        gridOptions = gb.build()
+        
+        AgGrid(
             df_etalase,
-            column_config={
-                "NAMA_KOMODITAS": "NAMA KOMODITAS",
-                "LOKAL": "LOKAL (Rp.)",
-                "NASIONAL": "NASIONAL (Rp.)",
-                "SEKTORAL": "SEKTORAL (Rp.)"
-            },
-            use_container_width=True,
-            hide_index=True,
-            height=1000
+            gridOptions=gridOptions,
+            height=600,
+            fit_columns_on_grid_load=True,
+            allow_unsafe_jscode=True,
+            theme='streamlit'
         )
             
 
