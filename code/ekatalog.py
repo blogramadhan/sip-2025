@@ -113,11 +113,14 @@ try:
         gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc='sum', editable=False)
         gb.configure_selection('single', use_checkbox=False)
         
-        # Format angka dengan pemisah ribuan
-        if 'NILAI_UKM' in df.columns or 'NILAI_TRANSAKSI' in df.columns:
-            for col in df.columns:
-                if 'NILAI' in col:
-                    gb.configure_column(col, type=["numericColumn", "numberColumnFilter"], valueFormatter="data.toLocaleString('id-ID')")
+        # Format angka dengan pemisah ribuan dan simbol rupiah
+        for col in df.columns:
+            if 'NILAI' in col or col == 'NILAI_UKM' or col == 'NILAI_TRANSAKSI':
+                gb.configure_column(
+                    col, 
+                    type=["numericColumn", "numberColumnFilter"], 
+                    valueFormatter="'Rp ' + data.toLocaleString('id-ID', {minimumFractionDigits: 0, maximumFractionDigits: 0})"
+                )
         
         gridOptions = gb.build()
         return AgGrid(
