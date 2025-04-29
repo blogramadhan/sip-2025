@@ -562,11 +562,12 @@ try:
 
         # Tampilkan data
         # Menggunakan AgGrid untuk menampilkan data
+        # Menggunakan AgGrid untuk menampilkan data
         gb = GridOptionsBuilder.from_dataframe(df_etalase)
         gb.configure_column("NAMA_KOMODITAS", header_name="NAMA KOMODITAS", width=300)
-        gb.configure_column("LOKAL", header_name="LOKAL (Rp.)", type=["numericColumn", "numberColumnFilter"], valueFormatter="data ? 'Rp ' + data.toLocaleString() : ''", width=200)
-        gb.configure_column("NASIONAL", header_name="NASIONAL (Rp.)", type=["numericColumn", "numberColumnFilter"], valueFormatter="data ? 'Rp ' + data.toLocaleString() : ''", width=200)
-        gb.configure_column("SEKTORAL", header_name="SEKTORAL (Rp.)", type=["numericColumn", "numberColumnFilter"], valueFormatter="data ? 'Rp ' + data.toLocaleString() : ''", width=200)
+        gb.configure_column("LOKAL", header_name="LOKAL (Rp.)", type=["numericColumn", "numberColumnFilter"], valueGetter="data.LOKAL.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})", width=200)
+        gb.configure_column("NASIONAL", header_name="NASIONAL (Rp.)", type=["numericColumn", "numberColumnFilter"], valueGetter="data.NASIONAL.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})", width=200)
+        gb.configure_column("SEKTORAL", header_name="SEKTORAL (Rp.)", type=["numericColumn", "numberColumnFilter"], valueGetter="data.SEKTORAL.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})", width=200)
         
         gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=15)
         gb.configure_grid_options(domLayout='normal')
