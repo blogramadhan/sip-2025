@@ -7,20 +7,15 @@ import plotly.graph_objects as go
 import duckdb
 import openpyxl
 from datetime import datetime
-# Library Currency
 from babel.numbers import format_currency
-# Library Aggrid
 from st_aggrid import AgGrid, GridUpdateMode, JsCode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
-# Library Streamlit-Extras
 from streamlit_extras.metric_cards import style_metric_cards
 from streamlit_extras.app_logo import add_logo
-# Library Social Media Links
 from st_social_media_links import SocialMediaIcons
-# Library Tambahan
 from fungsi import *
 
-# Membuat UKPBJ
+# Konfigurasi UKPBJ
 daerah = region_config()
 pilih = st.sidebar.selectbox("Pilih Daerah", list(daerah.keys()))
 tahun = st.sidebar.selectbox("Pilih Tahun", range(datetime.now().year, datetime.now().year-3, -1))
@@ -67,15 +62,13 @@ try:
     # Filter options
     KATALOG_radio_1, KATALOG_radio_2, KATALOG_radio_3, KATALOG_radio_4 = st.columns((1,1,3,5))
     with KATALOG_radio_1:
-        jenis_katalog_array = dfECAT_OK['jenis_katalog'].unique()
-        jenis_katalog_array_ok = np.insert(jenis_katalog_array, 0, "Gabungan")
-        jenis_katalog = st.radio("**Jenis Katalog**", jenis_katalog_array_ok)
+        jenis_katalog_array = np.insert(dfECAT_OK['jenis_katalog'].unique(), 0, "Gabungan")
+        jenis_katalog = st.radio("**Jenis Katalog**", jenis_katalog_array)
     with KATALOG_radio_2:
         nama_sumber_dana = st.radio("**Sumber Dana**", ["Gabungan", "APBD", "BLUD"])
     with KATALOG_radio_3:
-        status_paket_array = dfECAT_OK['status_paket'].unique()
-        status_paket_array_ok = np.insert(status_paket_array, 0, "Gabungan")
-        status_paket = st.radio("**Status Paket**", status_paket_array_ok)
+        status_paket_array = np.insert(dfECAT_OK['status_paket'].unique(), 0, "Gabungan")
+        status_paket = st.radio("**Status Paket**", status_paket_array)
     st.write(f"Anda memilih : **{status_paket}** dan **{jenis_katalog}** dan **{nama_sumber_dana}**")
 
     # Build filter query
@@ -93,47 +86,13 @@ try:
     df_ECAT_filter = con.execute(df_ECAT_filter_Query).df()
 
     # Metrics
-    jumlah_produk = df_ECAT_filter['kd_produk'].nunique()
-    jumlah_penyedia = df_ECAT_filter['kd_penyedia'].nunique()
-    jumlah_trx = df_ECAT_filter['no_paket'].nunique()
-    nilai_trx = df_ECAT_filter['total_harga'].sum()
-
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric(label="Jumlah Produk Katalog", value="{:,}".format(jumlah_produk))
-    col2.metric(label="Jumlah Penyedia Katalog", value="{:,}".format(jumlah_penyedia))
-    col3.metric(label="Jumlah Transaksi Katalog", value="{:,}".format(jumlah_trx))
-    col4.metric(label="Nilai Transaksi Katalog", value="{:,.2f}".format(nilai_trx))
+    col1.metric(label="Jumlah Produk Katalog", value="{:,}".format(df_ECAT_filter['kd_produk'].nunique()))
+    col2.metric(label="Jumlah Penyedia Katalog", value="{:,}".format(df_ECAT_filter['kd_penyedia'].nunique()))
+    col3.metric(label="Jumlah Transaksi Katalog", value="{:,}".format(df_ECAT_filter['no_paket'].nunique()))
+    col4.metric(label="Nilai Transaksi Katalog", value="{:,.2f}".format(df_ECAT_filter['total_harga'].sum()))
 
     st.divider()
-
-    # Fungsi untuk membuat AgGrid
-    def create_aggrid(df, key=None):
-        gb = GridOptionsBuilder.from_dataframe(df)
-        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=10)
-        gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc='sum', editable=False)
-        gb.configure_selection('single', use_checkbox=False)
-        
-        # Format angka dengan pemisah ribuan dan simbol rupiah
-        for col in df.columns:
-            if 'NILAI' in col or col == 'NILAI_UKM' or col == 'NILAI_TRANSAKSI':
-                gb.configure_column(
-                    col, 
-                    type=["numericColumn", "numberColumnFilter"], 
-                    valueFormatter="'Rp ' + data.toLocaleString('id-ID', {minimumFractionDigits: 0, maximumFractionDigits: 0})"
-                )
-        
-        gridOptions = gb.build()
-        return AgGrid(
-            df,
-            gridOptions=gridOptions,
-            fit_columns_on_grid_load=True,
-            height=350,
-            width='100%',
-            theme='streamlit',
-            enable_enterprise_modules=False,
-            key=key,
-            allow_unsafe_jscode=True
-        )
 
     # Berdasarkan Kualifikasi Usaha
     with st.container(border=True):
@@ -142,23 +101,28 @@ try:
         tab1, tab2 = st.tabs(["| Jumlah Transaksi Penyedia |", "| Nilai Transaksi Penyedia |"])
         
         with tab1:
-            sql_jumlah_ukm = """
+            tabel_jumlah_ukm = con.execute("""
                 SELECT penyedia_ukm AS PENYEDIA_UKM, COUNT(DISTINCT(kd_penyedia)) AS JUMLAH_UKM
                 FROM df_ECAT_filter GROUP BY PENYEDIA_UKM
-            """
-            tabel_jumlah_ukm = con.execute(sql_jumlah_ukm).df()
+            """).df()
             
             col1, col2 = st.columns((3,7))
             with col1:
-                create_aggrid(tabel_jumlah_ukm, key="grid_jumlah_ukm")
+                gd_ukm_hitung = GridOptionsBuilder.from_dataframe(tabel_jumlah_ukm)
+                gd_ukm_hitung.configure_default_column(autoSizeColumns=True)
+                AgGrid(tabel_jumlah_ukm, 
+                       gridOptions=gd_ukm_hitung.build(),
+                       fit_columns_on_grid_load=True,
+                       autoSizeColumns=True,
+                       width='100%',
+                       height=min(400, 35 * (len(tabel_jumlah_ukm) + 1)))
             with col2:
-                colors = px.colors.qualitative.Pastel
                 fig = go.Figure(data=[go.Pie(
                     labels=tabel_jumlah_ukm['PENYEDIA_UKM'],
                     values=tabel_jumlah_ukm['JUMLAH_UKM'],
                     hole=.4,
                     textinfo='label+percent',
-                    marker=dict(colors=colors, line=dict(color='#000000', width=1))
+                    marker=dict(colors=px.colors.qualitative.Pastel, line=dict(color='#000000', width=1))
                 )])
                 fig.update_layout(
                     title='Grafik Jumlah Transaksi Katalog PENYEDIA UKM',
@@ -168,38 +132,33 @@ try:
                 st.plotly_chart(fig, theme='streamlit', use_container_width=True)
         
         with tab2:
-            sql_nilai_ukm = """
+            tabel_nilai_ukm = con.execute("""
                 SELECT penyedia_ukm AS PENYEDIA_UKM, SUM(total_harga) AS NILAI_UKM
                 FROM df_ECAT_filter GROUP BY PENYEDIA_UKM
-            """
-            tabel_nilai_ukm = con.execute(sql_nilai_ukm).df()
+            """).df()
             
             col1, col2 = st.columns((3.5,6.5))
             with col1:
-                # Membuat grid dengan format rupiah yang benar
                 gb = GridOptionsBuilder.from_dataframe(tabel_nilai_ukm)
-
                 gb.configure_default_column(autoSizeColumns=True)
                 gb.configure_column("NILAI_UKM", 
                                   type=["numericColumn", "numberColumnFilter", "customNumericFormat"], 
                                   valueGetter="data.NILAI_UKM.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
-
+                
                 AgGrid(tabel_nilai_ukm, 
                        gridOptions=gb.build(),
                        enable_enterprise_modules=True,
                        fit_columns_on_grid_load=True,
-                       autoSizeColumns=True,
                        width='100%',
-                       height=min(400, 35 * (len(tabel_nilai_ukm) + 1)))
+                       height=min(350, 35 * (len(tabel_nilai_ukm) + 1)))
                 
             with col2:
-                colors = px.colors.qualitative.Bold
                 fig = go.Figure(data=[go.Pie(
                     labels=tabel_nilai_ukm['PENYEDIA_UKM'],
                     values=tabel_nilai_ukm['NILAI_UKM'],
                     hole=.4,
                     textinfo='label+percent',
-                    marker=dict(colors=colors, line=dict(color='#000000', width=1))
+                    marker=dict(colors=px.colors.qualitative.Bold, line=dict(color='#000000', width=1))
                 )])
                 fig.update_layout(
                     title='Grafik Nilai Transaksi Katalog PENYEDIA UKM',
@@ -215,24 +174,28 @@ try:
         tab1, tab2 = st.tabs(["| Jumlah Transaksi Tiap Komoditas |", "| Nilai Transaksi Tiap Komoditas |"])
         
         with tab1:
-            # Query untuk jumlah transaksi berdasarkan komoditas
             komoditas_filter = f"AND kd_instansi_katalog = '{kodeRUP}'" if jenis_katalog == "Lokal" else ""
-            sql_jumlah_komoditas = f"""
+            tabel_jumlah_komoditas = con.execute(f"""
                 SELECT nama_komoditas AS NAMA_KOMODITAS, COUNT(DISTINCT(no_paket)) AS JUMLAH_TRANSAKSI
                 FROM df_ECAT_filter 
                 WHERE NAMA_KOMODITAS IS NOT NULL {komoditas_filter}
                 GROUP BY NAMA_KOMODITAS 
                 ORDER BY JUMLAH_TRANSAKSI DESC 
                 LIMIT 10
-            """
-            tabel_jumlah_komoditas = con.execute(sql_jumlah_komoditas).df()
+            """).df()
             
             col1, col2 = st.columns((4,6))
             with col1:
-                create_aggrid(tabel_jumlah_komoditas, key="grid_jumlah_komoditas")
+                gd_jumlah_komoditas = GridOptionsBuilder.from_dataframe(tabel_jumlah_komoditas)
+                gd_jumlah_komoditas.configure_default_column(autoSizeColumns=True)
+                AgGrid(tabel_jumlah_komoditas, 
+                       gridOptions=gd_jumlah_komoditas.build(),
+                       fit_columns_on_grid_load=True,
+                       autoSizeColumns=True,
+                       width='100%',
+                       height=min(400, 35 * (len(tabel_jumlah_komoditas) + 1)))
             with col2:
-                fig = go.Figure()
-                fig.add_trace(go.Bar(
+                fig = go.Figure(go.Bar(
                     x=tabel_jumlah_komoditas['NAMA_KOMODITAS'],
                     y=tabel_jumlah_komoditas['JUMLAH_TRANSAKSI'],
                     text=tabel_jumlah_komoditas['JUMLAH_TRANSAKSI'],
@@ -252,24 +215,33 @@ try:
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         
         with tab2:
-            # Query untuk nilai transaksi berdasarkan komoditas
             komoditas_filter = f"AND kd_instansi_katalog = '{kodeRUP}'" if jenis_katalog == "Lokal" else ""
-            sql_nilai_komoditas = f"""
+            tabel_nilai_komoditas = con.execute(f"""
                 SELECT nama_komoditas AS NAMA_KOMODITAS, SUM(total_harga) AS NILAI_TRANSAKSI
                 FROM df_ECAT_filter 
                 WHERE NAMA_KOMODITAS IS NOT NULL {komoditas_filter}
                 GROUP BY NAMA_KOMODITAS 
                 ORDER BY NILAI_TRANSAKSI DESC 
                 LIMIT 10
-            """
-            tabel_nilai_komoditas = con.execute(sql_nilai_komoditas).df()
+            """).df()
             
             col1, col2 = st.columns((4,6))
             with col1:
-                create_aggrid(tabel_nilai_komoditas, key="grid_nilai_komoditas")
+                gb = GridOptionsBuilder.from_dataframe(tabel_nilai_komoditas)
+                gb.configure_default_column(autoSizeColumns=True)
+                gb.configure_column("NILAI_TRANSAKSI", 
+                                  type=["numericColumn", "numberColumnFilter", "customNumericFormat"], 
+                                  valueGetter="data.NILAI_TRANSAKSI.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")    
+                
+                AgGrid(tabel_nilai_komoditas, 
+                       gridOptions=gb.build(),
+                       enable_enterprise_modules=True,
+                       fit_columns_on_grid_load=True,
+                       width='100%',
+                       height=min(400, 35 * (len(tabel_nilai_komoditas) + 1)))
+                
             with col2:
-                fig = go.Figure()
-                fig.add_trace(go.Bar(
+                fig = go.Figure(go.Bar(
                     x=tabel_nilai_komoditas['NAMA_KOMODITAS'],
                     y=tabel_nilai_komoditas['NILAI_TRANSAKSI'],
                     text=[f'{x:,.0f}' for x in tabel_nilai_komoditas['NILAI_TRANSAKSI']],
@@ -295,22 +267,27 @@ try:
         tab1, tab2 = st.tabs(["| Jumlah Transaksi Perangkat Daerah |", "| Nilai Transaksi Perangkat Daerah |"])
         
         with tab1:
-            sql_jumlah_pd = """
+            tabel_jumlah_pd = con.execute("""
                 SELECT nama_satker AS NAMA_SATKER, COUNT(DISTINCT(no_paket)) AS JUMLAH_TRANSAKSI
                 FROM df_ECAT_filter 
                 WHERE NAMA_SATKER IS NOT NULL 
                 GROUP BY NAMA_SATKER 
                 ORDER BY JUMLAH_TRANSAKSI DESC 
                 LIMIT 10
-            """
-            tabel_jumlah_pd = con.execute(sql_jumlah_pd).df()
+            """).df()
             
             col1, col2 = st.columns((4,6))
             with col1:
-                create_aggrid(tabel_jumlah_pd, key="grid_jumlah_pd")
+                gd_jumlah_pd = GridOptionsBuilder.from_dataframe(tabel_jumlah_pd)
+                gd_jumlah_pd.configure_default_column(autoSizeColumns=True)
+                AgGrid(tabel_jumlah_pd, 
+                       gridOptions=gd_jumlah_pd.build(),
+                       fit_columns_on_grid_load=True,
+                       autoSizeColumns=True,
+                       width='100%',
+                       height=min(400, 35 * (len(tabel_jumlah_pd) + 1)))
             with col2:
-                fig = go.Figure()
-                fig.add_trace(go.Bar(
+                fig = go.Figure(go.Bar(
                     x=tabel_jumlah_pd['NAMA_SATKER'],
                     y=tabel_jumlah_pd['JUMLAH_TRANSAKSI'],
                     text=tabel_jumlah_pd['JUMLAH_TRANSAKSI'],
@@ -330,22 +307,32 @@ try:
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         
         with tab2:
-            sql_nilai_pd = """
+            tabel_nilai_pd = con.execute("""
                 SELECT nama_satker AS NAMA_SATKER, SUM(total_harga) AS NILAI_TRANSAKSI
                 FROM df_ECAT_filter 
                 WHERE NAMA_SATKER IS NOT NULL
                 GROUP BY NAMA_SATKER 
                 ORDER BY NILAI_TRANSAKSI DESC 
                 LIMIT 10
-            """
-            tabel_nilai_pd = con.execute(sql_nilai_pd).df()
+            """).df()
             
             col1, col2 = st.columns((4,6))
             with col1:
-                create_aggrid(tabel_nilai_pd, key="grid_nilai_pd")
+                gb = GridOptionsBuilder.from_dataframe(tabel_nilai_pd)  
+                gb.configure_default_column(autoSizeColumns=True)
+                gb.configure_column("NILAI_TRANSAKSI", 
+                                  type=["numericColumn", "numberColumnFilter", "customNumericFormat"], 
+                                  valueGetter="data.NILAI_TRANSAKSI.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+                
+                AgGrid(tabel_nilai_pd, 
+                       gridOptions=gb.build(),
+                       enable_enterprise_modules=True,
+                       fit_columns_on_grid_load=True,
+                       width='100%',
+                       height=min(400, 35 * (len(tabel_nilai_pd) + 1)))
+                
             with col2:
-                fig = go.Figure()
-                fig.add_trace(go.Bar(
+                fig = go.Figure(go.Bar(
                     x=tabel_nilai_pd['NAMA_SATKER'],
                     y=tabel_nilai_pd['NILAI_TRANSAKSI'],
                     text=[f'{x:,.0f}' for x in tabel_nilai_pd['NILAI_TRANSAKSI']],
@@ -371,22 +358,28 @@ try:
         tab1, tab2 = st.tabs(["| Jumlah Transaksi Pelaku Usaha |", "| Nilai Transaksi Pelaku Usaha |"])
         
         with tab1:
-            sql_jumlah_pu = """
+            tabel_jumlah_pu = con.execute("""
                 SELECT nama_penyedia AS NAMA_PENYEDIA, COUNT(DISTINCT(no_paket)) AS JUMLAH_TRANSAKSI
                 FROM df_ECAT_filter 
                 WHERE NAMA_PENYEDIA IS NOT NULL 
                 GROUP BY NAMA_PENYEDIA 
                 ORDER BY JUMLAH_TRANSAKSI DESC 
                 LIMIT 10
-            """
-            tabel_jumlah_pu = con.execute(sql_jumlah_pu).df()
+            """).df()
             
             col1, col2 = st.columns((4,6))
             with col1:
-                create_aggrid(tabel_jumlah_pu, key="grid_jumlah_pu")
+                gd_jumlah_pu = GridOptionsBuilder.from_dataframe(tabel_jumlah_pu)
+                gd_jumlah_pu.configure_default_column(autoSizeColumns=True)
+                AgGrid(tabel_jumlah_pu, 
+                       gridOptions=gd_jumlah_pu.build(),
+                       enable_enterprise_modules=True,
+                       fit_columns_on_grid_load=True,
+                       autoSizeColumns=True,
+                       width='100%',
+                       height=min(400, 35 * (len(tabel_jumlah_pu) + 1)))
             with col2:
-                fig = go.Figure()
-                fig.add_trace(go.Bar(
+                fig = go.Figure(go.Bar(
                     x=tabel_jumlah_pu['NAMA_PENYEDIA'],
                     y=tabel_jumlah_pu['JUMLAH_TRANSAKSI'],
                     text=tabel_jumlah_pu['JUMLAH_TRANSAKSI'],
@@ -406,22 +399,32 @@ try:
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         
         with tab2:
-            sql_nilai_pu = """
+            tabel_nilai_pu = con.execute("""
                 SELECT nama_penyedia AS NAMA_PENYEDIA, SUM(total_harga) AS NILAI_TRANSAKSI
                 FROM df_ECAT_filter 
                 WHERE NAMA_PENYEDIA IS NOT NULL
                 GROUP BY NAMA_PENYEDIA 
                 ORDER BY NILAI_TRANSAKSI DESC 
                 LIMIT 10
-            """
-            tabel_nilai_pu = con.execute(sql_nilai_pu).df()
+            """).df()
             
             col1, col2 = st.columns((4,6))
             with col1:
-                create_aggrid(tabel_nilai_pu, key="grid_nilai_pu")
+                gb = GridOptionsBuilder.from_dataframe(tabel_nilai_pu)
+                gb.configure_default_column(autoSizeColumns=True)
+                gb.configure_column("NILAI_TRANSAKSI", 
+                                  type=["numericColumn", "numberColumnFilter", "customNumericFormat"], 
+                                  valueGetter="data.NILAI_TRANSAKSI.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+                
+                AgGrid(tabel_nilai_pu, 
+                       gridOptions=gb.build(),
+                       enable_enterprise_modules=True,
+                       fit_columns_on_grid_load=True,
+                       width='100%',
+                       height=min(400, 35 * (len(tabel_nilai_pu) + 1)))
+                
             with col2:
-                fig = go.Figure()
-                fig.add_trace(go.Bar(
+                fig = go.Figure(go.Bar(
                     x=tabel_nilai_pu['NAMA_PENYEDIA'],
                     y=tabel_nilai_pu['NILAI_TRANSAKSI'],
                     text=[f'{x:,.0f}' for x in tabel_nilai_pu['NILAI_TRANSAKSI']],
