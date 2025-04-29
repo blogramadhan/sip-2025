@@ -517,9 +517,11 @@ try:
                     marker=dict(
                         color=tabel_nilai_pu['NILAI_TRANSAKSI'],
                         colorscale='Oranges',
-                        marker_color='rgba(255, 127, 14, 0.8)',
-                        marker_line_color='rgba(204, 85, 0, 1.0)',
-                        marker_line_width=1.5
+                        line=dict(
+                            color='rgba(204, 85, 0, 1.0)',
+                            width=1.5
+                        ),
+                        opacity=0.8
                     )
                 ))
                 fig.update_layout(
