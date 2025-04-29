@@ -178,17 +178,20 @@ try:
             with col1:
                 # Membuat grid dengan format rupiah yang benar
                 gb = GridOptionsBuilder.from_dataframe(tabel_nilai_ukm)
-                gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, 
-                                          aggFunc="sum", editable=False)
-                gb.configure_column("PENYEDIA_UKM", headerName="PENYEDIA UKM")
+
+                gb.configure_default_column(autoSizeColumns=True)
                 gb.configure_column("NILAI_UKM", 
                                   type=["numericColumn", "numberColumnFilter", "customNumericFormat"], 
-                                  valueFormatter="'Rp ' + data.NILAI_UKM.toLocaleString('id-ID', {minimumFractionDigits: 0, maximumFractionDigits: 0})")
+                                  valueGetter="data.NILAI_UKM.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+
+                AgGrid(tabel_nilai_ukm, 
+                       gridOptions=gb.build(),
+                       enable_enterprise_modules=True,
+                       fit_columns_on_grid_load=True,
+                       autoSizeColumns=True,
+                       width='100%',
+                       height=min(400, 35 * (len(tabel_nilai_ukm) + 1)))
                 
-                gridOptions = gb.build()
-                
-                # Menggunakan fungsi create_aggrid yang sudah ada
-                create_aggrid(tabel_nilai_ukm, key="grid_nilai_ukm")
             with col2:
                 colors = px.colors.qualitative.Bold
                 fig = go.Figure(data=[go.Pie(
