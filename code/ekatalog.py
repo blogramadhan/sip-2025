@@ -44,11 +44,28 @@ try:
 
         # Baca dan gabungkan dataset E-Katalog
         dfECAT = read_df_duckdb(datasets['ECAT'])
-        dfECAT_OK = (dfECAT
-                    .merge(read_df_duckdb(datasets['ECAT_KD']), how='left', on='kd_komoditas')
-                    .drop('nama_satker', axis=1)
-                    .merge(read_df_duckdb(datasets['ECAT_IS']), left_on='satker_id', right_on='kd_satker', how='left')
-                    .merge(read_df_duckdb(datasets['ECAT_PD']), how='left', on='kd_penyedia'))
+
+        # dfECAT_OK = (dfECAT
+        #             .merge(read_df_duckdb(datasets['ECAT_KD']), how='left', on='kd_komoditas')
+        #             .drop('nama_satker', axis=1)
+        #             .merge(read_df_duckdb(datasets['ECAT_IS']), left_on='satker_id', right_on='kd_satker', how='left')
+        #             .merge(read_df_duckdb(datasets['ECAT_PD']), how='left', on='kd_penyedia'))
+        
+        # Menggunakan DuckDB untuk menggabungkan dataset
+        con.execute(f"""
+            CREATE OR REPLACE VIEW dfECAT_OK AS
+            SELECT *
+            FROM dfECAT
+            LEFT JOIN (SELECT * FROM read_df_duckdb('{datasets["ECAT_KD"]}')) AS ecat_kd
+                ON dfECAT.kd_komoditas = ecat_kd.kd_komoditas
+            LEFT JOIN (SELECT * FROM read_df_duckdb('{datasets["ECAT_IS"]}')) AS ecat_is
+                ON dfECAT.satker_id = ecat_is.kd_satker
+            LEFT JOIN (SELECT * FROM read_df_duckdb('{datasets["ECAT_PD"]}')) AS ecat_pd
+                ON dfECAT.kd_penyedia = ecat_pd.kd_penyedia
+        """)
+        
+        # Mengambil hasil query ke DataFrame
+        dfECAT_OK = con.execute("SELECT * FROM dfECAT_OK WHERE nama_satker IS NULL").df()
 
         # Header dan tombol unduh
         col1, col2 = st.columns([8,2])
