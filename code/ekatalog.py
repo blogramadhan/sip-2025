@@ -517,9 +517,10 @@ try:
                     marker=dict(
                         color=tabel_nilai_pu['NILAI_TRANSAKSI'],
                         colorscale='Oranges',
-                    marker_color='rgba(255, 127, 14, 0.8)',
-                    marker_line_color='rgba(204, 85, 0, 1.0)',
-                    marker_line_width=1.5
+                        marker_color='rgba(255, 127, 14, 0.8)',
+                        marker_line_color='rgba(204, 85, 0, 1.0)',
+                        marker_line_width=1.5
+                    )
                 ))
                 fig.update_layout(
                     title='Grafik Nilai Transaksi Katalog - Pelaku Usaha',
