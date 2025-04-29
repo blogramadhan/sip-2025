@@ -3,13 +3,14 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import plotly.graph_objects as go
 import duckdb
 import openpyxl
 from datetime import datetime
 # Library Currency
 from babel.numbers import format_currency
 # Library Aggrid
-from st_aggrid import AgGrid, GridUpdateMode
+from st_aggrid import AgGrid, GridUpdateMode, JsCode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 # Library Streamlit-Extras
 from streamlit_extras.metric_cards import style_metric_cards
@@ -105,6 +106,32 @@ try:
 
     st.divider()
 
+    # Fungsi untuk membuat AgGrid
+    def create_aggrid(df, key=None):
+        gb = GridOptionsBuilder.from_dataframe(df)
+        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=10)
+        gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, aggFunc='sum', editable=False)
+        gb.configure_selection('single', use_checkbox=False)
+        
+        # Format angka dengan pemisah ribuan
+        if 'NILAI_UKM' in df.columns or 'NILAI_TRANSAKSI' in df.columns:
+            for col in df.columns:
+                if 'NILAI' in col:
+                    gb.configure_column(col, type=["numericColumn", "numberColumnFilter"], valueFormatter="data.toLocaleString('id-ID')")
+        
+        gridOptions = gb.build()
+        return AgGrid(
+            df,
+            gridOptions=gridOptions,
+            fit_columns_on_grid_load=True,
+            height=350,
+            width='100%',
+            theme='streamlit',
+            enable_enterprise_modules=False,
+            key=key,
+            allow_unsafe_jscode=True
+        )
+
     # Berdasarkan Kualifikasi Usaha
     with st.container(border=True):
         st.subheader("Berdasarkan Kualifikasi Usaha")
@@ -120,10 +147,21 @@ try:
             
             col1, col2 = st.columns((3,7))
             with col1:
-                st.dataframe(tabel_jumlah_ukm, hide_index=True, use_container_width=True)
+                create_aggrid(tabel_jumlah_ukm, key="grid_jumlah_ukm")
             with col2:
-                fig = px.pie(tabel_jumlah_ukm, values='JUMLAH_UKM', names="PENYEDIA_UKM", 
-                             title='Grafik Jumlah Transaksi Katalog PENYEDIA UKM', hole=.3)
+                colors = px.colors.qualitative.Pastel
+                fig = go.Figure(data=[go.Pie(
+                    labels=tabel_jumlah_ukm['PENYEDIA_UKM'],
+                    values=tabel_jumlah_ukm['JUMLAH_UKM'],
+                    hole=.4,
+                    textinfo='label+percent',
+                    marker=dict(colors=colors, line=dict(color='#000000', width=1))
+                )])
+                fig.update_layout(
+                    title='Grafik Jumlah Transaksi Katalog PENYEDIA UKM',
+                    legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
+                    margin=dict(t=50, b=50, l=10, r=10)
+                )
                 st.plotly_chart(fig, theme='streamlit', use_container_width=True)
         
         with tab2:
@@ -135,10 +173,21 @@ try:
             
             col1, col2 = st.columns((3.5,6.5))
             with col1:
-                st.dataframe(tabel_nilai_ukm, hide_index=True, use_container_width=True)
+                create_aggrid(tabel_nilai_ukm, key="grid_nilai_ukm")
             with col2:
-                fig = px.pie(tabel_nilai_ukm, values='NILAI_UKM', names="PENYEDIA_UKM", 
-                             title='Grafik Nilai Transaksi Katalog PENYEDIA UKM', hole=.3)
+                colors = px.colors.qualitative.Bold
+                fig = go.Figure(data=[go.Pie(
+                    labels=tabel_nilai_ukm['PENYEDIA_UKM'],
+                    values=tabel_nilai_ukm['NILAI_UKM'],
+                    hole=.4,
+                    textinfo='label+percent',
+                    marker=dict(colors=colors, line=dict(color='#000000', width=1))
+                )])
+                fig.update_layout(
+                    title='Grafik Nilai Transaksi Katalog PENYEDIA UKM',
+                    legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
+                    margin=dict(t=50, b=50, l=10, r=10)
+                )
                 st.plotly_chart(fig, theme='streamlit', use_container_width=True)
 
     # Berdasarkan Nama Komoditas
@@ -162,11 +211,26 @@ try:
             
             col1, col2 = st.columns((4,6))
             with col1:
-                st.dataframe(tabel_jumlah_komoditas, hide_index=True, use_container_width=True)
+                create_aggrid(tabel_jumlah_komoditas, key="grid_jumlah_komoditas")
             with col2:
-                fig = px.bar(tabel_jumlah_komoditas, x='NAMA_KOMODITAS', y='JUMLAH_TRANSAKSI', 
-                             text_auto='.2s', title='Grafik Jumlah Transaksi e-Katalog - Nama Komoditas')
-                fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+                fig = go.Figure()
+                fig.add_trace(go.Bar(
+                    x=tabel_jumlah_komoditas['NAMA_KOMODITAS'],
+                    y=tabel_jumlah_komoditas['JUMLAH_TRANSAKSI'],
+                    text=tabel_jumlah_komoditas['JUMLAH_TRANSAKSI'],
+                    textposition='outside',
+                    marker_color='rgba(58, 71, 80, 0.8)',
+                    marker_line_color='rgba(8, 48, 107, 1.0)',
+                    marker_line_width=1.5
+                ))
+                fig.update_layout(
+                    title='Grafik Jumlah Transaksi e-Katalog - Nama Komoditas',
+                    xaxis_title='Nama Komoditas',
+                    yaxis_title='Jumlah Transaksi',
+                    xaxis={'categoryorder':'total descending'},
+                    margin=dict(t=50, b=100, l=10, r=10)
+                )
+                fig.update_xaxes(tickangle=45)
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         
         with tab2:
@@ -184,11 +248,26 @@ try:
             
             col1, col2 = st.columns((4,6))
             with col1:
-                st.dataframe(tabel_nilai_komoditas, hide_index=True, use_container_width=True)
+                create_aggrid(tabel_nilai_komoditas, key="grid_nilai_komoditas")
             with col2:
-                fig = px.bar(tabel_nilai_komoditas, x='NAMA_KOMODITAS', y='NILAI_TRANSAKSI', 
-                             text_auto='.2s', title='Grafik Nilai Transaksi e-Katalog - Nama Komoditas')
-                fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+                fig = go.Figure()
+                fig.add_trace(go.Bar(
+                    x=tabel_nilai_komoditas['NAMA_KOMODITAS'],
+                    y=tabel_nilai_komoditas['NILAI_TRANSAKSI'],
+                    text=[f'{x:,.0f}' for x in tabel_nilai_komoditas['NILAI_TRANSAKSI']],
+                    textposition='outside',
+                    marker_color='rgba(26, 118, 255, 0.8)',
+                    marker_line_color='rgba(8, 48, 107, 1.0)',
+                    marker_line_width=1.5
+                ))
+                fig.update_layout(
+                    title='Grafik Nilai Transaksi e-Katalog - Nama Komoditas',
+                    xaxis_title='Nama Komoditas',
+                    yaxis_title='Nilai Transaksi',
+                    xaxis={'categoryorder':'total descending'},
+                    margin=dict(t=50, b=100, l=10, r=10)
+                )
+                fig.update_xaxes(tickangle=45)
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
     # Berdasarkan Perangkat Daerah
@@ -210,11 +289,26 @@ try:
             
             col1, col2 = st.columns((4,6))
             with col1:
-                st.dataframe(tabel_jumlah_pd, hide_index=True, use_container_width=True)
+                create_aggrid(tabel_jumlah_pd, key="grid_jumlah_pd")
             with col2:
-                fig = px.bar(tabel_jumlah_pd, x='NAMA_SATKER', y='JUMLAH_TRANSAKSI', 
-                             text_auto='.2s', title='Grafik Jumlah Transaksi e-Katalog - Perangkat Daerah')
-                fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+                fig = go.Figure()
+                fig.add_trace(go.Bar(
+                    x=tabel_jumlah_pd['NAMA_SATKER'],
+                    y=tabel_jumlah_pd['JUMLAH_TRANSAKSI'],
+                    text=tabel_jumlah_pd['JUMLAH_TRANSAKSI'],
+                    textposition='outside',
+                    marker_color='rgba(152, 78, 163, 0.8)',
+                    marker_line_color='rgba(102, 0, 102, 1.0)',
+                    marker_line_width=1.5
+                ))
+                fig.update_layout(
+                    title='Grafik Jumlah Transaksi e-Katalog - Perangkat Daerah',
+                    xaxis_title='Perangkat Daerah',
+                    yaxis_title='Jumlah Transaksi',
+                    xaxis={'categoryorder':'total descending'},
+                    margin=dict(t=50, b=100, l=10, r=10)
+                )
+                fig.update_xaxes(tickangle=45)
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         
         with tab2:
@@ -230,11 +324,26 @@ try:
             
             col1, col2 = st.columns((4,6))
             with col1:
-                st.dataframe(tabel_nilai_pd, hide_index=True, use_container_width=True)
+                create_aggrid(tabel_nilai_pd, key="grid_nilai_pd")
             with col2:
-                fig = px.bar(tabel_nilai_pd, x='NAMA_SATKER', y='NILAI_TRANSAKSI', 
-                             text_auto='.2s', title='Grafik Nilai Transaksi e-Katalog - Perangkat Daerah')
-                fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+                fig = go.Figure()
+                fig.add_trace(go.Bar(
+                    x=tabel_nilai_pd['NAMA_SATKER'],
+                    y=tabel_nilai_pd['NILAI_TRANSAKSI'],
+                    text=[f'{x:,.0f}' for x in tabel_nilai_pd['NILAI_TRANSAKSI']],
+                    textposition='outside',
+                    marker_color='rgba(214, 39, 40, 0.8)',
+                    marker_line_color='rgba(150, 0, 0, 1.0)',
+                    marker_line_width=1.5
+                ))
+                fig.update_layout(
+                    title='Grafik Nilai Transaksi e-Katalog - Perangkat Daerah',
+                    xaxis_title='Perangkat Daerah',
+                    yaxis_title='Nilai Transaksi',
+                    xaxis={'categoryorder':'total descending'},
+                    margin=dict(t=50, b=100, l=10, r=10)
+                )
+                fig.update_xaxes(tickangle=45)
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
     # Berdasarkan Pelaku Usaha
@@ -256,11 +365,26 @@ try:
             
             col1, col2 = st.columns((4,6))
             with col1:
-                st.dataframe(tabel_jumlah_pu, hide_index=True, use_container_width=True)
+                create_aggrid(tabel_jumlah_pu, key="grid_jumlah_pu")
             with col2:
-                fig = px.bar(tabel_jumlah_pu, x='NAMA_PENYEDIA', y='JUMLAH_TRANSAKSI', 
-                             text_auto='.2s', title='Grafik Jumlah Transaksi Katalog - Pelaku Usaha')
-                fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+                fig = go.Figure()
+                fig.add_trace(go.Bar(
+                    x=tabel_jumlah_pu['NAMA_PENYEDIA'],
+                    y=tabel_jumlah_pu['JUMLAH_TRANSAKSI'],
+                    text=tabel_jumlah_pu['JUMLAH_TRANSAKSI'],
+                    textposition='outside',
+                    marker_color='rgba(44, 160, 44, 0.8)',
+                    marker_line_color='rgba(0, 100, 0, 1.0)',
+                    marker_line_width=1.5
+                ))
+                fig.update_layout(
+                    title='Grafik Jumlah Transaksi Katalog - Pelaku Usaha',
+                    xaxis_title='Pelaku Usaha',
+                    yaxis_title='Jumlah Transaksi',
+                    xaxis={'categoryorder':'total descending'},
+                    margin=dict(t=50, b=100, l=10, r=10)
+                )
+                fig.update_xaxes(tickangle=45)
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         
         with tab2:
@@ -276,12 +400,29 @@ try:
             
             col1, col2 = st.columns((4,6))
             with col1:
-                st.dataframe(tabel_nilai_pu, hide_index=True, use_container_width=True)
+                create_aggrid(tabel_nilai_pu, key="grid_nilai_pu")
             with col2:
-                fig = px.bar(tabel_nilai_pu, x='NAMA_PENYEDIA', y='NILAI_TRANSAKSI', 
-                             text_auto='.2s', title='Grafik Nilai Transaksi Katalog - Pelaku Usaha')
-                fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+                fig = go.Figure()
+                fig.add_trace(go.Bar(
+                    x=tabel_nilai_pu['NAMA_PENYEDIA'],
+                    y=tabel_nilai_pu['NILAI_TRANSAKSI'],
+                    text=[f'{x:,.0f}' for x in tabel_nilai_pu['NILAI_TRANSAKSI']],
+                    textposition='outside',
+                    marker_color='rgba(255, 127, 14, 0.8)',
+                    marker_line_color='rgba(204, 85, 0, 1.0)',
+                    marker_line_width=1.5
+                ))
+                fig.update_layout(
+                    title='Grafik Nilai Transaksi Katalog - Pelaku Usaha',
+                    xaxis_title='Pelaku Usaha',
+                    yaxis_title='Nilai Transaksi',
+                    xaxis={'categoryorder':'total descending'},
+                    margin=dict(t=50, b=100, l=10, r=10)
+                )
+                fig.update_xaxes(tickangle=45)
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
 except Exception as e:
     st.error(f"Error: {e}")
+
+style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
