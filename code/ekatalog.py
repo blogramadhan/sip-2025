@@ -37,7 +37,7 @@ datasets = {
     'ECAT': f"{base_url}/Ecat-PaketEPurchasing{tahun}.parquet",
     'ECAT_KD': f"{base_url}/ECATKomoditasDetail{tahun}.parquet", 
     'ECAT_IS': f"{base_url}/Ecat-InstansiSatker{tahun}.parquet",
-    'ECAT_PD': f"{base_url}/ECATPenyediaDetail{tahun}-03-31.parquet",
+    'ECAT_PD': f"{base_url}/ECATPenyediaDetail{tahun}.parquet",
 }
 
 try:
