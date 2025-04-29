@@ -38,8 +38,8 @@ datasets = {
 
 menu_purchasing_1_1, menu_purchasing_1_2, menu_purchasing_1_3 = st.tabs(["| TRANSAKSI KATALOG |", "| TRANSAKSI KATALOG (ETALASE) |", "| TABEL NILAI ETALASE |"])
 
-with menu_purchasing_1_1:
-    try:
+try:
+    with menu_purchasing_1_1:
         st.title("TRANSAKSI E-KATALOG")
 
         # Baca dan gabungkan dataset E-Katalog
@@ -528,13 +528,54 @@ with menu_purchasing_1_1:
                     fig.update_xaxes(tickangle=45)
                     st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
-    except Exception as e:
-        st.error(f"Error: {e}")
+    with menu_purchasing_1_2:
+        st.title("TRANSAKSI E-KATALOG (ETALASE)")
 
-with menu_purchasing_1_2:
-    st.title("TRANSAKSI E-KATALOG (ETALASE)")
+    with menu_purchasing_1_3:
+        st.title("TABEL NILAI ETALASE")
+        # Ambil dan olah data etalase
+        df_etalase = con.execute("""
+            SELECT 
+                nama_komoditas AS NAMA_KOMODITAS,
+                SUM(CASE WHEN jenis_katalog = 'Lokal' THEN total_harga ELSE 0 END) AS LOKAL,
+                SUM(CASE WHEN jenis_katalog = 'Nasional' THEN total_harga ELSE 0 END) AS NASIONAL,
+                SUM(CASE WHEN jenis_katalog = 'Sektoral' THEN total_harga ELSE 0 END) AS SEKTORAL
+            FROM dfECAT_OK
+            GROUP BY nama_komoditas
+        """).df()
 
-with menu_purchasing_1_3:
-    st.title("TABEL NILAI ETALASE")
+        # Siapkan unduhan dan tampilkan header
+        unduh_excel = download_excel(df_etalase)
+        
+        col1, col2 = st.columns((8,2))
+        with col1:
+            st.header(f"TABEL NILAI ETALASE - {pilih} - TAHUN {tahun}")
+        with col2:
+            st.download_button(
+                label = "📥 Download Tabel Nilai Etalase",
+                data = unduh_excel,
+                file_name = f"TabelNilaiEtalase-{kodeFolder}-{tahun}.xlsx",
+                mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+
+        st.divider()
+
+        # Tampilkan data
+        st.dataframe(
+            df_etalase,
+            column_config={
+                "NAMA_KOMODITAS": "NAMA KOMODITAS",
+                "LOKAL": "LOKAL (Rp.)",
+                "NASIONAL": "NASIONAL (Rp.)",
+                "SEKTORAL": "SEKTORAL (Rp.)"
+            },
+            use_container_width=True,
+            hide_index=True,
+            height=1000
+        )
+            
+
+except Exception as e:
+    st.error(f"Error: {e}")
 
 style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
