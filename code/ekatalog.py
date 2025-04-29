@@ -183,20 +183,12 @@ try:
                 gb.configure_column("PENYEDIA_UKM", headerName="PENYEDIA UKM")
                 gb.configure_column("NILAI_UKM", 
                                   type=["numericColumn", "numberColumnFilter", "customNumericFormat"], 
-                                  valueFormatter="'Rp ' + data.toLocaleString('id-ID', {minimumFractionDigits: 0, maximumFractionDigits: 0})")
+                                  valueFormatter="'Rp ' + data.NILAI_UKM.toLocaleString('id-ID', {minimumFractionDigits: 0, maximumFractionDigits: 0})")
                 
                 gridOptions = gb.build()
-                AgGrid(
-                    tabel_nilai_ukm,
-                    gridOptions=gridOptions,
-                    fit_columns_on_grid_load=True,
-                    height=350,
-                    width='100%',
-                    theme='streamlit',
-                    enable_enterprise_modules=False,
-                    key="grid_nilai_ukm",
-                    allow_unsafe_jscode=True
-                )
+                
+                # Menggunakan fungsi create_aggrid yang sudah ada
+                create_aggrid(tabel_nilai_ukm, key="grid_nilai_ukm")
             with col2:
                 colors = px.colors.qualitative.Bold
                 fig = go.Figure(data=[go.Pie(
