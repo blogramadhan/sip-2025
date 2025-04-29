@@ -122,7 +122,7 @@ try:
                     values=tabel_jumlah_ukm['JUMLAH_UKM'],
                     hole=.4,
                     textinfo='label+percent',
-                    marker=dict(colors=px.colors.qualitative.Pastel, line=dict(color='#000000', width=1))
+                    marker=dict(colors=['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'], line=dict(color='#000000', width=1))
                 )])
                 fig.update_layout(
                     title='Grafik Jumlah Transaksi Katalog PENYEDIA UKM',
@@ -158,7 +158,7 @@ try:
                     values=tabel_nilai_ukm['NILAI_UKM'],
                     hole=.4,
                     textinfo='label+percent',
-                    marker=dict(colors=px.colors.qualitative.Bold, line=dict(color='#000000', width=1))
+                    marker=dict(colors=['#6A0572', '#AB83A1', '#F7A072', '#57C5B6', '#159895'], line=dict(color='#000000', width=1))
                 )])
                 fig.update_layout(
                     title='Grafik Nilai Transaksi Katalog PENYEDIA UKM',
@@ -195,7 +195,7 @@ try:
                        width='100%',
                        height=min(400, 35 * (len(tabel_jumlah_komoditas) + 1)))
             with col2:
-                colors = px.colors.sequential.Viridis
+                custom_colors = ['#FF9671', '#FFC75F', '#F9F871', '#D65DB1', '#845EC2', '#0089BA', '#008F7A', '#2C73D2', '#0081CF', '#C34A36']
                 fig = go.Figure()
                 fig.add_trace(go.Bar(
                     x=tabel_jumlah_komoditas['NAMA_KOMODITAS'],
@@ -203,7 +203,7 @@ try:
                     text=tabel_jumlah_komoditas['JUMLAH_TRANSAKSI'],
                     textposition='outside',
                     marker=dict(
-                        color=colors,
+                        color=custom_colors[:len(tabel_jumlah_komoditas)],
                         line=dict(width=1.5, color='rgba(0,0,0,0.5)')
                     ),
                     hoverinfo='x+y',
@@ -255,7 +255,7 @@ try:
                        height=min(400, 35 * (len(tabel_nilai_komoditas) + 1)))
                 
             with col2:
-                colors = px.colors.sequential.Plasma
+                custom_colors = ['#3A86FF', '#FF006E', '#FB5607', '#FFBE0B', '#8338EC', '#06D6A0', '#118AB2', '#073B4C', '#7209B7', '#4CC9F0']
                 fig = go.Figure()
                 fig.add_trace(go.Bar(
                     x=tabel_nilai_komoditas['NAMA_KOMODITAS'],
@@ -263,8 +263,7 @@ try:
                     text=[f'{x:,.0f}' for x in tabel_nilai_komoditas['NILAI_TRANSAKSI']],
                     textposition='outside',
                     marker=dict(
-                        color=tabel_nilai_komoditas['NILAI_TRANSAKSI'],
-                        colorscale='Bluered',
+                        color=custom_colors[:len(tabel_nilai_komoditas)],
                         line=dict(width=1.5, color='rgba(0,0,0,0.5)')
                     ),
                     hoverinfo='x+y',
@@ -316,7 +315,7 @@ try:
                        width='100%',
                        height=min(400, 35 * (len(tabel_jumlah_pd) + 1)))
             with col2:
-                colors = px.colors.qualitative.Prism
+                custom_colors = ['#00B4D8', '#0077B6', '#023E8A', '#0096C7', '#48CAE4', '#90E0EF', '#ADE8F4', '#CAF0F8', '#03045E', '#014F86']
                 fig = go.Figure()
                 fig.add_trace(go.Bar(
                     x=tabel_jumlah_pd['NAMA_SATKER'],
@@ -324,7 +323,7 @@ try:
                     text=tabel_jumlah_pd['JUMLAH_TRANSAKSI'],
                     textposition='outside',
                     marker=dict(
-                        color=colors[:len(tabel_jumlah_pd)],
+                        color=custom_colors[:len(tabel_jumlah_pd)],
                         line=dict(width=1.5, color='rgba(0,0,0,0.5)'),
                         opacity=0.9
                     ),
@@ -376,6 +375,7 @@ try:
                        height=min(400, 35 * (len(tabel_nilai_pd) + 1)))
                 
             with col2:
+                custom_colors = ['#9D4EDD', '#C77DFF', '#E0AAFF', '#7B2CBF', '#5A189A', '#3C096C', '#240046', '#10002B', '#E500A4', '#DB00B6']
                 fig = go.Figure()
                 fig.add_trace(go.Bar(
                     x=tabel_nilai_pd['NAMA_SATKER'],
@@ -383,8 +383,7 @@ try:
                     text=[f'{x:,.0f}' for x in tabel_nilai_pd['NILAI_TRANSAKSI']],
                     textposition='outside',
                     marker=dict(
-                        color=tabel_nilai_pd['NILAI_TRANSAKSI'],
-                        colorscale='Tealrose',
+                        color=custom_colors[:len(tabel_nilai_pd)],
                         line=dict(width=1.5, color='rgba(0,0,0,0.5)'),
                         opacity=0.9
                     ),
@@ -438,6 +437,7 @@ try:
                        width='100%',
                        height=min(400, 35 * (len(tabel_jumlah_pu) + 1)))
             with col2:                
+                custom_colors = ['#588157', '#3A5A40', '#344E41', '#4F772D', '#90A955', '#A3B18A', '#B5C99A', '#DAD7CD', '#606C38', '#283618']
                 fig = go.Figure()
                 fig.add_trace(go.Bar(
                     x=tabel_jumlah_pu['NAMA_PENYEDIA'],
@@ -445,8 +445,7 @@ try:
                     text=tabel_jumlah_pu['JUMLAH_TRANSAKSI'],
                     textposition='outside',
                     marker=dict(
-                        color=tabel_jumlah_pu['JUMLAH_TRANSAKSI'],
-                        colorscale='Greens',
+                        color=custom_colors[:len(tabel_jumlah_pu)],
                         line=dict(width=1.5, color='rgba(0,0,0,0.5)'),
                         opacity=0.9
                     ),
