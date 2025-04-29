@@ -222,8 +222,6 @@ try:
                     yaxis_title='<b>Jumlah Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
                     margin=dict(t=80, b=100, l=10, r=10),
-                    plot_bgcolor='white',
-                    paper_bgcolor='white',
                     showlegend=False
                 )
                 fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
@@ -285,8 +283,6 @@ try:
                     yaxis_title='<b>Nilai Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
                     margin=dict(t=80, b=100, l=10, r=10),
-                    plot_bgcolor='white',
-                    paper_bgcolor='white',
                     showlegend=False
                 )
                 fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
@@ -348,8 +344,6 @@ try:
                     yaxis_title='<b>Jumlah Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
                     margin=dict(t=80, b=100, l=10, r=10),
-                    plot_bgcolor='white',
-                    paper_bgcolor='white',
                     showlegend=False
                 )
                 fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
@@ -410,8 +404,6 @@ try:
                     yaxis_title='<b>Nilai Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
                     margin=dict(t=80, b=100, l=10, r=10),
-                    plot_bgcolor='white',
-                    paper_bgcolor='white',
                     showlegend=False
                 )
                 fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
