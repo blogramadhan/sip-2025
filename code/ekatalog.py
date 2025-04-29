@@ -560,23 +560,29 @@ try:
 
         st.divider()
 
-        # Tampilkan data
-        # Menggunakan AgGrid untuk menampilkan data
-        # Menggunakan AgGrid untuk menampilkan data
+        # Tampilkan data dengan AgGrid
         gb = GridOptionsBuilder.from_dataframe(df_etalase)
         gb.configure_column("NAMA_KOMODITAS", header_name="NAMA KOMODITAS", width=300)
-        gb.configure_column("LOKAL", header_name="LOKAL (Rp.)", type=["numericColumn", "numberColumnFilter"], valueGetter="data.LOKAL.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})", width=200)
-        gb.configure_column("NASIONAL", header_name="NASIONAL (Rp.)", type=["numericColumn", "numberColumnFilter"], valueGetter="data.NASIONAL.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})", width=200)
-        gb.configure_column("SEKTORAL", header_name="SEKTORAL (Rp.)", type=["numericColumn", "numberColumnFilter"], valueGetter="data.SEKTORAL.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})", width=200)
         
-        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=15)
+        # Konfigurasi kolom nilai dengan format mata uang Indonesia
+        for kolom in ["LOKAL", "NASIONAL", "SEKTORAL"]:
+            gb.configure_column(
+                kolom, 
+                header_name=f"{kolom} (Rp.)", 
+                type=["numericColumn", "numberColumnFilter"],
+                valueGetter=f"data.{kolom}.toLocaleString('id-ID', {{style: 'currency', currency: 'IDR', maximumFractionDigits:2}})",
+                width=200
+            )
+        
+        # Konfigurasi pagination dan layout
+        gb.configure_pagination(paginationAutoPageSize=False, paginationPageSize=50)
         gb.configure_grid_options(domLayout='normal')
-        gridOptions = gb.build()
         
+        # Tampilkan tabel
         AgGrid(
             df_etalase,
-            gridOptions=gridOptions,
-            height=600,
+            gridOptions=gb.build(),
+            height=900,
             fit_columns_on_grid_load=True,
             allow_unsafe_jscode=True,
             theme='streamlit'
