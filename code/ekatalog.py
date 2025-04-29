@@ -222,7 +222,7 @@ try:
                     yaxis_title='<b>Jumlah Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
                     margin=dict(t=80, b=100, l=10, r=10),
-                    plot_bgcolor='rgba(240,240,240,0.8)',
+                    plot_bgcolor='white',
                     paper_bgcolor='white',
                     showlegend=False
                 )
@@ -285,7 +285,7 @@ try:
                     yaxis_title='<b>Nilai Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
                     margin=dict(t=80, b=100, l=10, r=10),
-                    plot_bgcolor='rgba(240,240,240,0.8)',
+                    plot_bgcolor='white',
                     paper_bgcolor='white',
                     showlegend=False
                 )
@@ -348,7 +348,7 @@ try:
                     yaxis_title='<b>Jumlah Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
                     margin=dict(t=80, b=100, l=10, r=10),
-                    plot_bgcolor='rgba(240,240,240,0.8)',
+                    plot_bgcolor='white',
                     paper_bgcolor='white',
                     showlegend=False
                 )
@@ -410,7 +410,7 @@ try:
                     yaxis_title='<b>Nilai Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
                     margin=dict(t=80, b=100, l=10, r=10),
-                    plot_bgcolor='rgba(240,240,240,0.8)',
+                    plot_bgcolor='white',
                     paper_bgcolor='white',
                     showlegend=False
                 )
@@ -474,7 +474,7 @@ try:
                     yaxis_title='<b>Jumlah Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
                     margin=dict(t=80, b=100, l=10, r=10),
-                    plot_bgcolor='rgba(240,240,240,0.8)',
+                    plot_bgcolor='white',
                     paper_bgcolor='white',
                     showlegend=False
                 )
