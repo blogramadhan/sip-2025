@@ -618,6 +618,127 @@ try:
 
         st.divider()
 
+        # Analisis berdasarkan Perangkat Daerah
+        with st.container(border=True):
+            st.subheader("Berdasarkan Perangkat Daerah (10 Besar)")
+
+            tab1, tab2 = st.tabs(["| Jumlah Transaksi |", "| Nilai Transaksi |"])
+            
+            with tab1:
+                tabel_etalase_jumlah_pd = con.execute("""
+                    SELECT nama_satker AS NAMA_SATKER, COUNT(DISTINCT(no_paket)) AS JUMLAH_TRANSAKSI
+                    FROM df_ECAT_ETALASE_filter 
+                    WHERE NAMA_SATKER IS NOT NULL 
+                    GROUP BY NAMA_SATKER 
+                    ORDER BY JUMLAH_TRANSAKSI DESC 
+                    LIMIT 10
+                """).df()
+                
+                col1, col2 = st.columns((4,6))
+                with col1:
+                    gd_etalase_jumlah_pd = GridOptionsBuilder.from_dataframe(tabel_etalase_jumlah_pd)
+                    gd_etalase_jumlah_pd.configure_default_column(autoSizeColumns=True)
+                    AgGrid(tabel_etalase_jumlah_pd, 
+                        gridOptions=gd_etalase_jumlah_pd.build(),
+                        fit_columns_on_grid_load=True,
+                        autoSizeColumns=True,
+                        width='100%',
+                        height=min(400, 35 * (len(tabel_etalase_jumlah_pd) + 1)))
+                with col2:
+                    custom_colors = ['#00B4D8', '#0077B6', '#023E8A', '#0096C7', '#48CAE4', '#90E0EF', '#ADE8F4', '#CAF0F8', '#03045E', '#014F86']
+                    fig = go.Figure()
+                    fig.add_trace(go.Bar(
+                        x=tabel_etalase_jumlah_pd['NAMA_SATKER'],
+                        y=tabel_etalase_jumlah_pd['JUMLAH_TRANSAKSI'],
+                        text=tabel_etalase_jumlah_pd['JUMLAH_TRANSAKSI'],
+                        textposition='outside',
+                        marker=dict(
+                            color=custom_colors[:len(tabel_etalase_jumlah_pd)],
+                            line=dict(width=1.5, color='rgba(0,0,0,0.5)'),
+                            opacity=0.9
+                        ),
+                        hoverinfo='x+y',
+                        hovertemplate='<b>%{x}</b><br>Jumlah: %{y}<extra></extra>'
+                    ))
+                    fig.update_layout(
+                        title={
+                            'text': 'Grafik Jumlah Transaksi e-Katalog - Perangkat Daerah',
+                            'y':0.95,
+                            'x':0.5,
+                            'xanchor': 'center',
+                            'yanchor': 'top',
+                            'font': dict(size=18, color='#1f77b4')
+                        },
+                        xaxis_title='<b>Perangkat Daerah</b>',
+                        yaxis_title='<b>Jumlah Transaksi</b>',
+                        xaxis={'categoryorder':'total descending'},
+                        margin=dict(t=80, b=100, l=10, r=10),
+                        showlegend=False
+                    )
+                    fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
+                    fig.update_yaxes(gridcolor='rgba(0,0,0,0.1)')
+                    st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+            
+            with tab2:
+                tabel_etalase_nilai_pd = con.execute("""
+                    SELECT nama_satker AS NAMA_SATKER, SUM(total_harga) AS NILAI_TRANSAKSI
+                    FROM df_ECAT_ETALASE_filter 
+                    WHERE NAMA_SATKER IS NOT NULL
+                    GROUP BY NAMA_SATKER 
+                    ORDER BY NILAI_TRANSAKSI DESC 
+                    LIMIT 10
+                """).df()
+                
+                col1, col2 = st.columns((4,6))
+                with col1:
+                    gb_etalase_nilai_pd = GridOptionsBuilder.from_dataframe(tabel_etalase_nilai_pd)  
+                    gb_etalase_nilai_pd.configure_default_column(autoSizeColumns=True)
+                    gb_etalase_nilai_pd.configure_column("NILAI_TRANSAKSI", 
+                                    type=["numericColumn", "numberColumnFilter", "customNumericFormat"], 
+                                    valueGetter="data.NILAI_TRANSAKSI.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+                    
+                    AgGrid(tabel_etalase_nilai_pd, 
+                        gridOptions=gb_etalase_nilai_pd.build(),
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        width='100%',
+                        height=min(400, 35 * (len(tabel_etalase_nilai_pd) + 1)))
+                    
+                with col2:
+                    custom_colors = ['#9D4EDD', '#C77DFF', '#E0AAFF', '#7B2CBF', '#5A189A', '#3C096C', '#240046', '#10002B', '#E500A4', '#DB00B6']
+                    fig = go.Figure()
+                    fig.add_trace(go.Bar(
+                        x=tabel_etalase_nilai_pd['NAMA_SATKER'],
+                        y=tabel_etalase_nilai_pd['NILAI_TRANSAKSI'],
+                        text=[f'{x:,.0f}' for x in tabel_etalase_nilai_pd['NILAI_TRANSAKSI']],
+                        textposition='outside',
+                        marker=dict(
+                            color=custom_colors[:len(tabel_etalase_nilai_pd)],
+                            line=dict(width=1.5, color='rgba(0,0,0,0.5)'),
+                            opacity=0.9
+                        ),
+                        hoverinfo='x+y',
+                        hovertemplate='<b>%{x}</b><br>Nilai: Rp %{y:,.0f}<extra></extra>'
+                    ))
+                    fig.update_layout(
+                        title={
+                            'text': 'Grafik Nilai Transaksi e-Katalog - Perangkat Daerah',
+                            'y':0.95,
+                            'x':0.5,
+                            'xanchor': 'center',
+                            'yanchor': 'top',
+                            'font': dict(size=18, color='#1f77b4')
+                        },
+                        xaxis_title='<b>Perangkat Daerah</b>',
+                        yaxis_title='<b>Nilai Transaksi</b>',
+                        xaxis={'categoryorder':'total descending'},
+                        margin=dict(t=80, b=100, l=10, r=10),
+                        showlegend=False
+                    )
+                    fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
+                    fig.update_yaxes(gridcolor='rgba(0,0,0,0.1)')
+                    st.plotly_chart(fig, theme="streamlit", use_container_width=True)# Query data jumlah transaksi
+                
         # Analisis berdasarkan Pelaku Usaha
         with st.container(border=True):
 
@@ -627,38 +748,37 @@ try:
             
             with tab1:
                 # Query data jumlah transaksi
-                sql_jumlah_trx = """
+                tabel_etalase_jumlah_pu = con.execute("""
                     SELECT nama_penyedia AS NAMA_PENYEDIA, COUNT(DISTINCT(no_paket)) AS JUMLAH_TRANSAKSI
                     FROM df_ECAT_ETALASE_filter 
                     WHERE NAMA_PENYEDIA IS NOT NULL
                     GROUP BY NAMA_PENYEDIA 
                     ORDER BY JUMLAH_TRANSAKSI DESC 
                     LIMIT 10
-                """
-                tabel_jumlah_trx = con.execute(sql_jumlah_trx).df()
+                """).df()
                 
                 col1, col2 = st.columns((4,6))
                 with col1:
-                    gd_jumlah_trx = GridOptionsBuilder.from_dataframe(tabel_jumlah_trx)
-                    gd_jumlah_trx.configure_default_column(autoSizeColumns=True)
-                    AgGrid(tabel_jumlah_trx, 
-                        gridOptions=gd_jumlah_trx.build(),
+                    gd_etalase_jumlah_pu = GridOptionsBuilder.from_dataframe(tabel_etalase_jumlah_pu)
+                    gd_etalase_jumlah_pu.configure_default_column(autoSizeColumns=True)
+                    AgGrid(tabel_etalase_jumlah_pu, 
+                        gridOptions=gd_etalase_jumlah_pu.build(),
                         enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
                         width='100%',
-                        height=min(400, 35 * (len(tabel_jumlah_trx) + 1)))
+                        height=min(400, 35 * (len(tabel_etalase_jumlah_pu) + 1)))
                         
                 with col2:
                     custom_colors = ['#9D4EDD', '#C77DFF', '#E0AAFF', '#7B2CBF', '#5A189A', '#3C096C', '#240046', '#10002B', '#E500A4', '#DB00B6']
                     fig = go.Figure()
                     fig.add_trace(go.Bar(
-                        x=tabel_jumlah_trx['NAMA_PENYEDIA'],
-                        y=tabel_jumlah_trx['JUMLAH_TRANSAKSI'],
-                        text=tabel_jumlah_trx['JUMLAH_TRANSAKSI'],
+                        x=tabel_etalase_jumlah_pu['NAMA_PENYEDIA'],
+                        y=tabel_etalase_jumlah_pu['JUMLAH_TRANSAKSI'],
+                        text=tabel_etalase_jumlah_pu['JUMLAH_TRANSAKSI'],
                         textposition='outside',
                         marker=dict(
-                            color=custom_colors[:len(tabel_jumlah_trx)],
+                            color=custom_colors[:len(tabel_etalase_jumlah_pu)],
                             line=dict(width=1.5, color='rgba(0,0,0,0.5)'),
                             opacity=0.9
                         ),
@@ -686,40 +806,39 @@ try:
             
             with tab2:
                 # Query data nilai transaksi
-                sql_nilai_trx = """
+                tabel_etalase_nilai_pu = con.execute("""
                     SELECT nama_penyedia AS NAMA_PENYEDIA, SUM(total_harga) AS NILAI_TRANSAKSI
                     FROM df_ECAT_ETALASE_filter 
                     WHERE NAMA_PENYEDIA IS NOT NULL
                     GROUP BY NAMA_PENYEDIA 
                     ORDER BY NILAI_TRANSAKSI DESC 
                     LIMIT 10
-                """
-                tabel_nilai_trx = con.execute(sql_nilai_trx).df()
+                """).df()
                 
                 col1, col2 = st.columns((4,6))
                 with col1:
-                    gb = GridOptionsBuilder.from_dataframe(tabel_nilai_trx)
-                    gb.configure_default_column(autoSizeColumns=True)
-                    gb.configure_column("NILAI_TRANSAKSI", 
+                    gb_etalase_nilai_pu = GridOptionsBuilder.from_dataframe(tabel_etalase_nilai_pu)
+                    gb_etalase_nilai_pu.configure_default_column(autoSizeColumns=True)
+                    gb_etalase_nilai_pu.configure_column("NILAI_TRANSAKSI", 
                                     type=["numericColumn", "numberColumnFilter", "customNumericFormat"], 
                                     valueGetter="data.NILAI_TRANSAKSI.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
                     
-                    AgGrid(tabel_nilai_trx, 
-                        gridOptions=gb.build(),
+                    AgGrid(tabel_etalase_nilai_pu, 
+                        gridOptions=gb_etalase_nilai_pu.build(),
                         enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
                         width='100%',
-                        height=min(400, 35 * (len(tabel_nilai_trx) + 1)))
+                        height=min(400, 35 * (len(tabel_etalase_nilai_pu) + 1)))
                 
                 with col2:
                     fig = go.Figure()
                     fig.add_trace(go.Bar(
-                        x=tabel_nilai_trx['NAMA_PENYEDIA'],
-                        y=tabel_nilai_trx['NILAI_TRANSAKSI'],
-                        text=[f'{x:,.0f}' for x in tabel_nilai_trx['NILAI_TRANSAKSI']],
+                        x=tabel_etalase_nilai_pu['NAMA_PENYEDIA'],
+                        y=tabel_etalase_nilai_pu['NILAI_TRANSAKSI'],
+                        text=[f'{x:,.0f}' for x in tabel_etalase_nilai_pu['NILAI_TRANSAKSI']],
                         textposition='outside',
                         marker=dict(
-                            color=tabel_nilai_trx['NILAI_TRANSAKSI'],
+                            color=tabel_etalase_nilai_pu['NILAI_TRANSAKSI'],
                             colorscale='Oranges',
                             line=dict(
                                 color='rgba(204, 85, 0, 1.0)',
