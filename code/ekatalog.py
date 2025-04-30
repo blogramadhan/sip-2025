@@ -639,17 +639,55 @@ try:
                 
                 col1, col2 = st.columns((4,6))
                 with col1:
-                    st.dataframe(
-                        tabel_jumlah_trx,
-                        column_config={
-                            "NAMA_PENYEDIA": "NAMA PENYEDIA",
-                            "JUMLAH_TRANSAKSI": "JUMLAH TRANSAKSI"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
-                
+                    gd_jumlah_trx = GridOptionsBuilder.from_dataframe(tabel_jumlah_trx)
+                    gd_jumlah_trx.configure_default_column(autoSizeColumns=True)
+                    AgGrid(tabel_jumlah_trx, 
+                        gridOptions=gd_jumlah_trx.build(),
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        autoSizeColumns=True,
+                        width='100%',
+                        height=min(400, 35 * (len(tabel_jumlah_trx) + 1)))
+                        
                 with col2:
+                    custom_colors = ['#9D4EDD', '#C77DFF', '#E0AAFF', '#7B2CBF', '#5A189A', '#3C096C', '#240046', '#10002B', '#E500A4', '#DB00B6']
+                    fig = go.Figure()
+                    fig.add_trace(go.Bar(
+                        x=tabel_jumlah_trx['NAMA_PENYEDIA'],
+                        y=tabel_jumlah_trx['JUMLAH_TRANSAKSI'],
+                        text=tabel_jumlah_trx['JUMLAH_TRANSAKSI'],
+                        textposition='outside',
+                        marker=dict(
+                            color=custom_colors[:len(tabel_jumlah_trx)],
+                            line=dict(width=1.5, color='rgba(0,0,0,0.5)'),
+                            opacity=0.9
+                        ),
+                        hoverinfo='x+y',
+                        hovertemplate='<b>%{x}</b><br>Jumlah: %{y}<extra></extra>'
+                    ))
+                    fig.update_layout(
+                        title={
+                            'text': 'Grafik Jumlah Transaksi Katalog per Pelaku Usaha',
+                            'y':0.95,
+                            'x':0.5,
+                            'xanchor': 'center',
+                            'yanchor': 'top',
+                            'font': dict(size=18, color='#1f77b4')
+                        }
+                        xaxis_title='<b>Pelaku Usaha</b>',
+                        yaxis_title='<b>Jumlah Transaksi</b>',
+                        xaxis={'categoryorder':'total descending'},
+                        margin=dict(t=80, b=100, l=10, r=10),
+                        showlegend=False
+                    )
+                    fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
+                    fig.update_yaxes(gridcolor='rgba(0,0,0,0.1)')
+                    st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+            
+            with tab2:
+                # Query data nilai transaksi
+                sql_nilai_trx = """
+                    SELECT nama_penyedia AS NAMA_PENYEDIA, SUM(total_harga) AS NILAI_TRANSAKSI
                     fig = px.bar(
                         tabel_jumlah_trx, 
                         x='NAMA_PENYEDIA', 
