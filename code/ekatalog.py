@@ -688,20 +688,6 @@ try:
                 # Query data nilai transaksi
                 sql_nilai_trx = """
                     SELECT nama_penyedia AS NAMA_PENYEDIA, SUM(total_harga) AS NILAI_TRANSAKSI
-                    fig = px.bar(
-                        tabel_jumlah_trx, 
-                        x='NAMA_PENYEDIA', 
-                        y='JUMLAH_TRANSAKSI', 
-                        text_auto='.2s', 
-                        title='Grafik Jumlah Transaksi Katalog per Pelaku Usaha'
-                    )
-                    fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
-                    st.plotly_chart(fig, theme="streamlit", use_container_width=True)
-            
-            with tab2:
-                # Query data nilai transaksi
-                sql_nilai_trx = """
-                    SELECT nama_penyedia AS NAMA_PENYEDIA, SUM(total_harga) AS NILAI_TRANSAKSI
                     FROM df_ECAT_ETALASE_filter 
                     WHERE NAMA_PENYEDIA IS NOT NULL
                     GROUP BY NAMA_PENYEDIA 
@@ -712,28 +698,46 @@ try:
                 
                 col1, col2 = st.columns((4,6))
                 with col1:
-                    st.dataframe(
-                        tabel_nilai_trx,
-                        column_config={
-                            "NAMA_PENYEDIA": "NAMA PENYEDIA",
-                            "NILAI_TRANSAKSI": st.column_config.NumberColumn(
-                                "NILAI TRANSAKSI (Rp)",
-                                format="Rp %.2f"
-                            )
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
+                    gb = GridOptionsBuilder.from_dataframe(tabel_nilai_trx)
+                    gb.configure_default_column(autoSizeColumns=True)
+                    gb.configure_column("NILAI_TRANSAKSI", 
+                                    type=["numericColumn", "numberColumnFilter", "customNumericFormat"], 
+                                    valueGetter="data.NILAI_TRANSAKSI.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+                    
+                    AgGrid(tabel_nilai_trx, 
+                        gridOptions=gb.build(),
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        width='100%',
+                        height=min(400, 35 * (len(tabel_nilai_trx) + 1)))
                 
                 with col2:
-                    fig = px.bar(
-                        tabel_nilai_trx, 
-                        x='NAMA_PENYEDIA', 
-                        y='NILAI_TRANSAKSI', 
-                        text_auto='.2s', 
-                        title='Grafik Nilai Transaksi Katalog per Pelaku Usaha'
+                    fig = go.Figure()
+                    fig.add_trace(go.Bar(
+                        x=tabel_nilai_trx['NAMA_PENYEDIA'],
+                        y=tabel_nilai_trx['NILAI_TRANSAKSI'],
+                        text=[f'{x:,.0f}' for x in tabel_nilai_trx['NILAI_TRANSAKSI']],
+                        textposition='outside',
+                        marker=dict(
+                            color=tabel_nilai_trx['NILAI_TRANSAKSI'],
+                            colorscale='Oranges',
+                            line=dict(
+                                color='rgba(204, 85, 0, 1.0)',
+                                width=1.5
+                            ),
+                            opacity=0.8
+                        ),
+                        hoverinfo='x+y',
+                        hovertemplate='<b>%{x}</b><br>Nilai: Rp %{y:,.0f}<extra></extra>'
+                    ))
+                    fig.update_layout(
+                        title='Grafik Nilai Transaksi Katalog per Pelaku Usaha',
+                        xaxis_title='Pelaku Usaha',
+                        yaxis_title='Nilai Transaksi',
+                        xaxis={'categoryorder':'total descending'},
+                        margin=dict(t=50, b=100, l=10, r=10)
                     )
-                    fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+                    fig.update_xaxes(tickangle=45)
                     st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
     with menu_purchasing_1_3:
