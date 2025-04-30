@@ -623,7 +623,7 @@ try:
 
             st.subheader("Berdasarkan Pelaku Usaha (10 Besar)")
             
-            tab1, tab2 = st.tabs(["Jumlah Transaksi", "Nilai Transaksi"])
+            tab1, tab2 = st.tabs(["| Jumlah Transaksi |", "| Nilai Transaksi |"])
             
             with tab1:
                 # Query data jumlah transaksi
