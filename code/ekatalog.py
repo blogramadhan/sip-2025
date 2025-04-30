@@ -132,10 +132,12 @@ try:
                     gd_ukm_hitung.configure_default_column(autoSizeColumns=True)
                     AgGrid(tabel_jumlah_ukm, 
                         gridOptions=gd_ukm_hitung.build(),
+                        enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
                         width='100%',
                         height=min(400, 35 * (len(tabel_jumlah_ukm) + 1)))
+                    
                 with col2:
                     fig = go.Figure(data=[go.Pie(
                         labels=tabel_jumlah_ukm['PENYEDIA_UKM'],
@@ -210,10 +212,12 @@ try:
                     gd_jumlah_komoditas.configure_default_column(autoSizeColumns=True)
                     AgGrid(tabel_jumlah_komoditas, 
                         gridOptions=gd_jumlah_komoditas.build(),
+                        enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
                         width='100%',
                         height=min(400, 35 * (len(tabel_jumlah_komoditas) + 1)))
+                    
                 with col2:
                     custom_colors = ['#FF9671', '#FFC75F', '#F9F871', '#D65DB1', '#845EC2', '#0089BA', '#008F7A', '#2C73D2', '#0081CF', '#C34A36']
                     fig = go.Figure()
@@ -330,6 +334,7 @@ try:
                     gd_jumlah_pd.configure_default_column(autoSizeColumns=True)
                     AgGrid(tabel_jumlah_pd, 
                         gridOptions=gd_jumlah_pd.build(),
+                        enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
                         width='100%',
@@ -635,10 +640,12 @@ try:
                     gd_etalase_jumlah_ukm.configure_default_column(autoSizeColumns=True)
                     AgGrid(tabel_etalase_jumlah_ukm, 
                         gridOptions=gd_etalase_jumlah_ukm.build(),
+                        enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
                         width='100%',
                         height=min(400, 35 * (len(tabel_etalase_jumlah_ukm) + 1)))
+                    
                 with col2:
                     fig = go.Figure(data=[go.Pie(
                         labels=tabel_etalase_jumlah_ukm['PENYEDIA_UKM'],
@@ -712,10 +719,12 @@ try:
                     gd_etalase_jumlah_pd.configure_default_column(autoSizeColumns=True)
                     AgGrid(tabel_etalase_jumlah_pd, 
                         gridOptions=gd_etalase_jumlah_pd.build(),
+                        enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
                         width='100%',
                         height=min(400, 35 * (len(tabel_etalase_jumlah_pd) + 1)))
+                    
                 with col2:
                     custom_colors = ['#00B4D8', '#0077B6', '#023E8A', '#0096C7', '#48CAE4', '#90E0EF', '#ADE8F4', '#CAF0F8', '#03045E', '#014F86']
                     fig = go.Figure()
