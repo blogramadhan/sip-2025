@@ -618,6 +618,79 @@ try:
 
         st.divider()
 
+        # Analisis berdasarkan Kualifikasi Usaha
+        with st.container(border=True):
+            st.subheader("Berdasarkan Kualifikasi Usaha")
+
+            tab1, tab2 = st.tabs(["| Jumlah Transaksi Penyedia |", "| Nilai Transaksi Penyedia |"])
+
+            with tab1:
+                tabel_etalase_jumlah_ukm = con.execute("""
+                    SELECT penyedia_ukm AS PENYEDIA_UKM, COUNT(DISTINCT(kd_penyedia)) AS JUMLAH_UKM
+                    FROM df_ECAT_ETALASE_filter GROUP BY PENYEDIA_UKM
+                """).df()
+                
+                col1, col2 = st.columns((3,7))
+                with col1:
+                    gd_etalase_jumlah_ukm = GridOptionsBuilder.from_dataframe(tabel_etalase_jumlah_ukm)
+                    gd_etalase_jumlah_ukm.configure_default_column(autoSizeColumns=True)
+                    AgGrid(tabel_etalase_jumlah_ukm, 
+                        gridOptions=gd_ukm_hitung.build(),
+                        fit_columns_on_grid_load=True,
+                        autoSizeColumns=True,
+                        width='100%',
+                        height=min(400, 35 * (len(tabel_etalase_jumlah_ukm) + 1)))
+                with col2:
+                    fig = go.Figure(data=[go.Pie(
+                        labels=tabel_etalase_jumlah_ukm['PENYEDIA_UKM'],
+                        values=tabel_etalase_jumlah_ukm['JUMLAH_UKM'],
+                        hole=.4,
+                        textinfo='label+percent',
+                        marker=dict(colors=['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'], line=dict(color='#000000', width=1))
+                    )])
+                    fig.update_layout(
+                        title='Grafik Jumlah Transaksi Katalog PENYEDIA UKM',
+                        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
+                        margin=dict(t=50, b=50, l=10, r=10)
+                    )
+                    st.plotly_chart(fig, theme='streamlit', use_container_width=True)
+            
+            with tab2:
+                tabel_etalase_nilai_ukm = con.execute("""
+                    SELECT penyedia_ukm AS PENYEDIA_UKM, SUM(total_harga) AS NILAI_UKM
+                    FROM df_ECAT_ETALASE_filter GROUP BY PENYEDIA_UKM
+                """).df()
+                
+                col1, col2 = st.columns((3.5,6.5))
+                with col1:
+                    gb_etalase_nilai_ukm = GridOptionsBuilder.from_dataframe(tabel_etalase_nilai_ukm)
+                    gb_etalase_nilai_ukm.configure_default_column(autoSizeColumns=True)
+                    gb_etalase_nilai_ukm.configure_column("NILAI_UKM", 
+                                    type=["numericColumn", "numberColumnFilter", "customNumericFormat"], 
+                                    valueGetter="data.NILAI_UKM.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+                    
+                    AgGrid(tabel_etalase_nilai_ukm, 
+                        gridOptions=gb_etalase_nilai_ukm.build(),
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        width='100%',
+                        height=min(350, 35 * (len(tabel_etalase_nilai_ukm) + 1)))
+                    
+                with col2:
+                    fig = go.Figure(data=[go.Pie(
+                        labels=tabel_etalase_nilai_ukm['PENYEDIA_UKM'],
+                        values=tabel_etalase_nilai_ukm['NILAI_UKM'],
+                        hole=.4,
+                        textinfo='label+percent',
+                        marker=dict(colors=['#6A0572', '#AB83A1', '#F7A072', '#57C5B6', '#159895'], line=dict(color='#000000', width=1))
+                    )])
+                    fig.update_layout(
+                        title='Grafik Nilai Transaksi Katalog PENYEDIA UKM',
+                        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
+                        margin=dict(t=50, b=50, l=10, r=10)
+                    )
+                    st.plotly_chart(fig, theme='streamlit', use_container_width=True)
+
         # Analisis berdasarkan Perangkat Daerah
         with st.container(border=True):
             st.subheader("Berdasarkan Perangkat Daerah (10 Besar)")
