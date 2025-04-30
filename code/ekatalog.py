@@ -673,7 +673,7 @@ try:
                             'xanchor': 'center',
                             'yanchor': 'top',
                             'font': dict(size=18, color='#1f77b4')
-                        }
+                        },
                         xaxis_title='<b>Pelaku Usaha</b>',
                         yaxis_title='<b>Jumlah Transaksi</b>',
                         xaxis={'categoryorder':'total descending'},
