@@ -524,8 +524,7 @@ try:
                         text=[f'{x:,.0f}' for x in tabel_nilai_pu['NILAI_TRANSAKSI']],
                         textposition='outside',
                         marker=dict(
-                            color=tabel_nilai_pu['NILAI_TRANSAKSI'],
-                            colorscale='Oranges',
+                            color=custom_colors[:len(tabel_nilai_pu)],
                             line=dict(
                                 color='rgba(204, 85, 0, 1.0)',
                                 width=1.5
@@ -635,7 +634,7 @@ try:
                     gd_etalase_jumlah_ukm = GridOptionsBuilder.from_dataframe(tabel_etalase_jumlah_ukm)
                     gd_etalase_jumlah_ukm.configure_default_column(autoSizeColumns=True)
                     AgGrid(tabel_etalase_jumlah_ukm, 
-                        gridOptions=gd_ukm_hitung.build(),
+                        gridOptions=gd_etalase_jumlah_ukm.build(),
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
                         width='100%',
@@ -810,8 +809,8 @@ try:
                     )
                     fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
                     fig.update_yaxes(gridcolor='rgba(0,0,0,0.1)')
-                    st.plotly_chart(fig, theme="streamlit", use_container_width=True)# Query data jumlah transaksi
-                
+                    st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+
         # Analisis berdasarkan Pelaku Usaha
         with st.container(border=True):
 
@@ -911,8 +910,7 @@ try:
                         text=[f'{x:,.0f}' for x in tabel_etalase_nilai_pu['NILAI_TRANSAKSI']],
                         textposition='outside',
                         marker=dict(
-                            color=tabel_etalase_nilai_pu['NILAI_TRANSAKSI'],
-                            colorscale='Oranges',
+                            color=custom_colors[:len(tabel_etalase_nilai_pu)],
                             line=dict(
                                 color='rgba(204, 85, 0, 1.0)',
                                 width=1.5
