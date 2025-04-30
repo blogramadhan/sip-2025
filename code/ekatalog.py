@@ -5,14 +5,10 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 import duckdb
-import openpyxl
 from datetime import datetime
-from babel.numbers import format_currency
-from st_aggrid import AgGrid, GridUpdateMode, JsCode
+from st_aggrid import AgGrid, GridUpdateMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 from streamlit_extras.metric_cards import style_metric_cards
-from streamlit_extras.app_logo import add_logo
-from st_social_media_links import SocialMediaIcons
 from fungsi import *
 
 # Konfigurasi UKPBJ
@@ -50,22 +46,6 @@ try:
                     .drop('nama_satker', axis=1)
                     .merge(read_df_duckdb(datasets['ECAT_IS']), left_on='satker_id', right_on='kd_satker', how='left')
                     .merge(read_df_duckdb(datasets['ECAT_PD']), how='left', on='kd_penyedia'))
-
-        # Menggunakan DuckDB untuk menggabungkan dataset
-        # con.execute(f"""
-        #     CREATE OR REPLACE VIEW dfECAT_OK AS
-        #     SELECT *
-        #     FROM dfECAT
-        #     LEFT JOIN (SELECT * FROM read_df_duckdb('{datasets["ECAT_KD"]}')) AS ecat_kd
-        #         ON dfECAT.kd_komoditas = ecat_kd.kd_komoditas
-        #     LEFT JOIN (SELECT * FROM read_df_duckdb('{datasets["ECAT_IS"]}')) AS ecat_is
-        #         ON dfECAT.satker_id = ecat_is.kd_satker
-        #     LEFT JOIN (SELECT * FROM read_df_duckdb('{datasets["ECAT_PD"]}')) AS ecat_pd
-        #         ON dfECAT.kd_penyedia = ecat_pd.kd_penyedia
-        # """)
-        
-        # # Mengambil hasil query ke DataFrame
-        # dfECAT_OK = con.execute("SELECT * FROM dfECAT_OK WHERE nama_satker IS NULL").df()
 
         # Header dan tombol unduh
         col1, col2 = st.columns([8,2])
