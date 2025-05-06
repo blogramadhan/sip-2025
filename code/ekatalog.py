@@ -196,7 +196,7 @@ try:
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
                         width='100%',
-                        height=min(400, 35 * (len(tabel_jumlah_komoditas) + 1)))
+                        height=min(350, 35 * (len(tabel_jumlah_komoditas) + 1)))
                     
                 with col2:
                     custom_colors = ['#FF9671', '#FFC75F', '#F9F871', '#D65DB1', '#845EC2', '#0089BA', '#008F7A', '#2C73D2', '#0081CF', '#C34A36']
@@ -256,7 +256,7 @@ try:
                         enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
                         width='100%',
-                        height=min(400, 35 * (len(tabel_nilai_komoditas) + 1)))
+                        height=min(350, 35 * (len(tabel_nilai_komoditas) + 1)))
                     
                 with col2:
                     custom_colors = ['#3A86FF', '#FF006E', '#FB5607', '#FFBE0B', '#8338EC', '#06D6A0', '#118AB2', '#073B4C', '#7209B7', '#4CC9F0']
@@ -318,7 +318,7 @@ try:
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
                         width='100%',
-                        height=min(400, 35 * (len(tabel_jumlah_pd) + 1)))
+                        height=min(350, 35 * (len(tabel_jumlah_pd) + 1)))
                 with col2:
                     custom_colors = ['#00B4D8', '#0077B6', '#023E8A', '#0096C7', '#48CAE4', '#90E0EF', '#ADE8F4', '#CAF0F8', '#03045E', '#014F86']
                     fig = go.Figure()
@@ -377,7 +377,7 @@ try:
                         enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
                         width='100%',
-                        height=min(400, 35 * (len(tabel_nilai_pd) + 1)))
+                        height=min(350, 35 * (len(tabel_nilai_pd) + 1)))
                     
                 with col2:
                     custom_colors = ['#9D4EDD', '#C77DFF', '#E0AAFF', '#7B2CBF', '#5A189A', '#3C096C', '#240046', '#10002B', '#E500A4', '#DB00B6']
@@ -440,7 +440,7 @@ try:
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
                         width='100%',
-                        height=min(400, 35 * (len(tabel_jumlah_pu) + 1)))
+                        height=min(350, 35 * (len(tabel_jumlah_pu) + 1)))
                 with col2:                
                     custom_colors = ['#588157', '#3A5A40', '#344E41', '#4F772D', '#90A955', '#A3B18A', '#B5C99A', '#DAD7CD', '#606C38', '#283618']
                     fig = go.Figure()
@@ -499,7 +499,7 @@ try:
                         enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
                         width='100%',
-                        height=min(400, 35 * (len(tabel_nilai_pu) + 1)))
+                        height=min(350, 35 * (len(tabel_nilai_pu) + 1)))
                     
                 with col2:
                     fig = go.Figure()
@@ -624,7 +624,7 @@ try:
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
                         width='100%',
-                        height=min(400, 35 * (len(tabel_etalase_jumlah_ukm) + 1)))
+                        height=min(350, 35 * (len(tabel_etalase_jumlah_ukm) + 1)))
                     
                 with col2:
                     fig = go.Figure(data=[go.Pie(
@@ -703,7 +703,7 @@ try:
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
                         width='100%',
-                        height=min(400, 35 * (len(tabel_etalase_jumlah_pd) + 1)))
+                        height=min(350, 35 * (len(tabel_etalase_jumlah_pd) + 1)))
                     
                 with col2:
                     custom_colors = ['#00B4D8', '#0077B6', '#023E8A', '#0096C7', '#48CAE4', '#90E0EF', '#ADE8F4', '#CAF0F8', '#03045E', '#014F86']
@@ -763,7 +763,7 @@ try:
                         enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
                         width='100%',
-                        height=min(400, 35 * (len(tabel_etalase_nilai_pd) + 1)))
+                        height=min(350, 35 * (len(tabel_etalase_nilai_pd) + 1)))
                     
                 with col2:
                     custom_colors = ['#9D4EDD', '#C77DFF', '#E0AAFF', '#7B2CBF', '#5A189A', '#3C096C', '#240046', '#10002B', '#E500A4', '#DB00B6']
@@ -828,7 +828,7 @@ try:
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
                         width='100%',
-                        height=min(400, 35 * (len(tabel_etalase_jumlah_pu) + 1)))
+                        height=min(350, 35 * (len(tabel_etalase_jumlah_pu) + 1)))
                         
                 with col2:
                     custom_colors = ['#9D4EDD', '#C77DFF', '#E0AAFF', '#7B2CBF', '#5A189A', '#3C096C', '#240046', '#10002B', '#E500A4', '#DB00B6']
@@ -889,7 +889,7 @@ try:
                         enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
                         width='100%',
-                        height=min(400, 35 * (len(tabel_etalase_nilai_pu) + 1)))
+                        height=min(350, 35 * (len(tabel_etalase_nilai_pu) + 1)))
                 
                 with col2:
                     fig = go.Figure()

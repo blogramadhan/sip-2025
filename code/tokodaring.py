@@ -185,15 +185,16 @@ try:
             # Tampilkan tabel dan grafik
             col_tabel, col_grafik = st.columns((4,6))
             with col_tabel:
-                st.dataframe(
-                    df_jumlah_pu,
-                    column_config={
-                        "NAMA_TOKO": "NAMA TOKO",
-                        "JUMLAH_TRANSAKSI": "JUMLAH TRANSAKSI" 
-                    },
-                    use_container_width=True,
-                    hide_index=True
-                )
+
+                gd_pu_jumlah = GridOptionsBuilder.from_dataframe(df_jumlah_pu)
+                gd_pu_jumlah.configure_default_column(autoSizeColumns=True)
+                AgGrid(df_jumlah_pu, 
+                    gridOptions=gd_pu_jumlah.build(),
+                    enable_enterprise_modules=True,
+                    fit_columns_on_grid_load=True,
+                    autoSizeColumns=True,
+                    width='100%',
+                    height=min(350, 35 * (len(df_jumlah_pu) + 1)))
             
             with col_grafik:
                 fig = px.bar(df_jumlah_pu, x='NAMA_TOKO', y='JUMLAH_TRANSAKSI', 
@@ -217,15 +218,18 @@ try:
             # Tampilkan tabel dan grafik
             col_tabel, col_grafik = st.columns((4,6))
             with col_tabel:
-                st.dataframe(
-                    df_nilai_pu,
-                    column_config={
-                        "NAMA_TOKO": "NAMA TOKO",
-                        "NILAI_TRANSAKSI": "NILAI TRANSAKSI (Rp.)" 
-                    },
-                    use_container_width=True,
-                    hide_index=True
-                )
+
+                gd_pu_nilai = GridOptionsBuilder.from_dataframe(df_nilai_pu)
+                gd_pu_nilai.configure_default_column(autoSizeColumns=True)
+                gd_pu_nilai.configure_column("NILAI_TRANSAKSI", 
+                                    type=["numericColumn", "numberColumnFilter", "customNumericFormat"], 
+                                    valueGetter="data.NILAI_TRANSAKSI.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+                AgGrid(df_nilai_pu, 
+                    gridOptions=gd_pu_nilai.build(),
+                    enable_enterprise_modules=True,
+                    fit_columns_on_grid_load=True,
+                    width='100%',
+                    height=min(350, 35 * (len(df_nilai_pu) + 1)))
             
             with col_grafik:
                 fig = px.bar(df_nilai_pu, x='NAMA_TOKO', y='NILAI_TRANSAKSI', 
