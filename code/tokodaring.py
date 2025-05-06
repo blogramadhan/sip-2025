@@ -219,15 +219,18 @@ try:
                     height=min(350, 35 * (len(df_jumlah_pu) + 1)))
             
             with col_grafik:
-                # Menggunakan grafik pie untuk variasi
-                fig = px.pie(df_jumlah_pu, values='JUMLAH_TRANSAKSI', names='NAMA_TOKO',
-                             title='Grafik Jumlah Transaksi Toko Daring Pelaku Usaha',
-                             color_discrete_sequence=px.colors.sequential.Plasma_r,
-                             hole=0.4)
-                fig.update_traces(textposition='inside', textinfo='percent+label', 
-                                 textfont_size=10, pull=[0.05 if i == 0 else 0 for i in range(len(df_jumlah_pu))])
+                # Menggunakan grafik bar horizontal dengan warna gradien
+                fig = px.bar(df_jumlah_pu, y='NAMA_TOKO', x='JUMLAH_TRANSAKSI', 
+                             text_auto='.2s', title='Grafik Jumlah Transaksi Toko Daring Pelaku Usaha',
+                             orientation='h', color='JUMLAH_TRANSAKSI',
+                             color_continuous_scale='Turbo',
+                             template='plotly_white')
+                fig.update_traces(textfont_size=12, textposition="outside", cliponaxis=False)
                 fig.update_layout(
-                    legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
+                    yaxis_title="Pelaku Usaha",
+                    xaxis_title="Jumlah Transaksi",
+                    coloraxis_showscale=False,
+                    hoverlabel=dict(bgcolor="white", font_size=12),
                     margin=dict(l=10, r=10, t=50, b=10)
                 )
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
@@ -262,14 +265,19 @@ try:
                     height=min(350, 35 * (len(df_nilai_pu) + 1)))
             
             with col_grafik:
-                # Menggunakan grafik treemap untuk variasi
-                fig = px.treemap(df_nilai_pu, path=['NAMA_TOKO'], values='NILAI_TRANSAKSI',
-                                 title='Grafik Nilai Transaksi Toko Daring Pelaku Usaha',
-                                 color='NILAI_TRANSAKSI', color_continuous_scale='RdBu')
-                fig.update_traces(textinfo='label+value+percent parent', textfont_size=12)
+                # Menggunakan grafik bar horizontal dengan warna gradien
+                fig = px.bar(df_nilai_pu, y='NAMA_TOKO', x='NILAI_TRANSAKSI', 
+                             text_auto='.2s', title='Grafik Nilai Transaksi Toko Daring Pelaku Usaha',
+                             orientation='h', color='NILAI_TRANSAKSI',
+                             color_continuous_scale='Sunset',
+                             template='plotly_white')
+                fig.update_traces(textfont_size=12, textposition="outside", cliponaxis=False)
                 fig.update_layout(
-                    margin=dict(l=10, r=10, t=50, b=10),
-                    coloraxis_showscale=False
+                    yaxis_title="Pelaku Usaha",
+                    xaxis_title="Nilai Transaksi (Rp)",
+                    coloraxis_showscale=False,
+                    hoverlabel=dict(bgcolor="white", font_size=12),
+                    margin=dict(l=10, r=10, t=50, b=10)
                 )
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
