@@ -266,7 +266,7 @@ try:
                 fig = px.treemap(df_nilai_pu, path=['NAMA_TOKO'], values='NILAI_TRANSAKSI',
                                  title='Grafik Nilai Transaksi Toko Daring Pelaku Usaha',
                                  color='NILAI_TRANSAKSI', color_continuous_scale='RdBu')
-                fig.update_traces(textinfo='label+value+percent', textfont_size=12)
+                fig.update_traces(textinfo='label+value+percent parent', textfont_size=12)
                 fig.update_layout(
                     margin=dict(l=10, r=10, t=50, b=10),
                     coloraxis_showscale=False
