@@ -56,9 +56,9 @@ try:
     # Filter data
     col1, col2 = st.columns(2)
     with col1:
-        status_verifikasi = st.radio("**Status Verifikasi**", ["verified", "unverified", "Gabungan"])
+        status_verifikasi = st.radio("**Status Verifikasi**", ["Gabungan", "Verified", "Unverified"])
     with col2:
-        status_ppmse = st.radio("**Status Konfirmasi PPMSE**", ["gagal", "selesai"])
+        status_ppmse = st.radio("**Status Konfirmasi PPMSE**", ["Gagal", "Selesai"])
     
     st.write(f"Filter aktif: **{status_verifikasi}** dan **{status_ppmse}**")
 
@@ -66,13 +66,12 @@ try:
     query = "SELECT * FROM dfBELA WHERE LENGTH(nama_satker) > 1"
     
     if status_verifikasi != "Gabungan":
-        query += f" AND status_verif = '{status_verifikasi}'"
+        query += f" AND status_verif = '{status_verifikasi.lower()}'"
     
-    if status_ppmse == "selesai":
+    if status_ppmse.lower() == "selesai":
         query += " AND (status_konfirmasi_ppmse = 'selesai' OR status_konfirmasi_ppmse IS NULL)"
     else:
-        query += f" AND status_konfirmasi_ppmse = '{status_ppmse}'"
-    
+        query += f" AND status_konfirmasi_ppmse = '{status_ppmse.lower()}'"
     df_BELA_filter = con.execute(query).df()
     
     # Tampilkan metrik
