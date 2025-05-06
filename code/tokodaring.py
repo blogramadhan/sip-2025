@@ -111,16 +111,17 @@ try:
             # Tampilkan tabel dan grafik
             col_tabel, col_grafik = st.columns((4,6))
             with col_tabel:
-                st.dataframe(
-                    df_jumlah_pd,
-                    column_config={
-                        "NAMA_SATKER": "NAMA SATKER",
-                        "JUMLAH_TRANSAKSI": "JUMLAH TRANSAKSI"
-                    },
-                    use_container_width=True,
-                    hide_index=True
-                )
-            
+                
+                gd_pd_jumlah = GridOptionsBuilder.from_dataframe(df_jumlah_pd)
+                gd_pd_jumlah.configure_default_column(autoSizeColumns=True)
+                AgGrid(df_jumlah_pd, 
+                    gridOptions=gd_pd_jumlah.build(),
+                    enable_enterprise_modules=True,
+                    fit_columns_on_grid_load=True,
+                    autoSizeColumns=True,
+                    width='100%',
+                    height=min(400, 35 * (len(df_jumlah_pd) + 1)))
+
             with col_grafik:
                 fig = px.bar(df_jumlah_pd, x='NAMA_SATKER', y='JUMLAH_TRANSAKSI', 
                              text_auto='.2s', title='Grafik Jumlah Transaksi Toko Daring Perangkat Daerah')
@@ -143,16 +144,19 @@ try:
             # Tampilkan tabel dan grafik
             col_tabel, col_grafik = st.columns((4,6))
             with col_tabel:
-                st.dataframe(
-                    df_nilai_pd,
-                    column_config={
-                        "NAMA_SATKER": "NAMA SATKER",
-                        "NILAI_TRANSAKSI": "NILAI TRANSAKSI (Rp.)" 
-                    },
-                    use_container_width=True,
-                    hide_index=True
-                )
-            
+
+                gd_pd_nilai = GridOptionsBuilder.from_dataframe(df_nilai_pd)
+                gd_pd_nilai.configure_default_column(autoSizeColumns=True)
+                gd_pd_nilai.configure_column("NILAI_TRANSAKSI", 
+                                    type=["numericColumn", "numberColumnFilter", "customNumericFormat"], 
+                                    valueGetter="data.NILAI_TRANSAKSI.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+                AgGrid(df_nilai_pd, 
+                    gridOptions=gd_pd_nilai.build(),
+                    enable_enterprise_modules=True,
+                    fit_columns_on_grid_load=True,
+                    width='100%',
+                    height=min(400, 35 * (len(df_nilai_pd) + 1)))
+
             with col_grafik:
                 fig = px.bar(df_nilai_pd, x='NAMA_SATKER', y='NILAI_TRANSAKSI', 
                              text_auto='.2s', title='Grafik Nilai Transaksi Toko Daring Perangkat Daerah')
