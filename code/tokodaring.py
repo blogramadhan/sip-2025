@@ -38,12 +38,14 @@ datasets = {
 }
 
 try:
+    st.title("TRANSAKSI TOKO DARING")
+    
     # Baca data dan siapkan unduhan
     dfBELA = read_df_duckdb(datasets['BELA'])
 
     # Tampilkan header dan tombol unduh
     col1, col2 = st.columns((7,3))
-    col1.header(f"TRANSAKSI TOKO DARING - {pilih} - TAHUN {tahun}")
+    col1.header(f"{pilih} - TAHUN {tahun}")
     col2.download_button(
         label="📥 Unduh Data Toko Daring",
         data=download_excel(dfBELA),
