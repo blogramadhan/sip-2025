@@ -120,7 +120,7 @@ try:
                     fit_columns_on_grid_load=True,
                     autoSizeColumns=True,
                     width='100%',
-                    height=min(400, 35 * (len(df_jumlah_pd) + 1)))
+                    height=min(350, 35 * (len(df_jumlah_pd) + 1)))
 
             with col_grafik:
                 fig = px.bar(df_jumlah_pd, x='NAMA_SATKER', y='JUMLAH_TRANSAKSI', 
@@ -155,7 +155,7 @@ try:
                     enable_enterprise_modules=True,
                     fit_columns_on_grid_load=True,
                     width='100%',
-                    height=min(400, 35 * (len(df_nilai_pd) + 1)))
+                    height=min(350, 35 * (len(df_nilai_pd) + 1)))
 
             with col_grafik:
                 fig = px.bar(df_nilai_pd, x='NAMA_SATKER', y='NILAI_TRANSAKSI', 

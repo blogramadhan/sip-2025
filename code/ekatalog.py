@@ -116,7 +116,7 @@ try:
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
                         width='100%',
-                        height=min(400, 35 * (len(tabel_jumlah_ukm) + 1)))
+                        height=min(350, 35 * (len(tabel_jumlah_ukm) + 1)))
                     
                 with col2:
                     fig = go.Figure(data=[go.Pie(
