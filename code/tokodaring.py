@@ -134,7 +134,7 @@ try:
                     yaxis_title="Perangkat Daerah",
                     xaxis_title="Jumlah Transaksi",
                     coloraxis_showscale=False,
-                    hoverlabel=dict(bgcolor="transparent", font_size=12),
+                    hoverlabel=dict(bgcolor="white", font_size=12),
                     margin=dict(l=10, r=10, t=50, b=10)
                 )
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
@@ -180,7 +180,7 @@ try:
                     yaxis_title="Perangkat Daerah",
                     xaxis_title="Nilai Transaksi (Rp)",
                     coloraxis_showscale=False,
-                    hoverlabel=dict(bgcolor="transparent", font_size=12),
+                    hoverlabel=dict(bgcolor="white", font_size=12),
                     margin=dict(l=10, r=10, t=50, b=10)
                 )
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
@@ -230,7 +230,7 @@ try:
                     yaxis_title="Pelaku Usaha",
                     xaxis_title="Jumlah Transaksi",
                     coloraxis_showscale=False,
-                    hoverlabel=dict(bgcolor="transparent", font_size=12),
+                    hoverlabel=dict(bgcolor="white", font_size=12),
                     margin=dict(l=10, r=10, t=50, b=10)
                 )
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
@@ -276,7 +276,7 @@ try:
                     yaxis_title="Pelaku Usaha",
                     xaxis_title="Nilai Transaksi (Rp)",
                     coloraxis_showscale=False,
-                    hoverlabel=dict(bgcolor="transparent", font_size=12),
+                    hoverlabel=dict(bgcolor="white", font_size=12),
                     margin=dict(l=10, r=10, t=50, b=10)
                 )
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
