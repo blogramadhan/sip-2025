@@ -39,7 +39,7 @@ datasets = {
 
 try:
     st.title("TRANSAKSI TOKO DARING")
-    
+
     # Baca data dan siapkan unduhan
     dfBELA = read_df_duckdb(datasets['BELA'])
 
@@ -88,6 +88,146 @@ try:
     )
 
     st.divider()
+
+    # Visualisasi data berdasarkan Perangkat Daerah (10 Besar)
+    with st.container(border=True):
+        st.subheader("Berdasarkan Perangkat Daerah (10 Besar)")
+        
+        tab_pd_jumlah, tab_pd_nilai = st.tabs(["| Jumlah Transaksi |", "| Nilai Transaksi |"])
+        
+        # Tab Jumlah Transaksi Perangkat Daerah
+        with tab_pd_jumlah:
+            # Query data jumlah transaksi
+            sql_jumlah_pd = """
+                SELECT nama_satker AS NAMA_SATKER, COUNT(DISTINCT(order_id)) AS JUMLAH_TRANSAKSI
+                FROM df_BELA_filter 
+                WHERE nama_satker IS NOT NULL
+                GROUP BY nama_satker 
+                ORDER BY JUMLAH_TRANSAKSI DESC 
+                LIMIT 10
+            """
+            df_jumlah_pd = con.execute(sql_jumlah_pd).df()
+            
+            # Tampilkan tabel dan grafik
+            col_tabel, col_grafik = st.columns((4,6))
+            with col_tabel:
+                st.dataframe(
+                    df_jumlah_pd,
+                    column_config={
+                        "NAMA_SATKER": "NAMA SATKER",
+                        "JUMLAH_TRANSAKSI": "JUMLAH TRANSAKSI"
+                    },
+                    use_container_width=True,
+                    hide_index=True
+                )
+            
+            with col_grafik:
+                fig = px.bar(df_jumlah_pd, x='NAMA_SATKER', y='JUMLAH_TRANSAKSI', 
+                             text_auto='.2s', title='Grafik Jumlah Transaksi Toko Daring Perangkat Daerah')
+                fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+                st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+        
+        # Tab Nilai Transaksi Perangkat Daerah
+        with tab_pd_nilai:
+            # Query data nilai transaksi
+            sql_nilai_pd = """
+                SELECT nama_satker AS NAMA_SATKER, SUM(valuasi) AS NILAI_TRANSAKSI
+                FROM df_BELA_filter 
+                WHERE nama_satker IS NOT NULL
+                GROUP BY nama_satker 
+                ORDER BY NILAI_TRANSAKSI DESC 
+                LIMIT 10
+            """
+            df_nilai_pd = con.execute(sql_nilai_pd).df()
+            
+            # Tampilkan tabel dan grafik
+            col_tabel, col_grafik = st.columns((4,6))
+            with col_tabel:
+                st.dataframe(
+                    df_nilai_pd,
+                    column_config={
+                        "NAMA_SATKER": "NAMA SATKER",
+                        "NILAI_TRANSAKSI": "NILAI TRANSAKSI (Rp.)" 
+                    },
+                    use_container_width=True,
+                    hide_index=True
+                )
+            
+            with col_grafik:
+                fig = px.bar(df_nilai_pd, x='NAMA_SATKER', y='NILAI_TRANSAKSI', 
+                             text_auto='.2s', title='Grafik Nilai Transaksi Toko Daring Perangkat Daerah')
+                fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+                st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+
+    # Visualisasi data berdasarkan Pelaku Usaha (10 Besar)
+    with st.container(border=True):
+        st.subheader("Berdasarkan Pelaku Usaha (10 Besar)")
+        
+        tab_pu_jumlah, tab_pu_nilai = st.tabs(["| Jumlah Transaksi |", "| Nilai Transaksi |"])
+        
+        # Tab Jumlah Transaksi Pelaku Usaha
+        with tab_pu_jumlah:
+            # Query data jumlah transaksi
+            sql_jumlah_pu = """
+                SELECT nama_merchant AS NAMA_TOKO, COUNT(DISTINCT(order_id)) AS JUMLAH_TRANSAKSI
+                FROM df_BELA_filter 
+                WHERE nama_merchant IS NOT NULL
+                GROUP BY nama_merchant 
+                ORDER BY JUMLAH_TRANSAKSI DESC 
+                LIMIT 10
+            """
+            df_jumlah_pu = con.execute(sql_jumlah_pu).df()
+            
+            # Tampilkan tabel dan grafik
+            col_tabel, col_grafik = st.columns((4,6))
+            with col_tabel:
+                st.dataframe(
+                    df_jumlah_pu,
+                    column_config={
+                        "NAMA_TOKO": "NAMA TOKO",
+                        "JUMLAH_TRANSAKSI": "JUMLAH TRANSAKSI" 
+                    },
+                    use_container_width=True,
+                    hide_index=True
+                )
+            
+            with col_grafik:
+                fig = px.bar(df_jumlah_pu, x='NAMA_TOKO', y='JUMLAH_TRANSAKSI', 
+                             text_auto='.2s', title='Grafik Jumlah Transaksi Toko Daring Pelaku Usaha')
+                fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+                st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+        
+        # Tab Nilai Transaksi Pelaku Usaha
+        with tab_pu_nilai:
+            # Query data nilai transaksi
+            sql_nilai_pu = """
+                SELECT nama_merchant AS NAMA_TOKO, SUM(valuasi) AS NILAI_TRANSAKSI
+                FROM df_BELA_filter 
+                WHERE nama_merchant IS NOT NULL
+                GROUP BY nama_merchant 
+                ORDER BY NILAI_TRANSAKSI DESC 
+                LIMIT 10
+            """
+            df_nilai_pu = con.execute(sql_nilai_pu).df()
+            
+            # Tampilkan tabel dan grafik
+            col_tabel, col_grafik = st.columns((4,6))
+            with col_tabel:
+                st.dataframe(
+                    df_nilai_pu,
+                    column_config={
+                        "NAMA_TOKO": "NAMA TOKO",
+                        "NILAI_TRANSAKSI": "NILAI TRANSAKSI (Rp.)" 
+                    },
+                    use_container_width=True,
+                    hide_index=True
+                )
+            
+            with col_grafik:
+                fig = px.bar(df_nilai_pu, x='NAMA_TOKO', y='NILAI_TRANSAKSI', 
+                             text_auto='.2s', title='Grafik Nilai Transaksi Toko Daring Pelaku Usaha')
+                fig.update_traces(textfont_size=12, textangle=0, textposition="outside", cliponaxis=False)
+                st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
 except Exception as e:
     st.error(f"Error: {e}")
