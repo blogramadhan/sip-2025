@@ -28,4 +28,67 @@ kodeFolder = selected_daerah.get("folder")
 kodeRUP = selected_daerah.get("RUP")
 kodeLPSE = selected_daerah.get("LPSE")
 
-st.title("E-PURCHASING")
+# Koneksi DuckDB
+con = duckdb.connect(database=':memory:')
+
+# URL Dataset Toko Daring
+base_url = f"https://data.pbj.my.id/{kodeRUP}/epurchasing"
+datasets = {
+    'BELA': f"{base_url}/Bela-TokoDaringRealisasi{tahun}.parquet",
+}
+
+try:
+    # Baca data dan siapkan unduhan
+    dfBELA = read_df_duckdb(datasets['BELA'])
+
+    # Tampilkan header dan tombol unduh
+    col1, col2 = st.columns((7,3))
+    col1.header(f"TRANSAKSI TOKO DARING - {pilih} - TAHUN {tahun}")
+    col2.download_button(
+        label="📥 Unduh Data Toko Daring",
+        data=download_excel(dfBELA),
+        file_name=f"TransaksiTokoDaring-{kodeFolder}-{tahun}.xlsx",
+        mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+
+    st.divider()
+
+    # Filter data
+    col1, col2 = st.columns(2)
+    with col1:
+        status_verifikasi = st.radio("**Status Verifikasi**", ["verified", "unverified", "Gabungan"])
+    with col2:
+        status_ppmse = st.radio("**Status Konfirmasi PPMSE**", ["gagal", "selesai"])
+    
+    st.write(f"Filter aktif: **{status_verifikasi}** dan **{status_ppmse}**")
+
+    # Query yang lebih ringkas
+    query = "SELECT * FROM dfBELA WHERE LENGTH(nama_satker) > 1"
+    
+    if status_verifikasi != "Gabungan":
+        query += f" AND status_verif = '{status_verifikasi}'"
+    
+    if status_ppmse == "selesai":
+        query += " AND (status_konfirmasi_ppmse = 'selesai' OR status_konfirmasi_ppmse IS NULL)"
+    else:
+        query += f" AND status_konfirmasi_ppmse = '{status_ppmse}'"
+    
+    df_BELA_filter = con.execute(query).df()
+    
+    # Tampilkan metrik
+    col1, col2 = st.columns(2)
+    col1.metric(
+        label="Jumlah Transaksi Toko Daring", 
+        value="{:,}".format(df_BELA_filter['order_id'].nunique())
+    )
+    col2.metric(
+        label="Nilai Transaksi Toko Daring", 
+        value="{:,.2f}".format(df_BELA_filter['valuasi'].sum())
+    )
+
+    st.divider()
+
+except Exception as e:
+    st.error(f"Error: {e}")
+
+style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
