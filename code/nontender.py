@@ -109,9 +109,17 @@ with menu_nontender_1:
                 
                 col1, col2 = st.columns((3,7))
                 with col1:
-                    st.dataframe(tabel_jumlah, 
-                        column_config={"KUALIFIKASI_PAKET": "KUALIFIKASI PAKET", "JUMLAH_PAKET": "JUMLAH PAKET"},
-                        use_container_width=True, hide_index=True)
+                    gd_jumlah = GridOptionsBuilder.from_dataframe(tabel_jumlah)
+                    gd_jumlah.configure_default_column(autoSizeColumns=True)
+                    gd_jumlah.configure_column("KUALIFIKASI_PAKET", header_name="KUALIFIKASI PAKET")
+                    gd_jumlah.configure_column("JUMLAH_PAKET", header_name="JUMLAH PAKET")
+                    AgGrid(tabel_jumlah, 
+                        gridOptions=gd_jumlah.build(),
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        autoSizeColumns=True,
+                        width='100%',
+                        height=min(350, 35 * (len(tabel_jumlah) + 1)))
                 with col2:
                     fig = px.bar(tabel_jumlah, x='KUALIFIKASI_PAKET', y='JUMLAH_PAKET', 
                                 color='KUALIFIKASI_PAKET', color_discrete_sequence=color_palette,
@@ -138,9 +146,17 @@ with menu_nontender_1:
                 
                 col1, col2 = st.columns((3,7))
                 with col1:
-                    st.dataframe(tabel_nilai,
-                        column_config={"KUALIFIKASI_PAKET": "KUALIFIKASI PAKET", "NILAI_PAKET": "NILAI PAKET (Rp.)"},
-                        use_container_width=True, hide_index=True)
+                    gd_nilai = GridOptionsBuilder.from_dataframe(tabel_nilai)
+                    gd_nilai.configure_default_column(autoSizeColumns=True)
+                    gd_nilai.configure_column("KUALIFIKASI_PAKET", header_name="KUALIFIKASI PAKET")
+                    gd_nilai.configure_column("NILAI_PAKET", header_name="NILAI PAKET (Rp.)", valueFormatter="'Rp. ' + x.toLocaleString()")
+                    AgGrid(tabel_nilai, 
+                        gridOptions=gd_nilai.build(),
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        autoSizeColumns=True,
+                        width='100%',
+                        height=min(350, 35 * (len(tabel_nilai) + 1)))
                 with col2:
                     fig = px.bar(tabel_nilai, x='KUALIFIKASI_PAKET', y='NILAI_PAKET', 
                                 color='KUALIFIKASI_PAKET', color_discrete_sequence=color_palette,
@@ -171,9 +187,17 @@ with menu_nontender_1:
                 
                 col1, col2 = st.columns((3,7))
                 with col1:
-                    st.dataframe(tabel_jp_jumlah,
-                        column_config={"JENIS_PENGADAAN": "JENIS PENGADAAN", "JUMLAH_PAKET": "JUMLAH PAKET"},
-                        use_container_width=True, hide_index=True)
+                    gd_jp_jumlah = GridOptionsBuilder.from_dataframe(tabel_jp_jumlah)
+                    gd_jp_jumlah.configure_default_column(autoSizeColumns=True)
+                    gd_jp_jumlah.configure_column("JENIS_PENGADAAN", header_name="JENIS PENGADAAN")
+                    gd_jp_jumlah.configure_column("JUMLAH_PAKET", header_name="JUMLAH PAKET")
+                    AgGrid(tabel_jp_jumlah, 
+                        gridOptions=gd_jp_jumlah.build(),
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        autoSizeColumns=True,
+                        width='100%',
+                        height=min(350, 35 * (len(tabel_jp_jumlah) + 1)))
                 with col2:
                     fig = px.bar(tabel_jp_jumlah, x='JENIS_PENGADAAN', y='JUMLAH_PAKET', 
                                 color='JENIS_PENGADAAN', color_discrete_sequence=color_palette,
@@ -200,9 +224,17 @@ with menu_nontender_1:
                 
                 col1, col2 = st.columns((3,7))
                 with col1:
-                    st.dataframe(tabel_jp_nilai,
-                        column_config={"JENIS_PENGADAAN": "JENIS PENGADAAN", "NILAI_PAKET": "NILAI PAKET (Rp.)"},
-                        use_container_width=True, hide_index=True)
+                    gd_jp_nilai = GridOptionsBuilder.from_dataframe(tabel_jp_nilai)
+                    gd_jp_nilai.configure_default_column(autoSizeColumns=True)
+                    gd_jp_nilai.configure_column("JENIS_PENGADAAN", header_name="JENIS PENGADAAN")
+                    gd_jp_nilai.configure_column("NILAI_PAKET", header_name="NILAI PAKET (Rp.)", valueFormatter="'Rp. ' + x.toLocaleString()")
+                    AgGrid(tabel_jp_nilai, 
+                        gridOptions=gd_jp_nilai.build(),
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        autoSizeColumns=True,
+                        width='100%',
+                        height=min(350, 35 * (len(tabel_jp_nilai) + 1)))
                 with col2:
                     fig = px.bar(tabel_jp_nilai, x='JENIS_PENGADAAN', y='NILAI_PAKET', 
                                 color='JENIS_PENGADAAN', color_discrete_sequence=color_palette,
@@ -233,9 +265,17 @@ with menu_nontender_1:
                 
                 col1, col2 = st.columns((3,7))
                 with col1:
-                    st.dataframe(tabel_mp_jumlah,
-                        column_config={"METODE_PEMILIHAN": "METODE PEMILIHAN", "JUMLAH_PAKET": "JUMLAH PAKET"},
-                        use_container_width=True, hide_index=True)
+                    gd_mp_jumlah = GridOptionsBuilder.from_dataframe(tabel_mp_jumlah)
+                    gd_mp_jumlah.configure_default_column(autoSizeColumns=True)
+                    gd_mp_jumlah.configure_column("METODE_PEMILIHAN", header_name="METODE PEMILIHAN")
+                    gd_mp_jumlah.configure_column("JUMLAH_PAKET", header_name="JUMLAH PAKET")
+                    AgGrid(tabel_mp_jumlah, 
+                        gridOptions=gd_mp_jumlah.build(),
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        autoSizeColumns=True,
+                        width='100%',
+                        height=min(350, 35 * (len(tabel_mp_jumlah) + 1)))
                 with col2:
                     fig = px.bar(tabel_mp_jumlah, y='METODE_PEMILIHAN', x='JUMLAH_PAKET', 
                                 color='METODE_PEMILIHAN', color_discrete_sequence=color_palette,
@@ -262,9 +302,17 @@ with menu_nontender_1:
                 
                 col1, col2 = st.columns((3,7))
                 with col1:
-                    st.dataframe(tabel_mp_nilai,
-                        column_config={"METODE_PEMILIHAN": "METODE PEMILIHAN", "NILAI_PAKET": "NILAI PAKET (Rp.)"},
-                        use_container_width=True, hide_index=True)
+                    gd_mp_nilai = GridOptionsBuilder.from_dataframe(tabel_mp_nilai)
+                    gd_mp_nilai.configure_default_column(autoSizeColumns=True)
+                    gd_mp_nilai.configure_column("METODE_PEMILIHAN", header_name="METODE PEMILIHAN")
+                    gd_mp_nilai.configure_column("NILAI_PAKET", header_name="NILAI PAKET (Rp.)", valueFormatter="'Rp. ' + x.toLocaleString()")
+                    AgGrid(tabel_mp_nilai, 
+                        gridOptions=gd_mp_nilai.build(),
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        autoSizeColumns=True,
+                        width='100%',
+                        height=min(350, 35 * (len(tabel_mp_nilai) + 1)))
                 with col2:
                     fig = px.bar(tabel_mp_nilai, x='NILAI_PAKET', y='METODE_PEMILIHAN', 
                                 color='METODE_PEMILIHAN', color_discrete_sequence=color_palette,
@@ -295,9 +343,17 @@ with menu_nontender_1:
                 
                 col1, col2 = st.columns((3,7))
                 with col1:
-                    st.dataframe(tabel_kontrak_jumlah,
-                        column_config={"KONTRAK_PEMBAYARAN": "KONTRAK PEMBAYARAN", "JUMLAH_PAKET": "JUMLAH PAKET"},
-                        use_container_width=True, hide_index=True)
+                    gd_kontrak_jumlah = GridOptionsBuilder.from_dataframe(tabel_kontrak_jumlah)
+                    gd_kontrak_jumlah.configure_default_column(autoSizeColumns=True)
+                    gd_kontrak_jumlah.configure_column("KONTRAK_PEMBAYARAN", header_name="KONTRAK PEMBAYARAN")
+                    gd_kontrak_jumlah.configure_column("JUMLAH_PAKET", header_name="JUMLAH PAKET")
+                    AgGrid(tabel_kontrak_jumlah, 
+                        gridOptions=gd_kontrak_jumlah.build(),
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        autoSizeColumns=True,
+                        width='100%',
+                        height=min(350, 35 * (len(tabel_kontrak_jumlah) + 1)))
                 with col2:
                     fig = px.bar(tabel_kontrak_jumlah, x='KONTRAK_PEMBAYARAN', y='JUMLAH_PAKET', 
                                 color='KONTRAK_PEMBAYARAN', color_discrete_sequence=color_palette,
@@ -324,9 +380,17 @@ with menu_nontender_1:
                 
                 col1, col2 = st.columns((3,7))
                 with col1:
-                    st.dataframe(tabel_kontrak_nilai,
-                        column_config={"KONTRAK_PEMBAYARAN": "KONTRAK PEMBAYARAN", "NILAI_PAKET": "NILAI PAKET (Rp.)"},
-                        use_container_width=True, hide_index=True)
+                    gd_kontrak_nilai = GridOptionsBuilder.from_dataframe(tabel_kontrak_nilai)
+                    gd_kontrak_nilai.configure_default_column(autoSizeColumns=True)
+                    gd_kontrak_nilai.configure_column("KONTRAK_PEMBAYARAN", header_name="KONTRAK PEMBAYARAN")
+                    gd_kontrak_nilai.configure_column("NILAI_PAKET", header_name="NILAI PAKET (Rp.)", valueFormatter="'Rp. ' + x.toLocaleString()")
+                    AgGrid(tabel_kontrak_nilai, 
+                        gridOptions=gd_kontrak_nilai.build(),
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        autoSizeColumns=True,
+                        width='100%',
+                        height=min(350, 35 * (len(tabel_kontrak_nilai) + 1)))
                 with col2:
                     fig = px.bar(tabel_kontrak_nilai, x='KONTRAK_PEMBAYARAN', y='NILAI_PAKET', 
                                 color='KONTRAK_PEMBAYARAN', color_discrete_sequence=color_palette,
