@@ -90,68 +90,166 @@ with menu_nontender_1:
 
         st.divider()
 
-        # Visualisasi data dalam container
+        # Visualisasi berdasarkan kualifikasi paket
         with st.container(border=True):
-            # Tabs untuk visualisasi
             tab1, tab2 = st.tabs(["| Jumlah Kualifikasi Paket |", "| Nilai Kualifikasi Paket |"])
             
             with tab1:
                 st.subheader("Berdasarkan Jumlah Kualifikasi Paket")
-                
-                # Query data jumlah paket berdasarkan kualifikasi
-                sql_jumlah = """
+                tabel_jumlah = con.execute("""
                     SELECT kualifikasi_paket AS KUALIFIKASI_PAKET, 
                            COUNT(DISTINCT(kd_nontender)) AS JUMLAH_PAKET
                     FROM df_filter 
                     GROUP BY KUALIFIKASI_PAKET 
                     ORDER BY JUMLAH_PAKET DESC
-                """
-                tabel_jumlah = con.execute(sql_jumlah).df()
+                """).df()
                 
-                # Tampilkan tabel dan grafik
                 col1, col2 = st.columns((3,7))
                 with col1:
-                    st.dataframe(
-                        tabel_jumlah,
-                        column_config={
-                            "KUALIFIKASI_PAKET": "KUALIFIKASI PAKET",
-                            "JUMLAH_PAKET": "JUMLAH PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
+                    st.dataframe(tabel_jumlah, 
+                        column_config={"KUALIFIKASI_PAKET": "KUALIFIKASI PAKET", "JUMLAH_PAKET": "JUMLAH PAKET"},
+                        use_container_width=True, hide_index=True)
                 with col2:
                     st.bar_chart(tabel_jumlah, x="KUALIFIKASI_PAKET", y="JUMLAH_PAKET", color="KUALIFIKASI_PAKET")
 
             with tab2:
                 st.subheader("Berdasarkan Nilai Kualifikasi Paket")
-                
-                # Query data nilai paket berdasarkan kualifikasi
-                sql_nilai = """
+                tabel_nilai = con.execute("""
                     SELECT kualifikasi_paket AS KUALIFIKASI_PAKET, 
                            SUM(pagu) AS NILAI_PAKET
                     FROM df_filter 
                     GROUP BY KUALIFIKASI_PAKET 
                     ORDER BY NILAI_PAKET DESC
-                """
-                tabel_nilai = con.execute(sql_nilai).df()
+                """).df()
                 
-                # Tampilkan tabel dan grafik
                 col1, col2 = st.columns((3,7))
                 with col1:
-                    st.dataframe(
-                        tabel_nilai,
-                        column_config={
-                            "KUALIFIKASI_PAKET": "KUALIFIKASI PAKET",
-                            "NILAI_PAKET": "NILAI PAKET (Rp.)"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
+                    st.dataframe(tabel_nilai,
+                        column_config={"KUALIFIKASI_PAKET": "KUALIFIKASI PAKET", "NILAI_PAKET": "NILAI PAKET (Rp.)"},
+                        use_container_width=True, hide_index=True)
                 with col2:
                     st.bar_chart(tabel_nilai, x="KUALIFIKASI_PAKET", y="NILAI_PAKET", color="KUALIFIKASI_PAKET")
 
+        # Visualisasi berdasarkan jenis pengadaan
+        with st.container(border=True):
+            tab1, tab2 = st.tabs(["| Jumlah Jenis Pengadaan |", "| Nilai Jenis Pengadaan |"])
+            
+            with tab1:
+                st.subheader("Berdasarkan Jumlah Jenis Pengadaan (Non Tender)")
+                tabel_jp_jumlah = con.execute("""
+                    SELECT jenis_pengadaan AS JENIS_PENGADAAN, 
+                           COUNT(DISTINCT(kd_nontender)) AS JUMLAH_PAKET
+                    FROM df_filter 
+                    GROUP BY JENIS_PENGADAAN 
+                    ORDER BY JUMLAH_PAKET DESC
+                """).df()
+                
+                col1, col2 = st.columns((3,7))
+                with col1:
+                    st.dataframe(tabel_jp_jumlah,
+                        column_config={"JENIS_PENGADAAN": "JENIS PENGADAAN", "JUMLAH_PAKET": "JUMLAH PAKET"},
+                        use_container_width=True, hide_index=True)
+                with col2:
+                    st.bar_chart(tabel_jp_jumlah, x="JENIS_PENGADAAN", y="JUMLAH_PAKET", color="JENIS_PENGADAAN")
+            
+            with tab2:
+                st.subheader("Berdasarkan Nilai Jenis Pengadaan (Non Tender)")
+                tabel_jp_nilai = con.execute("""
+                    SELECT jenis_pengadaan AS JENIS_PENGADAAN, 
+                           SUM(pagu) AS NILAI_PAKET
+                    FROM df_filter 
+                    GROUP BY JENIS_PENGADAAN 
+                    ORDER BY NILAI_PAKET DESC
+                """).df()
+                
+                col1, col2 = st.columns((3,7))
+                with col1:
+                    st.dataframe(tabel_jp_nilai,
+                        column_config={"JENIS_PENGADAAN": "JENIS PENGADAAN", "NILAI_PAKET": "NILAI PAKET (Rp.)"},
+                        use_container_width=True, hide_index=True)
+                with col2:
+                    st.bar_chart(tabel_jp_nilai, x="JENIS_PENGADAAN", y="NILAI_PAKET", color="JENIS_PENGADAAN")
 
+        # Visualisasi berdasarkan metode pemilihan
+        with st.container(border=True):
+            tab1, tab2 = st.tabs(["| Jumlah Metode Pemilihan |", "| Nilai Metode Pemilihan |"])
+            
+            with tab1:
+                st.subheader("Berdasarkan Jumlah Metode Pemilihan (Non Tender)")
+                tabel_mp_jumlah = con.execute("""
+                    SELECT mtd_pemilihan AS METODE_PEMILIHAN, 
+                           COUNT(DISTINCT(kd_nontender)) AS JUMLAH_PAKET
+                    FROM df_filter 
+                    GROUP BY METODE_PEMILIHAN 
+                    ORDER BY JUMLAH_PAKET DESC
+                """).df()
+                
+                col1, col2 = st.columns((3,7))
+                with col1:
+                    st.dataframe(tabel_mp_jumlah,
+                        column_config={"METODE_PEMILIHAN": "METODE PEMILIHAN", "JUMLAH_PAKET": "JUMLAH PAKET"},
+                        use_container_width=True, hide_index=True)
+                with col2:
+                    st.bar_chart(tabel_mp_jumlah, x="METODE_PEMILIHAN", y="JUMLAH_PAKET", color="METODE_PEMILIHAN")
+            
+            with tab2:
+                st.subheader("Berdasarkan Nilai Metode Pemilihan (Non Tender)")
+                tabel_mp_nilai = con.execute("""
+                    SELECT mtd_pemilihan AS METODE_PEMILIHAN, 
+                           SUM(pagu) AS NILAI_PAKET
+                    FROM df_filter 
+                    GROUP BY METODE_PEMILIHAN 
+                    ORDER BY NILAI_PAKET DESC
+                """).df()
+                
+                col1, col2 = st.columns((3,7))
+                with col1:
+                    st.dataframe(tabel_mp_nilai,
+                        column_config={"METODE_PEMILIHAN": "METODE PEMILIHAN", "NILAI_PAKET": "NILAI PAKET (Rp.)"},
+                        use_container_width=True, hide_index=True)
+                with col2:
+                    st.bar_chart(tabel_mp_nilai, x="METODE_PEMILIHAN", y="NILAI_PAKET", color="METODE_PEMILIHAN")
+
+        # Visualisasi berdasarkan kontrak pembayaran
+        with st.container(border=True):
+            tab1, tab2 = st.tabs(["| Jumlah Kontrak Pembayaran |", "| Nilai Kontrak Pembayaran |"])
+            
+            with tab1:
+                st.subheader("Berdasarkan Jumlah Kontrak Pembayaran (Non Tender)")
+                tabel_kontrak_jumlah = con.execute("""
+                    SELECT kontrak_pembayaran AS KONTRAK_PEMBAYARAN, 
+                           COUNT(DISTINCT(kd_nontender)) AS JUMLAH_PAKET
+                    FROM df_filter 
+                    GROUP BY KONTRAK_PEMBAYARAN 
+                    ORDER BY JUMLAH_PAKET DESC
+                """).df()
+                
+                col1, col2 = st.columns((3,7))
+                with col1:
+                    st.dataframe(tabel_kontrak_jumlah,
+                        column_config={"KONTRAK_PEMBAYARAN": "KONTRAK PEMBAYARAN", "JUMLAH_PAKET": "JUMLAH PAKET"},
+                        use_container_width=True, hide_index=True)
+                with col2:
+                    st.bar_chart(tabel_kontrak_jumlah, x="KONTRAK_PEMBAYARAN", y="JUMLAH_PAKET", color="KONTRAK_PEMBAYARAN")
+            
+            with tab2:
+                st.subheader("Berdasarkan Nilai Kontrak Pembayaran (Non Tender)")
+                tabel_kontrak_nilai = con.execute("""
+                    SELECT kontrak_pembayaran AS KONTRAK_PEMBAYARAN, 
+                           SUM(pagu) AS NILAI_PAKET
+                    FROM df_filter 
+                    GROUP BY KONTRAK_PEMBAYARAN 
+                    ORDER BY NILAI_PAKET DESC
+                """).df()
+                
+                col1, col2 = st.columns((3,7))
+                with col1:
+                    st.dataframe(tabel_kontrak_nilai,
+                        column_config={"KONTRAK_PEMBAYARAN": "KONTRAK PEMBAYARAN", "NILAI_PAKET": "NILAI PAKET (Rp.)"},
+                        use_container_width=True, hide_index=True)
+                with col2:
+                    st.bar_chart(tabel_kontrak_nilai, x="KONTRAK_PEMBAYARAN", y="NILAI_PAKET", color="KONTRAK_PEMBAYARAN")
+                    
     except Exception as e:
         st.error(f"Error: {e}")
 
