@@ -47,7 +47,22 @@ st.title(f"TRANSAKSI NON TENDER - {pilih} - {tahun}")
 menu_nontender_1, menu_nontender_2, menu_nontender_3, menu_nontender_4, menu_nontender_5 = st.tabs(["| PENGUMUMAN |", "| SPPBJ |", "| KONTRAK |", "| SPMK |", "| BAPBAST |"])
 
 with menu_nontender_1:
-    st.header("PENGUMUMAN NON TENDER")
+    try:
+        # Baca dataset pengumuman non tender
+        dfNonTenderPengumuman = read_df_duckdb(datasets['NonTenderPengumuman'])
+
+        # Tampilkan header dan tombol unduh
+        col1, col2 = st.columns([7,3])
+        col1.header("PENGUMUMAN NON TENDER")
+        col2.download_button(
+            label="📥 Unduh Data Pengumuman Non Tender",
+            data=download_excel(dfNonTenderPengumuman),
+            file_name=f"NonTender-Pengumuman-{kodeFolder}-{tahun}.xlsx",
+            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+
+    except Exception as e:
+        st.error(f"Error: {e}")
 
 with menu_nontender_2:
     st.header("SPPBJ NON TENDER")
