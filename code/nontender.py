@@ -90,8 +90,8 @@ with menu_nontender_1:
 
         st.divider()
 
-        # Warna untuk grafik
-        color_palette = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F9C74F', '#90BE6D', '#577590', '#F94144', '#F3722C']
+        # Warna untuk grafik - warna yang lebih menarik
+        color_palette = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F9C74F', '#90BE6D', '#577590', '#F94144', '#F3722C', '#7209B7', '#3A86FF', '#FB8500', '#8338EC', '#06D6A0']
 
         # Visualisasi berdasarkan kualifikasi paket
         with st.container(border=True):
@@ -118,7 +118,12 @@ with menu_nontender_1:
                                 text_auto=True)
                     fig.update_traces(textfont_size=12, textangle=0, textposition="outside", 
                                      marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
-                    fig.update_layout(title_text='Distribusi Jumlah Kualifikasi Paket', showlegend=False)
+                    fig.update_layout(
+                        title_text='Distribusi Jumlah Kualifikasi Paket', 
+                        showlegend=False,
+                        xaxis_title="Kualifikasi Paket",
+                        yaxis_title="Jumlah Paket"
+                    )
                     st.plotly_chart(fig, use_container_width=True)
 
             with tab2:
@@ -142,7 +147,12 @@ with menu_nontender_1:
                                 text_auto='.2s')
                     fig.update_traces(textfont_size=12, textangle=0, textposition="outside", 
                                      marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
-                    fig.update_layout(title_text='Nilai Paket Berdasarkan Kualifikasi', showlegend=False)
+                    fig.update_layout(
+                        title_text='Nilai Paket Berdasarkan Kualifikasi', 
+                        showlegend=False,
+                        xaxis_title="Kualifikasi Paket",
+                        yaxis_title="Nilai Paket (Rp)"
+                    )
                     st.plotly_chart(fig, use_container_width=True)
 
         # Visualisasi berdasarkan jenis pengadaan
@@ -170,7 +180,12 @@ with menu_nontender_1:
                                 text_auto=True)
                     fig.update_traces(textfont_size=12, textangle=0, textposition="outside", 
                                      marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
-                    fig.update_layout(title_text='Jumlah Paket Berdasarkan Jenis Pengadaan', showlegend=False)
+                    fig.update_layout(
+                        title_text='Jumlah Paket Berdasarkan Jenis Pengadaan', 
+                        showlegend=False,
+                        xaxis_title="Jenis Pengadaan",
+                        yaxis_title="Jumlah Paket"
+                    )
                     st.plotly_chart(fig, use_container_width=True)
             
             with tab2:
@@ -194,7 +209,12 @@ with menu_nontender_1:
                                 text_auto='.2s')
                     fig.update_traces(textfont_size=12, textangle=0, textposition="outside", 
                                      marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
-                    fig.update_layout(title_text='Nilai Berdasarkan Jenis Pengadaan', showlegend=False)
+                    fig.update_layout(
+                        title_text='Nilai Berdasarkan Jenis Pengadaan', 
+                        showlegend=False,
+                        xaxis_title="Jenis Pengadaan",
+                        yaxis_title="Nilai Paket (Rp)"
+                    )
                     st.plotly_chart(fig, use_container_width=True)
 
         # Visualisasi berdasarkan metode pemilihan
@@ -222,7 +242,12 @@ with menu_nontender_1:
                                 text_auto=True, orientation='h')
                     fig.update_traces(textfont_size=12, textposition="outside", 
                                      marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
-                    fig.update_layout(title_text='Jumlah Paket Berdasarkan Metode Pemilihan', showlegend=False)
+                    fig.update_layout(
+                        title_text='Jumlah Paket Berdasarkan Metode Pemilihan', 
+                        showlegend=False,
+                        xaxis_title="Jumlah Paket",
+                        yaxis_title="Metode Pemilihan"
+                    )
                     st.plotly_chart(fig, use_container_width=True)
             
             with tab2:
@@ -246,7 +271,12 @@ with menu_nontender_1:
                                 text_auto='.2s', orientation='h')
                     fig.update_traces(textfont_size=12, textposition="outside", 
                                      marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
-                    fig.update_layout(title_text='Nilai Paket Berdasarkan Metode Pemilihan', showlegend=False)
+                    fig.update_layout(
+                        title_text='Nilai Paket Berdasarkan Metode Pemilihan', 
+                        showlegend=False,
+                        xaxis_title="Nilai Paket (Rp)",
+                        yaxis_title="Metode Pemilihan"
+                    )
                     st.plotly_chart(fig, use_container_width=True)
 
         # Visualisasi berdasarkan kontrak pembayaran
@@ -274,7 +304,12 @@ with menu_nontender_1:
                                 text_auto=True)
                     fig.update_traces(textfont_size=12, textangle=0, textposition="outside", 
                                      marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
-                    fig.update_layout(title_text='Jumlah Berdasarkan Kontrak Pembayaran', showlegend=False)
+                    fig.update_layout(
+                        title_text='Jumlah Berdasarkan Kontrak Pembayaran', 
+                        showlegend=False,
+                        xaxis_title="Kontrak Pembayaran",
+                        yaxis_title="Jumlah Paket"
+                    )
                     st.plotly_chart(fig, use_container_width=True)
             
             with tab2:
@@ -299,7 +334,12 @@ with menu_nontender_1:
                     fig.update_traces(textfont_size=12, textangle=0, textposition="outside", 
                                      marker_line_color='rgb(8,48,107)', marker_line_width=1.5,
                                      marker=dict(line=dict(width=1.5, color='black')))
-                    fig.update_layout(title_text='Nilai Paket Berdasarkan Kontrak Pembayaran', showlegend=False)
+                    fig.update_layout(
+                        title_text='Nilai Paket Berdasarkan Kontrak Pembayaran', 
+                        showlegend=False,
+                        xaxis_title="Kontrak Pembayaran",
+                        yaxis_title="Nilai Paket (Rp)"
+                    )
                     st.plotly_chart(fig, use_container_width=True)
                     
     except Exception as e:
