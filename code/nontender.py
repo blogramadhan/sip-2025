@@ -95,7 +95,7 @@ with menu_nontender_1:
             tab1, tab2 = st.tabs(["| Jumlah Kualifikasi Paket |", "| Nilai Kualifikasi Paket |"])
             
             with tab1:
-                st.subheader("Berdasarkan Jumlah Kualifikasi Paket")
+                st.subheader("Jumlah Kualifikasi Paket")
                 tabel_jumlah = con.execute("""
                     SELECT kualifikasi_paket AS KUALIFIKASI_PAKET, 
                            COUNT(DISTINCT(kd_nontender)) AS JUMLAH_PAKET
@@ -113,7 +113,7 @@ with menu_nontender_1:
                     st.bar_chart(tabel_jumlah, x="KUALIFIKASI_PAKET", y="JUMLAH_PAKET", color="KUALIFIKASI_PAKET")
 
             with tab2:
-                st.subheader("Berdasarkan Nilai Kualifikasi Paket")
+                st.subheader("Nilai Kualifikasi Paket")
                 tabel_nilai = con.execute("""
                     SELECT kualifikasi_paket AS KUALIFIKASI_PAKET, 
                            SUM(pagu) AS NILAI_PAKET
@@ -135,7 +135,7 @@ with menu_nontender_1:
             tab1, tab2 = st.tabs(["| Jumlah Jenis Pengadaan |", "| Nilai Jenis Pengadaan |"])
             
             with tab1:
-                st.subheader("Berdasarkan Jumlah Jenis Pengadaan (Non Tender)")
+                st.subheader("Jumlah Jenis Pengadaan")
                 tabel_jp_jumlah = con.execute("""
                     SELECT jenis_pengadaan AS JENIS_PENGADAAN, 
                            COUNT(DISTINCT(kd_nontender)) AS JUMLAH_PAKET
@@ -153,7 +153,7 @@ with menu_nontender_1:
                     st.bar_chart(tabel_jp_jumlah, x="JENIS_PENGADAAN", y="JUMLAH_PAKET", color="JENIS_PENGADAAN")
             
             with tab2:
-                st.subheader("Berdasarkan Nilai Jenis Pengadaan (Non Tender)")
+                st.subheader("Nilai Jenis Pengadaan")
                 tabel_jp_nilai = con.execute("""
                     SELECT jenis_pengadaan AS JENIS_PENGADAAN, 
                            SUM(pagu) AS NILAI_PAKET
@@ -175,7 +175,7 @@ with menu_nontender_1:
             tab1, tab2 = st.tabs(["| Jumlah Metode Pemilihan |", "| Nilai Metode Pemilihan |"])
             
             with tab1:
-                st.subheader("Berdasarkan Jumlah Metode Pemilihan (Non Tender)")
+                st.subheader("Jumlah Metode Pemilihan")
                 tabel_mp_jumlah = con.execute("""
                     SELECT mtd_pemilihan AS METODE_PEMILIHAN, 
                            COUNT(DISTINCT(kd_nontender)) AS JUMLAH_PAKET
@@ -193,7 +193,7 @@ with menu_nontender_1:
                     st.bar_chart(tabel_mp_jumlah, x="METODE_PEMILIHAN", y="JUMLAH_PAKET", color="METODE_PEMILIHAN")
             
             with tab2:
-                st.subheader("Berdasarkan Nilai Metode Pemilihan (Non Tender)")
+                st.subheader("Nilai Metode Pemilihan")
                 tabel_mp_nilai = con.execute("""
                     SELECT mtd_pemilihan AS METODE_PEMILIHAN, 
                            SUM(pagu) AS NILAI_PAKET
@@ -215,7 +215,7 @@ with menu_nontender_1:
             tab1, tab2 = st.tabs(["| Jumlah Kontrak Pembayaran |", "| Nilai Kontrak Pembayaran |"])
             
             with tab1:
-                st.subheader("Berdasarkan Jumlah Kontrak Pembayaran (Non Tender)")
+                st.subheader("Jumlah Kontrak Pembayaran")
                 tabel_kontrak_jumlah = con.execute("""
                     SELECT kontrak_pembayaran AS KONTRAK_PEMBAYARAN, 
                            COUNT(DISTINCT(kd_nontender)) AS JUMLAH_PAKET
@@ -233,7 +233,7 @@ with menu_nontender_1:
                     st.bar_chart(tabel_kontrak_jumlah, x="KONTRAK_PEMBAYARAN", y="JUMLAH_PAKET", color="KONTRAK_PEMBAYARAN")
             
             with tab2:
-                st.subheader("Berdasarkan Nilai Kontrak Pembayaran (Non Tender)")
+                st.subheader("Nilai Kontrak Pembayaran")
                 tabel_kontrak_nilai = con.execute("""
                     SELECT kontrak_pembayaran AS KONTRAK_PEMBAYARAN, 
                            SUM(pagu) AS NILAI_PAKET
