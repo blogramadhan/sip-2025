@@ -23,7 +23,7 @@ kodeLPSE = selected_daerah.get("LPSE")
 # Koneksi DuckDB
 con = duckdb.connect(database=':memory:')
 
-# URL Dataset SIRUP
+# URL Dataset Katalog
 base_url = f"https://data.pbj.my.id/{kodeRUP}/epurchasing"
 datasets = {
     'ECAT': f"{base_url}/Ecat-PaketEPurchasing{tahun}.parquet",
