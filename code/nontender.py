@@ -356,3 +356,5 @@ with menu_nontender_4:
     
 with menu_nontender_5:
     st.header("BAPBAST NON TENDER")
+
+style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
