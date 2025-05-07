@@ -113,12 +113,12 @@ with menu_nontender_1:
                         column_config={"KUALIFIKASI_PAKET": "KUALIFIKASI PAKET", "JUMLAH_PAKET": "JUMLAH PAKET"},
                         use_container_width=True, hide_index=True)
                 with col2:
-                    fig = px.pie(tabel_jumlah, values='JUMLAH_PAKET', names='KUALIFIKASI_PAKET', 
-                                 color_discrete_sequence=color_palette, hole=0.4)
-                    fig.update_traces(textposition='inside', textinfo='percent+label', 
-                                     marker=dict(line=dict(color='#000000', width=1)))
-                    fig.update_layout(title_text='Distribusi Jumlah Kualifikasi Paket', 
-                                     legend=dict(orientation="h", yanchor="bottom", y=-0.2))
+                    fig = px.bar(tabel_jumlah, x='KUALIFIKASI_PAKET', y='JUMLAH_PAKET', 
+                                color='KUALIFIKASI_PAKET', color_discrete_sequence=color_palette,
+                                text_auto=True)
+                    fig.update_traces(textfont_size=12, textangle=0, textposition="outside", 
+                                     marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
+                    fig.update_layout(title_text='Distribusi Jumlah Kualifikasi Paket', showlegend=False)
                     st.plotly_chart(fig, use_container_width=True)
 
             with tab2:
@@ -189,12 +189,12 @@ with menu_nontender_1:
                         column_config={"JENIS_PENGADAAN": "JENIS PENGADAAN", "NILAI_PAKET": "NILAI PAKET (Rp.)"},
                         use_container_width=True, hide_index=True)
                 with col2:
-                    fig = px.pie(tabel_jp_nilai, values='NILAI_PAKET', names='JENIS_PENGADAAN', 
-                                color_discrete_sequence=color_palette, hole=0.4)
-                    fig.update_traces(textposition='inside', textinfo='percent+label', 
-                                     marker=dict(line=dict(color='#000000', width=1)))
-                    fig.update_layout(title_text='Distribusi Nilai Berdasarkan Jenis Pengadaan', 
-                                     legend=dict(orientation="h", yanchor="bottom", y=-0.2))
+                    fig = px.bar(tabel_jp_nilai, x='JENIS_PENGADAAN', y='NILAI_PAKET', 
+                                color='JENIS_PENGADAAN', color_discrete_sequence=color_palette,
+                                text_auto='.2s')
+                    fig.update_traces(textfont_size=12, textangle=0, textposition="outside", 
+                                     marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
+                    fig.update_layout(title_text='Nilai Berdasarkan Jenis Pengadaan', showlegend=False)
                     st.plotly_chart(fig, use_container_width=True)
 
         # Visualisasi berdasarkan metode pemilihan
@@ -217,10 +217,11 @@ with menu_nontender_1:
                         column_config={"METODE_PEMILIHAN": "METODE PEMILIHAN", "JUMLAH_PAKET": "JUMLAH PAKET"},
                         use_container_width=True, hide_index=True)
                 with col2:
-                    fig = px.funnel(tabel_mp_jumlah, x='JUMLAH_PAKET', y='METODE_PEMILIHAN', 
-                                   color='METODE_PEMILIHAN', color_discrete_sequence=color_palette)
-                    fig.update_traces(textposition="inside", textinfo="value+percent initial", 
-                                     marker=dict(line=dict(width=1, color='black')))
+                    fig = px.bar(tabel_mp_jumlah, y='METODE_PEMILIHAN', x='JUMLAH_PAKET', 
+                                color='METODE_PEMILIHAN', color_discrete_sequence=color_palette,
+                                text_auto=True, orientation='h')
+                    fig.update_traces(textfont_size=12, textposition="outside", 
+                                     marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
                     fig.update_layout(title_text='Jumlah Paket Berdasarkan Metode Pemilihan', showlegend=False)
                     st.plotly_chart(fig, use_container_width=True)
             
@@ -268,12 +269,12 @@ with menu_nontender_1:
                         column_config={"KONTRAK_PEMBAYARAN": "KONTRAK PEMBAYARAN", "JUMLAH_PAKET": "JUMLAH PAKET"},
                         use_container_width=True, hide_index=True)
                 with col2:
-                    fig = px.pie(tabel_kontrak_jumlah, values='JUMLAH_PAKET', names='KONTRAK_PEMBAYARAN', 
-                                color_discrete_sequence=color_palette, hole=0.4)
-                    fig.update_traces(textposition='inside', textinfo='percent+label', 
-                                     marker=dict(line=dict(color='#000000', width=1)))
-                    fig.update_layout(title_text='Distribusi Jumlah Berdasarkan Kontrak Pembayaran', 
-                                     legend=dict(orientation="h", yanchor="bottom", y=-0.2))
+                    fig = px.bar(tabel_kontrak_jumlah, x='KONTRAK_PEMBAYARAN', y='JUMLAH_PAKET', 
+                                color='KONTRAK_PEMBAYARAN', color_discrete_sequence=color_palette,
+                                text_auto=True)
+                    fig.update_traces(textfont_size=12, textangle=0, textposition="outside", 
+                                     marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
+                    fig.update_layout(title_text='Jumlah Berdasarkan Kontrak Pembayaran', showlegend=False)
                     st.plotly_chart(fig, use_container_width=True)
             
             with tab2:
