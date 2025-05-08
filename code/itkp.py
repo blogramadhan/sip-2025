@@ -1,7 +1,6 @@
 # Library Utama
 import streamlit as st
 import pandas as pd
-import numpy as np
 import duckdb
 from datetime import datetime
 # Library Currency
@@ -79,10 +78,11 @@ except Exception as e:
 
 st.title(f"PREDIKSI ITKP")
 st.header(f"{pilih} - {tahun}")
-st.divider()
 
 opd_options = ["Semua Perangkat Daerah"] + list(dfRUPPP['nama_satker'].unique())
 opd = st.selectbox("Pilih Perangkat Daerah :", opd_options, key='itkp_profil')
+
+st.divider()
 
 ### Query RUP
 # Menyiapkan query SQL untuk data RUP
