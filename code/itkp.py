@@ -77,7 +77,9 @@ except Exception as e:
 # Konten Data ITKP
 #####
 
-st.header(f"PREDIKSI ITKP - {pilih} - TAHUN {tahun}")
+st.header(f"PREDIKSI ITKP")
+st.title(f"{pilih} - {tahun}")
+st.divider()
 
 opd_options = ["Semua Perangkat Daerah"] + list(dfRUPPP['nama_satker'].unique())
 opd = st.selectbox("Pilih Perangkat Daerah :", opd_options, key='itkp_profil')
