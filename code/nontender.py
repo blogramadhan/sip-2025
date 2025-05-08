@@ -6,16 +6,11 @@ import plotly.express as px
 import duckdb
 import openpyxl
 from datetime import datetime
-# Library Currency
-from babel.numbers import format_currency
 # Library Aggrid
-from st_aggrid import AgGrid, GridUpdateMode
+from st_aggrid import AgGrid
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 # Library Streamlit-Extras
 from streamlit_extras.metric_cards import style_metric_cards
-from streamlit_extras.app_logo import add_logo
-# Library Social Media Links
-from st_social_media_links import SocialMediaIcons
 # Library Tambahan
 from fungsi import *
 
@@ -236,16 +231,16 @@ with menu_nontender_1:
                         width='100%',
                         height=min(350, 35 * (len(tabel_jp_nilai) + 1)))
                 with col2:
-                    fig = px.bar(tabel_jp_nilai, x='JENIS_PENGADAAN', y='NILAI_PAKET', 
+                    fig = px.bar(tabel_jp_nilai, x='NILAI_PAKET', y='JENIS_PENGADAAN', 
                                 color='JENIS_PENGADAAN', color_discrete_sequence=color_palette,
-                                text_auto='.2s')
-                    fig.update_traces(textfont_size=12, textangle=0, textposition="outside", 
+                                text_auto='.2s', orientation='h')
+                    fig.update_traces(textfont_size=12, textposition="outside", 
                                      marker_line_color='rgb(8,48,107)', marker_line_width=1.5)
                     fig.update_layout(
-                        title_text='Nilai Berdasarkan Jenis Pengadaan', 
+                        title_text='Nilai Paket Berdasarkan Jenis Pengadaan', 
                         showlegend=False,
-                        xaxis_title="Jenis Pengadaan",
-                        yaxis_title="Nilai Paket (Rp)"
+                        xaxis_title="Nilai Paket (Rp)",
+                        yaxis_title="Jenis Pengadaan"
                     )
                     st.plotly_chart(fig, use_container_width=True)
 
