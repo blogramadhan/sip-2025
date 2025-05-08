@@ -22,7 +22,8 @@ kodeLPSE = selected_daerah.get("LPSE")
 # Koneksi DuckDB
 con = duckdb.connect(database=':memory:')
 
-st.header(f"PENILAIAN SIKAP - {pilih} - TAHUN {tahun}")
+st.title(f"PENILAIAN SIKAP")
+st.header(f"{pilih} - TAHUN {tahun}")
 
 menu_tender, menu_nontender = st.tabs(["| SIKAP TENDER |", "| SIKAP NON TENDER |"])
 
