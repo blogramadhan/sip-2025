@@ -77,8 +77,8 @@ except Exception as e:
 # Konten Data ITKP
 #####
 
-st.header(f"PREDIKSI ITKP")
-st.title(f"{pilih} - {tahun}")
+st.title(f"PREDIKSI ITKP")
+st.header(f"{pilih} - {tahun}")
 st.divider()
 
 opd_options = ["Semua Perangkat Daerah"] + list(dfRUPPP['nama_satker'].unique())
