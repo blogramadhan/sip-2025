@@ -459,20 +459,27 @@ with menu_nontender_2:
             FROM dfNonTenderSPPBJ_filter
         """).df()
 
-        st.dataframe(
-            tabel_sppbj_nt_tampil,
-            column_config={
-                "NAMA_PAKET": "NAMA PAKET",
-                "NO_SPPBJ": "NO SPPBJ",
-                "TGL_SPPBJ": "TGL SPPBJ",
-                "NAMA_PPK": "NAMA PPK",
-                "NAMA_PENYEDIA": "NAMA PENYEDIA",
-                "NPWP_PENYEDIA": "NPWP PENYEDIA",
-                "HARGA_FINAL": "HARGA FINAL"
-            },
-            use_container_width=True,
-            hide_index=True
-        )
+        # Format harga final dalam rupiah
+        tabel_sppbj_nt_tampil['HARGA_FINAL'] = tabel_sppbj_nt_tampil['HARGA_FINAL'].apply(lambda x: f"Rp {x:,.2f}")
+        
+        # Konfigurasi AgGrid
+        gb = GridOptionsBuilder.from_dataframe(tabel_sppbj_nt_tampil)
+        gb.configure_default_column(resizable=True, filterable=True, sortable=True)
+        gb.configure_column("NAMA_PAKET", header_name="NAMA PAKET", width=300)
+        gb.configure_column("NO_SPPBJ", header_name="NO SPPBJ", width=150)
+        gb.configure_column("TGL_SPPBJ", header_name="TGL SPPBJ", width=120)
+        gb.configure_column("NAMA_PPK", header_name="NAMA PPK", width=200)
+        gb.configure_column("NAMA_PENYEDIA", header_name="NAMA PENYEDIA", width=250)
+        gb.configure_column("NPWP_PENYEDIA", header_name="NPWP PENYEDIA", width=150)
+        gb.configure_column("HARGA_FINAL", header_name="HARGA FINAL", width=180)
+        
+        grid_options = gb.build()
+        AgGrid(tabel_sppbj_nt_tampil, 
+               gridOptions=grid_options, 
+               height=400, 
+               width='100%',
+               fit_columns_on_grid_load=False,
+               allow_unsafe_jscode=True)
 
     except Exception as e:
         st.error(f"Error: {e}")
