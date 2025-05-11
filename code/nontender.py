@@ -419,18 +419,17 @@ with menu_nontender_2:
             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
 
-        st.divider()
-
         # Metrik total
         jumlah_total = dfNonTenderSPPBJ['kd_nontender'].nunique()
         nilai_total = dfNonTenderSPPBJ['harga_final'].sum()
         
-        st.columns(2)[0].metric("Jumlah Total Non Tender SPPBJ", f"{jumlah_total:,}")
-        st.columns(2)[1].metric("Nilai Total Non Tender SPPBJ", f"{nilai_total:,.2f}")
-
         st.divider()
+        col_metrik1, col_metrik2 = st.columns(2)
+        col_metrik1.metric("Jumlah Total Non Tender SPPBJ", f"{jumlah_total:,}")
+        col_metrik2.metric("Nilai Total Non Tender SPPBJ", f"{nilai_total:,.2f}")
 
-        # Filter
+        # Filter data
+        st.divider()
         col_filter1, col_filter2 = st.columns((2,8))
         with col_filter1:
             status_kontrak_nt = st.radio("**Status Kontrak**", dfNonTenderSPPBJ['status_kontrak'].unique())
@@ -439,7 +438,7 @@ with menu_nontender_2:
         
         st.write(f"Anda memilih: **{status_kontrak_nt}** dari **{opd_nt}**")
 
-        # Data terfilter
+        # Data terfilter dan metrik
         dfNonTenderSPPBJ_filter = con.execute(
             f"SELECT * FROM dfNonTenderSPPBJ WHERE status_kontrak = '{status_kontrak_nt}' AND nama_satker = '{opd_nt}'"
         ).df()
@@ -451,9 +450,8 @@ with menu_nontender_2:
         col_metrik1.metric("Jumlah Non Tender SPPBJ", f"{jumlah_filter:,}")
         col_metrik2.metric("Nilai Non Tender SPPBJ", f"{nilai_filter:,.2f}")
 
-        st.divider()
-
         # Tabel data
+        st.divider()
         tabel_sppbj_nt_tampil = con.execute("""
             SELECT nama_paket AS NAMA_PAKET, no_sppbj AS NO_SPPBJ, tgl_sppbj AS TGL_SPPBJ, 
                    nama_ppk AS NAMA_PPK, nama_penyedia AS NAMA_PENYEDIA, 
