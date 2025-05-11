@@ -405,7 +405,24 @@ with menu_nontender_1:
         st.error(f"Error: {e}")
 
 with menu_nontender_2:
-    st.header("SPPBJ NON TENDER")
+    try:
+        # Baca dataset SPPBJ non tender
+        dfNonTenderSPPBJ = read_df_duckdb(datasets["NonTenderSPPBJ"])
+
+        # Tampilkan header dan tombol unduh
+        col1, col2 = st.columns((7,3))
+        col1.header("SPPBJ NON TENDER")
+        col2.download_button(
+            label="📥 Unduh Data SPPBJ Non Tender",
+            data=download_excel(dfNonTenderSPPBJ),
+            file_name=f"NonTender-SPPBJ-{kodeFolder}-{tahun}.xlsx",
+            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+
+        st.divider()
+        
+    except Exception as e:
+        st.error(f"Error: {e}")
 
 with menu_nontender_3:
     st.header("KONTRAK NON TENDER")
