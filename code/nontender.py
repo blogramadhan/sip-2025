@@ -409,7 +409,7 @@ with menu_nontender_2:
         # Baca dataset SPPBJ non tender
         dfNonTenderSPPBJ = read_df_duckdb(datasets["NonTenderSPPBJ"])
 
-        # Tampilkan header dan tombol unduh
+        # Header dan tombol unduh
         col1, col2 = st.columns((7,3))
         col1.header("SPPBJ NON TENDER")
         col2.download_button(
@@ -420,7 +420,62 @@ with menu_nontender_2:
         )
 
         st.divider()
+
+        # Metrik total
+        jumlah_total = dfNonTenderSPPBJ['kd_nontender'].nunique()
+        nilai_total = dfNonTenderSPPBJ['harga_final'].sum()
         
+        st.columns(2)[0].metric("Jumlah Total Non Tender SPPBJ", f"{jumlah_total:,}")
+        st.columns(2)[1].metric("Nilai Total Non Tender SPPBJ", f"{nilai_total:,.2f}")
+
+        st.divider()
+
+        # Filter
+        col_filter1, col_filter2 = st.columns((2,8))
+        with col_filter1:
+            status_kontrak_nt = st.radio("**Status Kontrak**", dfNonTenderSPPBJ['status_kontrak'].unique())
+        with col_filter2:
+            opd_nt = st.selectbox("Pilih Perangkat Daerah:", dfNonTenderSPPBJ['nama_satker'].unique())
+        
+        st.write(f"Anda memilih: **{status_kontrak_nt}** dari **{opd_nt}**")
+
+        # Data terfilter
+        dfNonTenderSPPBJ_filter = con.execute(
+            f"SELECT * FROM dfNonTenderSPPBJ WHERE status_kontrak = '{status_kontrak_nt}' AND nama_satker = '{opd_nt}'"
+        ).df()
+        
+        jumlah_filter = dfNonTenderSPPBJ_filter['kd_nontender'].nunique()
+        nilai_filter = dfNonTenderSPPBJ_filter['harga_final'].sum()
+        
+        col_metrik1, col_metrik2 = st.columns(2)
+        col_metrik1.metric("Jumlah Non Tender SPPBJ", f"{jumlah_filter:,}")
+        col_metrik2.metric("Nilai Non Tender SPPBJ", f"{nilai_filter:,.2f}")
+
+        st.divider()
+
+        # Tabel data
+        tabel_sppbj_nt_tampil = con.execute("""
+            SELECT nama_paket AS NAMA_PAKET, no_sppbj AS NO_SPPBJ, tgl_sppbj AS TGL_SPPBJ, 
+                   nama_ppk AS NAMA_PPK, nama_penyedia AS NAMA_PENYEDIA, 
+                   npwp_penyedia AS NPWP_PENYEDIA, harga_final AS HARGA_FINAL 
+            FROM dfNonTenderSPPBJ_filter
+        """).df()
+
+        st.dataframe(
+            tabel_sppbj_nt_tampil,
+            column_config={
+                "NAMA_PAKET": "NAMA PAKET",
+                "NO_SPPBJ": "NO SPPBJ",
+                "TGL_SPPBJ": "TGL SPPBJ",
+                "NAMA_PPK": "NAMA PPK",
+                "NAMA_PENYEDIA": "NAMA PENYEDIA",
+                "NPWP_PENYEDIA": "NPWP PENYEDIA",
+                "HARGA_FINAL": "HARGA FINAL"
+            },
+            use_container_width=True,
+            hide_index=True
+        )
+
     except Exception as e:
         st.error(f"Error: {e}")
 
