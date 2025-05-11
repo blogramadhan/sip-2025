@@ -459,9 +459,6 @@ with menu_nontender_2:
             FROM dfNonTenderSPPBJ_filter
         """).df()
 
-        # Format harga final dalam rupiah
-        tabel_sppbj_nt_tampil['HARGA_FINAL'] = tabel_sppbj_nt_tampil['HARGA_FINAL'].apply(lambda x: f"Rp {x:,.2f}")
-        
         # Konfigurasi AgGrid
         gb = GridOptionsBuilder.from_dataframe(tabel_sppbj_nt_tampil)
         gb.configure_default_column(resizable=True, filterable=True, sortable=True)
@@ -471,7 +468,11 @@ with menu_nontender_2:
         gb.configure_column("NAMA_PPK", header_name="NAMA PPK", width=200)
         gb.configure_column("NAMA_PENYEDIA", header_name="NAMA PENYEDIA", width=250)
         gb.configure_column("NPWP_PENYEDIA", header_name="NPWP PENYEDIA", width=150)
-        gb.configure_column("HARGA_FINAL", header_name="HARGA FINAL", width=180)
+        gb.configure_column("HARGA_FINAL", 
+                           header_name="HARGA FINAL", 
+                           width=180, 
+                           type=["numericColumn", "numberColumnFilter"],
+                           valueFormatter="data.HARGA_FINAL.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 2})")
         
         grid_options = gb.build()
         AgGrid(tabel_sppbj_nt_tampil, 
