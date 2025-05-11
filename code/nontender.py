@@ -432,16 +432,22 @@ with menu_nontender_2:
         st.divider()
         col_filter1, col_filter2 = st.columns((2,8))
         with col_filter1:
-            status_kontrak_nt = st.radio("**Status Kontrak**", dfNonTenderSPPBJ['status_kontrak'].unique())
+            status_kontrak_options = np.append(["Semua"], dfNonTenderSPPBJ['status_kontrak'].unique())
+            status_kontrak_nt = st.radio("**Status Kontrak**", status_kontrak_options)
         with col_filter2:
             opd_nt = st.selectbox("Pilih Perangkat Daerah:", dfNonTenderSPPBJ['nama_satker'].unique())
         
         st.write(f"Anda memilih: **{status_kontrak_nt}** dari **{opd_nt}**")
 
         # Data terfilter dan metrik
-        dfNonTenderSPPBJ_filter = con.execute(
-            f"SELECT * FROM dfNonTenderSPPBJ WHERE status_kontrak = '{status_kontrak_nt}' AND nama_satker = '{opd_nt}'"
-        ).df()
+        if status_kontrak_nt == "Semua":
+            dfNonTenderSPPBJ_filter = con.execute(
+                f"SELECT * FROM dfNonTenderSPPBJ WHERE nama_satker = '{opd_nt}'"
+            ).df()
+        else:
+            dfNonTenderSPPBJ_filter = con.execute(
+                f"SELECT * FROM dfNonTenderSPPBJ WHERE status_kontrak = '{status_kontrak_nt}' AND nama_satker = '{opd_nt}'"
+            ).df()
         
         jumlah_filter = dfNonTenderSPPBJ_filter['kd_nontender'].nunique()
         nilai_filter = dfNonTenderSPPBJ_filter['harga_final'].sum()
