@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import duckdb
-import openpyxl
 from datetime import datetime
 # Library Aggrid
 from st_aggrid import AgGrid
