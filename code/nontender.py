@@ -687,7 +687,7 @@ with menu_nontender_5:
         
         # Header dan tombol unduh
         col1, col2 = st.columns((7,3))
-        col1.subheader("BAPBASTNON TENDER")
+        col1.subheader("BAPBAST NON TENDER")
         col2.download_button(
             label = "📥 Download Data BAPBAST",
             data = download_excel(dfSPSENonTenderBAST),
