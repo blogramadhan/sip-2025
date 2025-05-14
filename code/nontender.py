@@ -552,23 +552,37 @@ with menu_nontender_5:
             FROM df_filter
         """).df()
 
-        st.dataframe(
+        # Konfigurasi AgGrid
+        gb = GridOptionsBuilder.from_dataframe(tabel_tampil)
+        gb.configure_default_column(resizable=True, filterable=True, sortable=True)
+        gb.configure_column("NAMA_PAKET", header_name="NAMA PAKET")
+        gb.configure_column("NO_BAP", header_name="NO BAP")
+        gb.configure_column("TGL_BAP", header_name="TGL BAP")
+        gb.configure_column("NO_BAST", header_name="NO BAST")
+        gb.configure_column("TGL_BAST", header_name="TGL BAST")
+        gb.configure_column("NAMA_PPK", header_name="NAMA PPK")
+        gb.configure_column("NAMA_PENYEDIA", header_name="NAMA PENYEDIA")
+        gb.configure_column("NPWP_PENYEDIA", header_name="NPWP PENYEDIA")
+        gb.configure_column("WAKIL_SAH", header_name="WAKIL SAH")
+        gb.configure_column("NILAI_KONTRAK", 
+                           header_name="NILAI KONTRAK", 
+                           type=["numericColumn", "numberColumnFilter"],
+                           valueFormatter="data.NILAI_KONTRAK.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 2})")
+        gb.configure_column("NILAI_PEMBAYARAN", 
+                           header_name="NILAI PEMBAYARAN", 
+                           type=["numericColumn", "numberColumnFilter"],
+                           valueFormatter="data.NILAI_PEMBAYARAN.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 2})")
+        
+        grid_options = gb.build()
+        
+        # Menampilkan tabel dengan AgGrid
+        AgGrid(
             tabel_tampil,
-            column_config={
-                "NAMA_PAKET": "NAMA PAKET",
-                "NO_BAP": "NO BAP",
-                "TGL_BAP": "TGL BAP",
-                "NO_BAST": "NO BAST",
-                "TGL_BAST": "TGL BAST",
-                "NAMA_PPK": "NAMA PPK",
-                "NAMA_PENYEDIA": "NAMA PENYEDIA",
-                "NPWP_PENYEDIA": "NPWP PENYEDIA",
-                "WAKIL_SAH": "WAKIL SAH",
-                "NILAI_KONTRAK": st.column_config.NumberColumn("NILAI KONTRAK", format="Rp %,.2f"),
-                "NILAI_PEMBAYARAN": st.column_config.NumberColumn("NILAI PEMBAYARAN", format="Rp %,.2f")
-            },
-            use_container_width=True,
-            hide_index=True
+            gridOptions=grid_options,
+            fit_columns_on_grid_load=True,
+            height=400,
+            width='100%',
+            allow_unsafe_jscode=True
         )
 
     except Exception as e:
