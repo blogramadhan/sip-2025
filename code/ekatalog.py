@@ -34,9 +34,11 @@ datasets = {
 
 menu_purchasing_1_1, menu_purchasing_1_2, menu_purchasing_1_3 = st.tabs(["| TRANSAKSI KATALOG |", "| TRANSAKSI KATALOG (ETALASE) |", "| TABEL NILAI ETALASE |"])
 
+st.title("TRANSAKSI E-KATALOG")
+st.header(f"{pilih} - TAHUN {tahun}")
+
 try:
     with menu_purchasing_1_1:
-        st.title("TRANSAKSI E-KATALOG")
 
         # Baca dan gabungkan dataset E-Katalog
         dfECAT = read_df_duckdb(datasets['ECAT'])
@@ -49,7 +51,7 @@ try:
 
         # Header dan tombol unduh
         col1, col2 = st.columns([8,2])
-        col1.header(f"{pilih} TAHUN {tahun}")
+        col1.subheader("TRANSAKSI E-KATALOG")
         col2.download_button(
             label="📥 Unduh Transaksi E-Katalog",
             data=download_excel(dfECAT_OK),
@@ -530,13 +532,10 @@ try:
                     st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
     with menu_purchasing_1_2:
-        st.title("TRANSAKSI E-KATALOG (ETALASE)")
-
-        #### Buat tombol unduh dataset
         # Header dan tombol unduh
         etalase1, etalase2 = st.columns((8,2))
         with etalase1:
-            st.header(f"{pilih} - TAHUN {tahun}")
+            st.subheader("TRANSAKSI E-KATALOG (ETALASE)")
         with etalase2:
             st.download_button(
                 label="📥 Data Transaksi E-Katalog",
@@ -920,7 +919,6 @@ try:
                     st.plotly_chart(fig, theme="streamlit", use_container_width=True)
 
     with menu_purchasing_1_3:
-        st.title("TABEL NILAI ETALASE")
         # Ambil dan olah data etalase
         df_etalase = con.execute("""
             SELECT 
@@ -933,15 +931,13 @@ try:
         """).df()
 
         # Siapkan unduhan dan tampilkan header
-        unduh_excel = download_excel(df_etalase)
-        
         col1, col2 = st.columns((8,2))
         with col1:
-            st.header(f"{pilih} - TAHUN {tahun}")
+            st.subheader("TABEL NILAI ETALASE")
         with col2:
             st.download_button(
                 label = "📥 Download Tabel Nilai Etalase",
-                data = unduh_excel,
+                data = download_excel(df_etalase),
                 file_name = f"TabelNilaiEtalase-{kodeFolder}-{tahun}.xlsx",
                 mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             )
