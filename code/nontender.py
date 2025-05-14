@@ -529,13 +529,21 @@ with menu_nontender_5:
         st.divider()
         col1, col2 = st.columns((2,8))
         with col1:
-            status_kontrak = st.radio("**Status Kontrak**", dfSPSENonTenderBAST['status_kontrak'].unique(), key='NonTender_Status_BAST')
+            status_kontrak_options = ["Semua"] + list(dfSPSENonTenderBAST['status_kontrak'].unique())
+            status_kontrak = st.radio("**Status Kontrak**", status_kontrak_options, key='NonTender_Status_BAST')
         with col2:
-            opd = st.selectbox("Pilih Perangkat Daerah:", dfSPSENonTenderBAST['nama_satker'].unique(), key='NonTender_OPD_BAST')
+            opd_options = ["Semua"] + list(dfSPSENonTenderBAST['nama_satker'].unique())
+            opd = st.selectbox("Pilih Perangkat Daerah:", opd_options, key='NonTender_OPD_BAST')
         st.write(f"Anda memilih: **{status_kontrak}** dari **{opd}**")
 
         # Data terfilter
-        df_filter = con.execute(f"SELECT * FROM dfSPSENonTenderBAST WHERE nama_satker = '{opd}' AND status_kontrak = '{status_kontrak}'").df()
+        filter_query = "SELECT * FROM dfSPSENonTenderBAST WHERE 1=1"
+        if status_kontrak != "Semua":
+            filter_query += f" AND status_kontrak = '{status_kontrak}'"
+        if opd != "Semua":
+            filter_query += f" AND nama_satker = '{opd}'"
+        
+        df_filter = con.execute(filter_query).df()
         jumlah_filter = df_filter['kd_nontender'].nunique()
         nilai_filter = df_filter['nilai_kontrak'].sum()
         
