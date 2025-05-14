@@ -33,9 +33,10 @@ datasets = {
     'RUPMasterSatker': f"{base_url_rup}/RUP-MasterSatker{tahun}.parquet"
 }
 
-try:
-    st.title("PESERTA TENDER")
-    
+st.title("PESERTA TENDER")
+st.header(f"{pilih} - TAHUN {tahun}")
+
+try:    
     # Baca dataset
     df_RUPMasterSatker = read_df_duckdb(datasets['RUPMasterSatker'])
     df_SPSETenderPengumuman = read_df_duckdb(datasets['SPSETenderPengumuman'])
@@ -50,7 +51,7 @@ try:
     # Header dan tombol unduh
     col1, col2 = st.columns((7,3))
     with col1:
-        st.header(f"SPSE - PESERTA TENDER - {pilih} - TAHUN {tahun}")
+        st.subheader("PESERTA TENDER")
     with col2:
         st.download_button(
             label = "📥 Download Data Peserta Tender",
