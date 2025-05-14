@@ -116,6 +116,7 @@ with menu_nontender_1:
                         autoSizeColumns=True,
                         width='100%',
                         height=min(350, 35 * (len(tabel_jumlah) + 1)))
+                    
                 with col2:
                     fig = px.bar(tabel_jumlah, x='KUALIFIKASI_PAKET', y='JUMLAH_PAKET', 
                                 color='KUALIFIKASI_PAKET', color_discrete_sequence=color_palette,
@@ -153,6 +154,7 @@ with menu_nontender_1:
                         autoSizeColumns=True,
                         width='100%',
                         height=min(350, 35 * (len(tabel_nilai) + 1)))
+                    
                 with col2:
                     fig = px.bar(tabel_nilai, x='KUALIFIKASI_PAKET', y='NILAI_PAKET', 
                                 color='KUALIFIKASI_PAKET', color_discrete_sequence=color_palette,
@@ -194,6 +196,7 @@ with menu_nontender_1:
                         autoSizeColumns=True,
                         width='100%',
                         height=min(350, 35 * (len(tabel_jp_jumlah) + 1)))
+                    
                 with col2:
                     fig = px.bar(tabel_jp_jumlah, x='JENIS_PENGADAAN', y='JUMLAH_PAKET', 
                                 color='JENIS_PENGADAAN', color_discrete_sequence=color_palette,
@@ -231,6 +234,7 @@ with menu_nontender_1:
                         autoSizeColumns=True,
                         width='100%',
                         height=min(350, 35 * (len(tabel_jp_nilai) + 1)))
+                    
                 with col2:
                     fig = px.bar(tabel_jp_nilai, x='NILAI_PAKET', y='JENIS_PENGADAAN', 
                                 color='JENIS_PENGADAAN', color_discrete_sequence=color_palette,
@@ -272,6 +276,7 @@ with menu_nontender_1:
                         autoSizeColumns=True,
                         width='100%',
                         height=min(350, 35 * (len(tabel_mp_jumlah) + 1)))
+                    
                 with col2:
                     fig = px.bar(tabel_mp_jumlah, y='METODE_PEMILIHAN', x='JUMLAH_PAKET', 
                                 color='METODE_PEMILIHAN', color_discrete_sequence=color_palette,
@@ -309,6 +314,7 @@ with menu_nontender_1:
                         autoSizeColumns=True,
                         width='100%',
                         height=min(350, 35 * (len(tabel_mp_nilai) + 1)))
+                    
                 with col2:
                     fig = px.bar(tabel_mp_nilai, x='NILAI_PAKET', y='METODE_PEMILIHAN', 
                                 color='METODE_PEMILIHAN', color_discrete_sequence=color_palette,
@@ -350,6 +356,7 @@ with menu_nontender_1:
                         autoSizeColumns=True,
                         width='100%',
                         height=min(350, 35 * (len(tabel_kontrak_jumlah) + 1)))
+                    
                 with col2:
                     fig = px.bar(tabel_kontrak_jumlah, x='KONTRAK_PEMBAYARAN', y='JUMLAH_PAKET', 
                                 color='KONTRAK_PEMBAYARAN', color_discrete_sequence=color_palette,
@@ -387,6 +394,7 @@ with menu_nontender_1:
                         autoSizeColumns=True,
                         width='100%',
                         height=min(350, 35 * (len(tabel_kontrak_nilai) + 1)))
+                    
                 with col2:
                     fig = px.bar(tabel_kontrak_nilai, x='KONTRAK_PEMBAYARAN', y='NILAI_PAKET', 
                                 color='KONTRAK_PEMBAYARAN', color_discrete_sequence=color_palette,
