@@ -49,7 +49,7 @@ with menu_nontender_1:
 
         # Tampilkan header dan tombol unduh
         col1, col2 = st.columns([7,3])
-        col1.header("PENGUMUMAN NON TENDER")
+        col1.subheader("PENGUMUMAN NON TENDER")
         col2.download_button(
             label="📥 Unduh Data Pengumuman Non Tender",
             data=download_excel(dfNonTenderPengumuman),
@@ -412,7 +412,7 @@ with menu_nontender_2:
 
         # Header dan tombol unduh
         col1, col2 = st.columns((7,3))
-        col1.header("SPPBJ NON TENDER")
+        col1.subheader("SPPBJ NON TENDER")
         col2.download_button(
             label="📥 Unduh Data SPPBJ Non Tender",
             data=download_excel(dfNonTenderSPPBJ),
