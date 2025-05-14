@@ -500,6 +500,78 @@ with menu_nontender_4:
     st.header("SPMK NON TENDER")
     
 with menu_nontender_5:
-    st.header("BAPBAST NON TENDER")
+    try:
+        # Baca dataset BAPBAST Non Tender
+        dfSPSENonTenderBAST = read_df_duckdb(datasets["NonTenderBAST"])
+        
+        # Header dan tombol unduh
+        col1, col2 = st.columns((7,3))
+        col1.subheader("SPSE - NON TENDER - BAPBAST")
+        col2.download_button(
+            label = "📥 Download Data BAPBAST",
+            data = download_excel(dfSPSENonTenderBAST),
+            file_name = f"SPSENonTenderBAPBAST-{kodeFolder}-{tahun}.xlsx",
+            mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+
+        # Metrik total
+        st.divider()
+        jumlah_total = dfSPSENonTenderBAST['kd_nontender'].nunique()
+        nilai_total = dfSPSENonTenderBAST['nilai_kontrak'].sum()
+        
+        col1, col2 = st.columns(2)
+        col1.metric(label="Jumlah Total BAPBAST", value="{:,}".format(jumlah_total))
+        col2.metric(label="Nilai Total BAPBAST", value="{:,.2f}".format(nilai_total))
+
+        # Filter data
+        st.divider()
+        col1, col2 = st.columns((2,8))
+        with col1:
+            status_kontrak = st.radio("**Status Kontrak**", dfSPSENonTenderBAST['status_kontrak'].unique(), key='NonTender_Status_BAST')
+        with col2:
+            opd = st.selectbox("Pilih Perangkat Daerah:", dfSPSENonTenderBAST['nama_satker'].unique(), key='NonTender_OPD_BAST')
+        st.write(f"Anda memilih: **{status_kontrak}** dari **{opd}**")
+
+        # Data terfilter
+        df_filter = con.execute(f"SELECT * FROM dfSPSENonTenderBAST WHERE nama_satker = '{opd}' AND status_kontrak = '{status_kontrak}'").df()
+        jumlah_filter = df_filter['kd_nontender'].nunique()
+        nilai_filter = df_filter['nilai_kontrak'].sum()
+        
+        col1, col2 = st.columns(2)
+        col1.metric(label="Jumlah BAPBAST Terfilter", value="{:,}".format(jumlah_filter))
+        col2.metric(label="Nilai BAPBAST Terfilter", value="{:,.2f}".format(nilai_filter))
+
+        # Tabel data
+        st.divider()
+        tabel_tampil = con.execute("""
+            SELECT nama_paket AS NAMA_PAKET, no_bap AS NO_BAP, tgl_bap AS TGL_BAP, 
+                   no_bast AS NO_BAST, tgl_bast AS TGL_BAST, nama_ppk AS NAMA_PPK, 
+                   nama_penyedia AS NAMA_PENYEDIA, npwp_penyedia AS NPWP_PENYEDIA, 
+                   wakil_sah_penyedia AS WAKIL_SAH, nilai_kontrak AS NILAI_KONTRAK, 
+                   besar_pembayaran AS NILAI_PEMBAYARAN 
+            FROM df_filter
+        """).df()
+
+        st.dataframe(
+            tabel_tampil,
+            column_config={
+                "NAMA_PAKET": "NAMA PAKET",
+                "NO_BAP": "NO BAP",
+                "TGL_BAP": "TGL BAP",
+                "NO_BAST": "NO BAST",
+                "TGL_BAST": "TGL BAST",
+                "NAMA_PPK": "NAMA PPK",
+                "NAMA_PENYEDIA": "NAMA PENYEDIA",
+                "NPWP_PENYEDIA": "NPWP PENYEDIA",
+                "WAKIL_SAH": "WAKIL SAH",
+                "NILAI_KONTRAK": st.column_config.NumberColumn("NILAI KONTRAK", format="Rp %,.2f"),
+                "NILAI_PEMBAYARAN": st.column_config.NumberColumn("NILAI PEMBAYARAN", format="Rp %,.2f")
+            },
+            use_container_width=True,
+            hide_index=True
+        )
+
+    except Exception as e:
+        st.error(f"Error: {e}")
 
 style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
