@@ -78,7 +78,7 @@ except Exception as e:
 #####
 
 st.title(f"PREDIKSI ITKP")
-st.header(f"{pilih} - {tahun}")
+st.header(f"{pilih} - TAHUN {tahun}")
 
 st.divider()
 
