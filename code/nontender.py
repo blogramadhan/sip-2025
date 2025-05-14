@@ -509,7 +509,7 @@ with menu_nontender_3:
 
         # Header dan tombol unduh
         col1, col2 = st.columns((7,3))
-        col1.subheader("SPSE - NON TENDER - KONTRAK")
+        col1.subheader("KONTRAK NON TENDER")
         col2.download_button(
             label = "📥 Download Data Non Tender KONTRAK",
             data = download_excel(dfSPSENonTenderKontrak),
@@ -603,7 +603,7 @@ with menu_nontender_4:
         
         # Header dan tombol unduh
         col1, col2 = st.columns((7,3))
-        col1.subheader("SPSE - NON TENDER - SPMK")
+        col1.subheader("SPMK NON TENDER")
         col2.download_button(
             label = "📥 Download Data Non Tender SPMK",
             data = download_excel(df_SPSENonTenderSPMK_OK),
@@ -687,7 +687,7 @@ with menu_nontender_5:
         
         # Header dan tombol unduh
         col1, col2 = st.columns((7,3))
-        col1.subheader("SPSE - NON TENDER - BAPBAST")
+        col1.subheader("BAPBASTNON TENDER")
         col2.download_button(
             label = "📥 Download Data BAPBAST",
             data = download_excel(dfSPSENonTenderBAST),
