@@ -503,7 +503,90 @@ with menu_nontender_2:
         st.error(f"Error: {e}")
 
 with menu_nontender_3:
-    st.header("KONTRAK NON TENDER")
+    try:
+        # Baca data dan siapkan unduhan
+        dfSPSENonTenderKontrak = read_df_duckdb(datasets["NonTenderKontrak"])
+
+        # Header dan tombol unduh
+        col1, col2 = st.columns((7,3))
+        col1.subheader("SPSE - NON TENDER - KONTRAK")
+        col2.download_button(
+            label = "📥 Download Data Non Tender KONTRAK",
+            data = download_excel(dfSPSENonTenderKontrak),
+            file_name = f"SPSENonTenderKONTRAK-{kodeFolder}-{tahun}.xlsx",
+            mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+
+        # Metrik total
+        st.divider()
+        jumlah_total = dfSPSENonTenderKontrak['kd_nontender'].nunique()
+        nilai_total = dfSPSENonTenderKontrak['nilai_kontrak'].sum()
+        
+        col1, col2 = st.columns(2)
+        col1.metric(label="Jumlah Total Non Tender KONTRAK", value="{:,}".format(jumlah_total))
+        col2.metric(label="Nilai Total Non Tender KONTRAK", value="{:,.2f}".format(nilai_total))
+
+        # Filter data
+        st.divider()
+        col1, col2 = st.columns((2,8))
+        with col1:
+            status_options = ["Semua"] + list(dfSPSENonTenderKontrak['status_kontrak'].unique())
+            status_kontrak = st.radio("**Status Kontrak**", status_options, key='NonTender_Kontrak')
+        with col2:
+            opd_options = ["Semua"] + list(dfSPSENonTenderKontrak['nama_satker'].unique())
+            opd = st.selectbox("Pilih Perangkat Daerah:", opd_options, key='NonTender_Kontrak_OPD')
+        st.write(f"Anda memilih: **{status_kontrak}** dari **{opd}**")
+
+        # Data terfilter
+        filter_query = "SELECT * FROM dfSPSENonTenderKontrak WHERE 1=1"
+        if status_kontrak != "Semua":
+            filter_query += f" AND status_kontrak = '{status_kontrak}'"
+        if opd != "Semua":
+            filter_query += f" AND nama_satker = '{opd}'"
+        df_filter = con.execute(filter_query).df()
+        
+        # Metrik terfilter
+        jumlah_filter = df_filter['kd_nontender'].nunique()
+        nilai_filter = df_filter['nilai_kontrak'].sum()
+        
+        col1, col2 = st.columns(2)
+        col1.metric(label="Jumlah Non Tender KONTRAK", value="{:,}".format(jumlah_filter))
+        col2.metric(label="Nilai Non Tender KONTRAK", value="{:,.2f}".format(nilai_filter))
+
+        # Tabel data
+        st.divider()
+        tabel_kontrak = con.execute("""
+            SELECT nama_paket AS NAMA_PAKET, no_kontrak AS NO_KONTRAK, tgl_kontrak AS TGL_KONTRAK, 
+                   nama_ppk AS NAMA_PPK, nama_penyedia AS NAMA_PENYEDIA, npwp_penyedia AS NPWP_PENYEDIA, 
+                   wakil_sah_penyedia AS WAKIL_SAH, nilai_kontrak AS NILAI_KONTRAK, 
+                   nilai_pdn_kontrak AS NILAI_PDN, nilai_umk_kontrak AS NILAI_UMK 
+            FROM df_filter
+        """).df()
+
+        # Tampilkan tabel
+        gd_kontrak = GridOptionsBuilder.from_dataframe(tabel_kontrak)
+        gd_kontrak.configure_default_column(autoSizeColumns=True)
+        gd_kontrak.configure_column("NAMA_PAKET", header_name="NAMA PAKET")
+        gd_kontrak.configure_column("NO_KONTRAK", header_name="NO KONTRAK")
+        gd_kontrak.configure_column("TGL_KONTRAK", header_name="TGL KONTRAK")
+        gd_kontrak.configure_column("NAMA_PPK", header_name="NAMA PPK")
+        gd_kontrak.configure_column("NAMA_PENYEDIA", header_name="NAMA PENYEDIA")
+        gd_kontrak.configure_column("NPWP_PENYEDIA", header_name="NPWP PENYEDIA")
+        gd_kontrak.configure_column("WAKIL_SAH", header_name="WAKIL SAH")
+        gd_kontrak.configure_column("NILAI_KONTRAK", header_name="NILAI KONTRAK (Rp.)", valueFormatter="'Rp. ' + x.toLocaleString()")
+        gd_kontrak.configure_column("NILAI_PDN", header_name="NILAI PDN (Rp.)", valueFormatter="'Rp. ' + x.toLocaleString()")
+        gd_kontrak.configure_column("NILAI_UMK", header_name="NILAI UMK (Rp.)", valueFormatter="'Rp. ' + x.toLocaleString()")
+        
+        AgGrid(tabel_kontrak, 
+               gridOptions=gd_kontrak.build(),
+               enable_enterprise_modules=True,
+               fit_columns_on_grid_load=True,
+               autoSizeColumns=True,
+               width='100%',
+               height=min(350, 35 * (len(tabel_kontrak) + 1)))
+
+    except Exception as e:
+        st.error(f"Error: {e}")
 
 with menu_nontender_4:
     try:
