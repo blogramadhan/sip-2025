@@ -485,9 +485,11 @@ with menu_nontender_2:
         grid_options = gb.build()
         AgGrid(tabel_sppbj_nt_tampil, 
                gridOptions=grid_options, 
+               enable_enterprise_modules=True,
+               fit_columns_on_grid_load=True,
+               autoSizeColumns=True,
                height=400, 
                width='100%',
-               fit_columns_on_grid_load=False,
                allow_unsafe_jscode=True)
 
     except Exception as e:
@@ -579,7 +581,9 @@ with menu_nontender_5:
         AgGrid(
             tabel_tampil,
             gridOptions=grid_options,
+            enable_enterprise_modules=True,
             fit_columns_on_grid_load=True,
+            autoSizeColumns=True,
             height=400,
             width='100%',
             allow_unsafe_jscode=True
