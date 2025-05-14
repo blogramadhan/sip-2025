@@ -507,8 +507,89 @@ with menu_nontender_3:
     st.header("KONTRAK NON TENDER")
 
 with menu_nontender_4:
-    st.header("SPMK NON TENDER")
-    
+    try:
+        # Baca dan gabungkan data SPMK dan Kontrak
+        dfSPSENonTenderKontrak = read_df_duckdb(datasets["NonTenderKontrak"])
+        dfSPSENonTenderSPMK = read_df_duckdb(datasets["NonTenderSPMK"])
+        
+        # Gabungkan data kontrak (kolom nilai) dengan SPMK
+        df_SPSENonTenderSPMK_OK = dfSPSENonTenderSPMK.merge(
+            dfSPSENonTenderKontrak[["kd_nontender", "nilai_kontrak", "nilai_pdn_kontrak", "nilai_umk_kontrak"]], 
+            how='left', 
+            on='kd_nontender'
+        )
+        
+        # Header dan tombol unduh
+        col1, col2 = st.columns((7,3))
+        col1.subheader("SPSE - NON TENDER - SPMK")
+        col2.download_button(
+            label = "📥 Download Data Non Tender SPMK",
+            data = download_excel(df_SPSENonTenderSPMK_OK),
+            file_name = f"SPSENonTenderSPMK-{kodeFolder}-{tahun}.xlsx",
+            mime = "text/csv"
+        )
+        
+        # Metrik total
+        st.divider()
+        jumlah_total = df_SPSENonTenderSPMK_OK['kd_nontender'].nunique()
+        nilai_total = df_SPSENonTenderSPMK_OK['nilai_kontrak'].sum()
+        
+        col1, col2 = st.columns(2)
+        col1.metric(label="Jumlah Total Non Tender SPMK", value="{:,}".format(jumlah_total))
+        col2.metric(label="Nilai Total Non Tender SPMK", value="{:,.2f}".format(nilai_total))
+        
+        # Filter data
+        st.divider()
+        col1, col2 = st.columns((2,8))
+        with col1:
+            status_kontrak = st.radio("**Status Kontrak**", df_SPSENonTenderSPMK_OK['status_kontrak'].unique(), key='NonTender_Status_SPMK')
+        with col2:
+            opd = st.selectbox("Pilih Perangkat Daerah:", df_SPSENonTenderSPMK_OK['nama_satker'].unique(), key='NonTender_OPD_SPMK')
+        st.write(f"Anda memilih: **{status_kontrak}** dari **{opd}**")
+        
+        # Data terfilter
+        df_filter = con.execute(f"SELECT * FROM df_SPSENonTenderSPMK_OK WHERE nama_satker = '{opd}' AND status_kontrak = '{status_kontrak}'").df()
+        jumlah_filter = df_filter['kd_nontender'].nunique()
+        nilai_filter = df_filter['nilai_kontrak'].sum()
+        
+        col1, col2 = st.columns(2)
+        col1.metric(label="Jumlah SPMK Terfilter", value="{:,}".format(jumlah_filter))
+        col2.metric(label="Nilai SPMK Terfilter", value="{:,.2f}".format(nilai_filter))
+        
+        # Tabel data
+        st.divider()
+        tabel_tampil = con.execute("""
+            SELECT nama_paket AS NAMA_PAKET, no_spmk_spp AS NO_SPMK, tgl_spmk_spp AS TGL_SPMK, 
+                   nama_ppk AS NAMA_PPK, nama_penyedia AS NAMA_PENYEDIA, npwp_penyedia AS NPWP_PENYEDIA, 
+                   wakil_sah_penyedia AS WAKIL_SAH, nilai_kontrak AS NILAI_KONTRAK, 
+                   nilai_pdn_kontrak AS NILAI_PDN, nilai_umk_kontrak AS NILAI_UMK 
+            FROM df_filter
+        """).df()
+        
+        gd = GridOptionsBuilder.from_dataframe(tabel_tampil)
+        gd.configure_default_column(autoSizeColumns=True)
+        gd.configure_column("NAMA_PAKET", header_name="NAMA PAKET")
+        gd.configure_column("NO_SPMK", header_name="NO SPMK")
+        gd.configure_column("TGL_SPMK", header_name="TGL SPMK")
+        gd.configure_column("NAMA_PPK", header_name="NAMA PPK")
+        gd.configure_column("NAMA_PENYEDIA", header_name="NAMA PENYEDIA")
+        gd.configure_column("NPWP_PENYEDIA", header_name="NPWP PENYEDIA")
+        gd.configure_column("WAKIL_SAH", header_name="WAKIL SAH")
+        gd.configure_column("NILAI_KONTRAK", header_name="NILAI KONTRAK", valueFormatter="'Rp. ' + x.toLocaleString()")
+        gd.configure_column("NILAI_PDN", header_name="NILAI PDN", valueFormatter="'Rp. ' + x.toLocaleString()")
+        gd.configure_column("NILAI_UMK", header_name="NILAI UMK", valueFormatter="'Rp. ' + x.toLocaleString()")
+        
+        AgGrid(tabel_tampil, 
+            gridOptions=gd.build(),
+            enable_enterprise_modules=True,
+            fit_columns_on_grid_load=True,
+            autoSizeColumns=True,
+            width='100%',
+            height=min(400, 35 * (len(tabel_tampil) + 1)))
+        
+    except Exception as e:
+        st.error(f"Error: {e}")
+
 with menu_nontender_5:
     try:
         # Baca dataset BAPBAST Non Tender
