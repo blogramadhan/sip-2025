@@ -35,7 +35,7 @@ datasets = {
 
 st.title("PESERTA TENDER")
 st.header(f"{pilih} - TAHUN {tahun}")
-
+st.divider()
 try:    
     # Baca dataset
     df_RUPMasterSatker = read_df_duckdb(datasets['RUPMasterSatker'])
