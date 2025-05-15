@@ -28,4 +28,27 @@ kodeFolder = selected_daerah.get("folder")
 kodeRUP = selected_daerah.get("RUP")
 kodeLPSE = selected_daerah.get("LPSE")
 
-st.title("PENCATATAN NON TENDER")
+# Koneksi DuckDB
+con = duckdb.connect(database=':memory:')
+
+# URL Dataset Pencatatan
+base_url = f"https://data.pbj.my.id/{kodeLPSE}/spse"
+datasets = {
+    'CatatNonTender': f"{base_url}/SPSE-PencatatanNonTender{tahun}.parquet",
+    'CatatNonTenderRealisasi': f"{base_url}/SPSE-PencatatanNonTenderRealisasi{tahun}.parquet",
+    'CatatSwakelola': f"{base_url}/SPSE-PencatatanSwakelola{tahun}.parquet",
+    'CatatSwakelolaRealisasi': f"{base_url}/SPSE-PencatatanSwakelolaRealisasi{tahun}.parquet",
+}
+
+st.title(f"TRANSAKSI PENCATATAN")
+st.header(f"{pilih} - TAHUN {tahun}")
+
+menu_pencatatan_1, menu_pencatatan_2 = st.tabs(["| PENCATATAN NON TENDER |", "| PENCATATAN SWAKELOLA |"])
+
+with menu_pencatatan_1:
+    st.subheader("PENCATATAN NON TENDER")
+    
+with menu_pencatatan_2:
+    st.subheader("PENCATATAN SWAKELOLA")
+
+
