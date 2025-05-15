@@ -285,7 +285,7 @@ with menu_pencatatan_1:
             enable_enterprise_modules=True,
             fit_columns_on_grid_load=True,
             autoSizeColumns=True,
-            height=400,
+            height=1000,
             width='100%',
             allow_unsafe_jscode=True
         )
