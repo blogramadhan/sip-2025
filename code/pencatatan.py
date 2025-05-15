@@ -46,8 +46,32 @@ st.header(f"{pilih} - TAHUN {tahun}")
 menu_pencatatan_1, menu_pencatatan_2 = st.tabs(["| PENCATATAN NON TENDER |", "| PENCATATAN SWAKELOLA |"])
 
 with menu_pencatatan_1:
-    st.subheader("PENCATATAN NON TENDER")
-    
+    try:
+        # Baca dan gabungkan dataset pencatatan non tender
+        dfCatatNonTender = read_df_duckdb(datasets['CatatNonTender'])
+        dfCatatNonTenderRealisasi = read_df_duckdb(datasets['CatatNonTenderRealisasi'])[[
+            "kd_nontender_pct", "jenis_realisasi", "no_realisasi", 
+            "tgl_realisasi", "nilai_realisasi", "nama_penyedia", "npwp_penyedia"
+        ]]
+        dfGabung = dfCatatNonTender.merge(dfCatatNonTenderRealisasi, how='left', on='kd_nontender_pct')
+
+        # Tampilkan header dan tombol unduh
+        col1, col2 = st.columns((7,3))
+        with col1:
+            st.subheader(f"PENCATATAN NON TENDER TAHUN {tahun}")
+        with col2:
+            st.download_button(
+                label = "📥 Download Data Pencatatan Non Tender",
+                data = download_excel(dfGabung),
+                file_name = f"SPSEPencatatanNonTender-{kodeFolder}-{tahun}.xlsx",
+                mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+            
+        st.divider()
+
+    except Exception as e:
+        st.error(f"Error: {e}")
+
 with menu_pencatatan_2:
     st.subheader("PENCATATAN SWAKELOLA")
 
