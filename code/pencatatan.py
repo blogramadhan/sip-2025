@@ -126,7 +126,7 @@ with menu_pencatatan_1:
                         gridOptions=grid_options,
                         enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
-                        height=200,
+                        height=len(tabel_cnt_kp_jumlah) * 35,
                         width='100%',
                         allow_unsafe_jscode=True
                     )
@@ -168,7 +168,7 @@ with menu_pencatatan_1:
                         gridOptions=grid_options,
                         enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
-                        height=200,
+                        height=len(tabel_cnt_kp_nilai) * 35,
                         width='100%',
                         allow_unsafe_jscode=True
                     )
@@ -209,7 +209,7 @@ with menu_pencatatan_1:
                         gridOptions=grid_options,
                         enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
-                        height=200,
+                        height=len(tabel_cnt_mp_jumlah) * 35,
                         width='100%',
                         allow_unsafe_jscode=True
                     )
@@ -252,7 +252,7 @@ with menu_pencatatan_1:
                         enable_enterprise_modules=True,
                         fit_columns_on_grid_load=True,
                         autoSizeColumns=True,
-                        height=200,
+                        height=len(tabel_cnt_mp_nilai) * 35,
                         width='100%',
                         allow_unsafe_jscode=True
                     )
