@@ -455,6 +455,9 @@ with menu_pencatatan_2:
 
         st.divider()
 
+        st.dataframe(dfCatatSwakelola)
+        st.dataframe(dfCatatSwakelolaRealisasi)
+        st.dataframe(dfGabung)
         st.dataframe(dfGabung_filter)
 
         # Filter berdasarkan status dan satker
