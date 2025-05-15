@@ -416,6 +416,103 @@ with menu_pencatatan_1:
         st.error(f"Error: {e}")
 
 with menu_pencatatan_2:
-    st.subheader("PENCATATAN SWAKELOLA")
+    try:
+        # Baca dan gabungkan dataset pencatatan swakelola
+        dfCatatSwakelola = read_df_duckdb(datasets['CatatSwakelola'])
+        dfCatatSwakelolaRealisasi = read_df_duckdb(datasets['CatatSwakelolaRealisasi'])[[
+            "kd_swakelola_pct", "jenis_realisasi", "no_realisasi", 
+            "tgl_realisasi", "nilai_realisasi"
+        ]]
+        dfGabung = dfCatatSwakelola.merge(dfCatatSwakelolaRealisasi, how='left', on='kd_swakelola_pct')
+
+        # Header dan tombol unduh
+        col1, col2 = st.columns((7,3))
+        with col1:
+            st.subheader(f"PENCATATAN SWAKELOLA TAHUN {tahun}")
+        with col2:
+            st.download_button(
+                label = "📥 Download Data Pencatatan Swakelola",
+                data = download_excel(dfGabung),
+                file_name = f"SPSEPencatatanSwakelola-{kodeFolder}-{tahun}.xlsx",
+                mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+            
+        st.divider()
+
+        # Filter data berdasarkan sumber dana
+        sumber_dana_options = ['SEMUA'] + list(dfGabung['sumber_dana'].unique())
+        sumber_dana_cs = st.radio("**Sumber Dana :**", sumber_dana_options, key="CatatSwakelola")
+        dfGabung_filter = dfGabung if sumber_dana_cs == 'SEMUA' else dfGabung[dfGabung['sumber_dana'] == sumber_dana_cs]
+
+        # Tampilkan metrics status paket
+        status_counts = {status: len(dfGabung_filter[dfGabung_filter['status_swakelola_pct_ket'] == f'Paket {status}']) 
+                        for status in ['Sedang Berjalan', 'Selesai', 'Dibatalkan']}
+        
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Pencatatan Swakelola Berjalan", f"{status_counts['Sedang Berjalan']:,}")
+        col2.metric("Pencatatan Swakelola Selesai", f"{status_counts['Selesai']:,}")
+        col3.metric("Pencatatan Swakelola Dibatalkan", f"{status_counts['Dibatalkan']:,}")
+        st.divider()
+
+        # Filter berdasarkan status dan satker
+        SPSE_CS_radio_1, SPSE_CS_radio_2 = st.columns((2,8))
+        with SPSE_CS_radio_1:
+            status_swakelola_cs = st.radio("**Status Swakelola :**", dfGabung_filter['status_swakelola_pct_ket'].unique())
+        with SPSE_CS_radio_2:  
+            status_opd_cs = st.selectbox("**Pilih Satker :**", dfGabung_filter['nama_satker'].unique())
+        
+        st.divider()
+
+        # Query dan tampilkan data
+        sql = f"""
+        SELECT nama_paket AS NAMA_PAKET, jenis_realisasi AS JENIS_REALISASI, 
+               no_realisasi AS NO_REALISASI, tgl_realisasi AS TGL_REALISASI,
+               pagu AS PAGU, total_realisasi AS TOTAL_REALISASI, 
+               nilai_realisasi AS NILAI_REALISASI, nama_ppk AS NAMA_PPK 
+        FROM dfCatatSwakelola_OK_filter 
+        WHERE nama_satker = '{status_opd_cs}' 
+        AND status_swakelola_pct_ket = '{status_swakelola_cs}'
+        """
+        dfCatatSwakelola_tabel = con.execute(sql).df()
+
+        # Tampilkan metrics hasil query
+        _, col2, col3, _ = st.columns((2,3,3,2))
+        col2.metric(f"Jumlah Pencatatan Swakelola ({status_swakelola_cs})", 
+                   value="{:,}".format(dfCatatSwakelola_tabel.shape[0]))
+        col3.metric(f"Nilai Total Pencatatan Swakelola ({status_swakelola_cs})", 
+                   value="{:,.2f}".format(dfCatatSwakelola_tabel['NILAI_REALISASI'].sum()))
+
+        ### Tabel Pencatatan Swakelola
+        gb = GridOptionsBuilder.from_dataframe(dfCatatSwakelola_tabel)
+        gb.configure_default_column(resizable=True, filterable=True, sortable=True)
+        gb.configure_column("NAMA_PAKET", header_name="NAMA PAKET")
+        gb.configure_column("JENIS_REALISASI", header_name="JENIS REALISASI") 
+        gb.configure_column("NO_REALISASI", header_name="NO REALISASI")
+        gb.configure_column("TGL_REALISASI", header_name="TGL REALISASI")
+        gb.configure_column("PAGU", header_name="PAGU")
+        gb.configure_column("TOTAL_REALISASI", 
+                          header_name="TOTAL REALISASI",
+                          type=["numericColumn","numberColumnFilter"],
+                          valueFormatter="'Rp ' + x.toLocaleString()")
+        gb.configure_column("NILAI_REALISASI", 
+                          header_name="NILAI REALISASI",
+                          type=["numericColumn","numberColumnFilter"], 
+                          valueFormatter="'Rp ' + x.toLocaleString()")
+        gb.configure_column("NAMA_PPK", header_name="NAMA PPK")
+
+        grid_options = gb.build()
+
+        AgGrid(
+            dfCatatSwakelola_tabel,
+            gridOptions=grid_options,
+            enable_enterprise_modules=True,
+            fit_columns_on_grid_load=True,
+            height=700,
+            width='100%',
+            allow_unsafe_jscode=True
+        )
+
+    except Exception as e:
+        st.error(f"Error: {e}")
 
 style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
