@@ -259,20 +259,35 @@ with menu_pencatatan_1:
         st.divider()
 
         ### Tabel Pencatatan Non Tender
-        st.dataframe(
-            df_CatatNonTender_tabel, 
-            column_config={
-                "NAMA_PAKET": "NAMA PAKET",
-                "JENIS_REALISASI": "JENIS REALISASI",
-                "NO_REALISASI": "NO REALISASI",
-                "TGL_REALISASI": "TGL REALISASI",
-                "PAGU": "PAGU",
-                "TOTAL_REALISASI": "TOTAL REALISASI",
-                "NILAI_REALISASI": "NILAI REALISASI"
-            },
-            use_container_width=True,
-            hide_index=True,
-            height=1000
+        # Konfigurasi AgGrid
+        gb = GridOptionsBuilder.from_dataframe(df_CatatNonTender_tabel)
+        gb.configure_default_column(resizable=True, filterable=True, sortable=True)
+        gb.configure_column("NAMA_PAKET", header_name="NAMA PAKET")
+        gb.configure_column("JENIS_REALISASI", header_name="JENIS REALISASI") 
+        gb.configure_column("NO_REALISASI", header_name="NO REALISASI")
+        gb.configure_column("TGL_REALISASI", header_name="TGL REALISASI")
+        gb.configure_column("PAGU", header_name="PAGU")
+        gb.configure_column("TOTAL_REALISASI", 
+                          header_name="TOTAL REALISASI",
+                          type=["numericColumn", "numberColumnFilter"],
+                          valueFormatter="data.TOTAL_REALISASI.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 2})")
+        gb.configure_column("NILAI_REALISASI",
+                          header_name="NILAI REALISASI", 
+                          type=["numericColumn", "numberColumnFilter"],
+                          valueFormatter="data.NILAI_REALISASI.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 2})")
+
+        grid_options = gb.build()
+
+        # Menampilkan tabel dengan AgGrid
+        AgGrid(
+            df_CatatNonTender_tabel,
+            gridOptions=grid_options,
+            enable_enterprise_modules=True,
+            fit_columns_on_grid_load=True,
+            autoSizeColumns=True,
+            height=400,
+            width='100%',
+            allow_unsafe_jscode=True
         )
 
     except Exception as e:
