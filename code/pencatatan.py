@@ -144,15 +144,25 @@ with menu_pencatatan_1:
 
                 with grafik_cnt_2_1:
 
-                    st.dataframe(
+                    gb = GridOptionsBuilder.from_dataframe(tabel_cnt_kp_nilai)
+                    gb.configure_default_column(resizable=True, filterable=True, sortable=True)
+                    gb.configure_column("KATEGORI_PENGADAAN", header_name="KATEGORI PENGADAAN")
+                    gb.configure_column("NILAI_REALISASI", 
+                                      header_name="NILAI REALISASI",
+                                      type=["numericColumn", "numberColumnFilter"],
+                                      valueFormatter="data.NILAI_REALISASI.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 2})")
+                    
+                    grid_options = gb.build()
+                    
+                    AgGrid(
                         tabel_cnt_kp_nilai,
-                        column_config={
-                            "KATEGORI_PENGADAAN": "KATEGORI PENGADAAN",
-                            "NILAI_REALISASI": "NILAI REALISASI"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )    
+                        gridOptions=grid_options,
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        height=200,
+                        width='100%',
+                        allow_unsafe_jscode=True
+                    )
 
                 with grafik_cnt_2_2:
 
@@ -208,15 +218,26 @@ with menu_pencatatan_1:
 
                 with grafik_cnt_4_1:
 
-                    st.dataframe(
+                    gb = GridOptionsBuilder.from_dataframe(tabel_cnt_mp_nilai)
+                    gb.configure_default_column(resizable=True, filterable=True, sortable=True)
+                    gb.configure_column("METODE_PEMILIHAN", header_name="METODE PEMILIHAN")
+                    gb.configure_column("NILAI_REALISASI", 
+                                      header_name="NILAI REALISASI",
+                                      type=["numericColumn", "numberColumnFilter"],
+                                      valueFormatter="data.NILAI_REALISASI.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 2})")
+                    
+                    grid_options = gb.build()
+                    
+                    AgGrid(
                         tabel_cnt_mp_nilai,
-                        column_config={
-                            "METODE_PEMILIHAN": "METODE PEMILIHAN",
-                            "NILAI_REALISASI": "NILAI REALISASI"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )    
+                        gridOptions=grid_options,
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        autoSizeColumns=True,
+                        height=200,
+                        width='100%',
+                        allow_unsafe_jscode=True
+                    )
 
                 with grafik_cnt_4_2:
 
