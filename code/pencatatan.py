@@ -147,7 +147,7 @@ with menu_pencatatan_1:
                     
                     figcntkph.update_layout(
                         showlegend=True,
-                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                        legend=dict(orientation="v", yanchor="middle", y=0.5, xanchor="left", x=1.2),
                         title_x=0.5,
                         title_font_size=16
                     )
@@ -207,7 +207,7 @@ with menu_pencatatan_1:
                     
                     figcntkpn.update_layout(
                         showlegend=True,
-                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                        legend=dict(orientation="v", yanchor="middle", y=0.5, xanchor="left", x=1.2),
                         title_x=0.5,
                         title_font_size=16
                     )
@@ -266,7 +266,7 @@ with menu_pencatatan_1:
                     
                     figcntmph.update_layout(
                         showlegend=True,
-                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                        legend=dict(orientation="v", yanchor="middle", y=0.5, xanchor="left", x=1.2),
                         title_x=0.5,
                         title_font_size=16
                     )
@@ -327,7 +327,7 @@ with menu_pencatatan_1:
                     
                     figcntmpn.update_layout(
                         showlegend=True,
-                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                        legend=dict(orientation="v", yanchor="middle", y=0.5, xanchor="left", x=1.2),
                         title_x=0.5,
                         title_font_size=16
                     )
