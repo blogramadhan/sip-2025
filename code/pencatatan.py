@@ -133,8 +133,26 @@ with menu_pencatatan_1:
 
                 with grafik_cnt_1_2:
 
-                    figcntkph = px.pie(tabel_cnt_kp_jumlah, values="JUMLAH_PAKET", names="KATEGORI_PENGADAAN", title="Grafik Pencatatan Non Tender - Jumlah Paket - Kategori Pengadaan", hole=.3)
-                    st.plotly_chart(figcntkph, theme="streamlit", use_container_width=True)
+                    figcntkph = px.pie(tabel_cnt_kp_jumlah, 
+                                     values="JUMLAH_PAKET", 
+                                     names="KATEGORI_PENGADAAN", 
+                                     title="Grafik Pencatatan Non Tender - Jumlah Paket - Kategori Pengadaan",
+                                     hole=0.4,
+                                     color_discrete_sequence=px.colors.qualitative.Set3,
+                                     labels={'JUMLAH_PAKET':'Jumlah Paket', 'KATEGORI_PENGADAAN':'Kategori Pengadaan'})
+                    
+                    figcntkph.update_traces(textposition='inside', 
+                                          textinfo='percent+label',
+                                          pull=[0.1]*len(tabel_cnt_kp_jumlah))
+                    
+                    figcntkph.update_layout(
+                        showlegend=True,
+                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                        title_x=0.5,
+                        title_font_size=16
+                    )
+                    
+                    st.plotly_chart(figcntkph, theme=None, use_container_width=True)
 
             with grafik_cnt_2:
 
@@ -175,8 +193,26 @@ with menu_pencatatan_1:
 
                 with grafik_cnt_2_2:
 
-                    figcntkpn = px.pie(tabel_cnt_kp_nilai, values="NILAI_REALISASI", names="KATEGORI_PENGADAAN", title="Grafik Pencatatan Non Tender - Nilai Transaksi - Kategori Pengadaan", hole=.3)
-                    st.plotly_chart(figcntkpn, theme="streamlit", use_container_width=True)
+                    figcntkpn = px.pie(tabel_cnt_kp_nilai, 
+                                     values="NILAI_REALISASI", 
+                                     names="KATEGORI_PENGADAAN", 
+                                     title="Grafik Pencatatan Non Tender - Nilai Transaksi - Kategori Pengadaan",
+                                     hole=0.4,
+                                     color_discrete_sequence=px.colors.qualitative.Pastel,
+                                     labels={'NILAI_REALISASI':'Nilai Realisasi', 'KATEGORI_PENGADAAN':'Kategori Pengadaan'})
+                    
+                    figcntkpn.update_traces(textposition='inside', 
+                                          textinfo='percent+label',
+                                          pull=[0.1]*len(tabel_cnt_kp_nilai))
+                    
+                    figcntkpn.update_layout(
+                        showlegend=True,
+                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                        title_x=0.5,
+                        title_font_size=16
+                    )
+                    
+                    st.plotly_chart(figcntkpn, theme=None, use_container_width=True)
 
             with grafik_cnt_3:
 
@@ -216,8 +252,26 @@ with menu_pencatatan_1:
 
                 with grafik_cnt_3_2:
 
-                    figcntmph = px.pie(tabel_cnt_mp_jumlah, values="JUMLAH_PAKET", names="METODE_PEMILIHAN", title="Grafik Pencatatan Non Tender - Jumlah Paket - Metode Pemilihan", hole=.3)
-                    st.plotly_chart(figcntmph, theme="streamlit", use_container_width=True)
+                    figcntmph = px.pie(tabel_cnt_mp_jumlah, 
+                                     values="JUMLAH_PAKET", 
+                                     names="METODE_PEMILIHAN", 
+                                     title="Grafik Pencatatan Non Tender - Jumlah Paket - Metode Pemilihan",
+                                     hole=0.4,
+                                     color_discrete_sequence=px.colors.qualitative.Bold,
+                                     labels={'JUMLAH_PAKET':'Jumlah Paket', 'METODE_PEMILIHAN':'Metode Pemilihan'})
+                    
+                    figcntmph.update_traces(textposition='inside', 
+                                          textinfo='percent+label',
+                                          pull=[0.1]*len(tabel_cnt_mp_jumlah))
+                    
+                    figcntmph.update_layout(
+                        showlegend=True,
+                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                        title_x=0.5,
+                        title_font_size=16
+                    )
+                    
+                    st.plotly_chart(figcntmph, theme=None, use_container_width=True)
 
             with grafik_cnt_4:
 
@@ -259,8 +313,26 @@ with menu_pencatatan_1:
 
                 with grafik_cnt_4_2:
 
-                    figcntmpn = px.pie(tabel_cnt_mp_nilai, values="NILAI_REALISASI", names="METODE_PEMILIHAN", title="Grafik Pencatatan Non Tender - Nilai Transaksi - Metode Pemilihan", hole=.3)
-                    st.plotly_chart(figcntmpn, theme="streamlit", use_container_width=True)
+                    figcntmpn = px.pie(tabel_cnt_mp_nilai, 
+                                     values="NILAI_REALISASI", 
+                                     names="METODE_PEMILIHAN", 
+                                     title="Grafik Pencatatan Non Tender - Nilai Transaksi - Metode Pemilihan",
+                                     hole=0.4,
+                                     color_discrete_sequence=px.colors.qualitative.Dark24,
+                                     labels={'NILAI_REALISASI':'Nilai Realisasi', 'METODE_PEMILIHAN':'Metode Pemilihan'})
+                    
+                    figcntmpn.update_traces(textposition='inside', 
+                                          textinfo='percent+label',
+                                          pull=[0.1]*len(tabel_cnt_mp_nilai))
+                    
+                    figcntmpn.update_layout(
+                        showlegend=True,
+                        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                        title_x=0.5,
+                        title_font_size=16
+                    )
+                    
+                    st.plotly_chart(figcntmpn, theme=None, use_container_width=True)
 
         st.divider()
         
@@ -336,5 +408,3 @@ with menu_pencatatan_2:
     st.subheader("PENCATATAN SWAKELOLA")
 
 style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
-
-
