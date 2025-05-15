@@ -55,7 +55,7 @@ with menu_pencatatan_1:
         ]]
         dfGabung = dfCatatNonTender.merge(dfCatatNonTenderRealisasi, how='left', on='kd_nontender_pct')
 
-        # Tampilkan header dan tombol unduh
+        # Header dan tombol unduh
         col1, col2 = st.columns((7,3))
         with col1:
             st.subheader(f"PENCATATAN NON TENDER TAHUN {tahun}")
@@ -68,6 +68,92 @@ with menu_pencatatan_1:
             )
             
         st.divider()
+
+        # Filter dan metrik
+        sumber_dana = st.radio("**Sumber Dana:**", dfCatatNonTender['sumber_dana'].unique(), key="CatatNonTender")
+        st.write(f"Anda memilih: **{sumber_dana}**")
+
+        df_filtered = dfCatatNonTender.query(f"sumber_dana == '{sumber_dana}'")
+        
+        # Hitung jumlah berdasarkan status
+        status_counts = {
+            'Berjalan': len(df_filtered.query("status_nontender_pct_ket == 'Paket Sedang Berjalan'")),
+            'Selesai': len(df_filtered.query("status_nontender_pct_ket == 'Paket Selesai'")), 
+            'Dibatalkan': len(df_filtered.query("status_nontender_pct_ket == 'Paket Dibatalkan'"))
+        }
+
+        # Tampilkan metrik
+        cols = st.columns(3)
+        for i, (label, value) in enumerate(status_counts.items()):
+            cols[i].metric(f"Jumlah Pencatatan NonTender {label}", "{:,}".format(value))
+
+        st.divider()
+
+        # Container untuk grafik
+        with st.container(border=True):
+            tabs = st.tabs([
+                "| Jumlah - Kategori |",
+                "| Nilai - Kategori |", 
+                "| Jumlah - Metode |",
+                "| Nilai - Metode |"
+            ])
+
+            # Tab 1: Jumlah per Kategori
+            with tabs[0]:
+                st.subheader("Berdasarkan Jumlah Kategori")
+                
+                sql = """
+                    SELECT kategori_pengadaan AS KATEGORI, COUNT(*) AS JUMLAH
+                    FROM df_filtered 
+                    GROUP BY kategori_pengadaan 
+                    ORDER BY JUMLAH DESC
+                """
+                df_result = con.execute(sql).df()
+                
+                col1, col2 = st.columns((3,7))
+                col1.dataframe(df_result, hide_index=True)
+                fig = px.pie(df_result, values="JUMLAH", names="KATEGORI", 
+                           title="Jumlah Paket per Kategori", hole=.3)
+                col2.plotly_chart(fig, use_container_width=True)
+
+            # Tab 2-4: Implementasi serupa untuk tab lainnya
+            # ...
+
+        st.divider()
+        
+        # Filter status dan OPD
+        col1, col2 = st.columns((2,8))
+        status = col1.radio("**Status:**", df_filtered['status_nontender_pct_ket'].unique())
+        opd = col2.selectbox("**Pilih Satker:**", df_filtered['nama_satker'].unique())
+
+        st.divider()
+
+        # Query dan tampilkan data
+        sql = f"""
+            SELECT 
+                nama_paket AS "Nama Paket",
+                jenis_realisasi AS "Jenis Realisasi", 
+                no_realisasi AS "No Realisasi",
+                tgl_realisasi AS "Tgl Realisasi",
+                pagu AS "Pagu",
+                total_realisasi AS "Total Realisasi",
+                nilai_realisasi AS "Nilai Realisasi"
+            FROM df_filtered
+            WHERE status_nontender_pct_ket = '{status}'
+            AND nama_satker = '{opd}'
+        """
+        
+        df_result = con.execute(sql).df()
+        
+        # Tampilkan metrik
+        cols = st.columns((2,3,3,2))
+        cols[1].metric("Jumlah Pencatatan", "{:,}".format(len(df_result)))
+        cols[2].metric("Total Nilai", "{:,}".format(df_result['Nilai Realisasi'].sum()))
+        
+        st.divider()
+        
+        # Tampilkan tabel
+        st.dataframe(df_result, hide_index=True, height=400)
 
     except Exception as e:
         st.error(f"Error: {e}")
