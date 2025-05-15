@@ -469,7 +469,7 @@ with menu_pencatatan_2:
                no_realisasi AS NO_REALISASI, tgl_realisasi AS TGL_REALISASI,
                pagu AS PAGU, total_realisasi AS TOTAL_REALISASI, 
                nilai_realisasi AS NILAI_REALISASI, nama_ppk AS NAMA_PPK 
-        FROM dfCatatSwakelola_OK_filter 
+        FROM dfGabung_filter 
         WHERE nama_satker = '{status_opd_cs}' 
         AND status_swakelola_pct_ket = '{status_swakelola_cs}'
         """
