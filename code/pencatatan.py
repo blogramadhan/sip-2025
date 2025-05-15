@@ -70,10 +70,14 @@ with menu_pencatatan_1:
         st.divider()
 
         # Filter berdasarkan sumber dana
-        sumber_dana_cnt = st.radio("**Sumber Dana :**", dfGabung['sumber_dana'].unique(), key="CatatNonTender")
+        sumber_dana_options = ['SEMUA'] + list(dfGabung['sumber_dana'].unique())
+        sumber_dana_cnt = st.radio("**Sumber Dana :**", sumber_dana_options, key="CatatNonTender")
         
         # Filter data
-        dfGabung_filter = dfGabung[dfGabung['sumber_dana'] == sumber_dana_cnt]
+        if sumber_dana_cnt == 'SEMUA':
+            dfGabung_filter = dfGabung
+        else:
+            dfGabung_filter = dfGabung[dfGabung['sumber_dana'] == sumber_dana_cnt]
         
         # Hitung jumlah paket berdasarkan status
         status_counts = {
@@ -338,24 +342,35 @@ with menu_pencatatan_1:
         
         SPSE_CNT_radio_1, SPSE_CNT_radio_2 = st.columns((2,8))
         with SPSE_CNT_radio_1:
-            status_nontender_cnt = st.radio("**Status NonTender :**", dfGabung_filter['status_nontender_pct_ket'].unique())
+            status_options = ['SEMUA'] + list(dfGabung_filter['status_nontender_pct_ket'].unique())
+            status_nontender_cnt = st.radio("**Status NonTender :**", status_options)
         with SPSE_CNT_radio_2:
-            status_opd_cnt = st.selectbox("**Pilih Satker :**", dfGabung_filter['nama_satker'].unique())
+            satker_options = ['SEMUA'] + list(dfGabung_filter['nama_satker'].unique())
+            status_opd_cnt = st.selectbox("**Pilih Satker :**", satker_options)
 
         st.divider()
+
+        # Modify query based on selections
+        where_clauses = []
+        if status_nontender_cnt != 'SEMUA':
+            where_clauses.append(f"status_nontender_pct_ket = '{status_nontender_cnt}'")
+        if status_opd_cnt != 'SEMUA':
+            where_clauses.append(f"nama_satker = '{status_opd_cnt}'")
+            
+        where_sql = " AND ".join(where_clauses)
+        if where_sql:
+            where_sql = "WHERE " + where_sql
 
         sql_CatatNonTender_query = f"""
             SELECT nama_paket AS NAMA_PAKET, jenis_realisasi AS JENIS_REALISASI, no_realisasi AS NO_REALISASI, tgl_realisasi AS TGL_REALISASI, pagu AS PAGU,
             total_realisasi AS TOTAL_REALISASI, nilai_realisasi AS NILAI_REALISASI FROM dfGabung_filter
-            WHERE status_nontender_pct_ket = '{status_nontender_cnt}' AND
-            nama_satker = '{status_opd_cnt}'
+            {where_sql}
         """
 
         sql_CatatNonTender_query_grafik = f"""
             SELECT kategori_pengadaan AS KATEGORI_PENGADAAN, mtd_pemilihan AS METODE_PEMILIHAN, nilai_realisasi AS NILAI_REALISASI
             FROM dfGabung_filter
-            WHERE status_nontender_pct_ket = '{status_nontender_cnt}' AND
-            nama_satker = '{status_opd_cnt}'
+            {where_sql}
         """
 
         df_CatatNonTender_tabel = con.execute(sql_CatatNonTender_query).df()
