@@ -480,9 +480,16 @@ with menu_pencatatan_2:
         col2.metric(f"Jumlah Pencatatan Swakelola ({status_swakelola_cs})", 
                    value="{:,}".format(dfCatatSwakelola_tabel.shape[0]))
         col3.metric(f"Nilai Total Pencatatan Swakelola ({status_swakelola_cs})", 
-                   value="{:,.2f}".format(dfCatatSwakelola_tabel['NILAI_REALISASI'].sum()))
+                   value="{:,.2f}".format(dfCatatSwakelola_tabel['NILAI_REALISASI'].fillna(0).sum()))
 
         ### Tabel Pencatatan Swakelola
+        # Fill NA values with 0 for numeric columns
+        dfCatatSwakelola_tabel = dfCatatSwakelola_tabel.fillna({
+            'NILAI_REALISASI': 0,
+            'TOTAL_REALISASI': 0,
+            'PAGU': 0
+        })
+        
         gb = GridOptionsBuilder.from_dataframe(dfCatatSwakelola_tabel)
         gb.configure_default_column(resizable=True, filterable=True, sortable=True)
         gb.configure_column("NAMA_PAKET", header_name="NAMA PAKET")
