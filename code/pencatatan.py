@@ -452,7 +452,10 @@ with menu_pencatatan_2:
         col1.metric("Pencatatan Swakelola Berjalan", f"{status_counts['Sedang Berjalan']:,}")
         col2.metric("Pencatatan Swakelola Selesai", f"{status_counts['Selesai']:,}")
         col3.metric("Pencatatan Swakelola Dibatalkan", f"{status_counts['Dibatalkan']:,}")
+
         st.divider()
+
+        st.dataframe(dfGabung_filter)
 
         # Filter berdasarkan status dan satker
         SPSE_CS_radio_1, SPSE_CS_radio_2 = st.columns((2,8))
