@@ -112,14 +112,23 @@ with menu_pencatatan_1:
 
                 with grafik_cnt_1_1:
 
-                    st.dataframe(
+                    gb = GridOptionsBuilder.from_dataframe(tabel_cnt_kp_jumlah)
+                    gb.configure_default_column(resizable=True, filterable=True, sortable=True)
+                    gb.configure_column("KATEGORI_PENGADAAN", header_name="KATEGORI PENGADAAN")
+                    gb.configure_column("JUMLAH_PAKET", 
+                                      header_name="JUMLAH PAKET",
+                                      type=["numericColumn", "numberColumnFilter"])
+                    
+                    grid_options = gb.build()
+                    
+                    AgGrid(
                         tabel_cnt_kp_jumlah,
-                        column_config={
-                            "KATEGORI_PENGADAAN": "KATEGORI PENGADAAN",
-                            "JUMLAH_PAKET": "JUMLAH PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True
+                        gridOptions=grid_options,
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        height=200,
+                        width='100%',
+                        allow_unsafe_jscode=True
                     )
 
                 with grafik_cnt_1_2:
@@ -186,14 +195,23 @@ with menu_pencatatan_1:
 
                 with grafik_cnt_3_1:
 
-                    st.dataframe(
+                    gb = GridOptionsBuilder.from_dataframe(tabel_cnt_mp_jumlah)
+                    gb.configure_default_column(resizable=True, filterable=True, sortable=True)
+                    gb.configure_column("METODE_PEMILIHAN", header_name="METODE PEMILIHAN")
+                    gb.configure_column("JUMLAH_PAKET", 
+                                      header_name="JUMLAH PAKET",
+                                      type=["numericColumn", "numberColumnFilter"])
+                    
+                    grid_options = gb.build()
+                    
+                    AgGrid(
                         tabel_cnt_mp_jumlah,
-                        column_config={
-                            "METODE_PEMILIHAN": "METODE PEMILIHAN",
-                            "JUMLAH_PAKET": "JUMLAH PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True
+                        gridOptions=grid_options,
+                        enable_enterprise_modules=True,
+                        fit_columns_on_grid_load=True,
+                        height=200,
+                        width='100%',
+                        allow_unsafe_jscode=True
                     )
 
                 with grafik_cnt_3_2:
