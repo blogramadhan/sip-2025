@@ -103,7 +103,7 @@ with menu_pencatatan_1:
 
                 sql_cnt_kp_jumlah = """
                     SELECT kategori_pengadaan AS KATEGORI_PENGADAAN, COUNT(kd_nontender_pct) AS JUMLAH_PAKET
-                    FROM df_CatatNonTender_OK_filter GROUP BY KATEGORI_PENGADAAN ORDER BY JUMLAH_PAKET DESC
+                    FROM dfGabung_filter GROUP BY KATEGORI_PENGADAAN ORDER BY JUMLAH_PAKET DESC
                 """
 
                 tabel_cnt_kp_jumlah = con.execute(sql_cnt_kp_jumlah).df()
@@ -135,7 +135,7 @@ with menu_pencatatan_1:
 
                 sql_cnt_kp_nilai = """
                     SELECT kategori_pengadaan AS KATEGORI_PENGADAAN, SUM(nilai_realisasi) AS NILAI_REALISASI
-                    FROM df_CatatNonTender_OK_filter GROUP BY KATEGORI_PENGADAAN ORDER BY NILAI_REALISASI
+                    FROM dfGabung_filter GROUP BY KATEGORI_PENGADAAN ORDER BY NILAI_REALISASI
                 """
 
                 tabel_cnt_kp_nilai = con.execute(sql_cnt_kp_nilai).df()
@@ -167,7 +167,7 @@ with menu_pencatatan_1:
 
                 sql_cnt_mp_jumlah = """
                     SELECT mtd_pemilihan AS METODE_PEMILIHAN, COUNT(kd_nontender_pct) AS JUMLAH_PAKET
-                    FROM df_CatatNonTender_OK_filter GROUP BY METODE_PEMILIHAN ORDER BY JUMLAH_PAKET DESC
+                    FROM dfGabung_filter GROUP BY METODE_PEMILIHAN ORDER BY JUMLAH_PAKET DESC
                 """
 
                 tabel_cnt_mp_jumlah = con.execute(sql_cnt_mp_jumlah).df()
@@ -199,7 +199,7 @@ with menu_pencatatan_1:
 
                 sql_cnt_mp_nilai = """
                     SELECT mtd_pemilihan AS METODE_PEMILIHAN, SUM(nilai_realisasi) AS NILAI_REALISASI
-                    FROM df_CatatNonTender_OK_filter GROUP BY METODE_PEMILIHAN ORDER BY NILAI_REALISASI
+                    FROM dfGabung_filter GROUP BY METODE_PEMILIHAN ORDER BY NILAI_REALISASI
                 """
 
                 tabel_cnt_mp_nilai = con.execute(sql_cnt_mp_nilai).df()
@@ -227,22 +227,22 @@ with menu_pencatatan_1:
         
         SPSE_CNT_radio_1, SPSE_CNT_radio_2 = st.columns((2,8))
         with SPSE_CNT_radio_1:
-            status_nontender_cnt = st.radio("**Status NonTender :**", df_CatatNonTender_OK_filter['status_nontender_pct_ket'].unique())
+            status_nontender_cnt = st.radio("**Status NonTender :**", dfGabung_filter['status_nontender_pct_ket'].unique())
         with SPSE_CNT_radio_2:
-            status_opd_cnt = st.selectbox("**Pilih Satker :**", df_CatatNonTender_OK_filter['nama_satker'].unique())
+            status_opd_cnt = st.selectbox("**Pilih Satker :**", dfGabung_filter['nama_satker'].unique())
 
         st.divider()
 
         sql_CatatNonTender_query = f"""
             SELECT nama_paket AS NAMA_PAKET, jenis_realisasi AS JENIS_REALISASI, no_realisasi AS NO_REALISASI, tgl_realisasi AS TGL_REALISASI, pagu AS PAGU,
-            total_realisasi AS TOTAL_REALISASI, nilai_realisasi AS NILAI_REALISASI FROM df_CatatNonTender_OK_filter
+            total_realisasi AS TOTAL_REALISASI, nilai_realisasi AS NILAI_REALISASI FROM dfGabung_filter
             WHERE status_nontender_pct_ket = '{status_nontender_cnt}' AND
             nama_satker = '{status_opd_cnt}'
         """
 
         sql_CatatNonTender_query_grafik = f"""
             SELECT kategori_pengadaan AS KATEGORI_PENGADAAN, mtd_pemilihan AS METODE_PEMILIHAN, nilai_realisasi AS NILAI_REALISASI
-            FROM df_CatatNonTender_OK_filter
+            FROM dfGabung_filter
             WHERE status_nontender_pct_ket = '{status_nontender_cnt}' AND
             nama_satker = '{status_opd_cnt}'
         """
