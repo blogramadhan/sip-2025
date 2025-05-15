@@ -55,7 +55,7 @@ with menu_pencatatan_1:
         ]]
         dfGabung = dfCatatNonTender.merge(dfCatatNonTenderRealisasi, how='left', on='kd_nontender_pct')
 
-        # Header dan tombol unduh
+        # Tampilkan header dan tombol unduh
         col1, col2 = st.columns((7,3))
         with col1:
             st.subheader(f"PENCATATAN NON TENDER TAHUN {tahun}")
@@ -69,96 +69,218 @@ with menu_pencatatan_1:
             
         st.divider()
 
-        # Filter dan metrik
-        sumber_dana = st.radio("**Sumber Dana:**", dfCatatNonTender['sumber_dana'].unique(), key="CatatNonTender")
-        st.write(f"Anda memilih: **{sumber_dana}**")
-
-        df_filtered = dfCatatNonTender.query(f"sumber_dana == '{sumber_dana}'")
+        # Filter berdasarkan sumber dana
+        sumber_dana_cnt = st.radio("**Sumber Dana :**", dfGabung['sumber_dana'].unique(), key="CatatNonTender")
         
-        # Hitung jumlah berdasarkan status
+        # Filter data
+        dfGabung_filter = dfGabung[dfGabung['sumber_dana'] == sumber_dana_cnt]
+        
+        # Hitung jumlah paket berdasarkan status
         status_counts = {
-            'Berjalan': len(df_filtered.query("status_nontender_pct_ket == 'Paket Sedang Berjalan'")),
-            'Selesai': len(df_filtered.query("status_nontender_pct_ket == 'Paket Selesai'")), 
-            'Dibatalkan': len(df_filtered.query("status_nontender_pct_ket == 'Paket Dibatalkan'"))
+            'Berjalan': len(dfGabung_filter[dfGabung_filter['status_nontender_pct_ket'] == 'Paket Sedang Berjalan']),
+            'Selesai': len(dfGabung_filter[dfGabung_filter['status_nontender_pct_ket'] == 'Paket Selesai']), 
+            'Dibatalkan': len(dfGabung_filter[dfGabung_filter['status_nontender_pct_ket'] == 'Paket Dibatalkan'])
         }
 
-        # Tampilkan metrik
-        cols = st.columns(3)
-        for i, (label, value) in enumerate(status_counts.items()):
-            cols[i].metric(f"Jumlah Pencatatan NonTender {label}", "{:,}".format(value))
+        # Tampilkan metrics
+        col1, col2, col3 = st.columns(3)
+        col1.metric("Pencatatan NonTender Berjalan", f"{status_counts['Berjalan']:,}")
+        col2.metric("Pencatatan NonTender Selesai", f"{status_counts['Selesai']:,}")
+        col3.metric("Pencatatan NonTender Dibatalkan", f"{status_counts['Dibatalkan']:,}")
 
         st.divider()
 
-        # Container untuk grafik
         with st.container(border=True):
-            tabs = st.tabs([
-                "| Jumlah - Kategori |",
-                "| Nilai - Kategori |", 
-                "| Jumlah - Metode |",
-                "| Nilai - Metode |"
-            ])
 
-            # Tab 1: Jumlah per Kategori
-            with tabs[0]:
-                st.subheader("Berdasarkan Jumlah Kategori")
-                
-                sql = """
-                    SELECT kategori_pengadaan AS KATEGORI, COUNT(*) AS JUMLAH
-                    FROM df_filtered 
-                    GROUP BY kategori_pengadaan 
-                    ORDER BY JUMLAH DESC
+            ### Tabel dan Grafik Jumlah dan Nilai Transaksi Berdasarkan Kategori Pengadaan dan Metode Pemilihan
+            grafik_cnt_1, grafik_cnt_2, grafik_cnt_3, grafik_cnt_4 = st.tabs(["| Jumlah Transaksi - Kategori Pengadaan |","| Nilai Transaksi - Kategori Pengadaan |","| Jumlah Transaksi - Metode Pemilihan |","| Nilai Transaksi - Metode Pemilihan |"])
+            
+            with grafik_cnt_1:
+
+                st.subheader("Berdasarkan Jumlah Kategori Pemilihan")
+
+                ##### Query data grafik jumlah transaksi Pencatatan Non Tender berdasarkan Kategori Pengadaan
+
+                sql_cnt_kp_jumlah = """
+                    SELECT kategori_pengadaan AS KATEGORI_PENGADAAN, COUNT(kd_nontender_pct) AS JUMLAH_PAKET
+                    FROM df_CatatNonTender_OK_filter GROUP BY KATEGORI_PENGADAAN ORDER BY JUMLAH_PAKET DESC
                 """
-                df_result = con.execute(sql).df()
-                
-                col1, col2 = st.columns((3,7))
-                col1.dataframe(df_result, hide_index=True)
-                fig = px.pie(df_result, values="JUMLAH", names="KATEGORI", 
-                           title="Jumlah Paket per Kategori", hole=.3)
-                col2.plotly_chart(fig, use_container_width=True)
 
-            # Tab 2-4: Implementasi serupa untuk tab lainnya
-            # ...
+                tabel_cnt_kp_jumlah = con.execute(sql_cnt_kp_jumlah).df()
+
+                grafik_cnt_1_1, grafik_cnt_1_2 = st.columns((3,7))
+
+                with grafik_cnt_1_1:
+
+                    st.dataframe(
+                        tabel_cnt_kp_jumlah,
+                        column_config={
+                            "KATEGORI_PENGADAAN": "KATEGORI PENGADAAN",
+                            "JUMLAH_PAKET": "JUMLAH PAKET"
+                        },
+                        use_container_width=True,
+                        hide_index=True
+                    )
+
+                with grafik_cnt_1_2:
+
+                    figcntkph = px.pie(tabel_cnt_kp_jumlah, values="JUMLAH_PAKET", names="KATEGORI_PENGADAAN", title="Grafik Pencatatan Non Tender - Jumlah Paket - Kategori Pengadaan", hole=.3)
+                    st.plotly_chart(figcntkph, theme="streamlit", use_container_width=True)
+
+            with grafik_cnt_2:
+
+                st.subheader("Berdasarkan Nilai Kategori Pemilihan")
+
+                ##### Query data grafik nilai transaksi Pencatatan Non Tender berdasarkan Kategori Pengadaan
+
+                sql_cnt_kp_nilai = """
+                    SELECT kategori_pengadaan AS KATEGORI_PENGADAAN, SUM(nilai_realisasi) AS NILAI_REALISASI
+                    FROM df_CatatNonTender_OK_filter GROUP BY KATEGORI_PENGADAAN ORDER BY NILAI_REALISASI
+                """
+
+                tabel_cnt_kp_nilai = con.execute(sql_cnt_kp_nilai).df()
+
+                grafik_cnt_2_1, grafik_cnt_2_2 = st.columns((3,7))
+
+                with grafik_cnt_2_1:
+
+                    st.dataframe(
+                        tabel_cnt_kp_nilai,
+                        column_config={
+                            "KATEGORI_PENGADAAN": "KATEGORI PENGADAAN",
+                            "NILAI_REALISASI": "NILAI REALISASI"
+                        },
+                        use_container_width=True,
+                        hide_index=True
+                    )    
+
+                with grafik_cnt_2_2:
+
+                    figcntkpn = px.pie(tabel_cnt_kp_nilai, values="NILAI_REALISASI", names="KATEGORI_PENGADAAN", title="Grafik Pencatatan Non Tender - Nilai Transaksi - Kategori Pengadaan", hole=.3)
+                    st.plotly_chart(figcntkpn, theme="streamlit", use_container_width=True)
+
+            with grafik_cnt_3:
+
+                st.subheader("Berdasarkan Jumlah Metode Pemilihan")
+
+                ##### Query data grafik jumlah transaksi Pencatatan Non Tender berdasarkan Metode Pemilihan
+
+                sql_cnt_mp_jumlah = """
+                    SELECT mtd_pemilihan AS METODE_PEMILIHAN, COUNT(kd_nontender_pct) AS JUMLAH_PAKET
+                    FROM df_CatatNonTender_OK_filter GROUP BY METODE_PEMILIHAN ORDER BY JUMLAH_PAKET DESC
+                """
+
+                tabel_cnt_mp_jumlah = con.execute(sql_cnt_mp_jumlah).df()
+
+                grafik_cnt_3_1, grafik_cnt_3_2 = st.columns((3,7))
+
+                with grafik_cnt_3_1:
+
+                    st.dataframe(
+                        tabel_cnt_mp_jumlah,
+                        column_config={
+                            "METODE_PEMILIHAN": "METODE PEMILIHAN",
+                            "JUMLAH_PAKET": "JUMLAH PAKET"
+                        },
+                        use_container_width=True,
+                        hide_index=True
+                    )
+
+                with grafik_cnt_3_2:
+
+                    figcntmph = px.pie(tabel_cnt_mp_jumlah, values="JUMLAH_PAKET", names="METODE_PEMILIHAN", title="Grafik Pencatatan Non Tender - Jumlah Paket - Metode Pemilihan", hole=.3)
+                    st.plotly_chart(figcntmph, theme="streamlit", use_container_width=True)
+
+            with grafik_cnt_4:
+
+                st.subheader("Berdasarkan Nilai Metode Pemilihan")
+
+                ##### Query data grafik nilai transaksi Pencatatan Non Tender berdasarkan Metode Pemilihan
+
+                sql_cnt_mp_nilai = """
+                    SELECT mtd_pemilihan AS METODE_PEMILIHAN, SUM(nilai_realisasi) AS NILAI_REALISASI
+                    FROM df_CatatNonTender_OK_filter GROUP BY METODE_PEMILIHAN ORDER BY NILAI_REALISASI
+                """
+
+                tabel_cnt_mp_nilai = con.execute(sql_cnt_mp_nilai).df()
+
+                grafik_cnt_4_1, grafik_cnt_4_2 = st.columns((3,7))
+
+                with grafik_cnt_4_1:
+
+                    st.dataframe(
+                        tabel_cnt_mp_nilai,
+                        column_config={
+                            "METODE_PEMILIHAN": "METODE PEMILIHAN",
+                            "NILAI_REALISASI": "NILAI REALISASI"
+                        },
+                        use_container_width=True,
+                        hide_index=True
+                    )    
+
+                with grafik_cnt_4_2:
+
+                    figcntmpn = px.pie(tabel_cnt_mp_nilai, values="NILAI_REALISASI", names="METODE_PEMILIHAN", title="Grafik Pencatatan Non Tender - Nilai Transaksi - Metode Pemilihan", hole=.3)
+                    st.plotly_chart(figcntmpn, theme="streamlit", use_container_width=True)
 
         st.divider()
         
-        # Filter status dan OPD
-        col1, col2 = st.columns((2,8))
-        status = col1.radio("**Status:**", df_filtered['status_nontender_pct_ket'].unique())
-        opd = col2.selectbox("**Pilih Satker:**", df_filtered['nama_satker'].unique())
+        SPSE_CNT_radio_1, SPSE_CNT_radio_2 = st.columns((2,8))
+        with SPSE_CNT_radio_1:
+            status_nontender_cnt = st.radio("**Status NonTender :**", df_CatatNonTender_OK_filter['status_nontender_pct_ket'].unique())
+        with SPSE_CNT_radio_2:
+            status_opd_cnt = st.selectbox("**Pilih Satker :**", df_CatatNonTender_OK_filter['nama_satker'].unique())
 
         st.divider()
 
-        # Query dan tampilkan data
-        sql = f"""
-            SELECT 
-                nama_paket AS "Nama Paket",
-                jenis_realisasi AS "Jenis Realisasi", 
-                no_realisasi AS "No Realisasi",
-                tgl_realisasi AS "Tgl Realisasi",
-                pagu AS "Pagu",
-                total_realisasi AS "Total Realisasi",
-                nilai_realisasi AS "Nilai Realisasi"
-            FROM df_filtered
-            WHERE status_nontender_pct_ket = '{status}'
-            AND nama_satker = '{opd}'
+        sql_CatatNonTender_query = f"""
+            SELECT nama_paket AS NAMA_PAKET, jenis_realisasi AS JENIS_REALISASI, no_realisasi AS NO_REALISASI, tgl_realisasi AS TGL_REALISASI, pagu AS PAGU,
+            total_realisasi AS TOTAL_REALISASI, nilai_realisasi AS NILAI_REALISASI FROM df_CatatNonTender_OK_filter
+            WHERE status_nontender_pct_ket = '{status_nontender_cnt}' AND
+            nama_satker = '{status_opd_cnt}'
         """
-        
-        df_result = con.execute(sql).df()
-        
-        # Tampilkan metrik
-        cols = st.columns((2,3,3,2))
-        cols[1].metric("Jumlah Pencatatan", "{:,}".format(len(df_result)))
-        cols[2].metric("Total Nilai", "{:,}".format(df_result['Nilai Realisasi'].sum()))
-        
+
+        sql_CatatNonTender_query_grafik = f"""
+            SELECT kategori_pengadaan AS KATEGORI_PENGADAAN, mtd_pemilihan AS METODE_PEMILIHAN, nilai_realisasi AS NILAI_REALISASI
+            FROM df_CatatNonTender_OK_filter
+            WHERE status_nontender_pct_ket = '{status_nontender_cnt}' AND
+            nama_satker = '{status_opd_cnt}'
+        """
+
+        df_CatatNonTender_tabel = con.execute(sql_CatatNonTender_query).df()
+        df_CatatNonTender_grafik = con.execute(sql_CatatNonTender_query_grafik).df()
+
+        data_cnt_pd_1, data_cnt_pd_2, data_cnt_pd_3, data_cnt_pd_4 = st.columns((2,3,3,2))
+        data_cnt_pd_1.subheader("")
+        data_cnt_pd_2.metric(label=f"Jumlah Pencatatan Non Tender ({status_nontender_cnt})", value="{:,}".format(df_CatatNonTender_tabel.shape[0]))
+        data_cnt_pd_3.metric(label=f"Nilai Total Pencatatan Non Tender ({status_nontender_cnt})", value="{:,}".format(df_CatatNonTender_tabel['NILAI_REALISASI'].sum()))
+        data_cnt_pd_4.subheader("")
+
         st.divider()
-        
-        # Tampilkan tabel
-        st.dataframe(df_result, hide_index=True, height=400)
+
+        ### Tabel Pencatatan Non Tender
+        st.dataframe(
+            df_CatatNonTender_tabel, 
+            column_config={
+                "NAMA_PAKET": "NAMA PAKET",
+                "JENIS_REALISASI": "JENIS REALISASI",
+                "NO_REALISASI": "NO REALISASI",
+                "TGL_REALISASI": "TGL REALISASI",
+                "PAGU": "PAGU",
+                "TOTAL_REALISASI": "TOTAL REALISASI",
+                "NILAI_REALISASI": "NILAI REALISASI"
+            },
+            use_container_width=True,
+            hide_index=True,
+            height=1000
+        )
 
     except Exception as e:
         st.error(f"Error: {e}")
 
 with menu_pencatatan_2:
     st.subheader("PENCATATAN SWAKELOLA")
+
+style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
 
 
