@@ -3,7 +3,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import duckdb
-import openpyxl
 from datetime import datetime
 # Library Currency
 from babel.numbers import format_currency
