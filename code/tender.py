@@ -136,8 +136,19 @@ with menu_tender_1:
                     )
 
                 with grafik_kp_1_2:
-
-                    st.bar_chart(tabel_kp_jumlah_trx, x="KUALIFIKASI_PAKET", y="JUMLAH_PAKET", color="KUALIFIKASI_PAKET")
+                    fig = px.bar(tabel_kp_jumlah_trx, 
+                               x="KUALIFIKASI_PAKET", 
+                               y="JUMLAH_PAKET",
+                               color="KUALIFIKASI_PAKET",
+                               color_discrete_sequence=px.colors.qualitative.Set3,
+                               title="Jumlah Paket per Kualifikasi",
+                               labels={"KUALIFIKASI_PAKET": "Kualifikasi Paket",
+                                     "JUMLAH_PAKET": "Jumlah Paket"})
+                    fig.update_layout(showlegend=False)
+                    fig.update_traces(marker_line_color='rgb(8,48,107)',
+                                    marker_line_width=1.5,
+                                    opacity=0.8)
+                    st.plotly_chart(fig, use_container_width=True)
         
             with grafik_kp_2:
 
@@ -168,8 +179,19 @@ with menu_tender_1:
                     )
 
                 with grafik_kp_2_2:
-
-                    st.bar_chart(tabel_kp_nilai_trx, x="KUALIFIKASI_PAKET", y="NILAI_PAKET", color="KUALIFIKASI_PAKET")
+                    fig = px.bar(tabel_kp_nilai_trx,
+                               x="KUALIFIKASI_PAKET",
+                               y="NILAI_PAKET", 
+                               color="KUALIFIKASI_PAKET",
+                               color_discrete_sequence=px.colors.qualitative.Set3,
+                               title="Nilai Paket per Kualifikasi",
+                               labels={"KUALIFIKASI_PAKET": "Kualifikasi Paket",
+                                     "NILAI_PAKET": "Nilai Paket"})
+                    fig.update_layout(showlegend=False)
+                    fig.update_traces(marker_line_color='rgb(8,48,107)',
+                                    marker_line_width=1.5,
+                                    opacity=0.8)
+                    st.plotly_chart(fig, use_container_width=True)
 
         with st.container(border=True):
 
@@ -205,8 +227,19 @@ with menu_tender_1:
                     )
 
                 with grafik_jp_1_2:
-
-                    st.bar_chart(tabel_jp_jumlah_trx, x="JENIS_PENGADAAN", y="JUMLAH_PAKET", color="JENIS_PENGADAAN")
+                    fig = px.bar(tabel_jp_jumlah_trx,
+                               x="JENIS_PENGADAAN",
+                               y="JUMLAH_PAKET",
+                               color="JENIS_PENGADAAN", 
+                               color_discrete_sequence=px.colors.qualitative.Pastel,
+                               title="Jumlah Paket per Jenis Pengadaan",
+                               labels={"JENIS_PENGADAAN": "Jenis Pengadaan",
+                                     "JUMLAH_PAKET": "Jumlah Paket"})
+                    fig.update_layout(showlegend=False)
+                    fig.update_traces(marker_line_color='rgb(8,48,107)',
+                                    marker_line_width=1.5,
+                                    opacity=0.8)
+                    st.plotly_chart(fig, use_container_width=True)
         
             with grafik_jp_2:
 
@@ -237,8 +270,19 @@ with menu_tender_1:
                     )
 
                 with grafik_jp_2_2:
-
-                    st.bar_chart(tabel_jp_nilai_trx, x="JENIS_PENGADAAN", y="NILAI_PAKET", color="JENIS_PENGADAAN")
+                    fig = px.bar(tabel_jp_nilai_trx,
+                               x="JENIS_PENGADAAN",
+                               y="NILAI_PAKET",
+                               color="JENIS_PENGADAAN",
+                               color_discrete_sequence=px.colors.qualitative.Pastel,
+                               title="Nilai Paket per Jenis Pengadaan", 
+                               labels={"JENIS_PENGADAAN": "Jenis Pengadaan",
+                                     "NILAI_PAKET": "Nilai Paket"})
+                    fig.update_layout(showlegend=False)
+                    fig.update_traces(marker_line_color='rgb(8,48,107)',
+                                    marker_line_width=1.5,
+                                    opacity=0.8)
+                    st.plotly_chart(fig, use_container_width=True)
 
         with st.container(border=True):
 
@@ -274,8 +318,19 @@ with menu_tender_1:
                     )
 
                 with grafik_mp_1_2:
-
-                    st.bar_chart(tabel_mp_jumlah_trx, x="METODE_PEMILIHAN", y="JUMLAH_PAKET", color="METODE_PEMILIHAN")
+                    fig = px.bar(tabel_mp_jumlah_trx,
+                               x="METODE_PEMILIHAN",
+                               y="JUMLAH_PAKET",
+                               color="METODE_PEMILIHAN",
+                               color_discrete_sequence=px.colors.qualitative.Bold,
+                               title="Jumlah Paket per Metode Pemilihan",
+                               labels={"METODE_PEMILIHAN": "Metode Pemilihan",
+                                     "JUMLAH_PAKET": "Jumlah Paket"})
+                    fig.update_layout(showlegend=False)
+                    fig.update_traces(marker_line_color='rgb(8,48,107)',
+                                    marker_line_width=1.5,
+                                    opacity=0.8)
+                    st.plotly_chart(fig, use_container_width=True)
         
             with grafik_mp_2:
 
@@ -306,8 +361,19 @@ with menu_tender_1:
                     )
 
                 with grafik_mp_2_2:
-
-                    st.bar_chart(tabel_mp_nilai_trx, x="METODE_PEMILIHAN", y="NILAI_PAKET", color="METODE_PEMILIHAN")
+                    fig = px.bar(tabel_mp_nilai_trx,
+                               x="METODE_PEMILIHAN",
+                               y="NILAI_PAKET",
+                               color="METODE_PEMILIHAN",
+                               color_discrete_sequence=px.colors.qualitative.Bold,
+                               title="Nilai Paket per Metode Pemilihan",
+                               labels={"METODE_PEMILIHAN": "Metode Pemilihan",
+                                     "NILAI_PAKET": "Nilai Paket"})
+                    fig.update_layout(showlegend=False)
+                    fig.update_traces(marker_line_color='rgb(8,48,107)',
+                                    marker_line_width=1.5,
+                                    opacity=0.8)
+                    st.plotly_chart(fig, use_container_width=True)
 
         with st.container(border=True):
 
@@ -343,8 +409,19 @@ with menu_tender_1:
                     )
 
                 with grafik_me_1_2:
-
-                    st.bar_chart(tabel_me_jumlah_trx, x="METODE_EVALUASI", y="JUMLAH_PAKET", color="METODE_EVALUASI")
+                    fig = px.bar(tabel_me_jumlah_trx,
+                               x="METODE_EVALUASI",
+                               y="JUMLAH_PAKET",
+                               color="METODE_EVALUASI",
+                               color_discrete_sequence=px.colors.qualitative.Safe,
+                               title="Jumlah Paket per Metode Evaluasi",
+                               labels={"METODE_EVALUASI": "Metode Evaluasi",
+                                     "JUMLAH_PAKET": "Jumlah Paket"})
+                    fig.update_layout(showlegend=False)
+                    fig.update_traces(marker_line_color='rgb(8,48,107)',
+                                    marker_line_width=1.5,
+                                    opacity=0.8)
+                    st.plotly_chart(fig, use_container_width=True)
         
             with grafik_me_2:
 
@@ -375,8 +452,19 @@ with menu_tender_1:
                     )
 
                 with grafik_me_2_2:
-
-                    st.bar_chart(tabel_me_nilai_trx, x="METODE_EVALUASI", y="NILAI_PAKET", color="METODE_EVALUASI")
+                    fig = px.bar(tabel_me_nilai_trx,
+                               x="METODE_EVALUASI",
+                               y="NILAI_PAKET",
+                               color="METODE_EVALUASI",
+                               color_discrete_sequence=px.colors.qualitative.Safe,
+                               title="Nilai Paket per Metode Evaluasi",
+                               labels={"METODE_EVALUASI": "Metode Evaluasi",
+                                     "NILAI_PAKET": "Nilai Paket"})
+                    fig.update_layout(showlegend=False)
+                    fig.update_traces(marker_line_color='rgb(8,48,107)',
+                                    marker_line_width=1.5,
+                                    opacity=0.8)
+                    st.plotly_chart(fig, use_container_width=True)
 
         with st.container(border=True):
 
@@ -412,8 +500,19 @@ with menu_tender_1:
                     )
 
                 with grafik_mk_1_2:
-
-                    st.bar_chart(tabel_mk_jumlah_trx, x="METODE_KUALIFIKASI", y="JUMLAH_PAKET", color="METODE_KUALIFIKASI")
+                    fig = px.bar(tabel_mk_jumlah_trx,
+                               x="METODE_KUALIFIKASI",
+                               y="JUMLAH_PAKET",
+                               color="METODE_KUALIFIKASI",
+                               color_discrete_sequence=px.colors.qualitative.Vivid,
+                               title="Jumlah Paket per Metode Kualifikasi",
+                               labels={"METODE_KUALIFIKASI": "Metode Kualifikasi",
+                                     "JUMLAH_PAKET": "Jumlah Paket"})
+                    fig.update_layout(showlegend=False)
+                    fig.update_traces(marker_line_color='rgb(8,48,107)',
+                                    marker_line_width=1.5,
+                                    opacity=0.8)
+                    st.plotly_chart(fig, use_container_width=True)
         
             with grafik_mk_2:
 
@@ -445,7 +544,19 @@ with menu_tender_1:
 
                 with grafik_mk_2_2:
 
-                    st.bar_chart(tabel_mk_nilai_trx, x="METODE_KUALIFIKASI", y="NILAI_PAKET", color="METODE_KUALIFIKASI")
+                    fig = px.bar(tabel_mk_nilai_trx,
+                               x="METODE_KUALIFIKASI",
+                               y="NILAI_PAKET",
+                               color="METODE_KUALIFIKASI",
+                               color_discrete_sequence=px.colors.qualitative.Vivid,
+                               title="Nilai Paket per Metode Kualifikasi",
+                               labels={"METODE_KUALIFIKASI": "Metode Kualifikasi",
+                                     "NILAI_PAKET": "Nilai Paket"})
+                    fig.update_layout(showlegend=False)
+                    fig.update_traces(marker_line_color='rgb(8,48,107)',
+                                    marker_line_width=1.5,
+                                    opacity=0.8)
+                    st.plotly_chart(fig, use_container_width=True)
 
         with st.container(border=True):
 
@@ -482,7 +593,19 @@ with menu_tender_1:
 
                 with grafik_kontrak_1_2:
 
-                    st.bar_chart(tabel_kontrak_jumlah_trx, x="KONTRAK_PEMBAYARAN", y="JUMLAH_PAKET", color="KONTRAK_PEMBAYARAN")
+                    fig = px.bar(tabel_kontrak_jumlah_trx,
+                               x="KONTRAK_PEMBAYARAN",
+                               y="JUMLAH_PAKET",
+                               color="KONTRAK_PEMBAYARAN", 
+                               color_discrete_sequence=px.colors.qualitative.Set3,
+                               title="Jumlah Paket per Kontrak Pembayaran",
+                               labels={"KONTRAK_PEMBAYARAN": "Kontrak Pembayaran",
+                                     "JUMLAH_PAKET": "Jumlah Paket"})
+                    fig.update_layout(showlegend=False)
+                    fig.update_traces(marker_line_color='rgb(8,48,107)',
+                                    marker_line_width=1.5,
+                                    opacity=0.8)
+                    st.plotly_chart(fig, use_container_width=True)
         
             with grafik_kontrak_2:
 
@@ -512,7 +635,19 @@ with menu_tender_1:
 
                 with grafik_kontrak_2_2:
 
-                    st.bar_chart(tabel_kontrak_nilai_trx, x="KONTRAK_PEMBAYARAN", y="NILAI_PAKET", color="KONTRAK_PEMBAYARAN")
+                    fig = px.bar(tabel_kontrak_nilai_trx,
+                               x="KONTRAK_PEMBAYARAN",
+                               y="NILAI_PAKET", 
+                               color="KONTRAK_PEMBAYARAN",
+                               color_discrete_sequence=px.colors.qualitative.Set3,
+                               title="Nilai Paket per Kontrak Pembayaran",
+                               labels={"KONTRAK_PEMBAYARAN": "Kontrak Pembayaran",
+                                     "NILAI_PAKET": "Nilai Paket"})
+                    fig.update_layout(showlegend=False)
+                    fig.update_traces(marker_line_color='rgb(8,48,107)',
+                                    marker_line_width=1.5,
+                                    opacity=0.8)
+                    st.plotly_chart(fig, use_container_width=True)
 
     except Exception as e:
         st.error(f"Error: {e}")
