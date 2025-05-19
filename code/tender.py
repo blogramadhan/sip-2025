@@ -735,7 +735,7 @@ with menu_tender_5:
               fit_columns_on_grid_load=True,
               autoSizeColumns=True,
               width='100%',
-              height=400)
+              height=800)
 
     except Exception as e:
         st.error(f"Error: {e}")
