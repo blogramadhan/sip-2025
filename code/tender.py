@@ -167,15 +167,15 @@ with menu_tender_1:
 
                 with grafik_kp_2_1:
 
-                    st.dataframe(
-                        tabel_kp_nilai_trx,
-                        column_config={
-                            "KUALIFIKASI_PAKET": "KUALIFIKASI PAKET",
-                            "NILAI_PAKET": "NILAI PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True    
-                    )
+                    gd_kp_nilai = GridOptionsBuilder.from_dataframe(tabel_kp_nilai_trx)
+                    gd_kp_nilai.configure_default_column(autoSizeColumns=True)
+                    gd_kp_nilai.configure_column("NILAI_PAKET", valueFormatter="data.NILAI_PAKET.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0})")
+                    AgGrid(tabel_kp_nilai_trx,
+                          gridOptions=gd_kp_nilai.build(),
+                          fit_columns_on_grid_load=True,
+                          autoSizeColumns=True,
+                          width='100%',
+                          height=min(400, 35 * (len(tabel_kp_nilai_trx) + 1)))
 
                 with grafik_kp_2_2:
                     fig = px.bar(tabel_kp_nilai_trx,
