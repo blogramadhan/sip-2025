@@ -710,16 +710,29 @@ with menu_tender_5:
         st.divider()
 
         # Tabel
-        gd = GridOptionsBuilder.from_dataframe(filtered_df[['nama_paket', 'no_bast', 'tgl_bast', 'nama_ppk', 
-                                                          'nama_penyedia', 'wakil_sah_penyedia', 'npwp_penyedia',
-                                                          'nilai_kontrak', 'besar_pembayaran']])
-        gd.configure_default_column(autoSizeColumns=True)
-        gd.configure_column("nilai_kontrak", valueFormatter="data.nilai_kontrak.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0})")
-        gd.configure_column("besar_pembayaran", valueFormatter="data.besar_pembayaran.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0})")
+        renamed_columns = {
+            'nama_paket': 'NAMA PAKET',
+            'no_bast': 'NOMOR BAST', 
+            'tgl_bast': 'TANGGAL BAST',
+            'nama_ppk': 'NAMA PPK',
+            'nama_penyedia': 'NAMA PENYEDIA',
+            'wakil_sah_penyedia': 'WAKIL SAH PENYEDIA',
+            'npwp_penyedia': 'NPWP PENYEDIA',
+            'nilai_kontrak': 'NILAI KONTRAK',
+            'besar_pembayaran': 'BESAR PEMBAYARAN'
+        }
         
-        AgGrid(filtered_df,
+        display_df = filtered_df[list(renamed_columns.keys())].rename(columns=renamed_columns)
+        
+        gd = GridOptionsBuilder.from_dataframe(display_df)
+        gd.configure_default_column(autoSizeColumns=True)
+        gd.configure_column("NILAI KONTRAK", valueFormatter="data['NILAI KONTRAK'].toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0})")
+        gd.configure_column("BESAR PEMBAYARAN", valueFormatter="data['BESAR PEMBAYARAN'].toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0})")
+        
+        AgGrid(display_df,
               gridOptions=gd.build(),
               fit_columns_on_grid_load=True,
+              autoSizeColumns=True,
               width='100%',
               height=400)
 
