@@ -113,12 +113,13 @@ with menu_tender_1:
 
                 #### Query data grafik jumlah transaksi pengumuman SPSE berdasarkan kualifikasi paket
 
-                sql_kp_jumlah = """
-                    SELECT kualifikasi_paket AS KUALIFIKASI_PAKET, COUNT(DISTINCT(kd_tender)) AS JUMLAH_PAKET
-                    FROM SPSETenderPengumuman_filter GROUP BY KUALIFIKASI_PAKET ORDER BY JUMLAH_PAKET DESC
-                """
-                
-                tabel_kp_jumlah_trx = con.execute(sql_kp_jumlah).df()
+                tabel_kp_jumlah_trx = con.execute("""
+                    SELECT kualifikasi_paket AS KUALIFIKASI_PAKET, 
+                           COUNT(DISTINCT kd_tender) AS JUMLAH_PAKET
+                    FROM SPSETenderPengumuman_filter 
+                    GROUP BY KUALIFIKASI_PAKET 
+                    ORDER BY JUMLAH_PAKET DESC
+                """).df()
 
                 grafik_kp_1_1, grafik_kp_1_2 = st.columns((3,7))
 
@@ -144,12 +145,13 @@ with menu_tender_1:
 
                 #### Query data grafik nilai transaksi pengumuman SPSE berdasarkan kualifikasi paket
 
-                sql_kp_nilai = """
-                    SELECT kualifikasi_paket AS KUALIFIKASI_PAKET, SUM(pagu) AS NILAI_PAKET
-                    FROM SPSETenderPengumuman_filter GROUP BY KUALIFIKASI_PAKET ORDER BY NILAI_PAKET DESC
-                """
-                
-                tabel_kp_nilai_trx = con.execute(sql_kp_nilai).df()
+                tabel_kp_nilai_trx = con.execute("""
+                    SELECT kualifikasi_paket AS KUALIFIKASI_PAKET, 
+                           SUM(pagu) AS NILAI_PAKET
+                    FROM SPSETenderPengumuman_filter 
+                    GROUP BY KUALIFIKASI_PAKET 
+                    ORDER BY NILAI_PAKET DESC
+                """).df()
 
                 grafik_kp_2_1, grafik_kp_2_2 = st.columns((3,7))
 
@@ -180,12 +182,13 @@ with menu_tender_1:
 
                 #### Query data grafik jumlah transaksi pengumuman SPSE berdasarkan Jenis Pengadaan
 
-                sql_jp_jumlah = """
-                    SELECT jenis_pengadaan AS JENIS_PENGADAAN, COUNT(DISTINCT(kd_tender)) AS JUMLAH_PAKET
-                    FROM SPSETenderPengumuman_filter GROUP BY JENIS_PENGADAAN ORDER BY JUMLAH_PAKET DESC
-                """
-                
-                tabel_jp_jumlah_trx = con.execute(sql_jp_jumlah).df()
+                tabel_jp_jumlah_trx = con.execute("""
+                    SELECT jenis_pengadaan AS JENIS_PENGADAAN, 
+                           COUNT(DISTINCT kd_tender) AS JUMLAH_PAKET 
+                    FROM SPSETenderPengumuman_filter 
+                    GROUP BY JENIS_PENGADAAN 
+                    ORDER BY JUMLAH_PAKET DESC
+                """).df()
 
                 grafik_jp_1_1, grafik_jp_1_2 = st.columns((3,7))
 
@@ -211,12 +214,13 @@ with menu_tender_1:
 
                 #### Query data grafik nilai transaksi pengumuman SPSE berdasarkan Jenis Pengadaan
 
-                sql_jp_nilai = """
-                    SELECT jenis_pengadaan AS JENIS_PENGADAAN, SUM(pagu) AS NILAI_PAKET
-                    FROM SPSETenderPengumuman_filter GROUP BY JENIS_PENGADAAN ORDER BY NILAI_PAKET DESC
-                """
-                
-                tabel_jp_nilai_trx = con.execute(sql_jp_nilai).df()
+                tabel_jp_nilai_trx = con.execute("""
+                    SELECT jenis_pengadaan AS JENIS_PENGADAAN, 
+                           SUM(pagu) AS NILAI_PAKET 
+                    FROM SPSETenderPengumuman_filter 
+                    GROUP BY JENIS_PENGADAAN 
+                    ORDER BY NILAI_PAKET DESC
+                """).df()
 
                 grafik_jp_2_1, grafik_jp_2_2 = st.columns((3,7))
 
@@ -247,12 +251,13 @@ with menu_tender_1:
 
                 #### Query data grafik jumlah transaksi pengumuman SPSE berdasarkan Metode Pemilihan
 
-                sql_mp_jumlah = """
-                    SELECT mtd_pemilihan AS METODE_PEMILIHAN, COUNT(DISTINCT(kd_tender)) AS JUMLAH_PAKET
-                    FROM SPSETenderPengumuman_filter GROUP BY METODE_PEMILIHAN ORDER BY JUMLAH_PAKET DESC
-                """
-                
-                tabel_mp_jumlah_trx = con.execute(sql_mp_jumlah).df()
+                tabel_mp_jumlah_trx = con.execute("""
+                    SELECT mtd_pemilihan AS METODE_PEMILIHAN, 
+                           COUNT(DISTINCT kd_tender) AS JUMLAH_PAKET 
+                    FROM SPSETenderPengumuman_filter 
+                    GROUP BY METODE_PEMILIHAN 
+                    ORDER BY JUMLAH_PAKET DESC
+                """).df()
 
                 grafik_mp_1_1, grafik_mp_1_2 = st.columns((3,7))
 
@@ -278,12 +283,13 @@ with menu_tender_1:
 
                 #### Query data grafik nilai transaksi pengumuman SPSE berdasarkan Metode Pemilihan
 
-                sql_mp_nilai = """
-                    SELECT mtd_pemilihan AS METODE_PEMILIHAN, SUM(pagu) AS NILAI_PAKET
-                    FROM SPSETenderPengumuman_filter GROUP BY METODE_PEMILIHAN ORDER BY NILAI_PAKET DESC
-                """
-                
-                tabel_mp_nilai_trx = con.execute(sql_mp_nilai).df()
+                tabel_mp_nilai_trx = con.execute("""
+                    SELECT mtd_pemilihan AS METODE_PEMILIHAN, 
+                           SUM(pagu) AS NILAI_PAKET 
+                    FROM SPSETenderPengumuman_filter 
+                    GROUP BY METODE_PEMILIHAN 
+                    ORDER BY NILAI_PAKET DESC
+                """).df()
 
                 grafik_mp_2_1, grafik_mp_2_2 = st.columns((3,7))
 
@@ -314,12 +320,13 @@ with menu_tender_1:
 
                 #### Query data grafik jumlah transaksi pengumuman SPSE berdasarkan Metode Evaluasi
 
-                sql_me_jumlah = """
-                    SELECT mtd_evaluasi AS METODE_EVALUASI, COUNT(DISTINCT(kd_tender)) AS JUMLAH_PAKET
-                    FROM SPSETenderPengumuman_filter GROUP BY METODE_EVALUASI ORDER BY JUMLAH_PAKET DESC
-                """
-                
-                tabel_me_jumlah_trx = con.execute(sql_me_jumlah).df()
+                tabel_me_jumlah_trx = con.execute("""
+                    SELECT mtd_evaluasi AS METODE_EVALUASI, 
+                           COUNT(DISTINCT kd_tender) AS JUMLAH_PAKET 
+                    FROM SPSETenderPengumuman_filter 
+                    GROUP BY METODE_EVALUASI 
+                    ORDER BY JUMLAH_PAKET DESC
+                """).df()
 
                 grafik_me_1_1, grafik_me_1_2 = st.columns((3,7))
 
@@ -345,12 +352,13 @@ with menu_tender_1:
 
                 #### Query data grafik nilai transaksi pengumuman SPSE berdasarkan Metode Evaluasi
 
-                sql_me_nilai = """
-                    SELECT mtd_evaluasi AS METODE_EVALUASI, SUM(pagu) AS NILAI_PAKET
-                    FROM SPSETenderPengumuman_filter GROUP BY METODE_EVALUASI ORDER BY NILAI_PAKET DESC
-                """
-                
-                tabel_me_nilai_trx = con.execute(sql_me_nilai).df()
+                tabel_me_nilai_trx = con.execute("""
+                    SELECT mtd_evaluasi AS METODE_EVALUASI, 
+                           SUM(pagu) AS NILAI_PAKET 
+                    FROM SPSETenderPengumuman_filter 
+                    GROUP BY METODE_EVALUASI 
+                    ORDER BY NILAI_PAKET DESC
+                """).df()
 
                 grafik_me_2_1, grafik_me_2_2 = st.columns((3,7))
 
@@ -381,12 +389,13 @@ with menu_tender_1:
 
                 #### Query data grafik jumlah transaksi pengumuman SPSE berdasarkan Metode Kualifikasi
 
-                sql_mk_jumlah = """
-                    SELECT mtd_kualifikasi AS METODE_KUALIFIKASI, COUNT(DISTINCT(kd_tender)) AS JUMLAH_PAKET
-                    FROM SPSETenderPengumuman_filter GROUP BY METODE_KUALIFIKASI ORDER BY JUMLAH_PAKET DESC
-                """
-                
-                tabel_mk_jumlah_trx = con.execute(sql_mk_jumlah).df()
+                tabel_mk_jumlah_trx = con.execute("""
+                    SELECT mtd_kualifikasi AS METODE_KUALIFIKASI, 
+                           COUNT(DISTINCT(kd_tender)) AS JUMLAH_PAKET 
+                    FROM SPSETenderPengumuman_filter 
+                    GROUP BY METODE_KUALIFIKASI 
+                    ORDER BY JUMLAH_PAKET DESC
+                """).df()
 
                 grafik_mk_1_1, grafik_mk_1_2 = st.columns((3,7))
 
@@ -412,12 +421,13 @@ with menu_tender_1:
 
                 #### Query data grafik nilai transaksi pengumuman SPSE berdasarkan Metode Kualifikasi
 
-                sql_mk_nilai = """
-                    SELECT mtd_kualifikasi AS METODE_KUALIFIKASI, SUM(pagu) AS NILAI_PAKET
-                    FROM SPSETenderPengumuman_filter GROUP BY METODE_KUALIFIKASI ORDER BY NILAI_PAKET DESC
-                """
-                
-                tabel_mk_nilai_trx = con.execute(sql_mk_nilai).df()
+                tabel_mk_nilai_trx = con.execute("""
+                    SELECT mtd_kualifikasi AS METODE_KUALIFIKASI, 
+                           SUM(pagu) AS NILAI_PAKET 
+                    FROM SPSETenderPengumuman_filter 
+                    GROUP BY METODE_KUALIFIKASI 
+                    ORDER BY NILAI_PAKET DESC
+                """).df()
 
                 grafik_mk_2_1, grafik_mk_2_2 = st.columns((3,7))
 
@@ -448,12 +458,13 @@ with menu_tender_1:
 
                 #### Query data grafik jumlah transaksi pengumuman SPSE berdasarkan Kontrak Pembayaran
 
-                sql_kontrak_jumlah = """
-                    SELECT kontrak_pembayaran AS KONTRAK_PEMBAYARAN, COUNT(DISTINCT(kd_tender)) AS JUMLAH_PAKET
-                    FROM SPSETenderPengumuman_filter GROUP BY KONTRAK_PEMBAYARAN ORDER BY JUMLAH_PAKET DESC
-                """
-                
-                tabel_kontrak_jumlah_trx = con.execute(sql_kontrak_jumlah).df()
+                tabel_kontrak_jumlah_trx = con.execute("""
+                    SELECT kontrak_pembayaran AS KONTRAK_PEMBAYARAN,
+                           COUNT(DISTINCT kd_tender) AS JUMLAH_PAKET 
+                    FROM SPSETenderPengumuman_filter 
+                    GROUP BY KONTRAK_PEMBAYARAN 
+                    ORDER BY JUMLAH_PAKET DESC
+                """).df()
 
                 grafik_kontrak_1_1, grafik_kontrak_1_2 = st.columns((3,7))
 
@@ -479,12 +490,13 @@ with menu_tender_1:
 
                 #### Query data grafik nilai transaksi pengumuman SPSE berdasarkan Kontrak Pembayaran
 
-                sql_kontrak_nilai = """
-                    SELECT kontrak_pembayaran AS KONTRAK_PEMBAYARAN, SUM(pagu) AS NILAI_PAKET
-                    FROM SPSETenderPengumuman_filter GROUP BY KONTRAK_PEMBAYARAN ORDER BY NILAI_PAKET DESC
-                """
-                
-                tabel_kontrak_nilai_trx = con.execute(sql_kontrak_nilai).df()
+                tabel_kontrak_nilai_trx = con.execute("""
+                    SELECT kontrak_pembayaran AS KONTRAK_PEMBAYARAN, 
+                           SUM(pagu) AS NILAI_PAKET
+                    FROM SPSETenderPengumuman_filter 
+                    GROUP BY KONTRAK_PEMBAYARAN 
+                    ORDER BY NILAI_PAKET DESC
+                """).df()
 
                 grafik_kontrak_2_1, grafik_kontrak_2_2 = st.columns((3,7))
 
