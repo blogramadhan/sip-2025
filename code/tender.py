@@ -115,7 +115,7 @@ with menu_tender_1:
 
                 sql_kp_jumlah = """
                     SELECT kualifikasi_paket AS KUALIFIKASI_PAKET, COUNT(DISTINCT(kd_tender)) AS JUMLAH_PAKET
-                    FROM df_SPSETenderPengumuman_filter GROUP BY KUALIFIKASI_PAKET ORDER BY JUMLAH_PAKET DESC
+                    FROM SPSETenderPengumuman_filter GROUP BY KUALIFIKASI_PAKET ORDER BY JUMLAH_PAKET DESC
                 """
                 
                 tabel_kp_jumlah_trx = con.execute(sql_kp_jumlah).df()
@@ -146,7 +146,7 @@ with menu_tender_1:
 
                 sql_kp_nilai = """
                     SELECT kualifikasi_paket AS KUALIFIKASI_PAKET, SUM(pagu) AS NILAI_PAKET
-                    FROM df_SPSETenderPengumuman_filter GROUP BY KUALIFIKASI_PAKET ORDER BY NILAI_PAKET DESC
+                    FROM SPSETenderPengumuman_filter GROUP BY KUALIFIKASI_PAKET ORDER BY NILAI_PAKET DESC
                 """
                 
                 tabel_kp_nilai_trx = con.execute(sql_kp_nilai).df()
@@ -182,7 +182,7 @@ with menu_tender_1:
 
                 sql_jp_jumlah = """
                     SELECT jenis_pengadaan AS JENIS_PENGADAAN, COUNT(DISTINCT(kd_tender)) AS JUMLAH_PAKET
-                    FROM df_SPSETenderPengumuman_filter GROUP BY JENIS_PENGADAAN ORDER BY JUMLAH_PAKET DESC
+                    FROM SPSETenderPengumuman_filter GROUP BY JENIS_PENGADAAN ORDER BY JUMLAH_PAKET DESC
                 """
                 
                 tabel_jp_jumlah_trx = con.execute(sql_jp_jumlah).df()
@@ -213,7 +213,7 @@ with menu_tender_1:
 
                 sql_jp_nilai = """
                     SELECT jenis_pengadaan AS JENIS_PENGADAAN, SUM(pagu) AS NILAI_PAKET
-                    FROM df_SPSETenderPengumuman_filter GROUP BY JENIS_PENGADAAN ORDER BY NILAI_PAKET DESC
+                    FROM SPSETenderPengumuman_filter GROUP BY JENIS_PENGADAAN ORDER BY NILAI_PAKET DESC
                 """
                 
                 tabel_jp_nilai_trx = con.execute(sql_jp_nilai).df()
@@ -249,7 +249,7 @@ with menu_tender_1:
 
                 sql_mp_jumlah = """
                     SELECT mtd_pemilihan AS METODE_PEMILIHAN, COUNT(DISTINCT(kd_tender)) AS JUMLAH_PAKET
-                    FROM df_SPSETenderPengumuman_filter GROUP BY METODE_PEMILIHAN ORDER BY JUMLAH_PAKET DESC
+                    FROM SPSETenderPengumuman_filter GROUP BY METODE_PEMILIHAN ORDER BY JUMLAH_PAKET DESC
                 """
                 
                 tabel_mp_jumlah_trx = con.execute(sql_mp_jumlah).df()
@@ -280,7 +280,7 @@ with menu_tender_1:
 
                 sql_mp_nilai = """
                     SELECT mtd_pemilihan AS METODE_PEMILIHAN, SUM(pagu) AS NILAI_PAKET
-                    FROM df_SPSETenderPengumuman_filter GROUP BY METODE_PEMILIHAN ORDER BY NILAI_PAKET DESC
+                    FROM SPSETenderPengumuman_filter GROUP BY METODE_PEMILIHAN ORDER BY NILAI_PAKET DESC
                 """
                 
                 tabel_mp_nilai_trx = con.execute(sql_mp_nilai).df()
@@ -316,7 +316,7 @@ with menu_tender_1:
 
                 sql_me_jumlah = """
                     SELECT mtd_evaluasi AS METODE_EVALUASI, COUNT(DISTINCT(kd_tender)) AS JUMLAH_PAKET
-                    FROM df_SPSETenderPengumuman_filter GROUP BY METODE_EVALUASI ORDER BY JUMLAH_PAKET DESC
+                    FROM SPSETenderPengumuman_filter GROUP BY METODE_EVALUASI ORDER BY JUMLAH_PAKET DESC
                 """
                 
                 tabel_me_jumlah_trx = con.execute(sql_me_jumlah).df()
@@ -347,7 +347,7 @@ with menu_tender_1:
 
                 sql_me_nilai = """
                     SELECT mtd_evaluasi AS METODE_EVALUASI, SUM(pagu) AS NILAI_PAKET
-                    FROM df_SPSETenderPengumuman_filter GROUP BY METODE_EVALUASI ORDER BY NILAI_PAKET DESC
+                    FROM SPSETenderPengumuman_filter GROUP BY METODE_EVALUASI ORDER BY NILAI_PAKET DESC
                 """
                 
                 tabel_me_nilai_trx = con.execute(sql_me_nilai).df()
@@ -383,7 +383,7 @@ with menu_tender_1:
 
                 sql_mk_jumlah = """
                     SELECT mtd_kualifikasi AS METODE_KUALIFIKASI, COUNT(DISTINCT(kd_tender)) AS JUMLAH_PAKET
-                    FROM df_SPSETenderPengumuman_filter GROUP BY METODE_KUALIFIKASI ORDER BY JUMLAH_PAKET DESC
+                    FROM SPSETenderPengumuman_filter GROUP BY METODE_KUALIFIKASI ORDER BY JUMLAH_PAKET DESC
                 """
                 
                 tabel_mk_jumlah_trx = con.execute(sql_mk_jumlah).df()
@@ -414,7 +414,7 @@ with menu_tender_1:
 
                 sql_mk_nilai = """
                     SELECT mtd_kualifikasi AS METODE_KUALIFIKASI, SUM(pagu) AS NILAI_PAKET
-                    FROM df_SPSETenderPengumuman_filter GROUP BY METODE_KUALIFIKASI ORDER BY NILAI_PAKET DESC
+                    FROM SPSETenderPengumuman_filter GROUP BY METODE_KUALIFIKASI ORDER BY NILAI_PAKET DESC
                 """
                 
                 tabel_mk_nilai_trx = con.execute(sql_mk_nilai).df()
@@ -450,7 +450,7 @@ with menu_tender_1:
 
                 sql_kontrak_jumlah = """
                     SELECT kontrak_pembayaran AS KONTRAK_PEMBAYARAN, COUNT(DISTINCT(kd_tender)) AS JUMLAH_PAKET
-                    FROM df_SPSETenderPengumuman_filter GROUP BY KONTRAK_PEMBAYARAN ORDER BY JUMLAH_PAKET DESC
+                    FROM SPSETenderPengumuman_filter GROUP BY KONTRAK_PEMBAYARAN ORDER BY JUMLAH_PAKET DESC
                 """
                 
                 tabel_kontrak_jumlah_trx = con.execute(sql_kontrak_jumlah).df()
@@ -481,7 +481,7 @@ with menu_tender_1:
 
                 sql_kontrak_nilai = """
                     SELECT kontrak_pembayaran AS KONTRAK_PEMBAYARAN, SUM(pagu) AS NILAI_PAKET
-                    FROM df_SPSETenderPengumuman_filter GROUP BY KONTRAK_PEMBAYARAN ORDER BY NILAI_PAKET DESC
+                    FROM SPSETenderPengumuman_filter GROUP BY KONTRAK_PEMBAYARAN ORDER BY NILAI_PAKET DESC
                 """
                 
                 tabel_kontrak_nilai_trx = con.execute(sql_kontrak_nilai).df()
