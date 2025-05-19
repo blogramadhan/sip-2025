@@ -658,6 +658,72 @@ with menu_tender_4:
     st.subheader("SPMK TENDER")
 
 with menu_tender_5:
-    st.subheader("BAPBAST TENDER")
+    try:
+        # Baca dataset BAPBAST
+        df_SPSETenderBAST = read_df_duckdb(datasets["TenderBAST"])
+
+        # Header dan tombol unduh
+        col1, col2 = st.columns([7,3])
+        col1.subheader("BAPBAST TENDER") 
+        col2.download_button(
+            label="📥 Unduh Data BAPBAST Tender",
+            data=download_excel(df_SPSETenderBAST),
+            file_name=f"Tender-BAPBAST-{kodeFolder}-{tahun}.xlsx",
+            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+
+        st.divider()
+
+        # Metrics total
+        jumlah_bast = df_SPSETenderBAST['kd_tender'].nunique()
+        nilai_bast = df_SPSETenderBAST['nilai_kontrak'].sum()
+
+        col3, col4 = st.columns(2)
+        col3.metric("Jumlah Total BAPBAST", f"{jumlah_bast:,}")
+        col4.metric("Nilai Total BAPBAST", f"{nilai_bast:,.2f}")
+
+        st.divider()
+
+        # Filter
+        col5, col6 = st.columns([2,8])
+        with col5:
+            status = st.radio("**Status Kontrak**", df_SPSETenderBAST['status_kontrak'].unique())
+        with col6:
+            opd = st.selectbox("Pilih Perangkat Daerah:", df_SPSETenderBAST['nama_satker'].unique())
+        st.write(f"Anda memilih: **{status}** dari **{opd}**")
+
+        # Data terfilter
+        filtered_df = con.execute(f"""
+            SELECT * FROM df_SPSETenderBAST 
+            WHERE status_kontrak = '{status}' 
+            AND nama_satker = '{opd}'
+        """).df()
+
+        # Metrics filter
+        jumlah_filter = filtered_df['kd_tender'].nunique()
+        nilai_filter = filtered_df['nilai_kontrak'].sum()
+
+        col7, col8 = st.columns(2)
+        col7.metric("Jumlah BAPBAST", f"{jumlah_filter:,}")
+        col8.metric("Nilai BAPBAST", f"{nilai_filter:,.2f}")
+
+        st.divider()
+
+        # Tabel
+        gd = GridOptionsBuilder.from_dataframe(filtered_df[['nama_paket', 'no_bast', 'tgl_bast', 'nama_ppk', 
+                                                          'nama_penyedia', 'wakil_sah_penyedia', 'npwp_penyedia',
+                                                          'nilai_kontrak', 'besar_pembayaran']])
+        gd.configure_default_column(autoSizeColumns=True)
+        gd.configure_column("nilai_kontrak", valueFormatter="data.nilai_kontrak.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0})")
+        gd.configure_column("besar_pembayaran", valueFormatter="data.besar_pembayaran.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0})")
+        
+        AgGrid(filtered_df,
+              gridOptions=gd.build(),
+              fit_columns_on_grid_load=True,
+              width='100%',
+              height=400)
+
+    except Exception as e:
+        st.error(f"Error: {e}")
 
 style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
