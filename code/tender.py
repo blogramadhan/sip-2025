@@ -125,6 +125,7 @@ with menu_tender_1:
 
                 with grafik_kp_1_1:
 
+
                     st.dataframe(
                         tabel_kp_jumlah_trx,
                         column_config={
@@ -134,6 +135,16 @@ with menu_tender_1:
                         use_container_width=True,
                         hide_index=True
                     )
+
+                    gd_kp_hitung = GridOptionsBuilder.from_dataframe(tabel_kp_jumlah_trx)
+                    gd_kp_hitung.configure_default_column(autoSizeColumns=True)
+                    AgGrid(tabel_kp_jumlah_trx, 
+                           gridOptions=gd_kp_hitung.build(),
+                           fit_columns_on_grid_load=True,
+                           autoSizeColumns=True,
+                           width='100%',
+                           height=min(400, 35 * (len(tabel_kp_jumlah_trx) + 1)))
+
 
                 with grafik_kp_1_2:
                     fig = px.bar(tabel_kp_jumlah_trx, 
