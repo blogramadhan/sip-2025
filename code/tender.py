@@ -80,20 +80,20 @@ with menu_tender_1:
             nama_satker = st.selectbox("Pilih Perangkat Daerah :", nama_satker_unik_array_ok, key='Nama_Satker_Pengumuman')
         st.write(f"Anda memilih : **{sumber_dana}** dan **{status_tender}**")
 
-        df_SPSETenderPengumuman_filter_query = f"SELECT * FROM df_SPSETenderPengumuman WHERE 1=1"
+        SPSETenderPengumuman_filter_query = f"SELECT * FROM dfSPSETenderPengumuman WHERE 1=1"
 
         if sumber_dana != "Gabungan":
-            df_SPSETenderPengumuman_filter_query += f" AND sumber_dana = '{sumber_dana}'"
+            SPSETenderPengumuman_filter_query += f" AND sumber_dana = '{sumber_dana}'"
         if status_tender != "Gabungan":
-            df_SPSETenderPengumuman_filter_query += f" AND status_tender = '{status_tender}'"
+            SPSETenderPengumuman_filter_query += f" AND status_tender = '{status_tender}'"
         if nama_satker != "Semua Perangkat Daerah":
-            df_SPSETenderPengumuman_filter_query += f" AND nama_satker = '{nama_satker}'"
+            SPSETenderPengumuman_filter_query += f" AND nama_satker = '{nama_satker}'"
 
-        df_SPSETenderPengumuman_filter = con.execute(df_SPSETenderPengumuman_filter_query).df()
+        SPSETenderPengumuman_filter = con.execute(SPSETenderPengumuman_filter_query).df()
         
-        jumlah_trx_spse_pengumuman = df_SPSETenderPengumuman_filter['kd_tender'].unique().shape[0]
-        nilai_trx_spse_pengumuman_pagu = df_SPSETenderPengumuman_filter['pagu'].sum()
-        nilai_trx_spse_pengumuman_hps = df_SPSETenderPengumuman_filter['hps'].sum()
+        jumlah_trx_spse_pengumuman = SPSETenderPengumuman_filter['kd_tender'].unique().shape[0]
+        nilai_trx_spse_pengumuman_pagu = SPSETenderPengumuman_filter['pagu'].sum()
+        nilai_trx_spse_pengumuman_hps = SPSETenderPengumuman_filter['hps'].sum()
 
         data_umum_1, data_umum_2, data_umum_3 = st.columns(3)
         data_umum_1.metric(label="Jumlah Tender Diumumkan", value="{:,}".format(jumlah_trx_spse_pengumuman))
