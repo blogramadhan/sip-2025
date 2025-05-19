@@ -305,15 +305,14 @@ with menu_tender_1:
 
                 with grafik_mp_1_1:
 
-                    st.dataframe(
-                        tabel_mp_jumlah_trx,
-                        column_config={
-                            "METODE_PEMILIHAN": "METODE PEMILIHAN",
-                            "JUMLAH_PAKET": "JUMLAH PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
+                    gd_mp_hitung = GridOptionsBuilder.from_dataframe(tabel_mp_jumlah_trx)
+                    gd_mp_hitung.configure_default_column(autoSizeColumns=True)
+                    AgGrid(tabel_mp_jumlah_trx, 
+                           gridOptions=gd_mp_hitung.build(),
+                           fit_columns_on_grid_load=True,
+                           autoSizeColumns=True,
+                           width='100%',
+                           height=min(400, 35 * (len(tabel_mp_jumlah_trx) + 1)))
 
                 with grafik_mp_1_2:
                     fig = px.bar(tabel_mp_jumlah_trx,
@@ -396,15 +395,14 @@ with menu_tender_1:
 
                 with grafik_me_1_1:
 
-                    st.dataframe(
-                        tabel_me_jumlah_trx,
-                        column_config={
-                            "METODE_EVALUASI": "METODE EVALUASI",
-                            "JUMLAH_PAKET": "JUMLAH PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True    
-                    )
+                    gd_me_hitung = GridOptionsBuilder.from_dataframe(tabel_me_jumlah_trx)
+                    gd_me_hitung.configure_default_column(autoSizeColumns=True)
+                    AgGrid(tabel_me_jumlah_trx, 
+                           gridOptions=gd_me_hitung.build(),
+                           fit_columns_on_grid_load=True,
+                           autoSizeColumns=True,
+                           width='100%',
+                           height=min(400, 35 * (len(tabel_me_jumlah_trx) + 1)))
 
                 with grafik_me_1_2:
                     fig = px.bar(tabel_me_jumlah_trx,
@@ -487,15 +485,14 @@ with menu_tender_1:
 
                 with grafik_mk_1_1:
 
-                    st.dataframe(
-                        tabel_mk_jumlah_trx,
-                        column_config={
-                            "METODE_KUALIFIKASI": "METODE KUALIFIKASI",
-                            "JUMLAH_PAKET": "JUMLAH PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True    
-                    )
+                    gd_mk_hitung = GridOptionsBuilder.from_dataframe(tabel_mk_jumlah_trx)
+                    gd_mk_hitung.configure_default_column(autoSizeColumns=True)
+                    AgGrid(tabel_mk_jumlah_trx, 
+                           gridOptions=gd_mk_hitung.build(),
+                           fit_columns_on_grid_load=True,
+                           autoSizeColumns=True,
+                           width='100%',
+                           height=min(400, 35 * (len(tabel_mk_jumlah_trx) + 1)))
 
                 with grafik_mk_1_2:
                     fig = px.bar(tabel_mk_jumlah_trx,
@@ -579,15 +576,14 @@ with menu_tender_1:
 
                 with grafik_kontrak_1_1:
 
-                    st.dataframe(
-                        tabel_kontrak_jumlah_trx,
-                        column_config={
-                            "KONTRAK_PEMBAYARAN": "KONTRAK PEMBAYARAN",
-                            "JUMLAH_PAKET": "JUMLAH PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True    
-                    )
+                    gd_kontrak_hitung = GridOptionsBuilder.from_dataframe(tabel_kontrak_jumlah_trx)
+                    gd_kontrak_hitung.configure_default_column(autoSizeColumns=True)
+                    AgGrid(tabel_kontrak_jumlah_trx, 
+                           gridOptions=gd_kontrak_hitung.build(),
+                           fit_columns_on_grid_load=True,
+                           autoSizeColumns=True,
+                           width='100%',
+                           height=min(400, 35 * (len(tabel_kontrak_jumlah_trx) + 1)))
 
                 with grafik_kontrak_1_2:
 
