@@ -116,3 +116,5 @@ with menu_tender_4:
 
 with menu_tender_5:
     st.subheader("BAPBAST TENDER")
+
+style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
