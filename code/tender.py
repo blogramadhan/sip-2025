@@ -660,7 +660,7 @@ with menu_tender_4:
 with menu_tender_5:
     try:
         # Baca dataset BAPBAST
-        dfSPSETenderBAST = read_df_duckdb(datasets["TenderBAST"])
+        dfSPSETenderBAST = read_df_duckdb(datasets["TenderBAST"]).groupby('kd_tender').reset_index()
 
         # Header dan tombol unduh
         col1, col2 = st.columns([7,3])
@@ -718,7 +718,7 @@ with menu_tender_5:
 
         # Metrics filter
         jumlah_filter = filtered_df['kd_tender'].nunique()
-        nilai_filter = filtered_df.groupby('kd_tender')['nilai_kontrak'].sum().sum()
+        nilai_filter = filtered_df['nilai_kontrak'].sum()
 
         col7, col8 = st.columns(2)
         col7.metric("Jumlah BAPBAST", f"{jumlah_filter:,}")
