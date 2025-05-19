@@ -682,8 +682,6 @@ with menu_tender_5:
         col3.metric("Jumlah Total BAPBAST", f"{jumlah_bast:,}")
         col4.metric("Nilai Total BAPBAST", f"{nilai_bast:,.2f}")
 
-        st.dataframe(dfSPSETenderBAST)
-
         st.divider()
 
         # Filter
