@@ -731,6 +731,7 @@ with menu_tender_5:
         
         AgGrid(display_df,
               gridOptions=gd.build(),
+              enable_enterprise_modules=True,
               fit_columns_on_grid_load=True,
               autoSizeColumns=True,
               width='100%',
