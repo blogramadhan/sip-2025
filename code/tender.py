@@ -660,7 +660,7 @@ with menu_tender_4:
 with menu_tender_5:
     try:
         # Baca dataset BAPBAST
-        dfSPSETenderBAST = read_df_duckdb(datasets["TenderBAST"]).drop_duplicates()
+        dfSPSETenderBAST = read_df_duckdb(datasets["TenderBAST"]).drop_duplicates(subset=['kd_tender'])
 
         # Header dan tombol unduh
         col1, col2 = st.columns([7,3])
