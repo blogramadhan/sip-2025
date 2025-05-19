@@ -675,12 +675,12 @@ with menu_tender_5:
         st.divider()
 
         # Metrics total
-        jumlah_bast = len(dfSPSETenderBAST['kd_tender'].unique())
+        jumlah_bast = dfSPSETenderBAST['kd_tender'].nunique()
         nilai_bast = dfSPSETenderBAST['nilai_kontrak'].sum()
 
         col3, col4 = st.columns(2)
-        col3.metric("Jumlah Total BAPBAST", format(jumlah_bast, ','))
-        col4.metric("Nilai Total BAPBAST", format(nilai_bast, ',.2f'))
+        col3.metric("Jumlah Total BAPBAST", f"{jumlah_bast:,}")
+        col4.metric("Nilai Total BAPBAST", f"{nilai_bast:,.2f}")
 
         st.dataframe(dfSPSETenderBAST)
 
@@ -717,12 +717,12 @@ with menu_tender_5:
             """).df()
 
         # Metrics filter
-        jumlah_filter = len(filtered_df['kd_tender'].unique())
+        jumlah_filter = filtered_df['kd_tender'].nunique()
         nilai_filter = filtered_df['nilai_kontrak'].sum()
 
         col7, col8 = st.columns(2)
-        col7.metric("Jumlah BAPBAST", format(jumlah_filter, ','))
-        col8.metric("Nilai BAPBAST", format(nilai_filter, ',.2f'))
+        col7.metric("Jumlah BAPBAST", f"{jumlah_filter:,}")
+        col8.metric("Nilai BAPBAST", f"{nilai_filter:,.2f}")
 
         st.divider()
 
