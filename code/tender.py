@@ -65,6 +65,21 @@ with menu_tender_1:
 
         st.divider()
 
+        SPSE_radio_1, SPSE_radio_2, SPSE_radio_3 = st.columns((1,1,8))
+        with SPSE_radio_1:
+            sumber_dana_unik_array = dfSPSETenderPengumuman['sumber_dana'].unique()
+            sumber_dana_unik_array_ok = np.insert(sumber_dana_unik_array, 0, "Gabungan")
+            sumber_dana = st.radio("**Sumber Dana**", sumber_dana_unik_array_ok, key="Sumber_Dana_Tender_pengumuman")
+        with SPSE_radio_2:
+            status_tender_unik_array = dfSPSETenderPengumuman['status_tender'].unique()
+            status_tender_unik_array_ok = np.insert(status_tender_unik_array, 0, "Gabungan")
+            status_tender = st.radio("**Status Tender**", status_tender_unik_array_ok, key="Status_Tender_Pengumuman")
+        with SPSE_radio_3:
+            nama_satker_unik_array = dfSPSETenderPengumuman['nama_satker'].unique()
+            nama_satker_unik_array_ok = np.insert(nama_satker_unik_array, 0, "Semua Perangkat Daerah")
+            nama_satker = st.selectbox("Pilih Perangkat Daerah :", nama_satker_unik_array_ok, key='Nama_Satker_Pengumuman')
+        st.write(f"Anda memilih : **{sumber_dana}** dan **{status_tender}**")
+
     except Exception as e:
         st.error(f"Error: {e}")
 
