@@ -661,6 +661,13 @@ with menu_tender_5:
     try:
         # Baca dataset BAPBAST
         dfSPSETenderBAST = read_df_duckdb(datasets["TenderBAST"])
+        
+        # Filter no_bast tidak kosong
+        dfSPSETenderBAST = con.execute("""
+            SELECT * FROM dfSPSETenderBAST 
+            WHERE no_bast IS NOT NULL
+            AND no_bast != ''
+        """).df()
 
         # Header dan tombol unduh
         col1, col2 = st.columns([7,3])
