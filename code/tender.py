@@ -718,7 +718,7 @@ with menu_tender_5:
 
         # Metrics filter
         jumlah_filter = filtered_df['kd_tender'].nunique()
-        nilai_filter = filtered_df['nilai_kontrak'].sum()
+        nilai_filter = filtered_df.groupby('kd_tender')['nilai_kontrak'].sum().sum()
 
         col7, col8 = st.columns(2)
         col7.metric("Jumlah BAPBAST", f"{jumlah_filter:,}")
