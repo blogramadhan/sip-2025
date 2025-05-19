@@ -61,6 +61,7 @@ with menu_tender_1:
             data=download_excel(dfSPSETenderPengumuman),
             file_name=f"Tender-Pengumuman-{kodeFolder}-{tahun}.xlsx",
             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
 
         st.divider()
 
