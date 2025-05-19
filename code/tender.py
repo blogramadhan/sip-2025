@@ -687,17 +687,32 @@ with menu_tender_5:
         # Filter
         col5, col6 = st.columns([2,8])
         with col5:
-            status = st.radio("**Status Kontrak**", df_SPSETenderBAST['status_kontrak'].unique())
+            status_options = ["Semua"] + list(df_SPSETenderBAST['status_kontrak'].unique())
+            status = st.radio("**Status Kontrak**", status_options)
         with col6:
-            opd = st.selectbox("Pilih Perangkat Daerah:", df_SPSETenderBAST['nama_satker'].unique())
+            opd_options = ["SEMUA PERANGKAT DAERAH"] + list(df_SPSETenderBAST['nama_satker'].unique())
+            opd = st.selectbox("Pilih Perangkat Daerah:", opd_options)
         st.write(f"Anda memilih: **{status}** dari **{opd}**")
 
         # Data terfilter
-        filtered_df = con.execute(f"""
-            SELECT * FROM df_SPSETenderBAST 
-            WHERE status_kontrak = '{status}' 
-            AND nama_satker = '{opd}'
-        """).df()
+        if status == "Semua" and opd == "SEMUA PERANGKAT DAERAH":
+            filtered_df = df_SPSETenderBAST
+        elif status == "Semua":
+            filtered_df = con.execute(f"""
+                SELECT * FROM df_SPSETenderBAST 
+                WHERE nama_satker = '{opd}'
+            """).df()
+        elif opd == "SEMUA PERANGKAT DAERAH":
+            filtered_df = con.execute(f"""
+                SELECT * FROM df_SPSETenderBAST 
+                WHERE status_kontrak = '{status}'
+            """).df()
+        else:
+            filtered_df = con.execute(f"""
+                SELECT * FROM df_SPSETenderBAST 
+                WHERE status_kontrak = '{status}' 
+                AND nama_satker = '{opd}'
+            """).df()
 
         # Metrics filter
         jumlah_filter = filtered_df['kd_tender'].nunique()
