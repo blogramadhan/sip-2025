@@ -125,17 +125,6 @@ with menu_tender_1:
 
                 with grafik_kp_1_1:
 
-
-                    st.dataframe(
-                        tabel_kp_jumlah_trx,
-                        column_config={
-                            "KUALIFIKASI_PAKET": "KUALIFIKASI PAKET",
-                            "JUMLAH_PAKET": "JUMLAH PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
-
                     gd_kp_hitung = GridOptionsBuilder.from_dataframe(tabel_kp_jumlah_trx)
                     gd_kp_hitung.configure_default_column(autoSizeColumns=True)
                     AgGrid(tabel_kp_jumlah_trx, 
@@ -144,7 +133,6 @@ with menu_tender_1:
                            autoSizeColumns=True,
                            width='100%',
                            height=min(400, 35 * (len(tabel_kp_jumlah_trx) + 1)))
-
 
                 with grafik_kp_1_2:
                     fig = px.bar(tabel_kp_jumlah_trx, 
@@ -227,15 +215,14 @@ with menu_tender_1:
 
                 with grafik_jp_1_1:
 
-                    st.dataframe(
-                        tabel_jp_jumlah_trx,
-                        column_config={
-                            "JENIS_PENGADAAN": "JENIS PENGADAAN",
-                            "JUMLAH_PAKET": "JUMLAH PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True    
-                    )
+                    gd_jp_hitung = GridOptionsBuilder.from_dataframe(tabel_jp_jumlah_trx)
+                    gd_jp_hitung.configure_default_column(autoSizeColumns=True)
+                    AgGrid(tabel_jp_jumlah_trx, 
+                           gridOptions=gd_jp_hitung.build(),
+                           fit_columns_on_grid_load=True,
+                           autoSizeColumns=True,
+                           width='100%',
+                           height=min(400, 35 * (len(tabel_jp_jumlah_trx) + 1)))
 
                 with grafik_jp_1_2:
                     fig = px.bar(tabel_jp_jumlah_trx,
