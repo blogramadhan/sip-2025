@@ -676,7 +676,7 @@ with menu_tender_5:
 
         # Metrics total
         jumlah_bast = dfSPSETenderBAST['kd_tender'].nunique()
-        nilai_bast = dfSPSETenderBAST['nilai_kontrak'].nunique().sum()
+        nilai_bast = dfSPSETenderBAST['nilai_kontrak'].sum()
 
         col3, col4 = st.columns(2)
         col3.metric("Jumlah Total BAPBAST", f"{jumlah_bast:,}")
@@ -718,7 +718,7 @@ with menu_tender_5:
 
         # Metrics filter
         jumlah_filter = filtered_df['kd_tender'].nunique()
-        nilai_filter = filtered_df['nilai_kontrak'].nunique().sum()
+        nilai_filter = filtered_df['nilai_kontrak'].sum()
 
         col7, col8 = st.columns(2)
         col7.metric("Jumlah BAPBAST", f"{jumlah_filter:,}")
