@@ -660,14 +660,14 @@ with menu_tender_4:
 with menu_tender_5:
     try:
         # Baca dataset BAPBAST
-        df_SPSETenderBAST = read_df_duckdb(datasets["TenderBAST"])
+        dfSPSETenderBAST = read_df_duckdb(datasets["TenderBAST"])
 
         # Header dan tombol unduh
         col1, col2 = st.columns([7,3])
         col1.subheader("BAPBAST TENDER") 
         col2.download_button(
             label="📥 Unduh Data BAPBAST Tender",
-            data=download_excel(df_SPSETenderBAST),
+            data=download_excel(dfSPSETenderBAST),
             file_name=f"Tender-BAPBAST-{kodeFolder}-{tahun}.xlsx",
             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
@@ -675,41 +675,43 @@ with menu_tender_5:
         st.divider()
 
         # Metrics total
-        jumlah_bast = df_SPSETenderBAST['kd_tender'].nunique()
-        nilai_bast = df_SPSETenderBAST['nilai_kontrak'].sum()
+        jumlah_bast = dfSPSETenderBAST['kd_tender'].nunique()
+        nilai_bast = dfSPSETenderBAST['nilai_kontrak'].sum()
 
         col3, col4 = st.columns(2)
         col3.metric("Jumlah Total BAPBAST", f"{jumlah_bast:,}")
         col4.metric("Nilai Total BAPBAST", f"{nilai_bast:,.2f}")
+
+        st.dataframe(dfSPSETenderBAST)
 
         st.divider()
 
         # Filter
         col5, col6 = st.columns([2,8])
         with col5:
-            status_options = ["Semua"] + list(df_SPSETenderBAST['status_kontrak'].unique())
+            status_options = ["Semua"] + list(dfSPSETenderBAST['status_kontrak'].unique())
             status = st.radio("**Status Kontrak**", status_options)
         with col6:
-            opd_options = ["SEMUA PERANGKAT DAERAH"] + list(df_SPSETenderBAST['nama_satker'].unique())
+            opd_options = ["SEMUA PERANGKAT DAERAH"] + list(dfSPSETenderBAST['nama_satker'].unique())
             opd = st.selectbox("Pilih Perangkat Daerah:", opd_options)
         st.write(f"Anda memilih: **{status}** dari **{opd}**")
 
         # Data terfilter
         if status == "Semua" and opd == "SEMUA PERANGKAT DAERAH":
-            filtered_df = df_SPSETenderBAST
+            filtered_df = dfSPSETenderBAST
         elif status == "Semua":
             filtered_df = con.execute(f"""
-                SELECT * FROM df_SPSETenderBAST 
+                SELECT * FROM dfSPSETenderBAST 
                 WHERE nama_satker = '{opd}'
             """).df()
         elif opd == "SEMUA PERANGKAT DAERAH":
             filtered_df = con.execute(f"""
-                SELECT * FROM df_SPSETenderBAST 
+                SELECT * FROM dfSPSETenderBAST 
                 WHERE status_kontrak = '{status}'
             """).df()
         else:
             filtered_df = con.execute(f"""
-                SELECT * FROM df_SPSETenderBAST 
+                SELECT * FROM dfSPSETenderBAST 
                 WHERE status_kontrak = '{status}' 
                 AND nama_satker = '{opd}'
             """).df()
