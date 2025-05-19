@@ -257,15 +257,15 @@ with menu_tender_1:
 
                 with grafik_jp_2_1:
 
-                    st.dataframe(
-                        tabel_jp_nilai_trx,
-                        column_config={
-                            "JENIS_PENGADAAN": "JENIS PENGADAAN",
-                            "NILAI_PAKET": "NILAI PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True    
-                    )
+                    gd_jp_nilai = GridOptionsBuilder.from_dataframe(tabel_jp_nilai_trx)
+                    gd_jp_nilai.configure_default_column(autoSizeColumns=True)
+                    gd_jp_nilai.configure_column('NILAI_PAKET', valueFormatter="data.NILAI_PAKET.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0})")
+                    AgGrid(tabel_jp_nilai_trx,
+                          gridOptions=gd_jp_nilai.build(),
+                          fit_columns_on_grid_load=True,
+                          autoSizeColumns=True,
+                          width='100%',
+                          height=min(400, 35 * (len(tabel_jp_nilai_trx) + 1)))
 
                 with grafik_jp_2_2:
                     fig = px.bar(tabel_jp_nilai_trx,
@@ -347,15 +347,15 @@ with menu_tender_1:
 
                 with grafik_mp_2_1:
 
-                    st.dataframe(
-                        tabel_mp_nilai_trx,
-                        column_config={
-                            "METODE_PEMILIHAN": "METODE PEMILIHAN",
-                            "NILAI_PAKET": "JUMLAH PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
+                    gd_mp_nilai = GridOptionsBuilder.from_dataframe(tabel_mp_nilai_trx)
+                    gd_mp_nilai.configure_default_column(autoSizeColumns=True)
+                    gd_mp_nilai.configure_column("NILAI_PAKET", valueFormatter="data.NILAI_PAKET.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0})")
+                    AgGrid(tabel_mp_nilai_trx,
+                          gridOptions=gd_mp_nilai.build(),
+                          fit_columns_on_grid_load=True,
+                          autoSizeColumns=True,
+                          width='100%',
+                          height=min(400, 35 * (len(tabel_mp_nilai_trx) + 1)))
 
                 with grafik_mp_2_2:
                     fig = px.bar(tabel_mp_nilai_trx,
@@ -437,15 +437,15 @@ with menu_tender_1:
 
                 with grafik_me_2_1:
 
-                    st.dataframe(
-                        tabel_me_nilai_trx,
-                        column_config={
-                            "METODE_EVALUASI": "METODE EVALUASI",
-                            "NILAI_PAKET": "NILAI PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True    
-                    )
+                    gd_me_nilai = GridOptionsBuilder.from_dataframe(tabel_me_nilai_trx)
+                    gd_me_nilai.configure_default_column(autoSizeColumns=True)
+                    gd_me_nilai.configure_column("NILAI_PAKET", valueFormatter="data.NILAI_PAKET.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0})")
+                    AgGrid(tabel_me_nilai_trx,
+                          gridOptions=gd_me_nilai.build(),
+                          fit_columns_on_grid_load=True,
+                          autoSizeColumns=True,
+                          width='100%',
+                          height=min(400, 35 * (len(tabel_me_nilai_trx) + 1)))
 
                 with grafik_me_2_2:
                     fig = px.bar(tabel_me_nilai_trx,
@@ -527,15 +527,15 @@ with menu_tender_1:
 
                 with grafik_mk_2_1:
 
-                    st.dataframe(
-                        tabel_mk_nilai_trx,
-                        column_config={
-                            "METODE_KUALIFIKASI": "METODE KUALIFIKASI",
-                            "NILAI_PAKET": "NILAI PAKET"
-                        },
-                        use_container_width=True,
-                        hide_index=True
-                    )
+                    gd_mk_nilai = GridOptionsBuilder.from_dataframe(tabel_mk_nilai_trx)
+                    gd_mk_nilai.configure_default_column(autoSizeColumns=True)
+                    gd_mk_nilai.configure_column("NILAI_PAKET", valueFormatter="data.NILAI_PAKET.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0})")
+                    AgGrid(tabel_mk_nilai_trx,
+                          gridOptions=gd_mk_nilai.build(),
+                          fit_columns_on_grid_load=True,
+                          autoSizeColumns=True,
+                          width='100%',
+                          height=min(400, 35 * (len(tabel_mk_nilai_trx) + 1)))
 
                 with grafik_mk_2_2:
 
@@ -619,13 +619,15 @@ with menu_tender_1:
 
                 with grafik_kontrak_2_1:
 
-                    st.dataframe(
-                        tabel_kontrak_nilai_trx, 
-                        column_config={
-                            "KONTRAK_PEMBAYARAN": "KONTRAK PEMBAYARAN",
-                            "NILAI_PAKET": "NILAI PAKET"
-                        }    
-                    )
+                    gd_kontrak_nilai = GridOptionsBuilder.from_dataframe(tabel_kontrak_nilai_trx)
+                    gd_kontrak_nilai.configure_default_column(autoSizeColumns=True)
+                    gd_kontrak_nilai.configure_column("NILAI_PAKET", valueFormatter="data.NILAI_PAKET.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0})")
+                    AgGrid(tabel_kontrak_nilai_trx,
+                          gridOptions=gd_kontrak_nilai.build(),
+                          fit_columns_on_grid_load=True,
+                          autoSizeColumns=True,
+                          width='100%',
+                          height=min(400, 35 * (len(tabel_kontrak_nilai_trx) + 1)))
 
                 with grafik_kontrak_2_2:
 
