@@ -55,8 +55,8 @@ def proses_data_sikap(jenis, kd_field):
         df_sikap_ok = df_pengumuman_filter.merge(df_sikap_filter, how='right', on=kd_field)
         
         # Hitung statistik
-        jumlah_paket_selesai = df_pengumuman_filter[kd_field].nunique()
-        jumlah_paket_dinilai = df_sikap_filter[kd_field].nunique()
+        jumlah_paket_selesai = df_sikap_ok[kd_field].nunique()
+        jumlah_paket_dinilai = df_sikap_ok[kd_field].nunique()
         selisih_paket = jumlah_paket_selesai - jumlah_paket_dinilai
         
         # Tampilkan metrik
