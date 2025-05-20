@@ -1,18 +1,18 @@
-# Library Utama
+# Pustaka Utama
 import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
 import duckdb
 from datetime import datetime
-# Library Currency
+# Pustaka Format Mata Uang
 from babel.numbers import format_currency
-# Library Aggrid
+# Pustaka Tabel AgGrid
 from st_aggrid import AgGrid, GridUpdateMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
-# Library Streamlit-Extras
+# Pustaka Tambahan Streamlit
 from streamlit_extras.metric_cards import style_metric_cards
-# Library Tambahan
+# Pustaka Tambahan
 from fungsi import *
 
 # Membuat UKPBJ
@@ -100,14 +100,14 @@ with menu_tender_1:
 
         with st.container(border=True):
 
-            ### Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Kualifikasi Paket
+            # Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Kualifikasi Paket
             grafik_kp_1, grafik_kp_2 = st.tabs(["| Berdasarkan Jumlah Kualifikasi Paket |", "| Berdasarkan Nilai Kualifikasi Paket |"])
 
             with grafik_kp_1:
 
                 st.subheader("Berdasarkan Jumlah Kualifikasi Paket")
 
-                #### Query data grafik jumlah transaksi pengumuman SPSE berdasarkan kualifikasi paket
+                # Query data grafik jumlah transaksi pengumuman SPSE berdasarkan kualifikasi paket
 
                 tabel_kp_jumlah_trx = con.execute("""
                     SELECT kualifikasi_paket AS KUALIFIKASI_PAKET, 
@@ -149,7 +149,7 @@ with menu_tender_1:
 
                 st.subheader("Berdasarkan Nilai Kualifikasi Paket")
 
-                #### Query data grafik nilai transaksi pengumuman SPSE berdasarkan kualifikasi paket
+                # Query data grafik nilai transaksi pengumuman SPSE berdasarkan kualifikasi paket
 
                 tabel_kp_nilai_trx = con.execute("""
                     SELECT kualifikasi_paket AS KUALIFIKASI_PAKET, 
@@ -190,14 +190,14 @@ with menu_tender_1:
 
         with st.container(border=True):
 
-            ### Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Jenis Pengadaan
+            # Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Jenis Pengadaan
             grafik_jp_1, grafik_jp_2 = st.tabs(["| Berdasarkan Jumlah Jenis Pengadaan |", "| Berdasarkan Nilai Jenis Pengadaan |"])
 
             with grafik_jp_1:
 
                 st.subheader("Berdasarkan Jumlah Jenis Pengadaan")
 
-                #### Query data grafik jumlah transaksi pengumuman SPSE berdasarkan Jenis Pengadaan
+                # Query data grafik jumlah transaksi pengumuman SPSE berdasarkan Jenis Pengadaan
 
                 tabel_jp_jumlah_trx = con.execute("""
                     SELECT jenis_pengadaan AS JENIS_PENGADAAN, 
@@ -239,7 +239,7 @@ with menu_tender_1:
 
                 st.subheader("Berdasarkan Nilai Jenis Pengadaan")
 
-                #### Query data grafik nilai transaksi pengumuman SPSE berdasarkan Jenis Pengadaan
+                # Query data grafik nilai transaksi pengumuman SPSE berdasarkan Jenis Pengadaan
 
                 tabel_jp_nilai_trx = con.execute("""
                     SELECT jenis_pengadaan AS JENIS_PENGADAAN, 
@@ -280,14 +280,14 @@ with menu_tender_1:
 
         with st.container(border=True):
 
-            ### Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Metode Pemilihan
+            # Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Metode Pemilihan
             grafik_mp_1, grafik_mp_2 = st.tabs(["| Berdasarkan Jumlah Metode Pemilihan |", "| Berdasarkan Nilai Metode Pemilihan |"])
 
             with grafik_mp_1:
 
                 st.subheader("Berdasarkan Jumlah Metode Pemilihan")
 
-                #### Query data grafik jumlah transaksi pengumuman SPSE berdasarkan Metode Pemilihan
+                # Query data grafik jumlah transaksi pengumuman SPSE berdasarkan Metode Pemilihan
 
                 tabel_mp_jumlah_trx = con.execute("""
                     SELECT mtd_pemilihan AS METODE_PEMILIHAN, 
@@ -329,7 +329,7 @@ with menu_tender_1:
 
                 st.subheader("Berdasarkan Nilai Metode Pemilihan")
 
-                #### Query data grafik nilai transaksi pengumuman SPSE berdasarkan Metode Pemilihan
+                # Query data grafik nilai transaksi pengumuman SPSE berdasarkan Metode Pemilihan
 
                 tabel_mp_nilai_trx = con.execute("""
                     SELECT mtd_pemilihan AS METODE_PEMILIHAN, 
@@ -370,14 +370,14 @@ with menu_tender_1:
 
         with st.container(border=True):
 
-            ### Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Metode Evaluasi
+            # Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Metode Evaluasi
             grafik_me_1, grafik_me_2 = st.tabs(["| Berdasarkan Jumlah Metode Evaluasi |", "| Berdasarkan Nilai Metode Evaluasi |"])
 
             with grafik_me_1:
 
                 st.subheader("Berdasarkan Jumlah Metode Evaluasi")
 
-                #### Query data grafik jumlah transaksi pengumuman SPSE berdasarkan Metode Evaluasi
+                # Query data grafik jumlah transaksi pengumuman SPSE berdasarkan Metode Evaluasi
 
                 tabel_me_jumlah_trx = con.execute("""
                     SELECT mtd_evaluasi AS METODE_EVALUASI, 
@@ -419,7 +419,7 @@ with menu_tender_1:
 
                 st.subheader("Berdasarkan Nilai Metode Evaluasi")
 
-                #### Query data grafik nilai transaksi pengumuman SPSE berdasarkan Metode Evaluasi
+                # Query data grafik nilai transaksi pengumuman SPSE berdasarkan Metode Evaluasi
 
                 tabel_me_nilai_trx = con.execute("""
                     SELECT mtd_evaluasi AS METODE_EVALUASI, 
@@ -461,14 +461,14 @@ with menu_tender_1:
 
         with st.container(border=True):
 
-            ### Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Metode Kualifikasi
+            # Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Metode Kualifikasi
             grafik_mk_1, grafik_mk_2 = st.tabs(["| Berdasarkan Jumlah Metode Kualifikasi |", "| Berdasarkan Nilai Metode Kualifikasi |"])
 
             with grafik_mk_1:
 
                 st.subheader("Berdasarkan Jumlah Metode Kualifikasi")
 
-                #### Query data grafik jumlah transaksi pengumuman SPSE berdasarkan Metode Kualifikasi
+                # Query data grafik jumlah transaksi pengumuman SPSE berdasarkan Metode Kualifikasi
 
                 tabel_mk_jumlah_trx = con.execute("""
                     SELECT mtd_kualifikasi AS METODE_KUALIFIKASI, 
@@ -647,7 +647,7 @@ with menu_tender_1:
 
 with menu_tender_2:
     try:
-        # Baca dataset SPPBJ
+        # Membaca dataset SPPBJ
         dfSPSETenderSPPBJ = read_df_duckdb(datasets["TenderSPPBJ"])
 
         col1, col2 = st.columns([7,3])
@@ -661,11 +661,11 @@ with menu_tender_2:
 
         st.divider()
 
-        # Calculate totals
+        # Menghitung total
         jumlah_trx_spse_sppbj_total = dfSPSETenderSPPBJ['kd_tender'].unique().shape[0]
         nilai_trx_spse_sppbj_final_total = dfSPSETenderSPPBJ['harga_final'].sum()
 
-        # Display total metrics
+        # Menampilkan metrik total
         col1, col2 = st.columns(2)
         col1.metric("Jumlah Total Tender SPPBJ", f"{jumlah_trx_spse_sppbj_total:,}")
         col2.metric("Nilai Total Tender SPPBJ", f"{nilai_trx_spse_sppbj_final_total:,.2f}")
@@ -673,7 +673,7 @@ with menu_tender_2:
 
         st.divider()
 
-        # Filter controls
+        # Kontrol filter
         col1, col2 = st.columns([2,8])
         with col1:
             status_kontrak_options = ['Semua'] + list(dfSPSETenderSPPBJ['status_kontrak'].unique())
@@ -683,7 +683,7 @@ with menu_tender_2:
             opd_TSPPBJ = st.selectbox("Pilih Perangkat Daerah:", opd_options, key='Tender_OPD_SPPBJ')
         st.write(f"Anda memilih: **{status_kontrak_TSPPBJ}** dari **{opd_TSPPBJ}**")
 
-        # Get filtered data
+        # Mendapatkan data terfilter
         if status_kontrak_TSPPBJ == 'Semua' and opd_TSPPBJ == 'SEMUA PERANGKAT DAERAH':
             dfSPSETenderSPPBJ_filter = dfSPSETenderSPPBJ
         elif status_kontrak_TSPPBJ == 'Semua':
@@ -703,11 +703,11 @@ with menu_tender_2:
                 AND nama_satker = '{opd_TSPPBJ}'
             """).df()
 
-        # Calculate filtered metrics
+        # Menghitung metrik terfilter
         jumlah_trx_spse_sppbj = dfSPSETenderSPPBJ_filter['kd_tender'].unique().shape[0]
         nilai_trx_spse_sppbj_final = dfSPSETenderSPPBJ_filter['harga_final'].sum()
 
-        # Display filtered metrics
+        # Menampilkan metrik terfilter
         col1, col2 = st.columns(2)
         col1.metric("Jumlah Tender SPPBJ", f"{jumlah_trx_spse_sppbj:,}")
         col2.metric("Nilai Tender SPPBJ", f"{nilai_trx_spse_sppbj_final:,.2f}")
@@ -715,7 +715,7 @@ with menu_tender_2:
 
         st.divider()
         
-        # Prepare data for AgGrid
+        # Menyiapkan data untuk AgGrid
         tabel_tender_sppbj = con.execute("""
             SELECT 
                 nama_paket AS "NAMA PAKET",
@@ -728,7 +728,7 @@ with menu_tender_2:
             FROM dfSPSETenderSPPBJ_filter
         """).df()
 
-        # Configure and display AgGrid
+        # Mengkonfigurasi dan menampilkan AgGrid
         gb = GridOptionsBuilder.from_dataframe(tabel_tender_sppbj)
         gb.configure_default_column(autoSizeColumns=True)
         gb.configure_column("HARGA FINAL", valueFormatter="data['HARGA FINAL'].toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0})")
@@ -746,7 +746,7 @@ with menu_tender_2:
 
 with menu_tender_3:
     try:
-        # Baca dataset Kontrak
+        # Membaca dataset Kontrak
         dfSPSETenderKontrak = read_df_duckdb(datasets["TenderKontrak"])
 
         col1, col2 = st.columns([7,3])
@@ -760,18 +760,18 @@ with menu_tender_3:
 
         st.divider()
 
-        # Calculate totals
+        # Menghitung total
         jumlah_trx_spse_kontrak_total = dfSPSETenderKontrak['kd_tender'].nunique()
         nilai_trx_spse_kontrak_nilaikontrak_total = dfSPSETenderKontrak['nilai_kontrak'].sum()
 
-        # Display total metrics
+        # Menampilkan metrik total
         col1, col2 = st.columns(2)
         col1.metric("Jumlah Total Tender Berkontrak", f"{jumlah_trx_spse_kontrak_total:,}")
         col2.metric("Nilai Total Tender Berkontrak", f"{nilai_trx_spse_kontrak_nilaikontrak_total:,.2f}")
 
         st.divider()
 
-        # Filter controls
+        # Kontrol filter
         col1, col2 = st.columns([2,8])
         with col1:
             status_kontrak_options = ['Semua'] + list(dfSPSETenderKontrak['status_kontrak'].unique())
@@ -781,7 +781,7 @@ with menu_tender_3:
             opd = st.selectbox("Pilih Perangkat Daerah:", opd_options, key='Tender_OPD_Kontrak')
         st.write(f"Anda memilih: **{status_kontrak}** dari **{opd}**")
 
-        # Get filtered data
+        # Mendapatkan data terfilter
         if status_kontrak == 'Semua' and opd == 'SEMUA PERANGKAT DAERAH':
             filtered_df = dfSPSETenderKontrak
         elif status_kontrak == 'Semua':
@@ -801,25 +801,25 @@ with menu_tender_3:
                 AND nama_satker = '{opd}'
             """).df()
 
-        # Display filtered metrics
+        # Menampilkan metrik terfilter
         col1, col2 = st.columns(2)
         col1.metric("Jumlah Tender Berkontrak", f"{filtered_df['kd_tender'].nunique():,}")
         col2.metric("Nilai Tender Berkontrak", f"{filtered_df['nilai_kontrak'].sum():,.2f}")
 
         st.divider()
 
-        # Prepare table data
+        # Menyiapkan data tabel
         table_data = filtered_df[[
             'nama_paket', 'no_kontrak', 'tgl_kontrak', 'nama_ppk', 
             'nama_penyedia', 'wakil_sah_penyedia', 'npwp_penyedia',
             'nilai_kontrak', 'nilai_pdn_kontrak', 'nilai_umk_kontrak'
         ]]
 
-        # Configure AgGrid
+        # Mengkonfigurasi AgGrid
         gb = GridOptionsBuilder.from_dataframe(table_data)
         gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, editable=False)
         
-        # Format currency columns
+        # Format kolom mata uang
         for col in ['nilai_kontrak', 'nilai_pdn_kontrak', 'nilai_umk_kontrak']:
             gb.configure_column(
                 col,
@@ -827,7 +827,7 @@ with menu_tender_3:
                 valueFormatter=f"data.{col}.toLocaleString('id-ID', {{style: 'currency', currency: 'IDR', minimumFractionDigits: 0}})"
             )
 
-        # Configure column names
+        # Mengkonfigurasi nama kolom
         column_names = {
             'nama_paket': 'NAMA PAKET',
             'no_kontrak': 'NO KONTRAK', 
@@ -842,7 +842,7 @@ with menu_tender_3:
         }
         gb.configure_columns(column_names)
 
-        # Display AgGrid
+        # Menampilkan AgGrid
         AgGrid(
             table_data,
             gridOptions=gb.build(),
@@ -856,7 +856,7 @@ with menu_tender_3:
 
 with menu_tender_4:
     try:
-        # Baca dataset SPMK
+        # Membaca dataset SPMK
         dfSPSETenderKontrak = read_df_duckdb(datasets["TenderKontrak"])
         dfSPSETenderSPMK = read_df_duckdb(datasets["TenderSPMK"])
         # Filter kolom kontrak
@@ -884,12 +884,12 @@ with menu_tender_4:
 
         st.divider()
 
-        # Filter by OPD
+        # Filter berdasarkan OPD
         opd_options = ["SEMUA PERANGKAT DAERAH"] + list(dfSPSETenderSPMK_OK['nama_satker'].unique())
         opd_TSPMK = st.selectbox("Pilih Perangkat Daerah:", opd_options, key='Tender_OPD_SPMK')
         st.write(f"Anda memilih: **{opd_TSPMK}**")
 
-        # Get filtered data and metrics
+        # Ambil data terfilter dan metrik
         if opd_TSPMK == "SEMUA PERANGKAT DAERAH":
             filtered_spmk = dfSPSETenderSPMK_OK
         else:
@@ -898,7 +898,7 @@ with menu_tender_4:
         jumlah_spmk = filtered_spmk['kd_tender'].nunique()
         nilai_spmk = filtered_spmk['nilai_kontrak'].sum()
 
-        # Display metrics
+        # Tampilkan metrik
         col1, col2 = st.columns(2)
         col1.metric("Jumlah Tender SPMK", f"{jumlah_spmk:,}")
         col2.metric("Nilai Tender SPMK", f"{nilai_spmk:,.2f}")
@@ -915,12 +915,12 @@ with menu_tender_4:
         gb = GridOptionsBuilder.from_dataframe(tabel_tender_spmk)
         gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, editable=False)
         
-        # Format kolom nilai ke rupiah
+        # Format kolom nilai ke format rupiah
         gb.configure_column('nilai_kontrak', type=["numericColumn", "numberColumnFilter"], valueFormatter="data.nilai_kontrak.toLocaleString('id-ID', {style: 'currency', currency: 'IDR'})")
         gb.configure_column('nilai_pdn_kontrak', type=["numericColumn", "numberColumnFilter"], valueFormatter="data.nilai_pdn_kontrak.toLocaleString('id-ID', {style: 'currency', currency: 'IDR'})")
         gb.configure_column('nilai_umk_kontrak', type=["numericColumn", "numberColumnFilter"], valueFormatter="data.nilai_umk_kontrak.toLocaleString('id-ID', {style: 'currency', currency: 'IDR'})")
 
-        # Rename kolom untuk tampilan
+        # Ubah nama kolom untuk tampilan
         gb.configure_columns({
             'nama_paket': 'NAMA PAKET',
             'no_spmk_spp': 'NO SPMK', 
@@ -963,7 +963,7 @@ with menu_tender_5:
 
         st.divider()
 
-        # Metrics total
+        # Metrik total
         jumlah_bast = dfSPSETenderBAST['kd_tender'].nunique()
         nilai_bast = dfSPSETenderBAST['nilai_kontrak'].sum()
 
@@ -973,7 +973,7 @@ with menu_tender_5:
 
         st.divider()
 
-        # Filter
+        # Filter data
         col5, col6 = st.columns([2,8])
         with col5:
             status_options = ["Semua"] + list(dfSPSETenderBAST['status_kontrak'].unique())
@@ -983,7 +983,7 @@ with menu_tender_5:
             opd = st.selectbox("Pilih Perangkat Daerah:", opd_options)
         st.write(f"Anda memilih: **{status}** dari **{opd}**")
 
-        # Data terfilter
+        # Data yang sudah difilter
         if status == "Semua" and opd == "SEMUA PERANGKAT DAERAH":
             filtered_df = dfSPSETenderBAST
         elif status == "Semua":
@@ -1003,7 +1003,7 @@ with menu_tender_5:
                 AND nama_satker = '{opd}'
             """).df()
 
-        # Metrics filter
+        # Metrik hasil filter
         jumlah_filter = filtered_df['kd_tender'].nunique()
         nilai_filter = filtered_df['nilai_kontrak'].sum()
 
@@ -1013,7 +1013,7 @@ with menu_tender_5:
 
         st.divider()
 
-        # Tabel
+        # Persiapkan tabel
         renamed_columns = {
             'nama_paket': 'NAMA PAKET',
             'no_bast': 'NOMOR BAST', 
