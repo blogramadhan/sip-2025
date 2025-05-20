@@ -646,7 +646,24 @@ with menu_tender_1:
         st.error(f"Error: {e}")
 
 with menu_tender_2:
-    st.subheader("SPPBJ TENDER")
+    try:
+        dfSPSETenderSPPBJ = read_df_duckdb(datasets["TenderSPPBJ"])
+
+        col1, col2 = st.columns([7,3])
+        col1.subheader("SPPBJ TENDER") 
+        col2.download_button(
+            label="📥 Unduh Data SPPBJ Tender",
+            data=download_excel(dfSPSETenderSPPBJ),
+            file_name=f"Tender-SPPBJ-{kodeFolder}-{tahun}.xlsx",
+            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+
+        st.divider()
+
+        
+
+    except Exception as e:
+        st.error(f"Error: {e}")
 
 with menu_tender_3:
     try:
