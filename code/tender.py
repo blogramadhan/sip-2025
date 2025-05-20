@@ -652,7 +652,32 @@ with menu_tender_3:
     st.subheader("KONTRAK TENDER")
 
 with menu_tender_4:
-    st.subheader("SPMK TENDER")
+    try:
+        dfSPSETenderKontrak = read_df_duckdb(datasets["TenderKontrak"])
+        dfSPSETenderSPMK = read_df_duckdb(datasets["TenderSPMK"])
+
+        dfSPSETenderKontrak_filter_kolom = dfSPSETenderKontrak[["kd_tender", "nilai_kontrak", "nilai_pdn_kontrak", "nilai_umk_kontrak"]]
+        dfSPSETenderSPMK_OK = dfSPSETenderSPMK.merge(dfSPSETenderKontrak_filter_kolom, how='left', on='kd_tender')
+
+        ### Unduh Dataframe Data SPSE - Tender - SPMK
+        unduh_SPSE_Tender_SPMK_excel = download_excel(dfSPSETenderSPMK_OK)
+
+        SPSE_SPMK_1, SPSE_SPMK_2 = st.columns((7,3))
+        with SPSE_SPMK_1:
+            st.subheader("SPSE - TENDER - SPMK")
+        with SPSE_SPMK_2:
+            st.download_button(
+                label = "📥 Download Data Tender SPMK",
+                data = unduh_SPSE_Tender_SPMK_excel,
+                file_name = f"SPSETenderSPMK-{kodeFolder}-{tahun}.xlsx",
+                mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+
+        st.divider()
+        
+
+    except Exception as e:
+        st.error(f"Error: {e}")
 
 with menu_tender_5:
     try:
