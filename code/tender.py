@@ -659,19 +659,15 @@ with menu_tender_4:
         dfSPSETenderKontrak_filter_kolom = dfSPSETenderKontrak[["kd_tender", "nilai_kontrak", "nilai_pdn_kontrak", "nilai_umk_kontrak"]]
         dfSPSETenderSPMK_OK = dfSPSETenderSPMK.merge(dfSPSETenderKontrak_filter_kolom, how='left', on='kd_tender')
 
-        ### Unduh Dataframe Data SPSE - Tender - SPMK
-        unduh_SPSE_Tender_SPMK_excel = download_excel(dfSPSETenderSPMK_OK)
-
-        SPSE_SPMK_1, SPSE_SPMK_2 = st.columns((7,3))
-        with SPSE_SPMK_1:
-            st.subheader("SPSE - TENDER - SPMK")
-        with SPSE_SPMK_2:
-            st.download_button(
-                label = "📥 Download Data Tender SPMK",
-                data = unduh_SPSE_Tender_SPMK_excel,
-                file_name = f"SPSETenderSPMK-{kodeFolder}-{tahun}.xlsx",
-                mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            )
+        # Header dan tombol unduh
+        col1, col2 = st.columns([7,3])
+        col1.subheader("SPMK TENDER")
+        col2.download_button(
+            label="📥 Unduh Data SPMK Tender",
+            data=download_excel(dfSPSETenderSPMK_OK),
+            file_name=f"Tender-SPMK-{kodeFolder}-{tahun}.xlsx",
+            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
 
         st.divider()
         
