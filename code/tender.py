@@ -679,7 +679,23 @@ with menu_tender_4:
         col1, col2 = st.columns(2)
         col1.metric("Jumlah Total SPMK", f"{jumlah_spmk:,}")
         col2.metric("Nilai Total SPMK", f"{nilai_spmk:,.2f}")
-        
+
+        st.divider()
+
+        # Filter by OPD
+        opd_TSPMK = st.selectbox("Pilih Perangkat Daerah:", dfSPSETenderSPMK_OK['nama_satker'].unique(), key='Tender_OPD_SPMK')
+        st.write(f"Anda memilih: **{opd_TSPMK}**")
+
+        # Get filtered data and metrics
+        filtered_spmk = dfSPSETenderSPMK_OK[dfSPSETenderSPMK_OK['nama_satker'] == opd_TSPMK]
+        jumlah_spmk = filtered_spmk['kd_tender'].nunique()
+        nilai_spmk = filtered_spmk['nilai_kontrak'].sum()
+
+        # Display metrics
+        col1, col2 = st.columns(2)
+        col1.metric("Jumlah Tender SPMK", f"{jumlah_spmk:,}")
+        col2.metric("Nilai Tender SPMK", f"{nilai_spmk:,.2f}")
+
         st.divider()
         
 
