@@ -737,7 +737,7 @@ with menu_tender_2:
               gridOptions=gb.build(),
               fit_columns_on_grid_load=True,
               autoSizeColumns=True,
-              enable_enterprise_modules=True
+              enable_enterprise_modules=True,
               width='100%',
               height=800
         )
