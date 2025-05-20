@@ -672,6 +672,15 @@ with menu_tender_4:
         )
 
         st.divider()
+
+        jumlah_spmk = dfSPSETenderSPMK_OK['kd_tender'].nunique()
+        nilai_spmk = dfSPSETenderSPMK_OK['nilai_kontrak'].sum()
+
+        col1, col2 = st.columns(2)
+        col1.metric("Jumlah Total SPMK", f"{jumlah_spmk:,}")
+        col2.metric("Nilai Total SPMK", f"{nilai_spmk:,.2f}")
+        
+        st.divider()
         
 
     except Exception as e:
