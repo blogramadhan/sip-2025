@@ -697,6 +697,43 @@ with menu_tender_4:
         col2.metric("Nilai Tender SPMK", f"{nilai_spmk:,.2f}")
 
         st.divider()
+
+        # Persiapkan data untuk tabel SPMK
+        tabel_tender_spmk = filtered_spmk[['nama_paket', 'no_spmk_spp', 'tgl_spmk_spp', 
+                                         'nama_ppk', 'nama_penyedia', 'wakil_sah_penyedia',
+                                         'npwp_penyedia', 'nilai_kontrak', 'nilai_pdn_kontrak', 
+                                         'nilai_umk_kontrak']]
+
+        # Konfigurasi AgGrid
+        gb = GridOptionsBuilder.from_dataframe(tabel_tender_spmk)
+        gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, editable=False)
+        
+        # Format kolom nilai ke rupiah
+        gb.configure_column('nilai_kontrak', type=["numericColumn", "numberColumnFilter"], valueFormatter="data.nilai_kontrak.toLocaleString('id-ID', {style: 'currency', currency: 'IDR'})")
+        gb.configure_column('nilai_pdn_kontrak', type=["numericColumn", "numberColumnFilter"], valueFormatter="data.nilai_pdn_kontrak.toLocaleString('id-ID', {style: 'currency', currency: 'IDR'})")
+        gb.configure_column('nilai_umk_kontrak', type=["numericColumn", "numberColumnFilter"], valueFormatter="data.nilai_umk_kontrak.toLocaleString('id-ID', {style: 'currency', currency: 'IDR'})")
+
+        # Rename kolom untuk tampilan
+        gb.configure_columns({
+            'nama_paket': 'NAMA PAKET',
+            'no_spmk_spp': 'NO SPMK', 
+            'tgl_spmk_spp': 'TGL SPMK',
+            'nama_ppk': 'NAMA PPK',
+            'nama_penyedia': 'NAMA PENYEDIA',
+            'wakil_sah_penyedia': 'WAKIL SAH',
+            'npwp_penyedia': 'NPWP PENYEDIA',
+            'nilai_kontrak': 'NILAI KONTRAK',
+            'nilai_pdn_kontrak': 'NILAI PDN',
+            'nilai_umk_kontrak': 'NILAI UMK'
+        })
+
+        gridOptions = gb.build()
+        
+        AgGrid(tabel_tender_spmk,
+               gridOptions=gridOptions,
+               enable_enterprise_modules=True,
+               update_mode=GridUpdateMode.MODEL_CHANGED,
+               height=800)
         
 
     except Exception as e:
