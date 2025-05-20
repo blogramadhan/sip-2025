@@ -653,9 +653,11 @@ with menu_tender_3:
 
 with menu_tender_4:
     try:
+        # Baca dataset kontrak
         dfSPSETenderKontrak = read_df_duckdb(datasets["TenderKontrak"])
+        # Baca dataset SPMK
         dfSPSETenderSPMK = read_df_duckdb(datasets["TenderSPMK"])
-
+        # Filter kolom kontrak
         dfSPSETenderKontrak_filter_kolom = dfSPSETenderKontrak[["kd_tender", "nilai_kontrak", "nilai_pdn_kontrak", "nilai_umk_kontrak"]]
         dfSPSETenderSPMK_OK = dfSPSETenderSPMK.merge(dfSPSETenderKontrak_filter_kolom, how='left', on='kd_tender')
 
