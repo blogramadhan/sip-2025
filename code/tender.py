@@ -647,6 +647,7 @@ with menu_tender_1:
 
 with menu_tender_2:
     try:
+        # Baca dataset SPPBJ
         dfSPSETenderSPPBJ = read_df_duckdb(datasets["TenderSPPBJ"])
 
         col1, col2 = st.columns([7,3])
@@ -660,13 +661,92 @@ with menu_tender_2:
 
         st.divider()
 
+        # Calculate totals
+        jumlah_trx_spse_sppbj_total = dfSPSETenderSPPBJ['kd_tender'].unique().shape[0]
+        nilai_trx_spse_sppbj_final_total = dfSPSETenderSPPBJ['harga_final'].sum()
+
+        # Display total metrics
+        col1, col2 = st.columns(2)
+        col1.metric("Jumlah Total Tender SPPBJ", f"{jumlah_trx_spse_sppbj_total:,}")
+        col2.metric("Nilai Total Tender SPPBJ", f"{nilai_trx_spse_sppbj_final_total:,.2f}")
+        style_metric_cards()
+
+        st.divider()
+
+        # Filter controls
+        col1, col2 = st.columns([2,8])
+        with col1:
+            status_kontrak_options = ['Semua'] + list(dfSPSETenderSPPBJ['status_kontrak'].unique())
+            status_kontrak_TSPPBJ = st.radio("**Status Kontrak**", status_kontrak_options, key='Tender_Status_SPPBJ')
+        with col2:
+            opd_options = ['SEMUA PERANGKAT DAERAH'] + list(dfSPSETenderSPPBJ['nama_satker'].unique())
+            opd_TSPPBJ = st.selectbox("Pilih Perangkat Daerah:", opd_options, key='Tender_OPD_SPPBJ')
+        st.write(f"Anda memilih: **{status_kontrak_TSPPBJ}** dari **{opd_TSPPBJ}**")
+
+        # Get filtered data
+        if status_kontrak_TSPPBJ == 'Semua' and opd_TSPPBJ == 'SEMUA PERANGKAT DAERAH':
+            dfSPSETenderSPPBJ_filter = dfSPSETenderSPPBJ
+        elif status_kontrak_TSPPBJ == 'Semua':
+            dfSPSETenderSPPBJ_filter = con.execute(f"""
+                SELECT * FROM dfSPSETenderSPPBJ 
+                WHERE nama_satker = '{opd_TSPPBJ}'
+            """).df()
+        elif opd_TSPPBJ == 'SEMUA PERANGKAT DAERAH':
+            dfSPSETenderSPPBJ_filter = con.execute(f"""
+                SELECT * FROM dfSPSETenderSPPBJ 
+                WHERE status_kontrak = '{status_kontrak_TSPPBJ}'
+            """).df()
+        else:
+            dfSPSETenderSPPBJ_filter = con.execute(f"""
+                SELECT * FROM dfSPSETenderSPPBJ 
+                WHERE status_kontrak = '{status_kontrak_TSPPBJ}' 
+                AND nama_satker = '{opd_TSPPBJ}'
+            """).df()
+
+        # Calculate filtered metrics
+        jumlah_trx_spse_sppbj = dfSPSETenderSPPBJ_filter['kd_tender'].unique().shape[0]
+        nilai_trx_spse_sppbj_final = dfSPSETenderSPPBJ_filter['harga_final'].sum()
+
+        # Display filtered metrics
+        col1, col2 = st.columns(2)
+        col1.metric("Jumlah Tender SPPBJ", f"{jumlah_trx_spse_sppbj:,}")
+        col2.metric("Nilai Tender SPPBJ", f"{nilai_trx_spse_sppbj_final:,.2f}")
+        style_metric_cards()
+
+        st.divider()
         
+        # Prepare data for AgGrid
+        tabel_tender_sppbj = con.execute("""
+            SELECT 
+                nama_paket AS "NAMA PAKET",
+                no_sppbj AS "NO SPPBJ", 
+                tgl_sppbj AS "TGL SPPBJ",
+                nama_ppk AS "NAMA PPK",
+                nama_penyedia AS "NAMA PENYEDIA",
+                npwp_penyedia AS "NPWP PENYEDIA",
+                harga_final AS "HARGA FINAL"
+            FROM dfSPSETenderSPPBJ_filter
+        """).df()
+
+        # Configure and display AgGrid
+        gb = GridOptionsBuilder.from_dataframe(tabel_tender_sppbj)
+        gb.configure_default_column(autoSizeColumns=True)
+        gb.configure_column("HARGA FINAL", valueFormatter="data['HARGA FINAL'].toLocaleString('id-ID', {style: 'currency', currency: 'IDR', minimumFractionDigits: 0})")
+        
+        AgGrid(tabel_tender_sppbj,
+              gridOptions=gb.build(),
+              fit_columns_on_grid_load=True,
+              autoSizeColumns=True,
+              width='100%',
+              height=min(400, 35 * (len(tabel_tender_sppbj) + 1))
+        )
 
     except Exception as e:
         st.error(f"Error: {e}")
 
 with menu_tender_3:
     try:
+        # Baca dataset Kontrak
         dfSPSETenderKontrak = read_df_duckdb(datasets["TenderKontrak"])
 
         col1, col2 = st.columns([7,3])
