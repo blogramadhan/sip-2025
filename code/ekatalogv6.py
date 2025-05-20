@@ -28,4 +28,4 @@ kodeFolder = selected_daerah.get("folder")
 kodeRUP = selected_daerah.get("RUP")
 kodeLPSE = selected_daerah.get("LPSE")
 
-st.title("TRANSAKSI E-KATALOG V6")
+st.title("TRANSAKSI E-KATALOG VERSI6")

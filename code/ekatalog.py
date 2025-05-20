@@ -32,7 +32,7 @@ datasets = {
     'ECAT_PD': f"{base_url}/ECATPenyediaDetail{tahun}.parquet",
 }
 
-st.title("TRANSAKSI E-KATALOG")
+st.title("TRANSAKSI E-KATALOG VERSI 5")
 st.header(f"{pilih} - TAHUN {tahun}")
 
 menu_purchasing_1_1, menu_purchasing_1_2, menu_purchasing_1_3 = st.tabs(["| TRANSAKSI KATALOG |", "| TRANSAKSI KATALOG (ETALASE) |", "| TABEL NILAI ETALASE |"])
