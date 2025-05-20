@@ -677,17 +677,32 @@ with menu_tender_3:
         # Filter controls
         col1, col2 = st.columns([2,8])
         with col1:
-            status_kontrak = st.radio("**Status Kontrak**", dfSPSETenderKontrak['status_kontrak'].unique(), key='Tender_Status_Kontrak')
+            status_kontrak_options = ['Semua'] + list(dfSPSETenderKontrak['status_kontrak'].unique())
+            status_kontrak = st.radio("**Status Kontrak**", status_kontrak_options, key='Tender_Status_Kontrak')
         with col2:
-            opd = st.selectbox("Pilih Perangkat Daerah:", dfSPSETenderKontrak['nama_satker'].unique(), key='Tender_OPD_Kontrak')
+            opd_options = ['SEMUA PERANGKAT DAERAH'] + list(dfSPSETenderKontrak['nama_satker'].unique())
+            opd = st.selectbox("Pilih Perangkat Daerah:", opd_options, key='Tender_OPD_Kontrak')
         st.write(f"Anda memilih: **{status_kontrak}** dari **{opd}**")
 
         # Get filtered data
-        filtered_df = con.execute(f"""
-            SELECT * FROM dfSPSETenderKontrak 
-            WHERE status_kontrak = '{status_kontrak}' 
-            AND nama_satker = '{opd}'
-        """).df()
+        if status_kontrak == 'Semua' and opd == 'SEMUA PERANGKAT DAERAH':
+            filtered_df = dfSPSETenderKontrak
+        elif status_kontrak == 'Semua':
+            filtered_df = con.execute(f"""
+                SELECT * FROM dfSPSETenderKontrak 
+                WHERE nama_satker = '{opd}'
+            """).df()
+        elif opd == 'SEMUA PERANGKAT DAERAH':
+            filtered_df = con.execute(f"""
+                SELECT * FROM dfSPSETenderKontrak 
+                WHERE status_kontrak = '{status_kontrak}'
+            """).df()
+        else:
+            filtered_df = con.execute(f"""
+                SELECT * FROM dfSPSETenderKontrak 
+                WHERE status_kontrak = '{status_kontrak}' 
+                AND nama_satker = '{opd}'
+            """).df()
 
         # Display filtered metrics
         col1, col2 = st.columns(2)
@@ -744,9 +759,8 @@ with menu_tender_3:
 
 with menu_tender_4:
     try:
-        # Baca dataset kontrak
-        dfSPSETenderKontrak = read_df_duckdb(datasets["TenderKontrak"])
         # Baca dataset SPMK
+        dfSPSETenderKontrak = read_df_duckdb(datasets["TenderKontrak"])
         dfSPSETenderSPMK = read_df_duckdb(datasets["TenderSPMK"])
         # Filter kolom kontrak
         dfSPSETenderKontrak_filter_kolom = dfSPSETenderKontrak[["kd_tender", "nilai_kontrak", "nilai_pdn_kontrak", "nilai_umk_kontrak"]]
@@ -774,11 +788,16 @@ with menu_tender_4:
         st.divider()
 
         # Filter by OPD
-        opd_TSPMK = st.selectbox("Pilih Perangkat Daerah:", dfSPSETenderSPMK_OK['nama_satker'].unique(), key='Tender_OPD_SPMK')
+        opd_options = ["SEMUA PERANGKAT DAERAH"] + list(dfSPSETenderSPMK_OK['nama_satker'].unique())
+        opd_TSPMK = st.selectbox("Pilih Perangkat Daerah:", opd_options, key='Tender_OPD_SPMK')
         st.write(f"Anda memilih: **{opd_TSPMK}**")
 
         # Get filtered data and metrics
-        filtered_spmk = dfSPSETenderSPMK_OK[dfSPSETenderSPMK_OK['nama_satker'] == opd_TSPMK]
+        if opd_TSPMK == "SEMUA PERANGKAT DAERAH":
+            filtered_spmk = dfSPSETenderSPMK_OK
+        else:
+            filtered_spmk = dfSPSETenderSPMK_OK[dfSPSETenderSPMK_OK['nama_satker'] == opd_TSPMK]
+            
         jumlah_spmk = filtered_spmk['kd_tender'].nunique()
         nilai_spmk = filtered_spmk['nilai_kontrak'].sum()
 
