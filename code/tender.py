@@ -649,7 +649,98 @@ with menu_tender_2:
     st.subheader("SPPBJ TENDER")
 
 with menu_tender_3:
-    st.subheader("KONTRAK TENDER")
+    try:
+        dfSPSETenderKontrak = read_df_duckdb(datasets["TenderKontrak"])
+
+        col1, col2 = st.columns([7,3])
+        col1.subheader("KONTRAK TENDER")
+        col2.download_button(
+            label="📥 Unduh Data Kontrak Tender",
+            data=download_excel(dfSPSETenderKontrak),
+            file_name=f"Tender-Kontrak-{kodeFolder}-{tahun}.xlsx",
+            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+
+        st.divider()
+
+        # Calculate totals
+        jumlah_trx_spse_kontrak_total = dfSPSETenderKontrak['kd_tender'].nunique()
+        nilai_trx_spse_kontrak_nilaikontrak_total = dfSPSETenderKontrak['nilai_kontrak'].sum()
+
+        # Display total metrics
+        col1, col2 = st.columns(2)
+        col1.metric("Jumlah Total Tender Berkontrak", f"{jumlah_trx_spse_kontrak_total:,}")
+        col2.metric("Nilai Total Tender Berkontrak", f"{nilai_trx_spse_kontrak_nilaikontrak_total:,.2f}")
+
+        st.divider()
+
+        # Filter controls
+        col1, col2 = st.columns([2,8])
+        with col1:
+            status_kontrak = st.radio("**Status Kontrak**", dfSPSETenderKontrak['status_kontrak'].unique(), key='Tender_Status_Kontrak')
+        with col2:
+            opd = st.selectbox("Pilih Perangkat Daerah:", dfSPSETenderKontrak['nama_satker'].unique(), key='Tender_OPD_Kontrak')
+        st.write(f"Anda memilih: **{status_kontrak}** dari **{opd}**")
+
+        # Get filtered data
+        filtered_df = con.execute(f"""
+            SELECT * FROM dfSPSETenderKontrak 
+            WHERE status_kontrak = '{status_kontrak}' 
+            AND nama_satker = '{opd}'
+        """).df()
+
+        # Display filtered metrics
+        col1, col2 = st.columns(2)
+        col1.metric("Jumlah Tender Berkontrak", f"{filtered_df['kd_tender'].nunique():,}")
+        col2.metric("Nilai Tender Berkontrak", f"{filtered_df['nilai_kontrak'].sum():,.2f}")
+
+        st.divider()
+
+        # Prepare table data
+        table_data = filtered_df[[
+            'nama_paket', 'no_kontrak', 'tgl_kontrak', 'nama_ppk', 
+            'nama_penyedia', 'wakil_sah_penyedia', 'npwp_penyedia',
+            'nilai_kontrak', 'nilai_pdn_kontrak', 'nilai_umk_kontrak'
+        ]]
+
+        # Configure AgGrid
+        gb = GridOptionsBuilder.from_dataframe(table_data)
+        gb.configure_default_column(groupable=True, value=True, enableRowGroup=True, editable=False)
+        
+        # Format currency columns
+        for col in ['nilai_kontrak', 'nilai_pdn_kontrak', 'nilai_umk_kontrak']:
+            gb.configure_column(
+                col,
+                type=["numericColumn", "numberColumnFilter"],
+                valueFormatter=f"data.{col}.toLocaleString('id-ID', {{style: 'currency', currency: 'IDR', minimumFractionDigits: 0}})"
+            )
+
+        # Configure column names
+        column_names = {
+            'nama_paket': 'NAMA PAKET',
+            'no_kontrak': 'NO KONTRAK', 
+            'tgl_kontrak': 'TGL KONTRAK',
+            'nama_ppk': 'NAMA PPK',
+            'nama_penyedia': 'NAMA PENYEDIA',
+            'wakil_sah_penyedia': 'WAKIL SAH',
+            'npwp_penyedia': 'NPWP PENYEDIA',
+            'nilai_kontrak': 'NILAI KONTRAK',
+            'nilai_pdn_kontrak': 'NILAI PDN',
+            'nilai_umk_kontrak': 'NILAI UMK'
+        }
+        gb.configure_columns(column_names)
+
+        # Display AgGrid
+        AgGrid(
+            table_data,
+            gridOptions=gb.build(),
+            height=800,
+            fit_columns_on_grid_load=True,
+            enable_enterprise_modules=True
+        )
+
+    except Exception as e:
+        st.error(f"Error: {e}")
 
 with menu_tender_4:
     try:
