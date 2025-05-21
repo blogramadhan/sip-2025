@@ -28,4 +28,16 @@ kodeFolder = selected_daerah.get("folder")
 kodeRUP = selected_daerah.get("RUP")
 kodeLPSE = selected_daerah.get("LPSE")
 
+# Koneksi DuckDB
+con = duckdb.connect(database=':memory:')
+
+# URL Dataset Katalog
+base_url = f"https://data.pbj.my.id/{kodeRUP}/epurchasing"
+datasets = {
+    'ECATV6': f"{base_url}/Ecat-PaketEPurchasingV6{tahun}.parquet",
+}
+
 st.title("TRANSAKSI E-KATALOG VERSI 6")
+st.header(f"{pilih} - TAHUN {tahun}")
+
+
