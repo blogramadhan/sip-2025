@@ -134,7 +134,7 @@ try:
                     x='JUMLAH_TRANSAKSI',
                     text='JUMLAH_TRANSAKSI',
                     title='Jumlah Transaksi per Perangkat Daerah',
-                    color_discrete_sequence=['#2E86C1']*10,
+                    color_discrete_sequence=['#FF6B6B']*10,  # Warna merah cerah
                     orientation='h')
                 fig.update_layout(
                     plot_bgcolor='rgba(0,0,0,0)',
@@ -148,7 +148,7 @@ try:
                     bargap=0.4
                 )
                 fig.update_traces(
-                    marker_line_color='#1A5276',
+                    marker_line_color='#E74C3C',  # Outline merah yang lebih gelap
                     marker_line_width=1.5,
                     opacity=0.8,
                     textposition='outside'
@@ -177,7 +177,7 @@ try:
                     x='NILAI_TRANSAKSI', 
                     text='NILAI_TRANSAKSI',
                     title='Nilai Transaksi per Perangkat Daerah',
-                    color_discrete_sequence=['#8E44AD']*10,
+                    color_discrete_sequence=['#4ECDC4']*10,  # Warna tosca cerah
                     orientation='h')
                 fig.update_layout(
                     plot_bgcolor='rgba(0,0,0,0)',
@@ -191,7 +191,7 @@ try:
                     bargap=0.4
                 )
                 fig.update_traces(
-                    marker_line_color='#4A235A',
+                    marker_line_color='#2ECC71',  # Outline hijau yang lebih gelap
                     marker_line_width=1.5,
                     opacity=0.8,
                     textposition='outside',
