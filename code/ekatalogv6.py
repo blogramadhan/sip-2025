@@ -92,8 +92,9 @@ try:
 
     st.divider()
 
-    # Berdasarkan Kualifikasi Usaha
-    
+    # Berdasarkan Perangkat Daerah
+    with st.container(border=True):
+        st.subheader("Berdasarkan Perangkat Daerah (10 Besar)")
 
 except Exception as e:
     st.error(f"Error: {e}")
