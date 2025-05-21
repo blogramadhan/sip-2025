@@ -40,6 +40,8 @@ datasets = {
 st.title("TRANSAKSI E-KATALOG VERSI 6")
 st.header(f"{pilih} - TAHUN {tahun}")
 
+st.divider()
+
 try:
     # Baca dataset E-Katalog V6
     dfECATV6 = read_df_duckdb(datasets['ECATV6'])
@@ -67,6 +69,14 @@ try:
         status_kirim = np.insert(dfECATV6['status_pengiriman'].unique(), 0, "Gabungan")
         status_kirim = st.radio("**Status Pengiriman**", status_kirim)
     st.write(f"Anda memilih : **{nama_sumber_dana}** dan **{status_paket}** dan **{status_kirim}**")
+
+    # Build filter query
+    df_ECATV6_filter_Query = "SELECT * FROM dfECATV6 WHERE 1=1"
+    if nama_sumber_dana != "Gabungan":
+        df_ECATV6_filter_Query += f" AND sumber_dana = '{nama_sumber_dana}'"
+    if status_paket != "Gabungan":
+        df_ECATV6_filter_Query += f" AND status_pkt = '{status_paket}'"
+
 
 except Exception as e:
     st.error(f"Error: {e}")
