@@ -96,7 +96,7 @@ try:
     with st.container(border=True):
         st.subheader("Berdasarkan Perangkat Daerah (10 Besar)")
 
-        tab1, tab2 = st.tabs(["| Jumlah Transaksi |", "| Nilai Transaksi |"])
+        tab1, tab2 = st.tabs(["| Jumlah Transaksi Perangkat Daerah |", "| Nilai Transaksi Perangkat Daerah |"])
 
         # Query data
         tabel_jumlah_pd = con.execute("""
@@ -126,6 +126,8 @@ try:
                 AgGrid(tabel_jumlah_pd, 
                     gridOptions=gb.build(),
                     fit_columns_on_grid_load=True,
+                    enable_enterprise_modules=True,
+                    width='100%',
                     height=min(350, 35 * (len(tabel_jumlah_pd) + 1)))
             
             with col2:
@@ -154,6 +156,8 @@ try:
                 AgGrid(tabel_nilai_pd,
                     gridOptions=gb.build(),
                     fit_columns_on_grid_load=True,
+                    enable_enterprise_modules=True,
+                    width='100%',
                     height=min(350, 35 * (len(tabel_nilai_pd) + 1)))
 
             with col2:
