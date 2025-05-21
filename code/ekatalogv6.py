@@ -130,17 +130,18 @@ try:
             
             with col2:
                 fig = px.bar(tabel_jumlah_pd, 
-                    x='NAMA_SATKER', 
-                    y='JUMLAH_TRANSAKSI',
+                    y='NAMA_SATKER', 
+                    x='JUMLAH_TRANSAKSI',
                     text='JUMLAH_TRANSAKSI',
                     title='Jumlah Transaksi per Perangkat Daerah',
-                    color_discrete_sequence=['#2E86C1']*10)
+                    color_discrete_sequence=['#2E86C1']*10,
+                    orientation='h')
                 fig.update_layout(
                     plot_bgcolor='rgba(0,0,0,0)',
                     paper_bgcolor='rgba(0,0,0,0)',
-                    xaxis_title='<b>Perangkat Daerah</b>',
-                    yaxis_title='<b>Jumlah Transaksi</b>',
-                    xaxis={'categoryorder':'total descending'},
+                    yaxis_title='<b>Perangkat Daerah</b>',
+                    xaxis_title='<b>Jumlah Transaksi</b>',
+                    yaxis={'categoryorder':'total ascending'},
                     showlegend=False,
                     title_x=0.5,
                     title_font_size=20,
@@ -152,7 +153,7 @@ try:
                     opacity=0.8,
                     textposition='outside'
                 )
-                fig.update_xaxes(tickangle=45, title_font=dict(size=14))
+                fig.update_xaxes(title_font=dict(size=14))
                 fig.update_yaxes(title_font=dict(size=14))
                 st.plotly_chart(fig, use_container_width=True)
 
@@ -172,17 +173,18 @@ try:
 
             with col2:
                 fig = px.bar(tabel_nilai_pd,
-                    x='NAMA_SATKER',
-                    y='NILAI_TRANSAKSI', 
+                    y='NAMA_SATKER',
+                    x='NILAI_TRANSAKSI', 
                     text='NILAI_TRANSAKSI',
                     title='Nilai Transaksi per Perangkat Daerah',
-                    color_discrete_sequence=['#8E44AD']*10)
+                    color_discrete_sequence=['#8E44AD']*10,
+                    orientation='h')
                 fig.update_layout(
                     plot_bgcolor='rgba(0,0,0,0)',
                     paper_bgcolor='rgba(0,0,0,0)',
-                    xaxis_title='<b>Perangkat Daerah</b>',
-                    yaxis_title='<b>Nilai Transaksi</b>',
-                    xaxis={'categoryorder':'total descending'},
+                    yaxis_title='<b>Perangkat Daerah</b>',
+                    xaxis_title='<b>Nilai Transaksi</b>',
+                    yaxis={'categoryorder':'total ascending'},
                     showlegend=False,
                     title_x=0.5,
                     title_font_size=20,
@@ -195,7 +197,7 @@ try:
                     textposition='outside',
                     texttemplate='Rp %{text:,.0f}'
                 )
-                fig.update_xaxes(tickangle=45, title_font=dict(size=14))
+                fig.update_xaxes(title_font=dict(size=14))
                 fig.update_yaxes(title_font=dict(size=14))
                 st.plotly_chart(fig, use_container_width=True)
 
