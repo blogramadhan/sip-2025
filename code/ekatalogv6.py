@@ -73,10 +73,27 @@ try:
     # Build filter query
     df_ECATV6_filter_Query = "SELECT * FROM dfECATV6 WHERE 1=1"
     if nama_sumber_dana != "Gabungan":
-        df_ECATV6_filter_Query += f" AND sumber_dana = '{nama_sumber_dana}'"
+        if "APBD" in nama_sumber_dana:
+            df_ECATV6_filter_Query += f" AND sumber_dana LIKE '%APBD%'"
+        else:
+            df_ECATV6_filter_Query += f" AND sumber_dana = '{nama_sumber_dana}'"
     if status_paket != "Gabungan":
         df_ECATV6_filter_Query += f" AND status_pkt = '{status_paket}'"
+    if status_kirim != "Gabungan":
+        df_ECATV6_filter_Query += f" AND status_pengiriman = '{status_kirim}'"
 
+    df_ECATV6_filter = con.execute(df_ECATV6_filter_Query).df()
+
+    # Metrics   
+    col1, col2, col3 = st.columns(3)
+    col1.metric(label="Jumlah Produk Katalog", value="{:,}".format(df_ECATV6_filter['jml_jenis_produk'].sum()))
+    col2.metric(label="Jumlah Transaksi Katalog", value="{:,}".format(df_ECATV6_filter['kd_paket'].nunique()))
+    col3.metric(label="Nilai Transaksi Katalog", value="{:,.2f}".format(df_ECATV6_filter['total_harga'].sum()))
+
+    st.divider()
+
+    # Berdasarkan Kualifikasi Usaha
+    
 
 except Exception as e:
     st.error(f"Error: {e}")
