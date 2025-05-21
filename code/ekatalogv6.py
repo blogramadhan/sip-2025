@@ -56,5 +56,17 @@ try:
 
     st.divider()
 
+    KATALOGV6_radio_1, KATALOGV6_radio_2, KATALOGV6_radio_3, KATALOGV6_radio_4 = st.columns((1,1,1,7))  
+    with KATALOGV6_radio_1:
+        nama_sumber_dana = np.insert(dfECATV6['sumber_dana'].unique(), 0, "Gabungan")
+        nama_sumber_dana = st.radio("**Sumber Dana**", nama_sumber_dana)
+    with KATALOGV6_radio_2:
+        status_paket = np.insert(dfECATV6['status_pkt'].unique(), 0, "Gabungan")
+        status_paket = st.radio("**Status Paket**", status_paket)
+    with KATALOGV6_radio_3:
+        status_kirim = np.insert(dfECATV6['status_pengiriman'].unique(), 0, "Gabungan")
+        status_kirim = st.radio("**Status Pengiriman**", status_kirim)
+    st.write(f"Anda memilih : **{nama_sumber_dana}** dan **{status_paket}** dan **{status_kirim}**")
+
 except Exception as e:
     st.error(f"Error: {e}")
