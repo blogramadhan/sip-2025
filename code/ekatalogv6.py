@@ -96,109 +96,82 @@ try:
     with st.container(border=True):
         st.subheader("Berdasarkan Perangkat Daerah (10 Besar)")
 
-        tab1, tab2 = st.tabs(["| Jumlah Transaksi Perangkat Daerah |", "| Nilai Transaksi Perangkat Daerah |"])
+        tab1, tab2 = st.tabs(["| Jumlah Transaksi |", "| Nilai Transaksi |"])
 
+        # Query data
+        tabel_jumlah_pd = con.execute("""
+            SELECT nama_satker AS NAMA_SATKER, COUNT(DISTINCT(kd_paket)) AS JUMLAH_TRANSAKSI
+            FROM df_ECATV6_filter
+            WHERE nama_satker IS NOT NULL
+            GROUP BY nama_satker
+            ORDER BY JUMLAH_TRANSAKSI DESC
+            LIMIT 10
+        """).df()
+
+        tabel_nilai_pd = con.execute("""
+            SELECT nama_satker AS NAMA_SATKER, SUM(total_harga) AS NILAI_TRANSAKSI
+            FROM df_ECATV6_filter
+            WHERE nama_satker IS NOT NULL
+            GROUP BY nama_satker
+            ORDER BY NILAI_TRANSAKSI DESC
+            LIMIT 10
+        """).df()
+
+        # Tab Jumlah Transaksi
         with tab1:
-            tabel_jumlah_pd = con.execute("""
-                SELECT nama_satker AS NAMA_SATKER, COUNT(DISTINCT(kd_paket)) AS JUMLAH_TRANSAKSI
-                FROM df_ECATV6_filter
-                WHERE NAMA_SATKER IS NOT NULL
-                GROUP BY NAMA_SATKER
-                ORDER BY JUMLAH_TRANSAKSI DESC
-                LIMIT 10
-            """).df()
-            
             col1, col2 = st.columns((4,6))
             with col1:
-                gd_jumlah_pd = GridOptionsBuilder.from_dataframe(tabel_jumlah_pd)
-                gd_jumlah_pd.configure_default_column(autoSizeColumns=True)
+                gb = GridOptionsBuilder.from_dataframe(tabel_jumlah_pd)
+                gb.configure_default_column(autoSizeColumns=True)
                 AgGrid(tabel_jumlah_pd, 
-                    gridOptions=gd_jumlah_pd.build(),
-                    enable_enterprise_modules=True,
+                    gridOptions=gb.build(),
                     fit_columns_on_grid_load=True,
-                    autoSizeColumns=True,
-                    width='100%',
                     height=min(350, 35 * (len(tabel_jumlah_pd) + 1)))
-            with col2:  
-                custom_colors = ['#00B4D8', '#0077B6', '#023E8A', '#0096C7', '#48CAE4', '#90E0EF', '#ADE8F4', '#CAF0F8', '#03045E', '#014F86']
-                fig = go.Figure()
-                fig.add_trace(go.Bar(
-                    x=tabel_jumlah_pd['NAMA_SATKER'],
-                    y=tabel_jumlah_pd['JUMLAH_TRANSAKSI'],
-                    text=tabel_jumlah_pd['JUMLAH_TRANSAKSI'],
-                    textposition='outside',
-                    marker=dict(
-                        color=custom_colors[:len(tabel_jumlah_pd)],
-                        line=dict(width=1.5, color='rgba(0,0,0,0.5)'),
-                        opacity=0.9
-                    ),
-                    hoverinfo='x+y',
-                    hovertemplate='<b>%{x}</b><br>Jumlah: %{y}<extra></extra>'
-                ))
+            
+            with col2:
+                fig = px.bar(tabel_jumlah_pd, 
+                    x='NAMA_SATKER', 
+                    y='JUMLAH_TRANSAKSI',
+                    text='JUMLAH_TRANSAKSI',
+                    title='Jumlah Transaksi per Perangkat Daerah',
+                    color_discrete_sequence=['#00B4D8']*10)
                 fig.update_layout(
-                    title='Jumlah Transaksi Perangkat Daerah',
                     xaxis_title='Perangkat Daerah',
                     yaxis_title='Jumlah Transaksi',
                     xaxis={'categoryorder':'total descending'},
-                    margin=dict(t=80, b=100, l=10, r=10),
                     showlegend=False
                 )
-                fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
-                fig.update_yaxes(gridcolor='rgba(0,0,0,0.1)')
-                st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+                fig.update_xaxes(tickangle=45)
+                st.plotly_chart(fig, use_container_width=True)
 
+        # Tab Nilai Transaksi  
         with tab2:
-            tabel_nilai_pd = con.execute("""
-                SELECT nama_satker AS NAMA_SATKER, SUM(total_harga) AS NILAI_TRANSAKSI
-                FROM df_ECATV6_filter
-                WHERE NAMA_SATKER IS NOT NULL
-                GROUP BY NAMA_SATKER
-                ORDER BY NILAI_TRANSAKSI DESC
-                LIMIT 10
-            """).df()
-            
-            col1, col2 = st.columns((4,6))  
+            col1, col2 = st.columns((4,6))
             with col1:
                 gb = GridOptionsBuilder.from_dataframe(tabel_nilai_pd)
-                gb.configure_default_column(autoSizeColumns=True)
                 gb.configure_column("NILAI_TRANSAKSI", 
-                                    type=["numericColumn", "numberColumnFilter", "customNumericFormat"], 
-                                    valueGetter="data.NILAI_TRANSAKSI.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")  
-                
-                AgGrid(tabel_nilai_pd, 
+                    valueGetter="data.NILAI_TRANSAKSI.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
+                AgGrid(tabel_nilai_pd,
                     gridOptions=gb.build(),
-                    enable_enterprise_modules=True,
                     fit_columns_on_grid_load=True,
-                    width='100%',
                     height=min(350, 35 * (len(tabel_nilai_pd) + 1)))
 
             with col2:
-                custom_colors = ['#9D4EDD', '#C77DFF', '#E0AAFF', '#7B2CBF', '#5A189A', '#3C096C', '#240046', '#10002B', '#E500A4', '#DB00B6']
-                fig = go.Figure()
-                fig.add_trace(go.Bar(
-                    x=tabel_nilai_pd['NAMA_SATKER'],
-                    y=tabel_nilai_pd['NILAI_TRANSAKSI'],
-                    text=tabel_nilai_pd['NILAI_TRANSAKSI'],
-                    textposition='outside',
-                    marker=dict(
-                        color=custom_colors[:len(tabel_nilai_pd)],
-                        line=dict(width=1.5, color='rgba(0,0,0,0.5)'),
-                        opacity=0.9
-                    ),
-                    hoverinfo='x+y',
-                    hovertemplate='<b>%{x}</b><br>Nilai: Rp %{y:,.2f}<extra></extra>'
-                ))
+                fig = px.bar(tabel_nilai_pd,
+                    x='NAMA_SATKER',
+                    y='NILAI_TRANSAKSI', 
+                    text='NILAI_TRANSAKSI',
+                    title='Nilai Transaksi per Perangkat Daerah',
+                    color_discrete_sequence=['#9D4EDD']*10)
                 fig.update_layout(
-                    title='Nilai Transaksi Perangkat Daerah',
                     xaxis_title='Perangkat Daerah',
                     yaxis_title='Nilai Transaksi',
                     xaxis={'categoryorder':'total descending'},
-                    margin=dict(t=80, b=100, l=10, r=10),
                     showlegend=False
                 )
-                fig.update_xaxes(tickangle=45, tickfont=dict(size=10))
-                fig.update_yaxes(gridcolor='rgba(0,0,0,0.1)')
-                st.plotly_chart(fig, theme="streamlit", use_container_width=True)                
+                fig.update_traces(texttemplate='Rp %{text:,.0f}')
+                fig.update_xaxes(tickangle=45)
+                st.plotly_chart(fig, use_container_width=True)
 
 except Exception as e:
     st.error(f"Error: {e}")
