@@ -1,4 +1,5 @@
-# Library Utama
+# Impor Library yang Dibutuhkan
+# Library Utama untuk Manipulasi Data dan Visualisasi
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -6,20 +7,15 @@ import plotly.express as px
 import duckdb
 import openpyxl
 from datetime import datetime
-# Library Currency
-from babel.numbers import format_currency
-# Library Aggrid
-from st_aggrid import AgGrid, GridUpdateMode
+# Library untuk Tabel Interaktif
+from st_aggrid import AgGrid
 from st_aggrid.grid_options_builder import GridOptionsBuilder
-# Library Streamlit-Extras
+# Library untuk Tampilan Metrik
 from streamlit_extras.metric_cards import style_metric_cards
-from streamlit_extras.app_logo import add_logo
-# Library Social Media Links
-from st_social_media_links import SocialMediaIcons
-# Library Tambahan
+# Library Fungsi Tambahan
 from fungsi import *
 
-# Membuat UKPBJ
+# Konfigurasi UKPBJ dan Tahun
 daerah = region_config()
 pilih = st.sidebar.selectbox("Pilih Daerah", list(daerah.keys()))
 tahun = st.sidebar.selectbox("Pilih Tahun", range(datetime.now().year, datetime.now().year-3, -1))
@@ -28,25 +24,26 @@ kodeFolder = selected_daerah.get("folder")
 kodeRUP = selected_daerah.get("RUP")
 kodeLPSE = selected_daerah.get("LPSE")
 
-# Koneksi DuckDB
+# Inisialisasi Koneksi Database
 con = duckdb.connect(database=':memory:')
 
-# URL Dataset Katalog
+# Menyiapkan URL untuk Dataset
 base_url = f"https://data.pbj.my.id/{kodeRUP}/epurchasing"
 datasets = {
     'ECATV6': f"{base_url}/Ecat-PaketEPurchasingV6{tahun}.parquet",
 }
 
+# Tampilan Judul Halaman
 st.title("TRANSAKSI E-KATALOG VERSI 6")
 st.header(f"{pilih} - TAHUN {tahun}")
 
 st.divider()
 
 try:
-    # Baca dataset E-Katalog V6
+    # Membaca Data E-Katalog V6
     dfECATV6 = read_df_duckdb(datasets['ECATV6'])
 
-    # Header dan tombol unduh
+    # Menampilkan Header dan Tombol Unduh
     col1, col2 = st.columns([8,2])
     col1.subheader("TRANSAKSI E-KATALOG V6")
     col2.download_button(
@@ -58,6 +55,7 @@ try:
 
     st.divider()
 
+    # Filter Data dengan Radio Button
     KATALOGV6_radio_1, KATALOGV6_radio_2, KATALOGV6_radio_3, KATALOGV6_radio_4 = st.columns((1,1,1,7))  
     with KATALOGV6_radio_1:
         nama_sumber_dana = np.insert(dfECATV6['sumber_dana'].unique(), 0, "Gabungan")
@@ -70,7 +68,7 @@ try:
         status_kirim = st.radio("**Status Pengiriman**", status_kirim)
     st.write(f"Anda memilih : **{nama_sumber_dana}** dan **{status_paket}** dan **{status_kirim}**")
 
-    # Build filter query
+    # Membangun Query Filter
     df_ECATV6_filter_Query = "SELECT * FROM dfECATV6 WHERE 1=1"
     if nama_sumber_dana != "Gabungan":
         if "APBD" in nama_sumber_dana:
@@ -84,7 +82,7 @@ try:
 
     df_ECATV6_filter = con.execute(df_ECATV6_filter_Query).df()
 
-    # Metrics   
+    # Menampilkan Metrik Utama   
     col1, col2, col3 = st.columns(3)
     col1.metric(label="Jumlah Produk Katalog", value="{:,}".format(df_ECATV6_filter['jml_jenis_produk'].sum()))
     col2.metric(label="Jumlah Transaksi Katalog", value="{:,}".format(df_ECATV6_filter['kd_paket'].nunique()))
@@ -92,13 +90,13 @@ try:
 
     st.divider()
 
-    # Berdasarkan Perangkat Daerah
+    # Analisis Berdasarkan Perangkat Daerah
     with st.container(border=True):
         st.subheader("Berdasarkan Perangkat Daerah (10 Besar)")
 
         tab1, tab2 = st.tabs(["| Jumlah Transaksi Perangkat Daerah |", "| Nilai Transaksi Perangkat Daerah |"])
 
-        # Query data
+        # Query untuk Data Perangkat Daerah
         tabel_jumlah_pd = con.execute("""
             SELECT nama_satker AS NAMA_SATKER, COUNT(DISTINCT(kd_paket)) AS JUMLAH_TRANSAKSI
             FROM df_ECATV6_filter
@@ -117,7 +115,7 @@ try:
             LIMIT 10
         """).df()
 
-        # Tab Jumlah Transaksi
+        # Tab untuk Jumlah Transaksi
         with tab1:
             col1, col2 = st.columns((4,6))
             with col1:
@@ -146,7 +144,7 @@ try:
                 fig.update_xaxes(tickangle=45)
                 st.plotly_chart(fig, use_container_width=True)
 
-        # Tab Nilai Transaksi  
+        # Tab untuk Nilai Transaksi  
         with tab2:
             col1, col2 = st.columns((4,6))
             with col1:
@@ -180,4 +178,5 @@ try:
 except Exception as e:
     st.error(f"Error: {e}")
 
+# Mengatur Tampilan Kartu Metrik
 style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
