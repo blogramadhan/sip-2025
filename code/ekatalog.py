@@ -141,7 +141,7 @@ try:
                     FROM df_ECAT_filter GROUP BY PENYEDIA_UKM
                 """).df()
                 
-                col1, col2 = st.columns((3.5,6.5))
+                col1, col2 = st.columns((3,7))
                 with col1:
                     gb = GridOptionsBuilder.from_dataframe(tabel_nilai_ukm)
                     gb.configure_default_column(autoSizeColumns=True)
@@ -188,7 +188,7 @@ try:
                     LIMIT 10
                 """).df()
                 
-                col1, col2 = st.columns((4,6))
+                col1, col2 = st.columns((3,7))
                 with col1:
                     gd_jumlah_komoditas = GridOptionsBuilder.from_dataframe(tabel_jumlah_komoditas)
                     gd_jumlah_komoditas.configure_default_column(autoSizeColumns=True)
@@ -245,7 +245,7 @@ try:
                     LIMIT 10
                 """).df()
                 
-                col1, col2 = st.columns((4,6))
+                col1, col2 = st.columns((3,7))
                 with col1:
                     gb = GridOptionsBuilder.from_dataframe(tabel_nilai_komoditas)
                     gb.configure_default_column(autoSizeColumns=True)
@@ -310,7 +310,7 @@ try:
                     LIMIT 10
                 """).df()
                 
-                col1, col2 = st.columns((4,6))
+                col1, col2 = st.columns((3,7))
                 with col1:
                     gd_jumlah_pd = GridOptionsBuilder.from_dataframe(tabel_jumlah_pd)
                     gd_jumlah_pd.configure_default_column(autoSizeColumns=True)
@@ -366,7 +366,7 @@ try:
                     LIMIT 10
                 """).df()
                 
-                col1, col2 = st.columns((4,6))
+                col1, col2 = st.columns((3,7))
                 with col1:
                     gb = GridOptionsBuilder.from_dataframe(tabel_nilai_pd)  
                     gb.configure_default_column(autoSizeColumns=True)
@@ -432,7 +432,7 @@ try:
                     LIMIT 10
                 """).df()
                 
-                col1, col2 = st.columns((4,6))
+                col1, col2 = st.columns((3,7))
                 with col1:
                     gd_jumlah_pu = GridOptionsBuilder.from_dataframe(tabel_jumlah_pu)
                     gd_jumlah_pu.configure_default_column(autoSizeColumns=True)
@@ -692,7 +692,7 @@ try:
                     LIMIT 10
                 """).df()
                 
-                col1, col2 = st.columns((4,6))
+                col1, col2 = st.columns((3,7))
                 with col1:
                     gd_etalase_jumlah_pd = GridOptionsBuilder.from_dataframe(tabel_etalase_jumlah_pd)
                     gd_etalase_jumlah_pd.configure_default_column(autoSizeColumns=True)
@@ -749,7 +749,7 @@ try:
                     LIMIT 10
                 """).df()
                 
-                col1, col2 = st.columns((4,6))
+                col1, col2 = st.columns((3,7))
                 with col1:
                     gb_etalase_nilai_pd = GridOptionsBuilder.from_dataframe(tabel_etalase_nilai_pd)  
                     gb_etalase_nilai_pd.configure_default_column(autoSizeColumns=True)
@@ -817,7 +817,7 @@ try:
                     LIMIT 10
                 """).df()
                 
-                col1, col2 = st.columns((4,6))
+                col1, col2 = st.columns((3,7))
                 with col1:
                     gd_etalase_jumlah_pu = GridOptionsBuilder.from_dataframe(tabel_etalase_jumlah_pu)
                     gd_etalase_jumlah_pu.configure_default_column(autoSizeColumns=True)
@@ -875,7 +875,7 @@ try:
                     LIMIT 10
                 """).df()
                 
-                col1, col2 = st.columns((4,6))
+                col1, col2 = st.columns((3,7))
                 with col1:
                     gb_etalase_nilai_pu = GridOptionsBuilder.from_dataframe(tabel_etalase_nilai_pu)
                     gb_etalase_nilai_pu.configure_default_column(autoSizeColumns=True)
