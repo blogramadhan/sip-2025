@@ -117,7 +117,7 @@ try:
 
         # Tab untuk Jumlah Transaksi
         with tab1:
-            col1, col2 = st.columns((4,6))
+            col1, col2 = st.columns((3,7))
             with col1:
                 gb = GridOptionsBuilder.from_dataframe(tabel_jumlah_pd)
                 gb.configure_default_column(autoSizeColumns=True)
@@ -134,19 +134,31 @@ try:
                     y='JUMLAH_TRANSAKSI',
                     text='JUMLAH_TRANSAKSI',
                     title='Jumlah Transaksi per Perangkat Daerah',
-                    color_discrete_sequence=['#00B4D8']*10)
+                    color_discrete_sequence=['#2E86C1']*10)
                 fig.update_layout(
-                    xaxis_title='Perangkat Daerah',
-                    yaxis_title='Jumlah Transaksi',
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    xaxis_title='<b>Perangkat Daerah</b>',
+                    yaxis_title='<b>Jumlah Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
-                    showlegend=False
+                    showlegend=False,
+                    title_x=0.5,
+                    title_font_size=20,
+                    bargap=0.4
                 )
-                fig.update_xaxes(tickangle=45)
+                fig.update_traces(
+                    marker_line_color='#1A5276',
+                    marker_line_width=1.5,
+                    opacity=0.8,
+                    textposition='outside'
+                )
+                fig.update_xaxes(tickangle=45, title_font=dict(size=14))
+                fig.update_yaxes(title_font=dict(size=14))
                 st.plotly_chart(fig, use_container_width=True)
 
         # Tab untuk Nilai Transaksi  
         with tab2:
-            col1, col2 = st.columns((4,6))
+            col1, col2 = st.columns((3,7))
             with col1:
                 gb = GridOptionsBuilder.from_dataframe(tabel_nilai_pd)
                 gb.configure_column("NILAI_TRANSAKSI", 
@@ -164,15 +176,27 @@ try:
                     y='NILAI_TRANSAKSI', 
                     text='NILAI_TRANSAKSI',
                     title='Nilai Transaksi per Perangkat Daerah',
-                    color_discrete_sequence=['#9D4EDD']*10)
+                    color_discrete_sequence=['#8E44AD']*10)
                 fig.update_layout(
-                    xaxis_title='Perangkat Daerah',
-                    yaxis_title='Nilai Transaksi',
+                    plot_bgcolor='rgba(0,0,0,0)',
+                    paper_bgcolor='rgba(0,0,0,0)',
+                    xaxis_title='<b>Perangkat Daerah</b>',
+                    yaxis_title='<b>Nilai Transaksi</b>',
                     xaxis={'categoryorder':'total descending'},
-                    showlegend=False
+                    showlegend=False,
+                    title_x=0.5,
+                    title_font_size=20,
+                    bargap=0.4
                 )
-                fig.update_traces(texttemplate='Rp %{text:,.0f}')
-                fig.update_xaxes(tickangle=45)
+                fig.update_traces(
+                    marker_line_color='#4A235A',
+                    marker_line_width=1.5,
+                    opacity=0.8,
+                    textposition='outside',
+                    texttemplate='Rp %{text:,.0f}'
+                )
+                fig.update_xaxes(tickangle=45, title_font=dict(size=14))
+                fig.update_yaxes(title_font=dict(size=14))
                 st.plotly_chart(fig, use_container_width=True)
 
 except Exception as e:
