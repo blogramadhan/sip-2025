@@ -583,7 +583,7 @@ with menu_nontender_3:
                fit_columns_on_grid_load=True,
                autoSizeColumns=True,
                width='100%',
-               height=min(350, 35 * (len(tabel_kontrak) + 1)))
+               height=min(800, 35 * (len(tabel_kontrak) + 1)))
 
     except Exception as e:
         st.error(f"Error: {e}")
