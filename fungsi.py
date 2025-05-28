@@ -1,7 +1,6 @@
 # Library Utama
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import duckdb
 import openpyxl
 import io
@@ -9,7 +8,6 @@ import xlsxwriter
 # Library Currency
 from babel.numbers import format_currency
 # Library Streamlit-Extras
-from streamlit_extras.metric_cards import style_metric_cards
 from streamlit_extras.app_logo import add_logo
 
 # Fungsi untuk membaca dan mengunduh dataframe
