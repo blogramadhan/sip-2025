@@ -495,7 +495,7 @@ with menu_nontender_2:
                enable_enterprise_modules=True,
                fit_columns_on_grid_load=True,
                autoSizeColumns=True,
-               height=400, 
+               height=800, 
                width='100%',
                allow_unsafe_jscode=True)
 
@@ -675,7 +675,7 @@ with menu_nontender_4:
             fit_columns_on_grid_load=True,
             autoSizeColumns=True,
             width='100%',
-            height=min(400, 35 * (len(tabel_tampil) + 1)))
+            height=min(800, 35 * (len(tabel_tampil) + 1)))
         
     except Exception as e:
         st.error(f"Error: {e}")
@@ -771,7 +771,7 @@ with menu_nontender_5:
             enable_enterprise_modules=True,
             fit_columns_on_grid_load=True,
             autoSizeColumns=True,
-            height=400,
+            height=800,
             width='100%',
             allow_unsafe_jscode=True
         )
