@@ -521,7 +521,7 @@ with menu_pencatatan_2:
             gridOptions=grid_options,
             enable_enterprise_modules=True,
             fit_columns_on_grid_load=True,
-            height=700,
+            height=800,
             width='100%',
             allow_unsafe_jscode=True
         )
