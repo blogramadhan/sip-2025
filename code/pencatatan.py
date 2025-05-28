@@ -454,10 +454,10 @@ with menu_pencatatan_2:
 
         st.divider()
 
-        st.dataframe(dfCatatSwakelola)
-        st.dataframe(dfCatatSwakelolaRealisasi)
-        st.dataframe(dfGabung)
-        st.dataframe(dfGabung_filter)
+        # st.dataframe(dfCatatSwakelola)
+        # st.dataframe(dfCatatSwakelolaRealisasi)
+        # st.dataframe(dfGabung)
+        # st.dataframe(dfGabung_filter)
 
         # Filter berdasarkan status dan satker
         SPSE_CS_radio_1, SPSE_CS_radio_2 = st.columns((2,8))
@@ -468,61 +468,61 @@ with menu_pencatatan_2:
         
         st.divider()
 
-        # # Query dan tampilkan data
-        # sql = f"""
-        # SELECT nama_paket AS NAMA_PAKET, jenis_realisasi AS JENIS_REALISASI, 
-        #        no_realisasi AS NO_REALISASI, tgl_realisasi AS TGL_REALISASI,
-        #        pagu AS PAGU, total_realisasi AS TOTAL_REALISASI, 
-        #        nilai_realisasi AS NILAI_REALISASI, nama_ppk AS NAMA_PPK 
-        # FROM dfGabung_filter 
-        # WHERE nama_satker = '{status_opd_cs}' 
-        # AND status_swakelola_pct_ket = '{status_swakelola_cs}'
-        # """
-        # dfCatatSwakelola_tabel = con.execute(sql).df()
+        # Query dan tampilkan data
+        sql = f"""
+        SELECT nama_paket AS NAMA_PAKET, jenis_realisasi AS JENIS_REALISASI, 
+               no_realisasi AS NO_REALISASI, tgl_realisasi AS TGL_REALISASI,
+               pagu AS PAGU, total_realisasi AS TOTAL_REALISASI, 
+               nilai_realisasi AS NILAI_REALISASI, nama_ppk AS NAMA_PPK 
+        FROM dfGabung_filter 
+        WHERE nama_satker = '{status_opd_cs}' 
+        AND status_swakelola_pct_ket = '{status_swakelola_cs}'
+        """
+        dfCatatSwakelola_tabel = con.execute(sql).df()
 
-        # # Tampilkan metrics hasil query
-        # _, col2, col3, _ = st.columns((2,3,3,2))
-        # col2.metric(f"Jumlah Pencatatan Swakelola ({status_swakelola_cs})", 
-        #            value="{:,}".format(dfCatatSwakelola_tabel.shape[0]))
-        # col3.metric(f"Nilai Total Pencatatan Swakelola ({status_swakelola_cs})", 
-        #            value="{:,.2f}".format(dfCatatSwakelola_tabel['NILAI_REALISASI'].fillna(0).sum()))
+        # Tampilkan metrics hasil query
+        _, col2, col3, _ = st.columns((2,3,3,2))
+        col2.metric(f"Jumlah Pencatatan Swakelola ({status_swakelola_cs})", 
+                   value="{:,}".format(dfCatatSwakelola_tabel.shape[0]))
+        col3.metric(f"Nilai Total Pencatatan Swakelola ({status_swakelola_cs})", 
+                   value="{:,.2f}".format(dfCatatSwakelola_tabel['NILAI_REALISASI'].fillna(0).sum()))
 
-        # ### Tabel Pencatatan Swakelola
-        # # Fill NA values with 0 for numeric columns
-        # dfCatatSwakelola_tabel = dfCatatSwakelola_tabel.fillna({
-        #     'NILAI_REALISASI': 0,
-        #     'TOTAL_REALISASI': 0,
-        #     'PAGU': 0
-        # })
+        ### Tabel Pencatatan Swakelola
+        # Fill NA values with 0 for numeric columns
+        dfCatatSwakelola_tabel = dfCatatSwakelola_tabel.fillna({
+            'NILAI_REALISASI': 0,
+            'TOTAL_REALISASI': 0,
+            'PAGU': 0
+        })
         
-        # gb = GridOptionsBuilder.from_dataframe(dfCatatSwakelola_tabel)
-        # gb.configure_default_column(resizable=True, filterable=True, sortable=True)
-        # gb.configure_column("NAMA_PAKET", header_name="NAMA PAKET")
-        # gb.configure_column("JENIS_REALISASI", header_name="JENIS REALISASI") 
-        # gb.configure_column("NO_REALISASI", header_name="NO REALISASI")
-        # gb.configure_column("TGL_REALISASI", header_name="TGL REALISASI")
-        # gb.configure_column("PAGU", header_name="PAGU")
-        # gb.configure_column("TOTAL_REALISASI", 
-        #                   header_name="TOTAL REALISASI",
-        #                   type=["numericColumn","numberColumnFilter"],
-        #                   valueFormatter="'Rp ' + x.toLocaleString()")
-        # gb.configure_column("NILAI_REALISASI", 
-        #                   header_name="NILAI REALISASI",
-        #                   type=["numericColumn","numberColumnFilter"], 
-        #                   valueFormatter="'Rp ' + x.toLocaleString()")
-        # gb.configure_column("NAMA_PPK", header_name="NAMA PPK")
+        gb = GridOptionsBuilder.from_dataframe(dfCatatSwakelola_tabel)
+        gb.configure_default_column(resizable=True, filterable=True, sortable=True)
+        gb.configure_column("NAMA_PAKET", header_name="NAMA PAKET")
+        gb.configure_column("JENIS_REALISASI", header_name="JENIS REALISASI") 
+        gb.configure_column("NO_REALISASI", header_name="NO REALISASI")
+        gb.configure_column("TGL_REALISASI", header_name="TGL REALISASI")
+        gb.configure_column("PAGU", header_name="PAGU")
+        gb.configure_column("TOTAL_REALISASI", 
+                          header_name="TOTAL REALISASI",
+                          type=["numericColumn","numberColumnFilter"],
+                          valueFormatter="'Rp ' + x.toLocaleString()")
+        gb.configure_column("NILAI_REALISASI", 
+                          header_name="NILAI REALISASI",
+                          type=["numericColumn","numberColumnFilter"], 
+                          valueFormatter="'Rp ' + x.toLocaleString()")
+        gb.configure_column("NAMA_PPK", header_name="NAMA PPK")
 
-        # grid_options = gb.build()
+        grid_options = gb.build()
 
-        # AgGrid(
-        #     dfCatatSwakelola_tabel,
-        #     gridOptions=grid_options,
-        #     enable_enterprise_modules=True,
-        #     fit_columns_on_grid_load=True,
-        #     height=700,
-        #     width='100%',
-        #     allow_unsafe_jscode=True
-        # )
+        AgGrid(
+            dfCatatSwakelola_tabel,
+            gridOptions=grid_options,
+            enable_enterprise_modules=True,
+            fit_columns_on_grid_load=True,
+            height=700,
+            width='100%',
+            allow_unsafe_jscode=True
+        )
 
     except Exception as e:
         st.error(f"Error: {e}")
