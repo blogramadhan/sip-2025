@@ -486,6 +486,8 @@ with menu_pencatatan_2:
                    value="{:,}".format(dfCatatSwakelola_tabel.shape[0]))
         col3.metric(f"Nilai Total Pencatatan Swakelola ({status_swakelola_cs})", 
                    value="{:,.2f}".format(dfCatatSwakelola_tabel['NILAI_REALISASI'].fillna(0).sum()))
+        
+        st.divider()
 
         ### Tabel Pencatatan Swakelola
         # Fill NA values with 0 for numeric columns
