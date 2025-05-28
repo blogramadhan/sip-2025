@@ -21,21 +21,21 @@ logo()
 # Struktur navigasi aplikasi
 pages = {
     "RENCANA DAN PERSIPAN": [
-        st.Page("./code/rup.py", title=" 📋  Rencana Pengadaan"),
-        st.Page("./code/sipraja.py", title=" 🛠️  Persiapan Pengadaan"),
+        st.Page("./code/rencana/rup.py", title=" 📋  Rencana Pengadaan"),
+        st.Page("./code/rencana/sipraja.py", title=" 🛠️  Persiapan Pengadaan"),
     ],
     "PROSES PENGADAAN": [
-        st.Page("./code/tender.py", title=" 🏆  Tender"),
-        st.Page("./code/nontender.py", title=" 📄  Non Tender"),
-        st.Page("./code/pencatatan.py", title=" ✏️  Pencatatan"),
-        st.Page("./code/ekatalog.py", title=" 🏪  E-Katalog Versi 5"),
-        st.Page("./code/ekatalogv6.py", title=" 🛍️  E-Katalog Versi 6"),
-        st.Page("./code/tokodaring.py", title=" 🏪  Toko Daring"),
-        st.Page("./code/pesertatender.py", title=" 👥  Peserta Tender"),
+        st.Page("./code/proses/tender.py", title=" 🏆  Tender"),
+        st.Page("./code/proses/nontender.py", title=" 📄  Non Tender"),
+        st.Page("./code/proses/pencatatan.py", title=" ✏️  Pencatatan"),
+        st.Page("./code/proses/ekatalog.py", title=" 🏪  E-Katalog Versi 5"),
+        st.Page("./code/proses/ekatalogv6.py", title=" 🛍️  E-Katalog Versi 6"),
+        st.Page("./code/proses/tokodaring.py", title=" 🏪  Toko Daring"),
+        st.Page("./code/proses/pesertatender.py", title=" 👥  Peserta Tender"),
     ],
     "MONITORING": [
-        st.Page("./code/itkp.py", title=" 📈  ITKP"),
-        st.Page("./code/nilaisikap.py", title=" ⭐  NILAI SIKAP"),
+        st.Page("./code/monitoring/itkp.py", title=" 📈  ITKP"),
+        st.Page("./code/monitoring/nilaisikap.py", title=" ⭐  NILAI SIKAP"),
     ]
 }
 
