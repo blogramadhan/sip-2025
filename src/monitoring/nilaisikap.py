@@ -111,8 +111,9 @@ def proses_data_sikap(jenis, kd_field):
         AgGrid(
             df_sikap_final,
             gridOptions=gridOptions,
+            enable_enterprise_modules=True,
             fit_columns_on_grid_load=True,
-            height=500,
+            height=800,
             width='100%',
             theme='streamlit',
             update_mode=GridUpdateMode.MODEL_CHANGED
