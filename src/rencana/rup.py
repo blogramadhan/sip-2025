@@ -67,6 +67,9 @@ except Exception as e:
 # Konten Data RUP
 #####
 
+st.title("RENCANA PENGADAAN")
+st.header(f"{pilih} TAHUN {tahun}")
+
 # Buat Tab Menu
 menu_rup_1, menu_rup_2, menu_rup_3, menu_rup_4, menu_rup_5, menu_rup_6 = st.tabs([
     "| PROFIL RUP |", "| STRUKTUR ANGGARAN |", "| RUP PAKET PENYEDIA |", 
@@ -74,8 +77,7 @@ menu_rup_1, menu_rup_2, menu_rup_3, menu_rup_4, menu_rup_5, menu_rup_6 = st.tabs
 ])
 
 with menu_rup_1:
-    st.title("PROFIL RUP")
-    st.header(f"{pilih} TAHUN {tahun}")
+    st.subheader("PROFIL RUP")
 
     try:
         # Tambahkan opsi "Semua Perangkat Daerah" di awal daftar
