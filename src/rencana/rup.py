@@ -590,8 +590,7 @@ with menu_rup_3:
         
         # Konfigurasi grid
         gdpp = GridOptionsBuilder.from_dataframe(df_pp)
-        gdpp.configure_default_column(groupable=True, value=True, enableRowGroup=True,
-                                  aggFunc="sum", editable=True, autoSizeColumns=True)
+        gdpp.configure_default_column(autoSizeColumns=True)
         gdpp.configure_column("PAGU", 
                           type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
                           valueGetter="data.PAGU.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
@@ -600,9 +599,10 @@ with menu_rup_3:
         # Tampilkan grid
         AgGrid(df_pp,
                gridOptions=gdpp.build(),
-               enable_enterprise_modules=True,
-               update_mode=GridUpdateMode.MODEL_CHANGED,
                fit_columns_on_grid_load=True,
+               autoSizeColumns=True,
+               enable_enterprise_modules=True,
+               width='100%',
                height=800,
                key='RUPPP_PD')
 
@@ -641,8 +641,7 @@ with menu_rup_4:
         
         # Konfigurasi grid
         gdps = GridOptionsBuilder.from_dataframe(df_ps)
-        gdps.configure_default_column(groupable=True, value=True, enableRowGroup=True,
-                                  aggFunc="sum", editable=True, autoSizeColumns=True)
+        gdps.configure_default_column(autoSizeColumns=True)
         gdps.configure_column("PAGU", 
                           type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
                           valueGetter="data.PAGU.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
@@ -650,10 +649,10 @@ with menu_rup_4:
         
         # Tampilkan grid
         AgGrid(df_ps,
-               gridOptions=gdps.build(),
-               enable_enterprise_modules=True,
-               update_mode=GridUpdateMode.MODEL_CHANGED,
                fit_columns_on_grid_load=True,
+               autoSizeColumns=True,
+               enable_enterprise_modules=True,
+               width='100%',
                height=800,
                key='RUPPS_PS')
 
@@ -696,8 +695,7 @@ with menu_rup_5:
         gd = GridOptionsBuilder.from_dataframe(ir_gabung_final)
         
         # Set konfigurasi default dan kolom numerik
-        gd.configure_default_column(groupable=True, value=True, enableRowGroup=True, 
-                                  aggFunc="sum", editable=True, autoSizeColumns=True)
+        gd.configure_default_column(autoSizeColumns=True)
         
         for col in ["STRUKTUR_ANGGARAN", "RUP_PENYEDIA", "RUP_SWAKELOLA", "TOTAL_RUP", "SELISIH"]:
             gd.configure_column(col, 
@@ -708,9 +706,10 @@ with menu_rup_5:
            
         AgGrid(ir_gabung_final,
                gridOptions=gd.build(),
-               enable_enterprise_modules=True, 
-               update_mode=GridUpdateMode.MODEL_CHANGED,
                fit_columns_on_grid_load=True,
+               autoSizeColumns=True,
+               enable_enterprise_modules=True,
+               width='100%',
                height=800,
                key='InputRUP')
  
@@ -761,8 +760,7 @@ with menu_rup_6:
         gd31 = GridOptionsBuilder.from_dataframe(ir_gabung_final31)
 
         # Set konfigurasi default dan kolom numerik
-        gd31.configure_default_column(groupable=True, value=True, enableRowGroup=True, 
-                                  aggFunc="sum", editable=True, autoSizeColumns=True)
+        gd31.configure_default_column(autoSizeColumns=True)
         
         for col in ["STRUKTUR_ANGGARAN", "RUP_PENYEDIA", "RUP_SWAKELOLA", "TOTAL_RUP", "SELISIH"]:
             gd31.configure_column(col, 
@@ -773,9 +771,10 @@ with menu_rup_6:
         
         AgGrid(ir_gabung_final31,
                gridOptions=gd31.build(),
-               enable_enterprise_modules=True, 
-               update_mode=GridUpdateMode.MODEL_CHANGED,
                fit_columns_on_grid_load=True,
+               autoSizeColumns=True,
+               enable_enterprise_modules=True,
+               width='100%',
                height=800,
                key='InputRUP31Mar')
 
