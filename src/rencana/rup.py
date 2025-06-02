@@ -535,8 +535,7 @@ with menu_rup_2:
 
         # Setup grid
         gdsa = GridOptionsBuilder.from_dataframe(df_sa)
-        gdsa.configure_default_column(groupable=True, value=True, enableRowGroup=True,
-                                  aggFunc="sum", editable=True, autoSizeColumns=True)
+        gdsa.configure_default_column(autoSizeColumns=True)
         
         for col in ["BELANJA_OPERASI", "BELANJA_MODAL", "BELANJA_BTT", "BELANJA_NON_PENGADAAN", "BELANJA_PENGADAAN", "TOTAL_BELANJA"]:
             gdsa.configure_column(col, 
