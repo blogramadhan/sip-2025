@@ -548,8 +548,9 @@ with menu_rup_2:
         AgGrid(df_sa, 
                gridOptions=gdsa.build(), 
                enable_enterprise_modules=True,
-               update_mode=GridUpdateMode.MODEL_CHANGED, 
                fit_columns_on_grid_load=True,
+               autoSizeColumns=True,
+               width='100%',
                height=800,
                key='StrukturAnggaran')
 
