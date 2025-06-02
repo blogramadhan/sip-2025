@@ -519,8 +519,7 @@ with menu_rup_1:
    
 
 with menu_rup_2:
-    st.title("STRUKTUR ANGGARAN")
-    st.header(f"{pilih} TAHUN {tahun}")
+    st.subheader("STRUKTUR ANGGARAN")
 
     try:
         # Query dan tampilkan data
@@ -559,8 +558,7 @@ with menu_rup_2:
         st.error(f"Error: {e}")
 
 with menu_rup_3:
-    st.title("RUP PAKET PENYEDIA")
-    st.header(f"{pilih} TAHUN {tahun}")
+    st.subheader("RUP PAKET PENYEDIA")
 
     try:
         # Pilih Perangkat Daerah
@@ -612,8 +610,7 @@ with menu_rup_3:
         st.error(f"Error: {e}")
 
 with menu_rup_4:
-    st.title("RUP PAKET SWAKELOLA")
-    st.header(f"{pilih} TAHUN {tahun}")
+    st.subheader("RUP PAKET SWAKELOLA")
 
     try:
         # Pilih Perangkat Daerah
@@ -662,8 +659,7 @@ with menu_rup_4:
         st.error(f"Error: {e}")
 
 with menu_rup_5:
-    st.title("PERSENTASE INPUT RUP")
-    st.header(f"{pilih} TAHUN {tahun}")
+    st.subheader("PERSENTASE INPUT RUP")
 
     try:
         # Query data dari database
@@ -719,8 +715,7 @@ with menu_rup_5:
         st.error(f"Error: {e}")
 
 with menu_rup_6:
-    st.title("PERSENTASE INPUT RUP (31 MAR)")
-    st.header(f"{pilih} TAHUN {tahun}")
+    st.subheader("PERSENTASE INPUT RUP (31 MAR)")
 
     try:
         # Baca dataset RUP 31 Mar
