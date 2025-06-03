@@ -58,7 +58,9 @@ try:
         AND a.metode_pengadaan <> '0'
     """).df()
 
-    st.dataframe(dfRUPPP_filter.head(10))
+    dfRUPPP_mak = dfRUPPP_filter[['kd_rup', 'nama_satker', 'nama_paket', 'pagu', 'metode_pengadaan', 'jenis_pengadaan', 'status_pdn', 'status_ukm', 'mak']]
+
+    st.dataframe(dfRUPPP_mak.head(10))
 
 except Exception as e:
     st.error(f"Error: {e}")
