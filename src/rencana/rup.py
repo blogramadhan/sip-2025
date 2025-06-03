@@ -783,20 +783,4 @@ with menu_rup_6:
     except Exception as e:
         st.error(f"Error: {e}")
 
-# with menu_rup_7:
-#     st.subheader("JENIS BELANJA")
-
-#     try:
-#         # Gabungkan dataframe RUP Penyedia dengan Paket Anggaran Penyedia
-#         dfRUPPP_mak = dfRUPPP_umumkan.merge(
-#             dfRUPPAP_filter,
-#             how='left',
-#             on='kd_rup'
-#         )
-
-#         st.dataframe(dfRUPPP_mak)
-
-#     except Exception as e:
-#         st.error(f"Error: {e}")
-
 style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
