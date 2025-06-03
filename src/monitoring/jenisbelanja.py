@@ -58,7 +58,7 @@ try:
         AND a.metode_pengadaan <> '0'
     """).df()
 
-    st.table(dfRUPPP_filter.head(10))
+    st.dataframe(dfRUPPP_filter.head(10))
 
 except Exception as e:
     st.error(f"Error: {e}")
