@@ -68,8 +68,8 @@ try:
     # st.dataframe(dfRUPPP_filter)
     # st.dataframe(namaopd)
 
-    satker_options = ["SEMUA PERANGKAT DAERAH"] + list(namaopd)
-    satker = st.selectbox("Pilih Perangkat Daerah", satker_options, key="jenis_belanja")
+    satker_options = ["SEMUA PERANGKAT DAERAH"] + list(namaopd['nama_satker'])
+    satker = st.selectbox("Pilih Perangkat Daerah :", satker_options, key="jenis_belanja")
 
 except Exception as e:
     st.error(f"Error: {e}")
