@@ -43,16 +43,8 @@ try:
     dfRUPPP = read_df_duckdb(datasets['PP'])
     dfRUPPAP = read_df_duckdb(datasets['PAP'])
 
-    # Gabungkan dataframe RUP
-    dfRUPPP_mak = dfRUPPP.merge(
-        dfRUPPAP,
-        how='left',
-        on='kd_rup'
-    )
-
-    st.dataframe(dfRUPPP_mak)
+    st.title("JENIS BELANJA")
 
 except Exception as e:
     st.error(f"Error: {e}")
     
-st.title("JENIS BELANJA")
