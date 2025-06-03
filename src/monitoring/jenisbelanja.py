@@ -100,7 +100,7 @@ try:
 
     st.divider()
 
-    st.subheader("BELANJA OPERASIONAL")
+    st.subheader("BELANJA OPERASI")
     col_bo1, col_bo2, col_bo3 = st.columns(3)
     col_bo1.metric(label="Belanja Operasi PBJ", value=format_currency(belanja_operasi_pbj, 'IDR', locale='id_ID'))
     col_bo2.metric(label="Belanja Operasi Bansos", value=format_currency(belanja_operasi_bansos, 'IDR', locale='id_ID'))
@@ -114,3 +114,5 @@ try:
 
 except Exception as e:
     st.error(f"Error: {e}")
+
+style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
