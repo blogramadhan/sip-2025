@@ -100,6 +100,7 @@ try:
 
     st.divider()
 
-    st.subheader("STRUKTUR ANGGARAN")
+
+    
 except Exception as e:
     st.error(f"Error: {e}")
