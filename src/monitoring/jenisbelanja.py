@@ -76,7 +76,14 @@ try:
     else:
         dfRUPPP_PD_Profil = con.execute(f"SELECT * FROM dfRUPPP_filter WHERE nama_satker = '{satker}'").df()
 
-    
+    # Hitung total pagu untuk kd_belanja 5.1.02
+    dfRUPPP_PD_belanja_5_1_02 = con.execute("""
+        SELECT SUM(pagu) as total_pagu
+        FROM dfRUPPP_PD_Profil 
+        WHERE kd_belanja = '5.1.02'
+    """).df()
+
+    st.write(dfRUPPP_PD_belanja_5_1_02)
 
 except Exception as e:
     st.error(f"Error: {e}")
