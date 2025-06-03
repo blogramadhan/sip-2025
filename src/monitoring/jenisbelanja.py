@@ -71,15 +71,16 @@ try:
         dfRUPPP_PD_Profil = con.execute(f"SELECT * FROM dfRUPPP_filter WHERE nama_satker = '{satker}'").df()
 
     # Hitung total pagu untuk Belanja Operasi
-    belanja_operasi_pbj = dfRUPPP_PD_Profil[dfRUPPP_PD_Profil['kd_belanja'] == '5.1.02']['pagu'].sum()
-    belanja_operasi_bansos = dfRUPPP_PD_Profil[dfRUPPP_PD_Profil['kd_belanja'] == '5.1.05']['pagu'].sum()
-    belanja_operasi_hibah = dfRUPPP_PD_Profil[dfRUPPP_PD_Profil['kd_belanja'] == '5.1.06']['pagu'].sum()
+    # Hitung total pagu untuk Belanja Operasi
+    belanja_operasi_pbj = con.execute("SELECT SUM(pagu) FROM dfRUPPP_PD_Profil WHERE kd_belanja = '5.1.02'").fetchone()[0] or 0
+    belanja_operasi_bansos = con.execute("SELECT SUM(pagu) FROM dfRUPPP_PD_Profil WHERE kd_belanja = '5.1.05'").fetchone()[0] or 0
+    belanja_operasi_hibah = con.execute("SELECT SUM(pagu) FROM dfRUPPP_PD_Profil WHERE kd_belanja = '5.1.06'").fetchone()[0] or 0
 
     # Hitung total pagu untuk Belanja Modal
-    belanja_modal_pbj = dfRUPPP_PD_Profil[dfRUPPP_PD_Profil['kd_belanja'].str.startswith('5.2', na=False)]['pagu'].sum()
+    belanja_modal_pbj = con.execute("SELECT SUM(pagu) FROM dfRUPPP_PD_Profil WHERE kd_belanja LIKE '5.2%'").fetchone()[0] or 0
 
-    # Hitung total pagu untuk Belanja Tidak Terduga
-    belanja_tidak_terduga = dfRUPPP_PD_Profil[dfRUPPP_PD_Profil['kd_belanja'].str.startswith('5.3', na=False)]['pagu'].sum()
+    # Hitung total pagu untuk Belanja Tidak Terduga  
+    belanja_tidak_terduga = con.execute("SELECT SUM(pagu) FROM dfRUPPP_PD_Profil WHERE kd_belanja LIKE '5.3%'").fetchone()[0] or 0
 
     # st.write(f"Total Belanja Operasi PBJ : {belanja_operasi_pbj}")
     # st.write(f"Total Belanja Operasi Bansos : {belanja_operasi_bansos}")
