@@ -40,8 +40,8 @@ datasets = {
 
 try:
     # Baca dataset RUP
-    dfRUPPP = read_df(datasets['PP'])
-    dfRUPPAP = read_df(datasets['PAP'])
+    dfRUPPP = read_df_duckdb(datasets['PP'])
+    dfRUPPAP = read_df_duckdb(datasets['PAP'])
 
     # Gabungkan dataframe RUP
     dfRUPPP_mak = dfRUPPP.merge(
