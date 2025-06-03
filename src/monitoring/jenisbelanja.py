@@ -39,11 +39,11 @@ datasets = {
 }
 
 try:
+    st.title("JENIS BELANJA")
+
     # Baca dataset RUP
     dfRUPPP = read_df_duckdb(datasets['PP'])
     dfRUPPAP = read_df_duckdb(datasets['PAP'])
-
-    st.title("JENIS BELANJA")
 
 except Exception as e:
     st.error(f"Error: {e}")
