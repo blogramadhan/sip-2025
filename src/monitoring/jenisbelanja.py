@@ -54,8 +54,8 @@ try:
         AND a.status_aktif_rup = 'true'
         AND a.metode_pengadaan <> '0'
     """).df()
+
     
-    st.dataframe(dfRUPPP_filter)
 
 except Exception as e:
     st.error(f"Error: {e}")
