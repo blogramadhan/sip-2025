@@ -100,7 +100,7 @@ try:
 
     st.divider()
 
+    st.subheader("BELANJA OPERASIONAL")
 
-    
 except Exception as e:
     st.error(f"Error: {e}")
