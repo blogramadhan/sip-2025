@@ -45,20 +45,25 @@ try:
     st.divider()
 
     # Baca dataset RUP
-    dfRUPPP = read_df_duckdb(datasets['PP'])
-    dfRUPPAP = read_df_duckdb(datasets['PAP'])
-    
-    # Filter Data RUP
-    dfRUPPP_filter = con.execute("""
-        SELECT a.*, b.mak
-        FROM dfRUPPP a
-        LEFT JOIN dfRUPPAP b ON a.kd_rup = b.kd_rup 
-        WHERE a.status_umumkan_rup = 'Terumumkan' 
-        AND a.status_aktif_rup = 'true'
-        AND a.metode_pengadaan <> '0'
-    """).df()
+    # dfRUPPP = read_df_duckdb(datasets['PP'])
+    # dfRUPPAP = read_df_duckdb(datasets['PAP'])
+    dfRUPPP = read_df(datasets['PP'])
+    dfRUPPAP = read_df(datasets['PAP'])
+    dfRUPPP_filter = dfRUPPAP[['kd_rup', 'mak']]
 
-    namaopd = dfRUPPP_filter['nama_opd'].unique()
+    dfRUPPP_mak = dfRUPPP.merge(dfRUPPP_filter, on='kd_rup', how='left')
+    
+    # # Filter Data RUP
+    # dfRUPPP_filter = con.execute("""
+    #     SELECT a.*, b.mak
+    #     FROM dfRUPPP a
+    #     LEFT JOIN dfRUPPAP b ON a.kd_rup = b.kd_rup 
+    #     WHERE a.status_umumkan_rup = 'Terumumkan' 
+    #     AND a.status_aktif_rup = 'true'
+    #     AND a.metode_pengadaan <> '0'
+    # """).df()
+
+    namaopd = dfRUPPP_mak['nama_opd'].unique()
 
 
 
