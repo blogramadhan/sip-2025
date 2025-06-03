@@ -28,4 +28,31 @@ kodeFolder = selected_daerah.get("folder")
 kodeRUP = selected_daerah.get("RUP")
 kodeLPSE = selected_daerah.get("LPSE")
 
+# Koneksi DuckDB
+con = duckdb.connect(database=':memory:');
+
+# URL Dataset Jenis Belanja
+base_url = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+datasets = {
+    'PP': f"{base_url}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
+    'PAP': f"{base_url}/RUP-PaketAnggaranPenyedia{tahun}.parquet"
+}
+
+try:
+    # Baca dataset RUP
+    dfRUPPP = read_df_duckdb(datasets['PP'])
+    dfRUPPAP = read_df_duckdb(datasets['PAP'], columns=['kd_rup', 'mak'])
+
+    # Gabungkan dataframe RUP
+    dfRUPPP_mak = dfRUPPP.merge(
+        dfRUPPAP,
+        how='left',
+        on='kd_rup'
+    )
+
+    st.dataframe(dfRUPPP_mak)
+
+except Exception as e:
+    st.error(f"Error: {e}")
+    
 st.title("JENIS BELANJA")

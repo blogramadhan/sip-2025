@@ -36,7 +36,6 @@ datasets = {
     'PP31': f"{base_url}/RUP-PaketPenyedia-Terumumkan-{tahun}-03-31.parquet",
     'PS31': f"{base_url}/RUP-PaketSwakelola-Terumumkan-{tahun}-03-31.parquet",
     'SA31': f"{base_url}/RUP-StrukturAnggaranPD-{tahun}-03-31.parquet",
-    # 'PAP': f"{base_url}/RUP-PaketAnggaranPenyedia{tahun}.parquet"
 }
 
 try:
