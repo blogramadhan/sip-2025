@@ -42,6 +42,8 @@ try:
     st.title("JENIS BELANJA")
     st.header(f"{pilih} TAHUN {tahun}")
 
+    st.divider()
+
     # Baca dataset RUP
     dfRUPPP = read_df_duckdb(datasets['PP'])
     dfRUPPAP = read_df_duckdb(datasets['PAP'])
