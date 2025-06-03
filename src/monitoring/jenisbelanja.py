@@ -66,7 +66,7 @@ try:
         ORDER BY nama_satker
     """).df()
 
-    st.dataframe(dfRUPPP_filter.head(10))
+    st.dataframe(dfRUPPP_filter)
     # st.dataframe(namaopd)
 
     satker_options = ["SEMUA PERANGKAT DAERAH"] + list(namaopd['nama_satker'])
