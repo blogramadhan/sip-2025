@@ -83,7 +83,7 @@ try:
         WHERE kd_belanja = '5.1.02'
     """).df()
 
-    st.write(dfRUPPP_PD_belanja_5_1_02)
+    st.write(dfRUPPP_PD_belanja_5_1_02['total_pagu'])
 
 except Exception as e:
     st.error(f"Error: {e}")
