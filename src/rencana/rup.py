@@ -90,9 +90,9 @@ with menu_rup_1:
         opd = st.selectbox("Pilih Perangkat Daerah :", opd_options, key='rup_profil')
 
         if opd == "SEMUA PERANGKAT DAERAH":
-            dfRUPPP_PD_Profil = dfRUPPP_umumkan.copy()
-            dfRUPPS_PD_Profil = dfRUPPS_umumkan.copy()
-            dfRUPSA_PD_Profil = dfRUPSA.copy()
+            dfRUPPP_PD_Profil = dfRUPPP_umumkan
+            dfRUPPS_PD_Profil = dfRUPPS_umumkan
+            dfRUPSA_PD_Profil = dfRUPSA
         else:
             dfRUPPP_PD_Profil = con.execute(f"SELECT * FROM dfRUPPP_umumkan WHERE nama_satker = '{opd}'").df()
             dfRUPPS_PD_Profil = con.execute(f"SELECT * FROM dfRUPPS_umumkan WHERE nama_satker = '{opd}'").df()
