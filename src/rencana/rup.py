@@ -59,7 +59,11 @@ try:
         WHERE status_umumkan_rup = 'Terumumkan'
     """).df()
 
-    namaopd = dfRUPPP_umumkan['nama_satker'].unique()
+    namaopd = con.execute("""
+        SELECT DISTINCT nama_satker 
+        FROM dfRUPPP_umumkan 
+        ORDER BY nama_satker
+    """).df()['nama_satker']
 
 except Exception as e:
     st.error(f"Error: {e}")
