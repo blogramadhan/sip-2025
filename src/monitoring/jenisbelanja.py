@@ -76,16 +76,22 @@ try:
     else:
         dfRUPPP_PD_Profil = con.execute(f"SELECT * FROM dfRUPPP_filter WHERE nama_satker = '{satker}'").df()
 
-    # Hitung total pagu untuk kd_belanja 5.1.02
-    dfRUPPP_PD_belanja_5_1_02 = con.execute("""
-        SELECT SUM(pagu) as total_pagu
-        FROM dfRUPPP_PD_Profil 
-        WHERE kd_belanja = '5.1.02'
-    """).df()
+    # Hitung total pagu untuk Belanja Operasi
+    belanja_operasi_pbj = dfRUPPP_PD_Profil[dfRUPPP_PD_Profil['kd_belanja'] == '5.1.02']['pagu'].sum()
+    belanja_operasi_bansos = dfRUPPP_PD_Profil[dfRUPPP_PD_Profil['kd_belanja'] == '5.1.05']['pagu'].sum()
+    belanja_operasi_hibah = dfRUPPP_PD_Profil[dfRUPPP_PD_Profil['kd_belanja'] == '5.1.06']['pagu'].sum()
 
-    belanja_operasi = dfRUPPP_PD_Profil[dfRUPPP_PD_Profil['kd_belanja'] == '5.1.02']['pagu'].sum()
+    # Hitung total pagu untuk Belanja Modal
+    belanja_modal_pbj = dfRUPPP_PD_Profil[dfRUPPP_PD_Profil['kd_belanja'].str.startswith('5.2', na=False)]['pagu'].sum()
 
-    st.write(belanja_operasi)
+    # Hitung total pagu untuk Belanja Tidak Terduga
+    belanja_tidak_terduga = dfRUPPP_PD_Profil[dfRUPPP_PD_Profil['kd_belanja'].str.startswith('5.3', na=False)]['pagu'].sum()
+
+    st.write(f"Total Belanja Operasi PBJ : {belanja_operasi_pbj}")
+    st.write(f"Total Belanja Operasi Bansos : {belanja_operasi_bansos}")
+    st.write(f"Total Belanja Operasi Hibah : {belanja_operasi_hibah}")
+    st.write(f"Total Belanja Modal PBJ : {belanja_modal_pbj}")
+    st.write(f"Total Belanja Tidak Terduga : {belanja_tidak_terduga}")
 
 except Exception as e:
     st.error(f"Error: {e}")
