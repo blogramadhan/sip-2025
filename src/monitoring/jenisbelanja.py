@@ -60,7 +60,7 @@ try:
         ORDER BY nama_satker
     """).df()['nama_satker']
 
-    st.dataframe(dfRUPPP_filter)
+    # st.dataframe(dfRUPPP_filter)
 
     satker_options = ["SEMUA PERANGKAT DAERAH"] + list(namaopd)
     satker = st.selectbox("Pilih Perangkat Daerah :", satker_options, key="jenis_belanja")
@@ -81,11 +81,25 @@ try:
     # Hitung total pagu untuk Belanja Tidak Terduga
     belanja_tidak_terduga = dfRUPPP_PD_Profil[dfRUPPP_PD_Profil['kd_belanja'].str.startswith('5.3', na=False)]['pagu'].sum()
 
-    st.write(f"Total Belanja Operasi PBJ : {belanja_operasi_pbj}")
-    st.write(f"Total Belanja Operasi Bansos : {belanja_operasi_bansos}")
-    st.write(f"Total Belanja Operasi Hibah : {belanja_operasi_hibah}")
-    st.write(f"Total Belanja Modal PBJ : {belanja_modal_pbj}")
-    st.write(f"Total Belanja Tidak Terduga : {belanja_tidak_terduga}")
+    # st.write(f"Total Belanja Operasi PBJ : {belanja_operasi_pbj}")
+    # st.write(f"Total Belanja Operasi Bansos : {belanja_operasi_bansos}")
+    # st.write(f"Total Belanja Operasi Hibah : {belanja_operasi_hibah}")
+    # st.write(f"Total Belanja Modal PBJ : {belanja_modal_pbj}")
+    # st.write(f"Total Belanja Tidak Terduga : {belanja_tidak_terduga}")
 
+    ProfilPD1, ProfilPD2 = st.columns((8,2))
+    with ProfilPD1:
+        st.subheader(f"{satker}")
+    with ProfilPD2:
+        st.download_button(
+            label="📥 Unduh RUP Jenis Belanja",
+            data=download_excel(dfRUPPP_filter),
+            file_name=f"ProfilRUPMAK_{tahun}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+
+    st.divider()
+
+    st.subheader("STRUKTUR ANGGARAN")
 except Exception as e:
     st.error(f"Error: {e}")
