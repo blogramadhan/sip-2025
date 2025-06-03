@@ -58,10 +58,15 @@ try:
         AND a.metode_pengadaan <> '0'
     """).df()
 
-    # namaopd = dfRUPPP_filter['nama_satker'].unique()
+    # Buat dataframe nama_satker unik
+    namaopd = con.execute("""
+        SELECT DISTINCT nama_satker 
+        FROM dfRUPPP_filter
+        ORDER BY nama_satker
+    """).df()
 
     st.dataframe(dfRUPPP_filter)
-    # st.dataframe(namaopd)
+    st.dataframe(namaopd)
 
 except Exception as e:
     st.error(f"Error: {e}")
