@@ -101,6 +101,16 @@ try:
     st.divider()
 
     st.subheader("BELANJA OPERASIONAL")
+    col_bo1, col_bo2, col_bo3 = st.columns(3)
+    col_bo1.metric(label="Belanja Operasi PBJ", value=format_currency(belanja_operasi_pbj, 'IDR', locale='id_ID'))
+    col_bo2.metric(label="Belanja Operasi Bansos", value=format_currency(belanja_operasi_bansos, 'IDR', locale='id_ID'))
+    col_bo3.metric(label="Belanja Operasi Hibah", value=format_currency(belanja_operasi_hibah, 'IDR', locale='id_ID'))
+
+    st.divider()
+
+    st.subheader("BELANJA MODAL")
+
+    st.subheader("BELANJA TIDAK TERDUGA")
 
 except Exception as e:
     st.error(f"Error: {e}")
