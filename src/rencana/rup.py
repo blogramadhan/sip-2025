@@ -36,7 +36,7 @@ datasets = {
     'PP31': f"{base_url}/RUP-PaketPenyedia-Terumumkan-{tahun}-03-31.parquet",
     'PS31': f"{base_url}/RUP-PaketSwakelola-Terumumkan-{tahun}-03-31.parquet",
     'SA31': f"{base_url}/RUP-StrukturAnggaranPD-{tahun}-03-31.parquet",
-    'PAP': f"{base_url}/RUP-PaketAnggaranPenyedia{tahun}.parquet"
+    # 'PAP': f"{base_url}/RUP-PaketAnggaranPenyedia{tahun}.parquet"
 }
 
 try:
@@ -44,7 +44,7 @@ try:
     dfRUPPP = read_df_duckdb(datasets['PP'])
     dfRUPPS = read_df_duckdb(datasets['PS'])
     dfRUPSA = read_df_duckdb(datasets['SA'])
-    dfRUPPAP = read_df_duckdb(datasets['PAP'])
+    # dfRUPPAP = read_df_duckdb(datasets['PAP'])
 
     # Filter data RUP Penyedia
     dfRUPPP_umumkan = con.execute("SELECT * FROM dfRUPPP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'true' AND metode_pengadaan <> '0'").df()
@@ -52,7 +52,7 @@ try:
     dfRUPPP_umumkan_pdn = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_pdn = 'PDN'").df()
 
     # Filter data RUP Paket Anggaran Penyedia
-    dfRUPPAP_filter = con.execute("SELECT kd_rup, mak FROM dfRUPPAP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'true'").df()
+    # dfRUPPAP_filter = con.execute("SELECT kd_rup, mak FROM dfRUPPAP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'true'").df()
 
     # Filter data RUP Swakelola
     dfRUPPS_umumkan = con.execute("""
@@ -76,10 +76,10 @@ st.title("RENCANA PENGADAAN")
 st.header(f"{pilih} TAHUN {tahun}")
 
 # Buat Tab Menu
-menu_rup_1, menu_rup_2, menu_rup_3, menu_rup_4, menu_rup_5, menu_rup_6, menu_rup_7 = st.tabs([
+menu_rup_1, menu_rup_2, menu_rup_3, menu_rup_4, menu_rup_5, menu_rup_6 = st.tabs([
     "| PROFIL RUP |", "| STRUKTUR ANGGARAN |", "| RUP PAKET PENYEDIA |", 
-    "| RUP PAKET SWAKELOLA |", "| PERSENTASE INPUT RUP |", "| PERSENTASE INPUT RUP (31 MAR) |",
-    "| JENIS BELANJA |"
+    "| RUP PAKET SWAKELOLA |", "| PERSENTASE INPUT RUP |", "| PERSENTASE INPUT RUP (31 MAR) |"
+    # "| JENIS BELANJA |"
 ])
 
 with menu_rup_1:
@@ -784,20 +784,20 @@ with menu_rup_6:
     except Exception as e:
         st.error(f"Error: {e}")
 
-with menu_rup_7:
-    st.subheader("JENIS BELANJA")
+# with menu_rup_7:
+#     st.subheader("JENIS BELANJA")
 
-    try:
-        # Gabungkan dataframe RUP Penyedia dengan Paket Anggaran Penyedia
-        dfRUPPP_mak = dfRUPPP_umumkan.merge(
-            dfRUPPAP_filter,
-            how='left',
-            on='kd_rup'
-        )
+#     try:
+#         # Gabungkan dataframe RUP Penyedia dengan Paket Anggaran Penyedia
+#         dfRUPPP_mak = dfRUPPP_umumkan.merge(
+#             dfRUPPAP_filter,
+#             how='left',
+#             on='kd_rup'
+#         )
 
-        st.dataframe(dfRUPPP_mak)
+#         st.dataframe(dfRUPPP_mak)
 
-    except Exception as e:
-        st.error(f"Error: {e}")
+#     except Exception as e:
+#         st.error(f"Error: {e}")
 
 style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
