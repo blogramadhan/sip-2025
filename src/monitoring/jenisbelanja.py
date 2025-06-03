@@ -50,7 +50,8 @@ try:
     dfRUPPP_filter = con.execute("""
         SELECT a.kd_rup, a.nama_satker, a.nama_paket, a.pagu, 
                a.metode_pengadaan, a.jenis_pengadaan, a.status_pdn, 
-               a.status_ukm, b.mak
+               a.status_ukm, b.mak,
+               SUBSTRING(b.mak, 19, 6) as kd_belanja
         FROM dfRUPPP a
         LEFT JOIN dfRUPPAP b ON a.kd_rup = b.kd_rup 
         WHERE a.status_umumkan_rup = 'Terumumkan' 
@@ -65,7 +66,7 @@ try:
         ORDER BY nama_satker
     """).df()
 
-    # st.dataframe(dfRUPPP_filter)
+    st.dataframe(dfRUPPP_filter.head(10))
     # st.dataframe(namaopd)
 
     satker_options = ["SEMUA PERANGKAT DAERAH"] + list(namaopd['nama_satker'])
