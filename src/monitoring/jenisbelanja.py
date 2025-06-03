@@ -67,10 +67,16 @@ try:
     """).df()
 
     st.dataframe(dfRUPPP_filter)
-    # st.dataframe(namaopd)
 
     satker_options = ["SEMUA PERANGKAT DAERAH"] + list(namaopd['nama_satker'])
     satker = st.selectbox("Pilih Perangkat Daerah :", satker_options, key="jenis_belanja")
+
+    if satker == "SEMUA PERANGKAT DAERAH":
+        dfRUPPP_PD_Profil = dfRUPPP_filter.copy()
+    else:
+        dfRUPPP_PD_Profil = con.execute(f"SELECT * FROM dfRUPPP_filter WHERE nama_satker = '{satker}'").df()
+
+    
 
 except Exception as e:
     st.error(f"Error: {e}")
