@@ -64,11 +64,11 @@ try:
         SELECT DISTINCT nama_satker 
         FROM dfRUPPP_filter
         ORDER BY nama_satker
-    """).df()
+    """).df()['nama_satker']
 
     st.dataframe(dfRUPPP_filter)
 
-    satker_options = ["SEMUA PERANGKAT DAERAH"] + list(namaopd['nama_satker'])
+    satker_options = ["SEMUA PERANGKAT DAERAH"] + list(namaopd)
     satker = st.selectbox("Pilih Perangkat Daerah :", satker_options, key="jenis_belanja")
 
     if satker == "SEMUA PERANGKAT DAERAH":
