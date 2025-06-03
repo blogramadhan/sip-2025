@@ -41,16 +41,16 @@ datasets = {
 try:
     st.title("JENIS BELANJA")
     st.header(f"{pilih} TAHUN {tahun}")
-
     st.divider()
 
-    # Baca dataset RUP
+    # Baca dan filter data RUP
     dfRUPPP = read_df_duckdb(datasets['PP'])
     dfRUPPAP = read_df_duckdb(datasets['PAP'])
     
-    # Filter Data RUP
     dfRUPPP_filter = con.execute("""
-        SELECT a.*, b.mak
+        SELECT a.kd_rup, a.nama_satker, a.nama_paket, a.pagu, 
+               a.metode_pengadaan, a.jenis_pengadaan, a.status_pdn, 
+               a.status_ukm, b.mak
         FROM dfRUPPP a
         LEFT JOIN dfRUPPAP b ON a.kd_rup = b.kd_rup 
         WHERE a.status_umumkan_rup = 'Terumumkan' 
@@ -58,9 +58,7 @@ try:
         AND a.metode_pengadaan <> '0'
     """).df()
 
-    dfRUPPP_mak = dfRUPPP_filter[['kd_rup', 'nama_satker', 'nama_paket', 'pagu', 'metode_pengadaan', 'jenis_pengadaan', 'status_pdn', 'status_ukm', 'mak']]
-
-    st.dataframe(dfRUPPP_mak.head(10))
+    st.dataframe(dfRUPPP_filter.head(10))
 
 except Exception as e:
     st.error(f"Error: {e}")
