@@ -46,8 +46,14 @@ try:
     dfRUPPAP = read_df_duckdb(datasets['PAP'])
     
     # Filter Data RUP
-    dfRUPPP_filter = con.execute("SELECT * FROM dfRUPPP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'true' AND metode_pengadaan <> '0'").df()
-    dfRUPPAP_filter = con.execute("SELECT kd_rup, mak FROM dfRUPPAP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'true'").df()
+    dfRUPPP_filter = con.execute("""
+        SELECT a.*, b.mak
+        FROM dfRUPPP a
+        LEFT JOIN dfRUPPAP b ON a.kd_rup = b.kd_rup 
+        WHERE a.status_umumkan_rup = 'Terumumkan' 
+        AND a.status_aktif_rup = 'true'
+        AND a.metode_pengadaan <> '0'
+    """).df()
 
 except Exception as e:
     st.error(f"Error: {e}")
