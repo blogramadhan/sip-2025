@@ -41,7 +41,7 @@ datasets = {
 try:
     # Baca dataset RUP
     dfRUPPP = read_df(datasets['PP'])
-    dfRUPPAP = read_df(datasets['PAP'], columns=['kd_rup', 'mak'])
+    dfRUPPAP = read_df(datasets['PAP'])
 
     # Gabungkan dataframe RUP
     dfRUPPP_mak = dfRUPPP.merge(
