@@ -40,6 +40,7 @@ datasets = {
 
 try:
     st.title("JENIS BELANJA")
+    st.header(f"{pilih} TAHUN {tahun}")
 
     # Baca dataset RUP
     dfRUPPP = read_df_duckdb(datasets['PP'])
@@ -55,7 +56,9 @@ try:
         AND a.metode_pengadaan <> '0'
     """).df()
 
-    
+    namaopd = dfRUPPP_filter['nama_opd'].unique()
+
+
 
 except Exception as e:
     st.error(f"Error: {e}")
