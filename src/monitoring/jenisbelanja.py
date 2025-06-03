@@ -60,7 +60,7 @@ try:
 
     # namaopd = dfRUPPP_filter['nama_satker'].unique()
 
-    st.dataframe(dfRUPPP_filter.head(10))
+    st.dataframe(dfRUPPP_filter)
     # st.dataframe(namaopd)
 
 except Exception as e:
