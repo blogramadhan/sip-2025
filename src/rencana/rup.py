@@ -50,9 +50,6 @@ try:
     dfRUPPP_umumkan_ukm = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_ukm = 'UKM'").df()
     dfRUPPP_umumkan_pdn = con.execute("SELECT * FROM dfRUPPP_umumkan WHERE status_pdn = 'PDN'").df()
 
-    # Filter data RUP Paket Anggaran Penyedia
-    # dfRUPPAP_filter = con.execute("SELECT kd_rup, mak FROM dfRUPPAP WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'true'").df()
-
     # Filter data RUP Swakelola
     dfRUPPS_umumkan = con.execute("""
         SELECT nama_satker, kd_rup, nama_paket, pagu, tipe_swakelola, volume_pekerjaan, 

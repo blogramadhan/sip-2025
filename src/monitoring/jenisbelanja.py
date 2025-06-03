@@ -58,7 +58,10 @@ try:
         AND a.metode_pengadaan <> '0'
     """).df()
 
+    namaopd = dfRUPPP_filter['nama_satker'].unique()
+
     st.dataframe(dfRUPPP_filter.head(10))
+    st.dataframe(namaopd)
 
 except Exception as e:
     st.error(f"Error: {e}")
