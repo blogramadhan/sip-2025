@@ -36,6 +36,7 @@ pages = {
     "MONITORING": [
         st.Page("./src/monitoring/itkp.py", title=" 📈  ITKP"),
         st.Page("./src/monitoring/nilaisikap.py", title=" ⭐  NILAI SIKAP"),
+        st.Page("./src/monitoring/jenisbelanja.py", title=" 💰  JENIS BELANJA"),
     ]
 }
 
