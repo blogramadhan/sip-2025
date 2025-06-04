@@ -39,6 +39,12 @@ datasets = {
     'TenderBAST': f"{base_url}/SPSE-TenderEkontrak-BAPBAST{tahun}.parquet",
 }
 
+# URL Dataset RUP
+base_url_rup = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+datasets_rup = {
+    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
+}
+
 st.title("TRANSAKSI TENDER")
 st.header(f"{pilih} - TAHUN {tahun}")
 
@@ -46,6 +52,11 @@ menu_tender_1, menu_tender_2, menu_tender_3, menu_tender_4, menu_tender_5 = st.t
 
 with menu_tender_1:
     try:
+        # Baca dataset RUP
+        dfRUPPP = read_df_duckdb(datasets_rup['PP'])[['kd_rup', 'status_pdn', 'status_ukm']]
+
+        st.dataframe(dfRUPPP.head(10))
+
         # Baca dataset pengumuman Tender Selesai
         dfSPSETenderPengumuman = read_df_duckdb(datasets['TenderPengumuman']).drop(columns=['nama_pokja'])
 
