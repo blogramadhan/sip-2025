@@ -75,7 +75,7 @@ with menu_tender_1:
 
         st.divider()
 
-        SPSE_radio_1, SPSE_radio_2, SPSE_radio_3 = st.columns((1,1,8))
+        SPSE_radio_1, SPSE_radio_2, SPSE_radio_3, SPSE_radio_4, SPSE_radio_5 = st.columns((1,1,1,1,6))
         with SPSE_radio_1:
             sumber_dana_unik_array = dfSPSETenderPengumuman['sumber_dana'].unique()
             sumber_dana_unik_array_ok = np.insert(sumber_dana_unik_array, 0, "Gabungan")
@@ -85,10 +85,18 @@ with menu_tender_1:
             status_tender_unik_array_ok = np.insert(status_tender_unik_array, 0, "Gabungan")
             status_tender = st.radio("**Status Tender**", status_tender_unik_array_ok, key="Status_Tender_Pengumuman")
         with SPSE_radio_3:
+            status_pdn_unik_array = dfSPSETenderPengumuman['status_pdn'].unique()
+            status_pdn_unik_array_ok = np.insert(status_pdn_unik_array, 0, "Gabungan")
+            status_pdn = st.radio("**Status PDN**", status_pdn_unik_array_ok, key="Status_PDN_Pengumuman")
+        with SPSE_radio_4:
+            status_ukm_unik_array = dfSPSETenderPengumuman['status_ukm'].unique()
+            status_ukm_unik_array_ok = np.insert(status_ukm_unik_array, 0, "Gabungan")
+            status_ukm = st.radio("**Status UKM**", status_ukm_unik_array_ok, key="Status_UKM_Pengumuman")
+        with SPSE_radio_5:
             nama_satker_unik_array = dfSPSETenderPengumuman['nama_satker'].unique()
             nama_satker_unik_array_ok = np.insert(nama_satker_unik_array, 0, "Semua Perangkat Daerah")
             nama_satker = st.selectbox("Pilih Perangkat Daerah :", nama_satker_unik_array_ok, key='Nama_Satker_Pengumuman')
-        st.write(f"Anda memilih : **{sumber_dana}** dan **{status_tender}**")
+        st.write(f"Anda memilih : **{sumber_dana}**, **{status_tender}**, **{status_pdn}**, dan **{status_ukm}**")
 
         SPSETenderPengumuman_filter_query = f"SELECT * FROM dfSPSETenderPengumuman WHERE 1=1"
 
@@ -96,6 +104,10 @@ with menu_tender_1:
             SPSETenderPengumuman_filter_query += f" AND sumber_dana = '{sumber_dana}'"
         if status_tender != "Gabungan":
             SPSETenderPengumuman_filter_query += f" AND status_tender = '{status_tender}'"
+        if status_pdn != "Gabungan":
+            SPSETenderPengumuman_filter_query += f" AND status_pdn = '{status_pdn}'"
+        if status_ukm != "Gabungan":
+            SPSETenderPengumuman_filter_query += f" AND status_ukm = '{status_ukm}'"
         if nama_satker != "Semua Perangkat Daerah":
             SPSETenderPengumuman_filter_query += f" AND nama_satker = '{nama_satker}'"
 
