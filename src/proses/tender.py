@@ -54,9 +54,11 @@ with menu_tender_1:
     try:
         # Baca dataset RUP
         dfRUPPP = read_df_duckdb(datasets_rup['PP'])[['kd_rup', 'status_pdn', 'status_ukm']]
+        dfRUPPP['kd_rup'] = dfRUPPP['kd_rup'].astype(str)
 
         # Baca dataset pengumuman Tender Selesai
         dfSPSETenderPengumuman = read_df_duckdb(datasets['TenderPengumuman']).drop(columns=['nama_pokja'])
+        dfSPSETenderPengumuman['kd_rup'] = dfSPSETenderPengumuman['kd_rup'].astype(str)
 
         # Gabungkan dataframe berdasarkan kd_rup
         dfSPSETenderPengumuman = dfSPSETenderPengumuman.merge(dfRUPPP, how='left', on='kd_rup')
