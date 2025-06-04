@@ -55,10 +55,11 @@ with menu_tender_1:
         # Baca dataset RUP
         dfRUPPP = read_df_duckdb(datasets_rup['PP'])[['kd_rup', 'status_pdn', 'status_ukm']]
 
-        st.dataframe(dfRUPPP.head(10))
-
         # Baca dataset pengumuman Tender Selesai
         dfSPSETenderPengumuman = read_df_duckdb(datasets['TenderPengumuman']).drop(columns=['nama_pokja'])
+
+        # Gabungkan dataframe berdasarkan kd_rup
+        dfSPSETenderPengumuman = dfSPSETenderPengumuman.merge(dfRUPPP, how='left', on='kd_rup')
 
         # Tampilkan header dan tombol unduh
         col1, col2 = st.columns([7,3])
