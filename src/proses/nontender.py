@@ -64,16 +64,6 @@ with menu_nontender_1:
 
         st.subheader("PENGUMUMAN NON TENDER")
 
-        # Tampilkan header dan tombol unduh
-        col1, col2 = st.columns([7,3])
-        col1.subheader("PENGUMUMAN NON TENDER")
-        col2.download_button(
-            label="📥 Unduh Data Pengumuman Non Tender",
-            data=download_excel(dfNonTenderPengumuman),
-            file_name=f"NonTender-Pengumuman-{kodeFolder}-{tahun}.xlsx",
-            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
-
         st.divider()
 
         # Filter options
@@ -94,16 +84,30 @@ with menu_nontender_1:
             nama_satker_array = np.insert(dfNonTenderPengumuman['nama_satker'].unique(), 0, "Semua Perangkat Daerah")
             nama_satker = st.selectbox("**Perangkat Daerah**", nama_satker_array, key="Nama_Satker_NT_Pengumuman")
         
-        st.write(f"Anda memilih : **{sumber_dana_nt}** dan **{status_nontender}**")
-
         # Build filter query
         filter_query = "SELECT * FROM dfNonTenderPengumuman WHERE 1=1"
         if sumber_dana_nt != "Gabungan":
             filter_query += f" AND sumber_dana = '{sumber_dana_nt}'"
         if status_nontender != "Gabungan":
             filter_query += f" AND status_nontender = '{status_nontender}'"
+        if status_pdn != "Gabungan":
+            filter_query += f" AND status_pdn = '{status_pdn}'"
+        if status_ukm != "Gabungan":
+            filter_query += f" AND status_ukm = '{status_ukm}'"
+        if nama_satker != "Semua Perangkat Daerah":
+            filter_query += f" AND nama_satker = '{nama_satker}'"
         
         df_filter = con.execute(filter_query).df()
+
+        # Tampilkan header dan tombol unduh
+        col1, col2 = st.columns([8,2])
+        col1.write(f"Anda memilih : **{sumber_dana_nt}**, **{status_nontender}**, **{status_pdn}**, **{status_ukm}**, dan **{nama_satker}**")
+        col2.download_button(
+            label="📥 Unduh Data Pengumuman Non Tender",
+            data=download_excel(df_filter),
+            file_name=f"NonTender-Pengumuman-{kodeFolder}-{tahun}.xlsx",
+            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
         
         # Metrics
         col1, col2, col3 = st.columns(3)
