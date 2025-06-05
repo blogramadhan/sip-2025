@@ -63,15 +63,7 @@ with menu_tender_1:
         # Gabungkan dataframe berdasarkan kd_rup
         dfSPSETenderPengumuman = dfSPSETenderPengumuman.merge(dfRUPPP, how='left', on='kd_rup')
 
-        # Tampilkan header dan tombol unduh
-        col1, col2 = st.columns([7,3])
-        col1.subheader("PENGUMUMAN TENDER")
-        col2.download_button(
-            label="📥 Unduh Data Pengumuman Tender",
-            data=download_excel(dfSPSETenderPengumuman),
-            file_name=f"Tender-Pengumuman-{kodeFolder}-{tahun}.xlsx",
-            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
+        st.subheader("PENGUMUMAN TENDER")
 
         st.divider()
 
@@ -96,7 +88,6 @@ with menu_tender_1:
             nama_satker_unik_array = dfSPSETenderPengumuman['nama_satker'].unique()
             nama_satker_unik_array_ok = np.insert(nama_satker_unik_array, 0, "Semua Perangkat Daerah")
             nama_satker = st.selectbox("Pilih Perangkat Daerah :", nama_satker_unik_array_ok, key='Nama_Satker_Pengumuman')
-        st.write(f"Anda memilih : **{sumber_dana}**, **{status_tender}**, **{status_pdn}**, dan **{status_ukm}**")
 
         SPSETenderPengumuman_filter_query = f"SELECT * FROM dfSPSETenderPengumuman WHERE 1=1"
 
@@ -112,6 +103,16 @@ with menu_tender_1:
             SPSETenderPengumuman_filter_query += f" AND nama_satker = '{nama_satker}'"
 
         SPSETenderPengumuman_filter = con.execute(SPSETenderPengumuman_filter_query).df()
+
+        # Tampilkan header dan tombol unduh
+        col1, col2 = st.columns([7,3])
+        col1.write(f"Anda memilih : **{sumber_dana}**, **{status_tender}**, **{status_pdn}**, dan **{status_ukm}**")
+        col2.download_button(
+            label="📥 Unduh Data Pengumuman Tender",
+            data=download_excel(SPSETenderPengumuman_filter),
+            file_name=f"Tender-Pengumuman-{kodeFolder}-{tahun}.xlsx",
+            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
         
         jumlah_trx_spse_pengumuman = SPSETenderPengumuman_filter['kd_tender'].unique().shape[0]
         nilai_trx_spse_pengumuman_pagu = SPSETenderPengumuman_filter['pagu'].sum()
