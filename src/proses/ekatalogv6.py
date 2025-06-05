@@ -71,7 +71,7 @@ try:
     st.divider()
 
     # Filter Data dengan Radio Button
-    KATALOGV6_radio_1, KATALOGV6_radio_2, KATALOGV6_radio_3, KATALOGV6_radio_4, KATALOGV6_radio_5 = st.columns((1,1,1,1,1,5))  
+    KATALOGV6_radio_1, KATALOGV6_radio_2, KATALOGV6_radio_3, KATALOGV6_radio_4, KATALOGV6_radio_5 = st.columns((1,1,1,1,1))  
     with KATALOGV6_radio_1:
         nama_sumber_dana = np.insert(dfECATV6['sumber_dana'].unique(), 0, "Gabungan")
         nama_sumber_dana = st.radio("**Sumber Dana**", nama_sumber_dana)
