@@ -100,7 +100,7 @@ with menu_nontender_1:
         df_filter = con.execute(filter_query).df()
 
         # Tampilkan header dan tombol unduh
-        col1, col2 = st.columns([8,2])
+        col1, col2 = st.columns([7,3])
         col1.write(f"Anda memilih : **{sumber_dana_nt}**, **{status_nontender}**, **{status_pdn}**, **{status_ukm}**, dan **{nama_satker}**")
         col2.download_button(
             label="📥 Unduh Data Pengumuman Non Tender",
