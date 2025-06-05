@@ -67,7 +67,7 @@ with menu_pencatatan_1:
         # Menampilkan Header dan Tombol Unduh
         col1, col2 = st.columns((7,3))
         with col1:
-            st.subheader(f"PENCATATAN NON TENDER TAHUN {tahun}")
+            st.subheader("PENCATATAN NON TENDER")
         with col2:
             st.download_button(
                 label = "📥 Download Data Pencatatan Non Tender",
@@ -75,7 +75,7 @@ with menu_pencatatan_1:
                 file_name = f"SPSEPencatatanNonTender-{kodeFolder}-{tahun}.xlsx",
                 mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             )
-            
+
         st.divider()
 
         # Filter Data Berdasarkan Sumber Dana, Status PDN, dan Status UKM
