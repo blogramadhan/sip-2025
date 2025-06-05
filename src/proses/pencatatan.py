@@ -78,15 +78,34 @@ with menu_pencatatan_1:
             
         st.divider()
 
-        # Filter Data Berdasarkan Sumber Dana
-        sumber_dana_options = ['Gabungan'] + list(dfGabung['sumber_dana'].unique())
-        sumber_dana_cnt = st.radio("**Sumber Dana :**", sumber_dana_options, key="CatatNonTender")
+        # Filter Data Berdasarkan Sumber Dana, Status PDN, dan Status UKM
+        SPSE_radio_1, SPSE_radio_2, SPSE_radio_3 = st.columns((1,1,1,7))
+        
+        with SPSE_radio_1:
+            sumber_dana_options = ['Gabungan'] + list(dfGabung['sumber_dana'].unique())
+            sumber_dana_cnt = st.radio("**Sumber Dana**", sumber_dana_options, key="CatatNonTender")
+            
+        with SPSE_radio_2:
+            status_pdn_options = ['Gabungan'] + list(dfGabung['status_pdn'].unique())
+            status_pdn_cnt = st.radio("**Status PDN**", status_pdn_options, key="StatusPDN_CatatNonTender")
+            
+        with SPSE_radio_3:
+            status_ukm_options = ['Gabungan'] + list(dfGabung['status_ukm'].unique())
+            status_ukm_cnt = st.radio("**Status UKM**", status_ukm_options, key="StatusUKM_CatatNonTender")
         
         # Menerapkan Filter Data
-        if sumber_dana_cnt == 'Gabungan':
-            dfGabung_filter = dfGabung
-        else:
-            dfGabung_filter = dfGabung[dfGabung['sumber_dana'] == sumber_dana_cnt]
+        dfGabung_filter_query = "SELECT * FROM dfGabung WHERE 1=1"
+        
+        if sumber_dana_cnt != 'Gabungan':
+            dfGabung_filter_query += f" AND sumber_dana = '{sumber_dana_cnt}'"
+            
+        if status_pdn_cnt != 'Gabungan':
+            dfGabung_filter_query += f" AND status_pdn = '{status_pdn_cnt}'"
+            
+        if status_ukm_cnt != 'Gabungan':
+            dfGabung_filter_query += f" AND status_ukm = '{status_ukm_cnt}'"
+            
+        dfGabung_filter = con.execute(dfGabung_filter_query).df()
         
         # Menghitung Jumlah Paket Berdasarkan Status
         status_counts = {
