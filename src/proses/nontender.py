@@ -51,9 +51,18 @@ with menu_nontender_1:
     try:
         # Baca dataset RUP
         dfRUPPP = read_df_duckdb(datasets_rup['PP'])[['kd_rup', 'status_pdn', 'status_ukm']]
+        dfRUPPP['kd_rup'] = dfRUPPP['kd_rup'].astype(str)
 
         # Baca dataset pengumuman non tender
         dfNonTenderPengumuman = read_df_duckdb(datasets['NonTenderPengumuman'])
+        dfNonTenderPengumuman['kd_rup'] = dfNonTenderPengumuman['kd_rup'].astype(str)
+
+        # Gabungkan dataframe berdasarkan kd_rup
+        dfNonTenderPengumuman = dfNonTenderPengumuman.merge(dfRUPPP, on='kd_rup', how='left')
+        dfNonTenderPengumuman['status_pdn'] = dfNonTenderPengumuman['status_pdn'].fillna('Tanpa Status')
+        dfNonTenderPengumuman['status_ukm'] = dfNonTenderPengumuman['status_ukm'].fillna('Tanpa Status')
+
+        st.subheader("PENGUMUMAN NON TENDER")
 
         # Tampilkan header dan tombol unduh
         col1, col2 = st.columns([7,3])
@@ -68,13 +77,23 @@ with menu_nontender_1:
         st.divider()
 
         # Filter options
-        SPSE_NT_radio_1, SPSE_NT_radio_2, SPSE_NT_radio_3 = st.columns((1,1,8))
+        SPSE_NT_radio_1, SPSE_NT_radio_2, SPSE_NT_radio_3, SPSE_NT_radio_4, SPSE_NT_radio_5 = st.columns((1,1,1,1,6))
         with SPSE_NT_radio_1:
             sumber_dana_array = np.insert(dfNonTenderPengumuman['sumber_dana'].unique(), 0, "Gabungan")
             sumber_dana_nt = st.radio("**Sumber Dana**", sumber_dana_array, key="Sumber_Dana_NT_Pengumuman")
         with SPSE_NT_radio_2:
             status_array = np.insert(dfNonTenderPengumuman['status_nontender'].unique(), 0, "Gabungan")
             status_nontender = st.radio("**Status Non Tender**", status_array, key="Status_NT_Pengumuman")
+        with SPSE_NT_radio_3:
+            status_pdn_array = np.insert(dfNonTenderPengumuman['status_pdn'].unique(), 0, "Gabungan")
+            status_pdn = st.radio("**Status PDN**", status_pdn_array, key="Status_PDN_NT_Pengumuman")
+        with SPSE_NT_radio_4:
+            status_ukm_array = np.insert(dfNonTenderPengumuman['status_ukm'].unique(), 0, "Gabungan")
+            status_ukm = st.radio("**Status UKM**", status_ukm_array, key="Status_UKM_NT_Pengumuman")
+        with SPSE_NT_radio_5:
+            nama_satker_array = np.insert(dfNonTenderPengumuman['nama_satker'].unique(), 0, "Semua Perangkat Daerah")
+            nama_satker = st.radio("**Perangkat Daerah**", nama_satker_array, key="Nama_Satker_NT_Pengumuman")
+        
         st.write(f"Anda memilih : **{sumber_dana_nt}** dan **{status_nontender}**")
 
         # Build filter query
