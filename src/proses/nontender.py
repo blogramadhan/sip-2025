@@ -92,7 +92,7 @@ with menu_nontender_1:
             status_ukm = st.radio("**Status UKM**", status_ukm_array, key="Status_UKM_NT_Pengumuman")
         with SPSE_NT_radio_5:
             nama_satker_array = np.insert(dfNonTenderPengumuman['nama_satker'].unique(), 0, "Semua Perangkat Daerah")
-            nama_satker = st.radio("**Perangkat Daerah**", nama_satker_array, key="Nama_Satker_NT_Pengumuman")
+            nama_satker = st.selectbox("**Perangkat Daerah**", nama_satker_array, key="Nama_Satker_NT_Pengumuman")
         
         st.write(f"Anda memilih : **{sumber_dana_nt}** dan **{status_nontender}**")
 
