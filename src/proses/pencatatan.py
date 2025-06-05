@@ -35,6 +35,12 @@ datasets = {
     'CatatSwakelolaRealisasi': f"{base_url}/SPSE-PencatatanSwakelolaRealisasi{tahun}.parquet",
 }
 
+# URL Dataset RUP
+base_url_rup = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+datasets_rup = {
+    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
+}
+
 st.title(f"TRANSAKSI PENCATATAN")
 st.header(f"{pilih} - TAHUN {tahun}")
 
@@ -42,13 +48,21 @@ menu_pencatatan_1, menu_pencatatan_2 = st.tabs(["| PENCATATAN NON TENDER |", "| 
 
 with menu_pencatatan_1:
     try:
+        # Baca dataset RUP
+        dfRUPPP = read_df_duckdb(datasets_rup['PP'])[['kd_rup', 'status_pdn', 'status_ukm']]
+        dfRUPPP['kd_rup'] = dfRUPPP['kd_rup'].astype(str)
+
         # Membaca dan Menggabungkan Dataset Pencatatan Non Tender
         dfCatatNonTender = read_df_duckdb(datasets['CatatNonTender'])
         dfCatatNonTenderRealisasi = read_df_duckdb(datasets['CatatNonTenderRealisasi'])[[
             "kd_nontender_pct", "jenis_realisasi", "no_realisasi", 
             "tgl_realisasi", "nilai_realisasi", "nama_penyedia", "npwp_penyedia"
         ]]
+        
         dfGabung = dfCatatNonTender.merge(dfCatatNonTenderRealisasi, how='left', on='kd_nontender_pct')
+        dfGabung = dfGabung.merge(dfRUPPP, how='left', on='kd_rup')
+        dfGabung['status_pdn'] = dfGabung['status_pdn'].fillna('Tanpa Status')
+        dfGabung['status_ukm'] = dfGabung['status_ukm'].fillna('Tanpa Status')
 
         # Menampilkan Header dan Tombol Unduh
         col1, col2 = st.columns((7,3))
@@ -65,11 +79,11 @@ with menu_pencatatan_1:
         st.divider()
 
         # Filter Data Berdasarkan Sumber Dana
-        sumber_dana_options = ['SEMUA'] + list(dfGabung['sumber_dana'].unique())
+        sumber_dana_options = ['Gabungan'] + list(dfGabung['sumber_dana'].unique())
         sumber_dana_cnt = st.radio("**Sumber Dana :**", sumber_dana_options, key="CatatNonTender")
         
         # Menerapkan Filter Data
-        if sumber_dana_cnt == 'SEMUA':
+        if sumber_dana_cnt == 'Gabungan':
             dfGabung_filter = dfGabung
         else:
             dfGabung_filter = dfGabung[dfGabung['sumber_dana'] == sumber_dana_cnt]
