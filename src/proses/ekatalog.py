@@ -52,6 +52,7 @@ try:
 
         # Baca dan gabungkan dataset E-Katalog
         dfECAT = read_df_duckdb(datasets['ECAT'])
+        dfECAT['kd_rup'] = dfECAT['kd_rup'].astype(str)
 
         dfECAT_OK = (dfECAT
                     .merge(read_df_duckdb(datasets['ECAT_KD']), how='left', on='kd_komoditas')
