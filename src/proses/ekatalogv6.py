@@ -33,6 +33,12 @@ datasets = {
     'ECATV6': f"{base_url}/Ecat-PaketEPurchasingV6{tahun}.parquet",
 }
 
+# URL Dataset RUP
+base_url_rup = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+datasets_rup = {
+    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
+}
+
 # Tampilan Judul Halaman
 st.title("TRANSAKSI E-KATALOG VERSI 6")
 st.header(f"{pilih} - TAHUN {tahun}")
@@ -40,8 +46,17 @@ st.header(f"{pilih} - TAHUN {tahun}")
 st.divider()
 
 try:
+    # Baca dataset RUP
+    dfRUPPP = read_df_duckdb(datasets_rup['PP'])[['kd_rup', 'status_pdn', 'status_ukm']]
+    dfRUPPP['kd_rup'] = dfRUPPP['kd_rup'].astype(str)
+
     # Membaca Data E-Katalog V6
     dfECATV6 = read_df_duckdb(datasets['ECATV6'])
+    dfECATV6['kd_rup'] = dfECATV6['kd_rup'].astype(str)
+    
+    dfECATV6 = dfECATV6.merge(dfRUPPP, how='left', on='kd_rup')
+    dfECATV6['status_pdn'] = dfECATV6['status_pdn'].fillna('Tanpa Status')
+    dfECATV6['status_ukm'] = dfECATV6['status_ukm'].fillna('Tanpa Status')
 
     # Menampilkan Header dan Tombol Unduh
     col1, col2 = st.columns([8,2])
@@ -56,7 +71,7 @@ try:
     st.divider()
 
     # Filter Data dengan Radio Button
-    KATALOGV6_radio_1, KATALOGV6_radio_2, KATALOGV6_radio_3, KATALOGV6_radio_4 = st.columns((1,1,1,7))  
+    KATALOGV6_radio_1, KATALOGV6_radio_2, KATALOGV6_radio_3, KATALOGV6_radio_4, KATALOGV6_radio_5 = st.columns((1,1,1,1,1))  
     with KATALOGV6_radio_1:
         nama_sumber_dana = np.insert(dfECATV6['sumber_dana'].unique(), 0, "Gabungan")
         nama_sumber_dana = st.radio("**Sumber Dana**", nama_sumber_dana)
@@ -66,7 +81,14 @@ try:
     with KATALOGV6_radio_3:
         status_kirim = np.insert(dfECATV6['status_pengiriman'].unique(), 0, "Gabungan")
         status_kirim = st.radio("**Status Pengiriman**", status_kirim)
-    st.write(f"Anda memilih : **{nama_sumber_dana}** dan **{status_paket}** dan **{status_kirim}**")
+    with KATALOGV6_radio_4:
+        status_pdn_array = np.insert(dfECATV6['status_pdn'].unique(), 0, "Gabungan")
+        status_pdn = st.radio("**Status PDN**", status_pdn_array)
+    with KATALOGV6_radio_5:
+        status_ukm_array = np.insert(dfECATV6['status_ukm'].unique(), 0, "Gabungan") 
+        status_ukm = st.radio("**Status UKM**", status_ukm_array)
+        
+    st.write(f"Anda memilih : **{nama_sumber_dana}**, **{status_paket}**, **{status_kirim}**, **{status_pdn}**, **{status_ukm}**")
 
     # Membangun Query Filter
     df_ECATV6_filter_Query = "SELECT * FROM dfECATV6 WHERE 1=1"
@@ -79,6 +101,10 @@ try:
         df_ECATV6_filter_Query += f" AND status_pkt = '{status_paket}'"
     if status_kirim != "Gabungan":
         df_ECATV6_filter_Query += f" AND status_pengiriman = '{status_kirim}'"
+    if status_pdn != "Gabungan":
+        df_ECATV6_filter_Query += f" AND status_pdn = '{status_pdn}'"
+    if status_ukm != "Gabungan":
+        df_ECATV6_filter_Query += f" AND status_ukm = '{status_ukm}'"
 
     df_ECATV6_filter = con.execute(df_ECATV6_filter_Query).df()
 
