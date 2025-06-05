@@ -370,19 +370,19 @@ with menu_pencatatan_1:
         
         SPSE_CNT_radio_1, SPSE_CNT_radio_2 = st.columns((2,8))
         with SPSE_CNT_radio_1:
-            status_options = ['SEMUA'] + list(dfGabung_filter['status_nontender_pct_ket'].unique())
+            status_options = ['Gabungan'] + list(dfGabung_filter['status_nontender_pct_ket'].unique())
             status_nontender_cnt = st.radio("**Status NonTender :**", status_options)
         with SPSE_CNT_radio_2:
-            satker_options = ['SEMUA'] + list(dfGabung_filter['nama_satker'].unique())
+            satker_options = ['Semua Perangkat Daerah'] + list(dfGabung_filter['nama_satker'].unique())
             status_opd_cnt = st.selectbox("**Pilih Satker :**", satker_options)
 
         st.divider()
 
         # Modifikasi Query Berdasarkan Filter
         where_clauses = []
-        if status_nontender_cnt != 'SEMUA':
+        if status_nontender_cnt != 'Gabungan':
             where_clauses.append(f"status_nontender_pct_ket = '{status_nontender_cnt}'")
-        if status_opd_cnt != 'SEMUA':
+        if status_opd_cnt != 'Semua Perangkat Daerah':
             where_clauses.append(f"nama_satker = '{status_opd_cnt}'")
             
         where_sql = " AND ".join(where_clauses)
@@ -472,9 +472,9 @@ with menu_pencatatan_2:
         st.divider()
 
         # Filter Data Berdasarkan Sumber Dana
-        sumber_dana_options = ['SEMUA'] + list(dfGabung['sumber_dana'].unique())
+        sumber_dana_options = ['Gabungan'] + list(dfGabung['sumber_dana'].unique())
         sumber_dana_cs = st.radio("**Sumber Dana :**", sumber_dana_options, key="CatatSwakelola")
-        dfGabung_filter = dfGabung if sumber_dana_cs == 'SEMUA' else dfGabung[dfGabung['sumber_dana'] == sumber_dana_cs]
+        dfGabung_filter = dfGabung if sumber_dana_cs == 'Gabungan' else dfGabung[dfGabung['sumber_dana'] == sumber_dana_cs]
 
         # Menampilkan Metrik Status Paket
         status_counts = {status: len(dfGabung_filter[dfGabung_filter['status_swakelola_pct_ket'] == f'Paket {status}']) 
@@ -490,19 +490,19 @@ with menu_pencatatan_2:
         # Filter Berdasarkan Status dan Satker
         SPSE_CS_radio_1, SPSE_CS_radio_2 = st.columns((2,8))
         with SPSE_CS_radio_1:
-            status_options = ['Semua'] + list(dfGabung_filter['status_swakelola_pct_ket'].unique())
+            status_options = ['Gabungan'] + list(dfGabung_filter['status_swakelola_pct_ket'].unique())
             status_swakelola_cs = st.radio("**Status Swakelola :**", status_options)
         with SPSE_CS_radio_2:
-            satker_options = ['SEMUA'] + list(dfGabung_filter['nama_satker'].unique())
+            satker_options = ['Semua Perangkat Daerah'] + list(dfGabung_filter['nama_satker'].unique())
             status_opd_cs = st.selectbox("**Pilih Satker :**", satker_options)
         
         st.divider()
 
         # Query dan Tampilkan Data
         where_conditions = []
-        if status_swakelola_cs != 'Semua':
+        if status_swakelola_cs != 'Gabungan':
             where_conditions.append(f"status_swakelola_pct_ket = '{status_swakelola_cs}'")
-        if status_opd_cs != 'SEMUA':
+        if status_opd_cs != 'Semua Perangkat Daerah':
             where_conditions.append(f"nama_satker = '{status_opd_cs}'")
         
         where_sql = " AND ".join(where_conditions)
