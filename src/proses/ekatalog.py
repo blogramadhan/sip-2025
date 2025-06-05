@@ -84,14 +84,15 @@ try:
         with KATALOG_radio_2:
             nama_sumber_dana = st.radio("**Sumber Dana**", ["Gabungan", "APBD", "BLUD"])
         with KATALOG_radio_3:
-            status_paket_array = np.insert(dfECAT_OK['status_paket'].unique(), 0, "Gabungan")
-            status_paket = st.radio("**Status Paket**", status_paket_array)
-        with KATALOG_radio_4:
             status_pdn_array = np.insert(dfECAT_OK['status_pdn'].unique(), 0, "Gabungan") 
             status_pdn = st.radio("**Status PDN**", status_pdn_array)
-        with KATALOG_radio_5:
+        with KATALOG_radio_4:
             status_ukm_array = np.insert(dfECAT_OK['status_ukm'].unique(), 0, "Gabungan")
             status_ukm = st.radio("**Status UKM**", status_ukm_array)
+        with KATALOG_radio_5:
+            status_paket_array = np.insert(dfECAT_OK['status_paket'].unique(), 0, "Gabungan")
+            status_paket = st.radio("**Status Paket**", status_paket_array)
+
         st.write(f"Anda memilih : **{status_paket}**, **{jenis_katalog}**, **{nama_sumber_dana}**, **{status_pdn}**, **{status_ukm}**")
 
         # Build filter query
