@@ -32,6 +32,12 @@ datasets = {
     'ECAT_PD': f"{base_url}/ECATPenyediaDetail{tahun}.parquet",
 }
 
+# URL Dataset RUP
+base_url_rup = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+datasets_rup = {
+    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
+}
+
 st.title("TRANSAKSI E-KATALOG VERSI 5")
 st.header(f"{pilih} - TAHUN {tahun}")
 
@@ -39,6 +45,10 @@ menu_purchasing_1_1, menu_purchasing_1_2, menu_purchasing_1_3 = st.tabs(["| TRAN
 
 try:
     with menu_purchasing_1_1:
+
+        # Baca dataset RUP
+        dfRUPPP = read_df_duckdb(datasets_rup['PP'])[['kd_rup', 'status_pdn', 'status_ukm']]
+        dfRUPPP['kd_rup'] = dfRUPPP['kd_rup'].astype(str)
 
         # Baca dan gabungkan dataset E-Katalog
         dfECAT = read_df_duckdb(datasets['ECAT'])
@@ -48,6 +58,10 @@ try:
                     .drop('nama_satker', axis=1)
                     .merge(read_df_duckdb(datasets['ECAT_IS']), left_on='satker_id', right_on='kd_satker', how='left')
                     .merge(read_df_duckdb(datasets['ECAT_PD']), how='left', on='kd_penyedia'))
+        
+        dfECAT_OK = dfECAT_OK.merge(dfRUPPP, how='left', on='kd_rup')
+        dfECAT_OK['status_pdn'] = dfECAT_OK['status_pdn'].fillna('Tanpa Status')
+        dfECAT_OK['status_ukm'] = dfECAT_OK['status_ukm'].fillna('Tanpa Status')
 
         # Header dan tombol unduh
         col1, col2 = st.columns([8,2])
@@ -62,7 +76,7 @@ try:
         st.divider()
 
         # Filter options
-        KATALOG_radio_1, KATALOG_radio_2, KATALOG_radio_3, KATALOG_radio_4 = st.columns((1,1,3,5))
+        KATALOG_radio_1, KATALOG_radio_2, KATALOG_radio_3, KATALOG_radio_4, KATALOG_radio_5 = st.columns((1,1,1,1,6))
         with KATALOG_radio_1:
             jenis_katalog_array = np.insert(dfECAT_OK['jenis_katalog'].unique(), 0, "Gabungan")
             jenis_katalog = st.radio("**Jenis Katalog**", jenis_katalog_array)
@@ -71,7 +85,12 @@ try:
         with KATALOG_radio_3:
             status_paket_array = np.insert(dfECAT_OK['status_paket'].unique(), 0, "Gabungan")
             status_paket = st.radio("**Status Paket**", status_paket_array)
-        st.write(f"Anda memilih : **{status_paket}** dan **{jenis_katalog}** dan **{nama_sumber_dana}**")
+        with KATALOG_radio_4:
+            status_pdn_array = np.insert(dfECAT_OK['status_pdn'].unique(), 0, "Gabungan") 
+            status_pdn = st.radio("**Status PDN**", status_pdn_array)
+            status_ukm_array = np.insert(dfECAT_OK['status_ukm'].unique(), 0, "Gabungan")
+            status_ukm = st.radio("**Status UKM**", status_ukm_array)
+        st.write(f"Anda memilih : **{status_paket}**, **{jenis_katalog}**, **{nama_sumber_dana}**, **{status_pdn}**, **{status_ukm}**")
 
         # Build filter query
         df_ECAT_filter_Query = "SELECT * FROM dfECAT_OK WHERE 1=1"
@@ -84,6 +103,10 @@ try:
                 df_ECAT_filter_Query += f" AND nama_sumber_dana = '{nama_sumber_dana}'"
         if status_paket != "Gabungan":
             df_ECAT_filter_Query += f" AND status_paket = '{status_paket}'"
+        if status_pdn != "Gabungan":
+            df_ECAT_filter_Query += f" AND status_pdn = '{status_pdn}'"
+        if status_ukm != "Gabungan":
+            df_ECAT_filter_Query += f" AND status_ukm = '{status_ukm}'"
 
         df_ECAT_filter = con.execute(df_ECAT_filter_Query).df()
 
