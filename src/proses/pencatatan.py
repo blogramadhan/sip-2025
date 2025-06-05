@@ -79,7 +79,7 @@ with menu_pencatatan_1:
         st.divider()
 
         # Filter Data Berdasarkan Sumber Dana, Status PDN, dan Status UKM
-        SPSE_radio_1, SPSE_radio_2, SPSE_radio_3 = st.columns((1,1,1,7))
+        SPSE_radio_1, SPSE_radio_2, SPSE_radio_3, _ = st.columns((1,1,1,7))
         
         with SPSE_radio_1:
             sumber_dana_options = ['Gabungan'] + list(dfGabung['sumber_dana'].unique())
