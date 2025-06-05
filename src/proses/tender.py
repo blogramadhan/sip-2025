@@ -85,11 +85,11 @@ with menu_tender_1:
             status_tender_unik_array_ok = np.insert(status_tender_unik_array, 0, "Gabungan")
             status_tender = st.radio("**Status Tender**", status_tender_unik_array_ok, key="Status_Tender_Pengumuman")
         with SPSE_radio_3:
-            status_pdn_unik_array = dfSPSETenderPengumuman[dfSPSETenderPengumuman['status_pdn'].notna()]['status_pdn'].unique()
+            status_pdn_unik_array = dfSPSETenderPengumuman['status_pdn'].unique()
             status_pdn_unik_array_ok = np.insert(status_pdn_unik_array, 0, "Gabungan")
             status_pdn = st.radio("**Status PDN**", status_pdn_unik_array_ok, key="Status_PDN_Pengumuman")
         with SPSE_radio_4:
-            status_ukm_unik_array = dfSPSETenderPengumuman[dfSPSETenderPengumuman['status_ukm'].notna()]['status_ukm'].unique()
+            status_ukm_unik_array = dfSPSETenderPengumuman['status_ukm'].unique()
             status_ukm_unik_array_ok = np.insert(status_ukm_unik_array, 0, "Gabungan")
             status_ukm = st.radio("**Status UKM**", status_ukm_unik_array_ok, key="Status_UKM_Pengumuman")
         with SPSE_radio_5:
@@ -98,7 +98,7 @@ with menu_tender_1:
             nama_satker = st.selectbox("Pilih Perangkat Daerah :", nama_satker_unik_array_ok, key='Nama_Satker_Pengumuman')
         st.write(f"Anda memilih : **{sumber_dana}**, **{status_tender}**, **{status_pdn}**, dan **{status_ukm}**")
 
-        SPSETenderPengumuman_filter_query = f"SELECT * FROM dfSPSETenderPengumuman WHERE status_pdn IS NOT NULL AND status_ukm IS NOT NULL"
+        SPSETenderPengumuman_filter_query = f"SELECT * FROM dfSPSETenderPengumuman WHERE 1=1"
 
         if sumber_dana != "Gabungan":
             SPSETenderPengumuman_filter_query += f" AND sumber_dana = '{sumber_dana}'"
