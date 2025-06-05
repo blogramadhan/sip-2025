@@ -105,7 +105,7 @@ with menu_tender_1:
         SPSETenderPengumuman_filter = con.execute(SPSETenderPengumuman_filter_query).df()
 
         # Tampilkan header dan tombol unduh
-        col1, col2 = st.columns([7,3])
+        col1, col2 = st.columns([8,2])
         col1.write(f"Anda memilih : **{sumber_dana}**, **{status_tender}**, **{status_pdn}**, dan **{status_ukm}**")
         col2.download_button(
             label="📥 Unduh Data Pengumuman Tender",
