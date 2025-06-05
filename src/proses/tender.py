@@ -62,6 +62,8 @@ with menu_tender_1:
 
         # Gabungkan dataframe berdasarkan kd_rup
         dfSPSETenderPengumuman = dfSPSETenderPengumuman.merge(dfRUPPP, how='left', on='kd_rup')
+        dfSPSETenderPengumuman['status_pdn'] = dfSPSETenderPengumuman['status_pdn'].fillna('Tanpa Status')
+        dfSPSETenderPengumuman['status_ukm'] = dfSPSETenderPengumuman['status_ukm'].fillna('Tanpa Status')
 
         st.subheader("PENGUMUMAN TENDER")
 

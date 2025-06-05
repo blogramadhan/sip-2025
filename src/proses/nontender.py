@@ -36,6 +36,12 @@ datasets = {
     'NonTenderBAST': f"{base_url}/SPSE-NonTenderEkontrak-BAPBAST{tahun}.parquet",
 }
 
+# URL Dataset RUP
+base_url_rup = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+datasets_rup = {
+    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
+}
+
 st.title(f"TRANSAKSI NON TENDER")
 st.header(f"{pilih} - TAHUN {tahun}")
 
@@ -43,6 +49,9 @@ menu_nontender_1, menu_nontender_2, menu_nontender_3, menu_nontender_4, menu_non
 
 with menu_nontender_1:
     try:
+        # Baca dataset RUP
+        dfRUPPP = read_df_duckdb(datasets_rup['PP'])[['kd_rup', 'status_pdn', 'status_ukm']]
+
         # Baca dataset pengumuman non tender
         dfNonTenderPengumuman = read_df_duckdb(datasets['NonTenderPengumuman'])
 
