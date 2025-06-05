@@ -77,7 +77,7 @@ try:
         st.divider()
 
         # Filter options
-        KATALOG_radio_1, KATALOG_radio_2, KATALOG_radio_3, KATALOG_radio_4, KATALOG_radio_5 = st.columns((1,1,2,1,1))
+        KATALOG_radio_1, KATALOG_radio_2, KATALOG_radio_3, KATALOG_radio_4, KATALOG_radio_5 = st.columns((1,1,1,1,1))
         with KATALOG_radio_1:
             jenis_katalog_array = np.insert(dfECAT_OK['jenis_katalog'].unique(), 0, "Gabungan")
             jenis_katalog = st.radio("**Jenis Katalog**", jenis_katalog_array)
