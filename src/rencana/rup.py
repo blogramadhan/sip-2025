@@ -653,6 +653,7 @@ with menu_rup_4:
         
         # Tampilkan grid
         AgGrid(df_ps,
+               gridOptions=gdps.build(),
                fit_columns_on_grid_load=True,
                autoSizeColumns=True,
                enable_enterprise_modules=True,
