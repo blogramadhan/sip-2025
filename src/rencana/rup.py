@@ -547,8 +547,6 @@ with menu_rup_2:
             gdsa.configure_column(col, 
                               type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
                               valueGetter=f"data.{col}.toLocaleString('id-ID', {{style:'currency',currency:'IDR',maximumFractionDigits:2}})")
-        
-        gdsa.configure_pagination(paginationAutoPageSize=False)  # Set lebih banyak baris per halaman
 
         AgGrid(df_sa, 
                gridOptions=gdsa.build(), 
