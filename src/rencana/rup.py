@@ -597,7 +597,6 @@ with menu_rup_3:
         gdpp.configure_column("PAGU", 
                           type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
                           valueGetter="data.PAGU.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
-        gdpp.configure_pagination(paginationAutoPageSize=False)
         
         # Tampilkan grid
         AgGrid(df_pp,
@@ -647,7 +646,6 @@ with menu_rup_4:
         gdps.configure_column("PAGU", 
                           type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
                           valueGetter="data.PAGU.toLocaleString('id-ID', {style: 'currency', currency: 'IDR', maximumFractionDigits:2})")
-        gdps.configure_pagination(paginationAutoPageSize=False)
         
         # Tampilkan grid
         AgGrid(df_ps,
@@ -703,8 +701,6 @@ with menu_rup_5:
             gd.configure_column(col, 
                               type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
                               valueGetter=f"data.{col}.toLocaleString('id-ID', {{style: 'currency', currency: 'IDR', maximumFractionDigits:2}})")
-        
-        gd.configure_pagination(paginationAutoPageSize=False)
            
         AgGrid(ir_gabung_final,
                gridOptions=gd.build(),
@@ -767,8 +763,6 @@ with menu_rup_6:
             gd31.configure_column(col, 
                               type=["numericColumn", "numberColumnFilter", "customNumericFormat"],
                               valueGetter=f"data.{col}.toLocaleString('id-ID', {{style: 'currency', currency: 'IDR', maximumFractionDigits:2}})")
-            
-        gd31.configure_pagination(paginationAutoPageSize=False)
         
         AgGrid(ir_gabung_final31,
                gridOptions=gd31.build(),
