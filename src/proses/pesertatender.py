@@ -141,7 +141,6 @@ try:
     gd.configure_column("NAMA_PAKET", headerName="NAMA PAKET")
     gd.configure_column("NAMA_PENYEDIA", headerName="NAMA PENYEDIA")
     gd.configure_column("NPWP_PENYEDIA", headerName="NPWP PENYEDIA")
-    gd.configure_pagination(paginationAutoPageSize=False)
     
     # Tampilkan tabel
     AgGrid(jumlah_PeserteTender,
