@@ -28,12 +28,12 @@ kodeLPSE = selected_daerah.get("LPSE")
 con = duckdb.connect(database=':memory:')
 
 # URL Dataset Tender
-base_url = f"https://data.pbj.my.id/{kodeLPSE}/spse"
+base_url = f"https://s3-sip.pbj.my.id/spse/{kodeLPSE}"
 datasets = {
-    'TenderPengumuman': f"{base_url}/SPSE-TenderPengumuman{tahun}.parquet",
-    'TenderSelesai': f"{base_url}/SPSE-TenderSelesai{tahun}.parquet",
-    'TenderSelesaiNilai': f"{base_url}/SPSE-TenderSelesaiNilai{tahun}.parquet",
-    'TenderSPPBJ': f"{base_url}/SPSE-TenderEkontrak-SPPBJ{tahun}.parquet",
+    'TenderPengumuman': f"{base_url}/SPSE-TenderPengumuman/{tahun}/data.parquet",
+    'TenderSelesai': f"{base_url}/SPSE-TenderSelesai/{tahun}/data.parquet",
+    'TenderSelesaiNilai': f"{base_url}/SPSE-TenderSelesaiNilai/{tahun}/data.parquet",
+    'TenderSPPBJ': f"{base_url}/SPSE-TenderEkontrak-SPPBJ/{tahun}/data.parquet",
     'TenderKontrak': f"{base_url}/SPSE-TenderEkontrak-Kontrak{tahun}.parquet",
     'TenderSPMK': f"{base_url}/SPSE-TenderEkontrak-SPMKSPP{tahun}.parquet",
     'TenderBAST': f"{base_url}/SPSE-TenderEkontrak-BAPBAST{tahun}.parquet",
