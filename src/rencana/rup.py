@@ -28,14 +28,14 @@ kodeLPSE = selected_daerah.get("LPSE")
 con = duckdb.connect(database=':memory:')
 
 # URL Dataset SIRUP
-base_url = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+base_url = f"https://s3-sip.pbj.my.id/rup/{kodeRUP}"
 datasets = {
-    'PP': f"{base_url}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
-    'PS': f"{base_url}/RUP-PaketSwakelola-Terumumkan{tahun}.parquet", 
-    'SA': f"{base_url}/RUP-StrukturAnggaranPD{tahun}.parquet",
-    'PP31': f"{base_url}/RUP-PaketPenyedia-Terumumkan-{tahun}-03-31.parquet",
-    'PS31': f"{base_url}/RUP-PaketSwakelola-Terumumkan-{tahun}-03-31.parquet",
-    'SA31': f"{base_url}/RUP-StrukturAnggaranPD-{tahun}-03-31.parquet",
+    'PP': f"{base_url}/RUP-PaketPenyedia-Terumumkan/{tahun}/data.parquet",
+    'PS': f"{base_url}/RUP-PaketSwakelola-Terumumkan/{tahun}/data.parquet", 
+    'SA': f"{base_url}/RUP-StrukturAnggaranPD/{tahun}/data.parquet",
+    'PP31': f"{base_url}/RUP-PaketPenyedia-Terumumkan/{tahun}/data31.parquet",
+    'PS31': f"{base_url}/RUP-PaketSwakelola-Terumumkan/{tahun}/data31.parquet",
+    'SA31': f"{base_url}/RUP-StrukturAnggaranPD/{tahun}/data31.parquet",
 }
 
 try:
