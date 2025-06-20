@@ -40,9 +40,9 @@ datasets = {
 }
 
 # URL Dataset RUP
-base_url_rup = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+base_url_rup = f"https://s3-sip.pbj.my.id/rup/{kodeRUP}"
 datasets_rup = {
-    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
+    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan/{tahun}/data.parquet",
 }
 
 st.title("TRANSAKSI TENDER")
