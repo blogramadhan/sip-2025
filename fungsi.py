@@ -17,7 +17,7 @@ def read_df(url, format='parquet'):
 
 @st.cache_data(ttl=21600) 
 def read_df_duckdb(url, format='parquet'):
-    return duckdb.read_parquet(url).df() if format=='parquet' else duckdb.read_excel(url).df()
+    return duckdb.read_parquet(url).df() if format=='parquet' else duckdb.read_xlsx(url).df()
 
 def download_excel(df):
     buffer = io.BytesIO()

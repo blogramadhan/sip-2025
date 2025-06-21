@@ -30,19 +30,19 @@ con = duckdb.connect(database=':memory:')
 # URL Dataset SIRUP
 base_url = f"https://s3-sip.pbj.my.id/rup/{kodeRUP}"
 datasets = {
-    'PP': f"{base_url}/RUP-PaketPenyedia-Terumumkan/{tahun}/data.parquet",
-    'PS': f"{base_url}/RUP-PaketSwakelola-Terumumkan/{tahun}/data.parquet", 
-    'SA': f"{base_url}/RUP-StrukturAnggaranPD/{tahun}/data.parquet",
-    'PP31': f"{base_url}/RUP-PaketPenyedia-Terumumkan/{tahun}/data31.parquet",
-    'PS31': f"{base_url}/RUP-PaketSwakelola-Terumumkan/{tahun}/data31.parquet",
-    'SA31': f"{base_url}/RUP-StrukturAnggaranPD/{tahun}/data31.parquet",
+    'PP': f"{base_url}/RUP-PaketPenyedia-Terumumkan/{tahun}/data.xlsx",
+    'PS': f"{base_url}/RUP-PaketSwakelola-Terumumkan/{tahun}/data.xlsx", 
+    'SA': f"{base_url}/RUP-StrukturAnggaranPD/{tahun}/data.xlsx",
+    'PP31': f"{base_url}/RUP-PaketPenyedia-Terumumkan/{tahun}/data31.xlsx",
+    'PS31': f"{base_url}/RUP-PaketSwakelola-Terumumkan/{tahun}/data31.xlsx",
+    'SA31': f"{base_url}/RUP-StrukturAnggaranPD/{tahun}/data31.xlsx",
 }
 
 try:
     # Baca dataset RUP
-    dfRUPPP = read_df_duckdb(datasets['PP'])
-    dfRUPPS = read_df_duckdb(datasets['PS'])
-    dfRUPSA = read_df_duckdb(datasets['SA'])
+    dfRUPPP = read_df_duckdb(datasets['PP'], format='excel')
+    dfRUPPS = read_df_duckdb(datasets['PS'], format='excel')
+    dfRUPSA = read_df_duckdb(datasets['SA'], format='excel')
     # dfRUPPAP = read_df_duckdb(datasets['PAP'])
 
     # Filter data RUP Penyedia
@@ -719,9 +719,9 @@ with menu_rup_6:
 
     try:
         # Baca dataset RUP 31 Mar
-        dfRUPPP31 = read_df_duckdb(datasets['PP31'])
-        dfRUPPS31 = read_df_duckdb(datasets['PS31'])
-        dfRUPSA31 = read_df_duckdb(datasets['SA31'])
+        dfRUPPP31 = read_df_duckdb(datasets['PP31'], format='excel')
+        dfRUPPS31 = read_df_duckdb(datasets['PS31'], format='excel')
+        dfRUPSA31 = read_df_duckdb(datasets['SA31'], format='excel')
 
         dfRUPPP31_umumkan = con.execute("SELECT * FROM dfRUPPP31 WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
         dfRUPPS31_umumkan = con.execute("SELECT * FROM dfRUPPS31 WHERE status_umumkan_rup = 'Terumumkan'").df()
