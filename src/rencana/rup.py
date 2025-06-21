@@ -719,9 +719,9 @@ with menu_rup_6:
 
     try:
         # Baca dataset RUP 31 Mar
-        dfRUPPP31 = read_df_duckdb(datasets['PP31'])
-        dfRUPPS31 = read_df_duckdb(datasets['PS31'])
-        dfRUPSA31 = read_df_duckdb(datasets['SA31'])
+        dfRUPPP31 = read_df_duckdb(datasets['PP31'], format='excel')
+        dfRUPPS31 = read_df_duckdb(datasets['PS31'], format='excel')
+        dfRUPSA31 = read_df_duckdb(datasets['SA31'], format='excel')
 
         dfRUPPP31_umumkan = con.execute("SELECT * FROM dfRUPPP31 WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
         dfRUPPS31_umumkan = con.execute("SELECT * FROM dfRUPPS31 WHERE status_umumkan_rup = 'Terumumkan'").df()
