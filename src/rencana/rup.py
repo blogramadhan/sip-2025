@@ -40,9 +40,9 @@ datasets = {
 
 try:
     # Baca dataset RUP
-    dfRUPPP = read_df_duckdb(datasets['PP'])
-    dfRUPPS = read_df_duckdb(datasets['PS'])
-    dfRUPSA = read_df_duckdb(datasets['SA'])
+    dfRUPPP = read_df_duckdb(datasets['PP'], format='excel')
+    dfRUPPS = read_df_duckdb(datasets['PS'], format='excel')
+    dfRUPSA = read_df_duckdb(datasets['SA'], format='excel')
     # dfRUPPAP = read_df_duckdb(datasets['PAP'])
 
     # Filter data RUP Penyedia
