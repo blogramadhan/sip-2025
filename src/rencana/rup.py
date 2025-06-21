@@ -30,12 +30,12 @@ con = duckdb.connect(database=':memory:')
 # URL Dataset SIRUP
 base_url = f"https://s3-sip.pbj.my.id/rup/{kodeRUP}"
 datasets = {
-    'PP': f"{base_url}/RUP-PaketPenyedia-Terumumkan/{tahun}/data.parquet",
-    'PS': f"{base_url}/RUP-PaketSwakelola-Terumumkan/{tahun}/data.parquet", 
-    'SA': f"{base_url}/RUP-StrukturAnggaranPD/{tahun}/data.parquet",
-    'PP31': f"{base_url}/RUP-PaketPenyedia-Terumumkan/{tahun}/data31.parquet",
-    'PS31': f"{base_url}/RUP-PaketSwakelola-Terumumkan/{tahun}/data31.parquet",
-    'SA31': f"{base_url}/RUP-StrukturAnggaranPD/{tahun}/data31.parquet",
+    'PP': f"{base_url}/RUP-PaketPenyedia-Terumumkan/{tahun}/data.xlsx",
+    'PS': f"{base_url}/RUP-PaketSwakelola-Terumumkan/{tahun}/data.xlsx", 
+    'SA': f"{base_url}/RUP-StrukturAnggaranPD/{tahun}/data.xlsx",
+    'PP31': f"{base_url}/RUP-PaketPenyedia-Terumumkan/{tahun}/data31.xlsx",
+    'PS31': f"{base_url}/RUP-PaketSwakelola-Terumumkan/{tahun}/data31.xlsx",
+    'SA31': f"{base_url}/RUP-StrukturAnggaranPD/{tahun}/data31.xlsx",
 }
 
 try:
