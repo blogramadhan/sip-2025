@@ -34,9 +34,9 @@ datasets = {
     'TenderSelesai': f"{base_url}/SPSE-TenderSelesai/{tahun}/data.parquet",
     'TenderSelesaiNilai': f"{base_url}/SPSE-TenderSelesaiNilai/{tahun}/data.parquet",
     'TenderSPPBJ': f"{base_url}/SPSE-TenderEkontrak-SPPBJ/{tahun}/data.parquet",
-    'TenderKontrak': f"{base_url}/SPSE-TenderEkontrak-Kontrak{tahun}.parquet",
-    'TenderSPMK': f"{base_url}/SPSE-TenderEkontrak-SPMKSPP{tahun}.parquet",
-    'TenderBAST': f"{base_url}/SPSE-TenderEkontrak-BAPBAST{tahun}.parquet",
+    'TenderKontrak': f"{base_url}/SPSE-TenderEkontrak-Kontrak/{tahun}/data.parquet",
+    'TenderSPMK': f"{base_url}/SPSE-TenderEkontrak-SPMKSPP/{tahun}/data.parquet",
+    'TenderBAST': f"{base_url}/SPSE-TenderEkontrak-BAPBAST/{tahun}/data.parquet",
 }
 
 # URL Dataset RUP
