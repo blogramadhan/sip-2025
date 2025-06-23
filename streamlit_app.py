@@ -22,7 +22,7 @@ logo()
 pages = {
     "RENCANA DAN PERSIPAN": [
         st.Page("./src/rencana/rup.py", title=" 📋  Rencana Pengadaan"),
-        st.Page("./src/rencana/sipraja.py", title=" 🛠️  Persiapan Pengadaan"),
+        # st.Page("./src/rencana/sipraja.py", title=" 🛠️  Persiapan Pengadaan"),
     ],
     "PROSES PENGADAAN": [
         st.Page("./src/proses/tender.py", title=" 🏆  Tender"),

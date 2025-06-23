@@ -27,18 +27,18 @@ kodeLPSE = selected_daerah.get("LPSE")
 con = duckdb.connect(database=':memory:')
 
 # Konfigurasi URL Dataset Pencatatan
-base_url = f"https://data.pbj.my.id/{kodeLPSE}/spse"
+base_url = f"https://s3-sip.pbj.my.id/spse/{kodeLPSE}"
 datasets = {
-    'CatatNonTender': f"{base_url}/SPSE-PencatatanNonTender{tahun}.parquet",
-    'CatatNonTenderRealisasi': f"{base_url}/SPSE-PencatatanNonTenderRealisasi{tahun}.parquet",
-    'CatatSwakelola': f"{base_url}/SPSE-PencatatanSwakelola{tahun}.parquet",
-    'CatatSwakelolaRealisasi': f"{base_url}/SPSE-PencatatanSwakelolaRealisasi{tahun}.parquet",
+    'CatatNonTender': f"{base_url}/SPSE-PencatatanNonTender/{tahun}/data.parquet",
+    'CatatNonTenderRealisasi': f"{base_url}/SPSE-PencatatanNonTenderRealisasi/{tahun}/data.parquet",
+    'CatatSwakelola': f"{base_url}/SPSE-PencatatanSwakelola/{tahun}/data.parquet",
+    'CatatSwakelolaRealisasi': f"{base_url}/SPSE-PencatatanSwakelolaRealisasi/{tahun}/data.parquet",
 }
 
 # URL Dataset RUP
-base_url_rup = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+base_url_rup = f"https://s3-sip.pbj.my.id/rup/{kodeRUP}"
 datasets_rup = {
-    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
+    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan/{tahun}/data.parquet",
 }
 
 st.title(f"TRANSAKSI PENCATATAN")

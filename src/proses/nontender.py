@@ -26,20 +26,20 @@ kodeLPSE = selected_daerah.get("LPSE")
 con = duckdb.connect(database=':memory:')
 
 # URL Dataset NonTender
-base_url = f"https://data.pbj.my.id/{kodeLPSE}/spse"
+base_url = f"https://s3-sip.pbj.my.id/spse/{kodeLPSE}"
 datasets = {
-    'NonTenderPengumuman': f"{base_url}/SPSE-NonTenderPengumuman{tahun}.parquet",
-    'NonTenderSelesai': f"{base_url}/SPSE-NonTenderSelesai{tahun}.parquet",
-    'NonTenderSPPBJ': f"{base_url}/SPSE-NonTenderEkontrak-SPPBJ{tahun}.parquet",
-    'NonTenderKontrak': f"{base_url}/SPSE-NonTenderEkontrak-Kontrak{tahun}.parquet",
-    'NonTenderSPMK': f"{base_url}/SPSE-NonTenderEkontrak-SPMKSPP{tahun}.parquet",
-    'NonTenderBAST': f"{base_url}/SPSE-NonTenderEkontrak-BAPBAST{tahun}.parquet",
+    'NonTenderPengumuman': f"{base_url}/SPSE-NonTenderPengumuman/{tahun}/data.parquet",
+    'NonTenderSelesai': f"{base_url}/SPSE-NonTenderSelesai/{tahun}/data.parquet",
+    'NonTenderSPPBJ': f"{base_url}/SPSE-NonTenderEkontrak-SPPBJ/{tahun}/data.parquet",
+    'NonTenderKontrak': f"{base_url}/SPSE-NonTenderEkontrak-Kontrak/{tahun}/data.parquet",
+    'NonTenderSPMK': f"{base_url}/SPSE-NonTenderEkontrak-SPMKSPP/{tahun}/data.parquet",
+    'NonTenderBAST': f"{base_url}/SPSE-NonTenderEkontrak-BAPBAST/{tahun}/data.parquet",
 }
 
 # URL Dataset RUP
-base_url_rup = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+base_url_rup = f"https://s3-sip.pbj.my.id/rup/{kodeRUP}"
 datasets_rup = {
-    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
+    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan/{tahun}/data.parquet",
 }
 
 st.title(f"TRANSAKSI NON TENDER")
