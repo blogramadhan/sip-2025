@@ -28,15 +28,15 @@ kodeLPSE = selected_daerah.get("LPSE")
 con = duckdb.connect(database=':memory:')
 
 # Menyiapkan URL untuk Dataset
-base_url = f"https://data.pbj.my.id/{kodeRUP}/epurchasing"
+base_url = f"https://s3-sip.pbj.my.id/katalogv6/{kodeRUP}"
 datasets = {
-    'ECATV6': f"{base_url}/Ecat-PaketEPurchasingV6{tahun}.parquet",
+    'ECATV6': f"{base_url}/Ecat-PaketEPurchasingV6/{tahun}/data.parquet",
 }
 
 # URL Dataset RUP
-base_url_rup = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+base_url_rup = f"https://s3-sip.pbj.my.id/rup/{kodeRUP}"
 datasets_rup = {
-    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
+    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan/{tahun}/data.parquet",
 }
 
 # Tampilan Judul Halaman
