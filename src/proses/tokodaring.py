@@ -25,9 +25,9 @@ kodeLPSE = selected_daerah.get("LPSE")
 con = duckdb.connect(database=':memory:')
 
 # URL Dataset Toko Daring
-base_url = f"https://data.pbj.my.id/{kodeRUP}/epurchasing"
+base_url = f"https://s3-sip.pbj.my.id/daring/{kodeRUP}"
 datasets = {
-    'BELA': f"{base_url}/Bela-TokoDaringRealisasi{tahun}.parquet",
+    'BELA': f"{base_url}/Bela-TokoDaringRealisasi/{tahun}/data.parquet",
 }
 
 try:

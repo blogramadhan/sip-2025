@@ -24,18 +24,18 @@ kodeLPSE = selected_daerah.get("LPSE")
 con = duckdb.connect(database=':memory:')
 
 # URL Dataset Katalog
-base_url = f"https://data.pbj.my.id/{kodeRUP}/epurchasing"
+base_url = f"https://s3-sip.pbj.my.id/katalog/{kodeRUP}"
 datasets = {
-    'ECAT': f"{base_url}/Ecat-PaketEPurchasing{tahun}.parquet",
-    'ECAT_KD': f"{base_url}/ECATKomoditasDetail{tahun}.parquet", 
-    'ECAT_IS': f"{base_url}/Ecat-InstansiSatker{tahun}.parquet",
-    'ECAT_PD': f"{base_url}/ECATPenyediaDetail{tahun}.parquet",
+    'ECAT': f"{base_url}/Ecat-PaketEPurchasing/{tahun}/data.parquet",
+    'ECAT_KD': f"{base_url}/Ecat-KomoditasDetail/{tahun}/data.parquet", 
+    'ECAT_IS': f"{base_url}/Ecat-PenyediaDetail/{tahun}/data.parquet",
+    'ECAT_PD': f"{base_url}/Ecat-InstansiSatker/{tahun}/data.parquet",
 }
 
 # URL Dataset RUP
-base_url_rup = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+base_url_rup = f"https://s3-sip.pbj.my.id/rup/{kodeRUP}"
 datasets_rup = {
-    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
+    'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan/{tahun}/data.parquet",
 }
 
 st.title("TRANSAKSI E-KATALOG VERSI 5")
