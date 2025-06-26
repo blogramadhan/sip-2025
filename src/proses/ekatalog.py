@@ -38,6 +38,24 @@ datasets_rup = {
     'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan/{tahun}/data.parquet",
 }
 
+# Baca dataset RUP
+dfRUPPP = read_df_duckdb(datasets_rup['PP'])[['kd_rup', 'status_pdn', 'status_ukm']]
+dfRUPPP['kd_rup'] = dfRUPPP['kd_rup'].astype(str)
+
+# Baca dan gabungkan dataset E-Katalog
+dfECAT = read_df_duckdb(datasets['ECAT'])
+dfECAT['kd_rup'] = dfECAT['kd_rup'].astype(str)
+
+dfECAT_OK = (dfECAT
+            .merge(read_df_duckdb(datasets['ECAT_KD']), how='left', on='kd_komoditas')
+            .drop('nama_satker', axis=1)
+            .merge(read_df_duckdb(datasets['ECAT_IS']), left_on='satker_id', right_on='kd_satker', how='left')
+            .merge(read_df_duckdb(datasets['ECAT_PD']), how='left', on='kd_penyedia'))
+
+dfECAT_OK = dfECAT_OK.merge(dfRUPPP, how='left', on='kd_rup')
+dfECAT_OK['status_pdn'] = dfECAT_OK['status_pdn'].fillna('Tanpa Status')
+dfECAT_OK['status_ukm'] = dfECAT_OK['status_ukm'].fillna('Tanpa Status')
+
 st.title("TRANSAKSI E-KATALOG VERSI 5")
 st.header(f"{pilih} - TAHUN {tahun}")
 
@@ -46,23 +64,23 @@ menu_purchasing_1_1, menu_purchasing_1_2, menu_purchasing_1_3 = st.tabs(["| TRAN
 try:
     with menu_purchasing_1_1:
 
-        # Baca dataset RUP
-        dfRUPPP = read_df_duckdb(datasets_rup['PP'])[['kd_rup', 'status_pdn', 'status_ukm']]
-        dfRUPPP['kd_rup'] = dfRUPPP['kd_rup'].astype(str)
+        # # Baca dataset RUP
+        # dfRUPPP = read_df_duckdb(datasets_rup['PP'])[['kd_rup', 'status_pdn', 'status_ukm']]
+        # dfRUPPP['kd_rup'] = dfRUPPP['kd_rup'].astype(str)
 
-        # Baca dan gabungkan dataset E-Katalog
-        dfECAT = read_df_duckdb(datasets['ECAT'])
-        dfECAT['kd_rup'] = dfECAT['kd_rup'].astype(str)
+        # # Baca dan gabungkan dataset E-Katalog
+        # dfECAT = read_df_duckdb(datasets['ECAT'])
+        # dfECAT['kd_rup'] = dfECAT['kd_rup'].astype(str)
 
-        dfECAT_OK = (dfECAT
-                    .merge(read_df_duckdb(datasets['ECAT_KD']), how='left', on='kd_komoditas')
-                    .drop('nama_satker', axis=1)
-                    .merge(read_df_duckdb(datasets['ECAT_IS']), left_on='satker_id', right_on='kd_satker', how='left')
-                    .merge(read_df_duckdb(datasets['ECAT_PD']), how='left', on='kd_penyedia'))
+        # dfECAT_OK = (dfECAT
+        #             .merge(read_df_duckdb(datasets['ECAT_KD']), how='left', on='kd_komoditas')
+        #             .drop('nama_satker', axis=1)
+        #             .merge(read_df_duckdb(datasets['ECAT_IS']), left_on='satker_id', right_on='kd_satker', how='left')
+        #             .merge(read_df_duckdb(datasets['ECAT_PD']), how='left', on='kd_penyedia'))
         
-        dfECAT_OK = dfECAT_OK.merge(dfRUPPP, how='left', on='kd_rup')
-        dfECAT_OK['status_pdn'] = dfECAT_OK['status_pdn'].fillna('Tanpa Status')
-        dfECAT_OK['status_ukm'] = dfECAT_OK['status_ukm'].fillna('Tanpa Status')
+        # dfECAT_OK = dfECAT_OK.merge(dfRUPPP, how='left', on='kd_rup')
+        # dfECAT_OK['status_pdn'] = dfECAT_OK['status_pdn'].fillna('Tanpa Status')
+        # dfECAT_OK['status_ukm'] = dfECAT_OK['status_ukm'].fillna('Tanpa Status')
 
         # Header dan tombol unduh
         col1, col2 = st.columns([8,2])
