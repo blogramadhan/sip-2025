@@ -38,8 +38,6 @@ datasets_rup = {
     'PP': f"{base_url_rup}/RUP-PaketPenyedia-Terumumkan/{tahun}/data.parquet",
 }
 
-# Baca dataset RUP
-
 st.title("TRANSAKSI E-KATALOG VERSI 5")
 st.header(f"{pilih} - TAHUN {tahun}")
 
