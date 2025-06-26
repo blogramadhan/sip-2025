@@ -4,12 +4,9 @@ import pandas as pd
 import plotly.express as px
 import duckdb
 from datetime import datetime
-# Library Aggrid
 from st_aggrid import AgGrid
 from st_aggrid.grid_options_builder import GridOptionsBuilder
-# Library Streamlit-Extras
 from streamlit_extras.metric_cards import style_metric_cards
-# Library Tambahan
 from fungsi import *
 
 # Membuat UKPBJ

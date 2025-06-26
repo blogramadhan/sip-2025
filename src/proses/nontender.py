@@ -5,15 +5,12 @@ import numpy as np
 import plotly.express as px
 import duckdb
 from datetime import datetime
-# Library Aggrid
 from st_aggrid import AgGrid
 from st_aggrid.grid_options_builder import GridOptionsBuilder
-# Library Streamlit-Extras
 from streamlit_extras.metric_cards import style_metric_cards
-# Library Tambahan
 from fungsi import *
 
-# Membuat UKPBJ
+# Konfigurasi UKPBJ
 daerah = region_config()
 pilih = st.sidebar.selectbox("Pilih Daerah", list(daerah.keys()))
 tahun = st.sidebar.selectbox("Pilih Tahun", range(datetime.now().year, datetime.now().year-3, -1))

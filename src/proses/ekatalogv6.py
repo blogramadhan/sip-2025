@@ -1,18 +1,13 @@
-# Impor Library yang Dibutuhkan
-# Library Utama untuk Manipulasi Data dan Visualisasi
+# Library Utama
 import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
 import duckdb
-import openpyxl
 from datetime import datetime
-# Library untuk Tabel Interaktif
 from st_aggrid import AgGrid
 from st_aggrid.grid_options_builder import GridOptionsBuilder
-# Library untuk Tampilan Metrik
 from streamlit_extras.metric_cards import style_metric_cards
-# Library Fungsi Tambahan
 from fungsi import *
 
 # Konfigurasi UKPBJ dan Tahun
