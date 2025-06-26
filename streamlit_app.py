@@ -1,9 +1,5 @@
 # Import library yang diperlukan
 import streamlit as st
-import pandas as pd
-import numpy as np
-import duckdb
-from streamlit_extras.metric_cards import style_metric_cards
 from streamlit_extras.app_logo import add_logo
 from fungsi import *
 

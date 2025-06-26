@@ -2,13 +2,9 @@
 import streamlit as st
 import pandas as pd
 import duckdb
-import openpyxl
 import io
-import xlsxwriter
 # Library Currency
 from babel.numbers import format_currency
-# Library Streamlit-Extras
-from streamlit_extras.app_logo import add_logo
 
 # Fungsi untuk membaca dan mengunduh dataframe
 @st.cache_data(ttl=21600)
@@ -21,7 +17,7 @@ def read_df_duckdb(url, format='parquet'):
 
 def download_excel(df):
     buffer = io.BytesIO()
-    df.to_excel(buffer, index=False, sheet_name='Sheet1', engine='xlsxwriter')
+    df.to_excel(buffer, index=False, sheet_name='Sheet1')
     return buffer.getvalue()
 
 # Fungsi untuk membuat logo
