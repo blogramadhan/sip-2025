@@ -185,10 +185,10 @@ try:
         with tab_pu_jumlah:
             # Query data jumlah transaksi
             sql_jumlah_pu = """
-                SELECT nama_merchant AS NAMA_TOKO, COUNT(DISTINCT(order_id)) AS JUMLAH_TRANSAKSI
+                SELECT merchant_name AS NAMA_TOKO, COUNT(DISTINCT(order_id)) AS JUMLAH_TRANSAKSI
                 FROM df_BELA_filter 
-                WHERE nama_merchant IS NOT NULL
-                GROUP BY nama_merchant 
+                WHERE merchant_name IS NOT NULL
+                GROUP BY merchant_name 
                 ORDER BY JUMLAH_TRANSAKSI DESC 
                 LIMIT 10
             """
@@ -229,10 +229,10 @@ try:
         with tab_pu_nilai:
             # Query data nilai transaksi
             sql_nilai_pu = """
-                SELECT nama_merchant AS NAMA_TOKO, SUM(valuasi) AS NILAI_TRANSAKSI
+                SELECT merchant_name AS NAMA_TOKO, SUM(valuasi) AS NILAI_TRANSAKSI
                 FROM df_BELA_filter 
-                WHERE nama_merchant IS NOT NULL
-                GROUP BY nama_merchant 
+                WHERE merchant_name IS NOT NULL
+                GROUP BY merchant_name 
                 ORDER BY NILAI_TRANSAKSI DESC 
                 LIMIT 10
             """

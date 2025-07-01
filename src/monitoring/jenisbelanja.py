@@ -22,10 +22,10 @@ kodeLPSE = selected_daerah.get("LPSE")
 con = duckdb.connect(database=':memory:');
 
 # URL Dataset Jenis Belanja
-base_url = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+base_url = f"https://s3-sip.pbj.my.id/rup/{kodeRUP}"
 datasets = {
-    'PP': f"{base_url}/RUP-PaketPenyedia-Terumumkan{tahun}.parquet",
-    'PAP': f"{base_url}/RUP-PaketAnggaranPenyedia{tahun}.parquet"
+    'PP': f"{base_url}/RUP-PaketPenyedia-Terumumkan/{tahun}/data.parquet",
+    'PAP': f"{base_url}/RUP-PaketAnggaranPenyedia/{tahun}/data.parquet"
 }
 
 try:
