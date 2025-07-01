@@ -22,7 +22,7 @@ kodeLPSE = selected_daerah.get("LPSE")
 con = duckdb.connect(database=':memory:')
 
 # URL Dataset SIRUP
-sirup_url = f"https://s3-sip.pbj.my.id/{kodeRUP}"
+sirup_url = f"https://s3-sip.pbj.my.id/rup/{kodeRUP}"
 datasets_sirup = {
     'PP': f"{sirup_url}/RUP-PaketPenyedia-Terumumkan/{tahun}/data31.parquet",
     'PS': f"{sirup_url}/RUP-PaketSwakelola-Terumumkan/{tahun}/data31.parquet", 
@@ -30,9 +30,10 @@ datasets_sirup = {
 }
 
 # URL Dataset SPSE dan SIKAP
-spse_url = f"https://s3-sip.pbj.my.id/{kodeLPSE}"
-sikap_url = f"https://s3-sip.pbj.my.id/{kodeRUP}"
-epurchasing_url = f"https://s3-sip.pbj.my.id/{kodeRUP}"
+spse_url = f"https://s3-sip.pbj.my.id/spse/{kodeLPSE}"
+sikap_url = f"https://s3-sip.pbj.my.id/sikap/{kodeRUP}"
+katalog_url = f"https://s3-sip.pbj.my.id/katalog/{kodeRUP}"
+daring_url = f"https://s3-sip.pbj.my.id/daring/{kodeRUP}"
 
 # Dataset Tender, Non Tender, dan E-Purchasing
 datasets_tender = {
@@ -46,10 +47,13 @@ datasets_nontender = {
     'sikap': f"{sikap_url}/SiKAP-PenilaianKinerjaPenyedia-NonTender/{tahun}/data.parquet"
 }
 
-datasets_epurchasing = {
-    'ecat': f"{epurchasing_url}/Ecat-PaketEPurchasing/{tahun}/data.parquet",
-    'ecatis': f"{epurchasing_url}/Ecat-InstansiSatker/{tahun}/data.parquet",
-    'bela': f"{epurchasing_url}/Bela-TokoDaringRealisasi/{tahun}/data.parquet"
+datasets_katalog = {
+    'ecat': f"{katalog_url}/Ecat-PaketEPurchasing/{tahun}/data.parquet",
+    'ecatis': f"{katalog_url}/Ecat-InstansiSatker/{tahun}/data.parquet",
+}
+
+datasets_daring = {
+    'bela': f"{daring_url}/Bela-TokoDaringRealisasi/{tahun}/data.parquet"
 }
 
 try:
@@ -60,10 +64,10 @@ try:
     dfSPSE_TenderPengumuman = read_df_duckdb(datasets_tender['pengumuman'])
     dfSPSE_TenderEkontrak = read_df_duckdb(datasets_tender['kontrak'])
     dfSPSE_NonTenderPengumuman = read_df_duckdb(datasets_nontender['pengumuman'])
-    dfEcat_PaketEPurchasing = read_df_duckdb(datasets_epurchasing['ecat']).drop('nama_satker', axis=1, errors='ignore')
-    dfEcat_InstansiSatker = read_df_duckdb(datasets_epurchasing['ecatis'])
+    dfEcat_PaketEPurchasing = read_df_duckdb(datasets_katalog['ecat']).drop('nama_satker', axis=1, errors='ignore')
+    dfEcat_InstansiSatker = read_df_duckdb(datasets_katalog['ecatis'])
     dfEcat = pd.merge(dfEcat_PaketEPurchasing, dfEcat_InstansiSatker, left_on='satker_id', right_on='kd_satker', how='left')
-    dfBela_TokoDaringRealisasi = read_df_duckdb(datasets_epurchasing['bela'])
+    dfBela_TokoDaringRealisasi = read_df_duckdb(datasets_daring['bela'])
 
 except Exception as e:
     st.error(f"Error: {e}")
