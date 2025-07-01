@@ -22,34 +22,34 @@ kodeLPSE = selected_daerah.get("LPSE")
 con = duckdb.connect(database=':memory:')
 
 # URL Dataset SIRUP
-sirup_url = f"https://data.pbj.my.id/{kodeRUP}/sirup"
+sirup_url = f"https://s3-sip.pbj.my.id/{kodeRUP}"
 datasets_sirup = {
-    'PP': f"{sirup_url}/RUP-PaketPenyedia-Terumumkan{tahun if int(tahun) < 2025 else f'-{tahun}-03-31'}.parquet",
-    'PS': f"{sirup_url}/RUP-PaketSwakelola-Terumumkan{tahun if int(tahun) < 2025 else f'-{tahun}-03-31'}.parquet", 
-    'SA': f"{sirup_url}/RUP-StrukturAnggaranPD{tahun if int(tahun) < 2025 else f'-{tahun}-03-31'}.parquet"
+    'PP': f"{sirup_url}/RUP-PaketPenyedia-Terumumkan/{tahun}/data31.parquet",
+    'PS': f"{sirup_url}/RUP-PaketSwakelola-Terumumkan/{tahun}/data31.parquet", 
+    'SA': f"{sirup_url}/RUP-StrukturAnggaranPD/{tahun}/data31.parquet"
 }
 
 # URL Dataset SPSE dan SIKAP
-spse_url = f"https://data.pbj.my.id/{kodeLPSE}/spse"
-sikap_url = f"https://data.pbj.my.id/{kodeRUP}/sikap"
-epurchasing_url = f"https://data.pbj.my.id/{kodeRUP}/epurchasing"
+spse_url = f"https://s3-sip.pbj.my.id/{kodeLPSE}"
+sikap_url = f"https://s3-sip.pbj.my.id/{kodeRUP}"
+epurchasing_url = f"https://s3-sip.pbj.my.id/{kodeRUP}"
 
 # Dataset Tender, Non Tender, dan E-Purchasing
 datasets_tender = {
-    'pengumuman': f"{spse_url}/SPSE-TenderPengumuman{tahun}.parquet",
-    'kontrak': f"{spse_url}/SPSE-TenderEkontrak-Kontrak{tahun}.parquet",
-    'sikap': f"{sikap_url}/SIKaP-PenilaianKinerjaPenyedia-Tender{tahun}.parquet"
+    'pengumuman': f"{spse_url}/SPSE-TenderPengumuman/{tahun}/data.parquet",
+    'kontrak': f"{spse_url}/SPSE-TenderEkontrak-Kontrak/{tahun}/data.parquet",
+    'sikap': f"{sikap_url}/SIKaP-PenilaianKinerjaPenyedia-Tender/{tahun}/data.parquet"
 }
 
 datasets_nontender = {
-    'pengumuman': f"{spse_url}/SPSE-NonTenderPengumuman{tahun}.parquet",
-    'sikap': f"{sikap_url}/SiKAP-PenilaianKinerjaPenyedia-NonTender{tahun}.parquet"
+    'pengumuman': f"{spse_url}/SPSE-NonTenderPengumuman/{tahun}/data.parquet",
+    'sikap': f"{sikap_url}/SiKAP-PenilaianKinerjaPenyedia-NonTender/{tahun}/data.parquet"
 }
 
 datasets_epurchasing = {
-    'ecat': f"{epurchasing_url}/Ecat-PaketEPurchasing{tahun}.parquet",
-    'ecatis': f"{epurchasing_url}/Ecat-InstansiSatker.parquet",
-    'bela': f"{epurchasing_url}/Bela-TokoDaringRealisasi{tahun}.parquet"
+    'ecat': f"{epurchasing_url}/Ecat-PaketEPurchasing/{tahun}/data.parquet",
+    'ecatis': f"{epurchasing_url}/Ecat-InstansiSatker/{tahun}/data.parquet",
+    'bela': f"{epurchasing_url}/Bela-TokoDaringRealisasi/{tahun}/data.parquet"
 }
 
 try:
