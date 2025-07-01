@@ -31,13 +31,13 @@ def proses_data_sikap(jenis, kd_field):
         st.subheader(f"SIKAP {jenis}")
         
         # Baca dataset
-        dataset_pengumuman = f"https://data.pbj.my.id/{kodeLPSE}/spse/SPSE-{jenis}Pengumuman{tahun}.parquet"
+        dataset_pengumuman = f"https://s3-sip.pbj.my.id/{kodeLPSE}/SPSE-{jenis}Pengumuman/{tahun}/data.parquet"
         
         # Penyesuaian nama dataset untuk NonTender
         if jenis == "NonTender":
-            dataset_sikap = f"https://data.pbj.my.id/{kodeRUP}/sikap/SiKAP-PenilaianKinerjaPenyedia-{jenis}{tahun}.parquet"
+            dataset_sikap = f"https://s3-sip.pbj.my.id/{kodeRUP}/SiKAP-PenilaianKinerjaPenyedia-{jenis}/{tahun}/data.parquet"
         else:
-            dataset_sikap = f"https://data.pbj.my.id/{kodeRUP}/sikap/SIKaP-PenilaianKinerjaPenyedia-{jenis}{tahun}.parquet"
+            dataset_sikap = f"https://s3-sip.pbj.my.id/{kodeRUP}/SIKaP-PenilaianKinerjaPenyedia-{jenis}/{tahun}/data.parquet"
         
         df_pengumuman = read_df_duckdb(dataset_pengumuman)
         df_sikap = read_df_duckdb(dataset_sikap)
