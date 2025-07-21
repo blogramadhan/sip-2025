@@ -106,8 +106,14 @@ try:
     st.divider()
 
     st.subheader("BELANJA MODAL")
+    col_bm1, col_bm2, col_bm3 = st.columns(3)
+    col_bm1.metric(label="Belanja Modal PBJ", value=format_currency(belanja_modal_pbj, 'IDR', locale='id_ID').replace('Rp', 'Rp. '))
+    
+    st.divider()
 
     st.subheader("BELANJA TIDAK TERDUGA")
+    col_bt1, col_bt2, col_bt3 = st.columns(3)
+    col_bt1.metric(label="Belanja Tidak Terduga", value=format_currency(belanja_tidak_terduga, 'IDR', locale='id_ID').replace('Rp', 'Rp. '))
 
 except Exception as e:
     st.error(f"Error: {e}")
