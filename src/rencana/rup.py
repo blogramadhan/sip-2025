@@ -81,18 +81,56 @@ with menu_rup_1:
     st.subheader("PROFIL RUP")
 
     try:
+        # Tambahkan pilihan radio untuk memilih periode data
+        periode_data = st.radio(
+            "Pilih Periode Data:",
+            ["Data Reguler", "31 Maret"],
+            horizontal=True,
+            key='periode_profil_rup'
+        )
+               
+        # Load data berdasarkan pilihan periode
+        if periode_data == "31 Maret":
+            # Load data 31 Maret jika belum ada
+            try:
+                dfRUPPP31 = read_df_duckdb(datasets['PP31'])
+                dfRUPPS31 = read_df_duckdb(datasets['PS31'])
+                dfRUPSA31 = read_df_duckdb(datasets['SA31'])
+                
+                # Filter data 31 Maret
+                dfRUPPP31_umumkan = con.execute("SELECT * FROM dfRUPPP31 WHERE status_umumkan_rup = 'Terumumkan' AND status_aktif_rup = 'TRUE' AND metode_pengadaan <> '0'").df()
+                dfRUPPS31_umumkan = con.execute("SELECT * FROM dfRUPPS31 WHERE status_umumkan_rup = 'Terumumkan'").df()
+                
+                # Set dataset yang akan digunakan
+                dfRUPPP_source = dfRUPPP31_umumkan
+                dfRUPPS_source = dfRUPPS31_umumkan
+                dfRUPSA_source = dfRUPSA31
+                
+            except Exception as e:
+                st.error(f"Error loading data 31 Maret: {e}")
+                # Fallback ke data reguler
+                dfRUPPP_source = dfRUPPP_umumkan
+                dfRUPPS_source = dfRUPPS_umumkan
+                dfRUPSA_source = dfRUPSA
+        else:
+            # Gunakan data reguler
+            dfRUPPP_source = dfRUPPP_umumkan
+            dfRUPPS_source = dfRUPPS_umumkan
+            dfRUPSA_source = dfRUPSA
+        
         # Tambahkan opsi "Semua Perangkat Daerah" di awal daftar
         opd_options = ["SEMUA PERANGKAT DAERAH"] + list(namaopd)
         opd = st.selectbox("Pilih Perangkat Daerah :", opd_options, key='rup_profil')
 
         if opd == "SEMUA PERANGKAT DAERAH":
-            dfRUPPP_PD_Profil = dfRUPPP_umumkan
-            dfRUPPS_PD_Profil = dfRUPPS_umumkan
-            dfRUPSA_PD_Profil = dfRUPSA
+            dfRUPPP_PD_Profil = dfRUPPP_source
+            dfRUPPS_PD_Profil = dfRUPPS_source
+            dfRUPSA_PD_Profil = dfRUPSA_source
         else:
-            dfRUPPP_PD_Profil = con.execute(f"SELECT * FROM dfRUPPP_umumkan WHERE nama_satker = '{opd}'").df()
-            dfRUPPS_PD_Profil = con.execute(f"SELECT * FROM dfRUPPS_umumkan WHERE nama_satker = '{opd}'").df()
-            dfRUPSA_PD_Profil = con.execute(f"SELECT * FROM dfRUPSA WHERE nama_satker = '{opd}'").df()
+            # Filter data berdasarkan perangkat daerah yang dipilih
+            dfRUPPP_PD_Profil = dfRUPPP_source[dfRUPPP_source['nama_satker'] == opd]
+            dfRUPPS_PD_Profil = dfRUPPS_source[dfRUPPS_source['nama_satker'] == opd]
+            dfRUPSA_PD_Profil = dfRUPSA_source[dfRUPSA_source['nama_satker'] == opd]
 
         dfRUPPP_PD_mp_hitung = con.execute("SELECT metode_pengadaan AS METODE_PENGADAAN, COUNT(metode_pengadaan) AS JUMLAH_PAKET FROM dfRUPPP_PD_Profil WHERE metode_pengadaan IS NOT NULL GROUP BY metode_pengadaan").df()
         dfRUPPP_PD_mp_nilai = con.execute("SELECT metode_pengadaan AS METODE_PENGADAAN, SUM(pagu) AS NILAI_PAKET FROM dfRUPPP_PD_Profil WHERE metode_pengadaan IS NOT NULL GROUP BY metode_pengadaan").df()
@@ -105,23 +143,26 @@ with menu_rup_1:
 
         ### Unduh Dataframe Analisa Profil RUP Daerah Perangkat Daerah
         unduh_RUPPP_PD_Profil = download_excel(dfRUPPP_PD_Profil)
-        unduh_RUPPS_PD_Profil = download_excel(dfRUPPS_PD_Profil)       
+        unduh_RUPPS_PD_Profil = download_excel(dfRUPPS_PD_Profil)
+        
+        # Tentukan suffix file berdasarkan periode data
+        file_suffix = "_31Mar" if periode_data == "31 Maret" else ""
 
         ProfilPD1, ProfilPD2, ProfilPD3 = st.columns((6,2,2))
         with ProfilPD1:
-            st.subheader(f"{opd}")
+            st.subheader(f"{opd} - {periode_data}")
         with ProfilPD2:
             st.download_button(
                 label="📥 Unduh RUP Paket Penyedia",
                 data=unduh_RUPPP_PD_Profil,
-                file_name=f"ProfilRUPPP_{opd}_{tahun}.xlsx",
+                file_name=f"ProfilRUPPP_{opd}_{tahun}{file_suffix}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
         with ProfilPD3:
             st.download_button(
                 label="📥 Unduh RUP Paket Swakelola",
                 data=unduh_RUPPS_PD_Profil,
-                file_name=f"ProfilRUPPS_{opd}_{tahun}.xlsx",
+                file_name=f"ProfilRUPPS_{opd}_{tahun}{file_suffix}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
 
@@ -141,7 +182,7 @@ with menu_rup_1:
 
         st.divider() 
 
-        st.subheader("POSISI INPUT RUP")
+        st.subheader(f"POSISI INPUT RUP - {periode_data}")
 
         jumlah_total_rup_pd = dfRUPPP_PD_Profil.shape[0] + dfRUPPS_PD_Profil.shape[0]
         nilai_total_rup_pd = dfRUPPP_PD_Profil['pagu'].sum() + dfRUPPS_PD_Profil['pagu'].sum()
@@ -171,7 +212,7 @@ with menu_rup_1:
 
         with st.container(border=True):
 
-            st.subheader("STATUS UKM DAN PDN")
+            st.subheader(f"STATUS UKM DAN PDN - {periode_data}")
 
             ### Tabel dan Grafik RUP Status UKM Perangkat Daerah
             grafik_rup_ukm_pd_tab_1, grafik_rup_ukm_pd_tab_2 = st.tabs(["| Berdasarkan Jumlah Paket - UKM |", "| Berdasarkan Nilai Paket - UKM |"])
@@ -343,7 +384,7 @@ with menu_rup_1:
             
         with st.container(border=True):
 
-            st.subheader("BERDASARKAN METODE PENGADAAN")
+            st.subheader(f"BERDASARKAN METODE PENGADAAN - {periode_data}")
 
             ### Tabel dan Grafik RUP Berdasarkan Metode Pengadaan Perangkat Daerah
             grafik_rup_mp_pd_tab_1, grafik_rup_mp_pd_tab_2 = st.tabs(["| Berdasarkan Jumlah Paket - MP |", "| Berdasarkan Nilai Paket - MP |"])
@@ -430,7 +471,7 @@ with menu_rup_1:
 
         with st.container(border=True):
         
-            st.subheader("BERDASARKAN JENIS PENGADAAN")
+            st.subheader(f"BERDASARKAN JENIS PENGADAAN - {periode_data}")
 
             ### Tabel dan Grafik RUP Berdasarkan jenis pengadaan Perangkat Daerah
             grafik_rup_jp_pd_tab_1, grafik_rup_jp_pd_tab_2 = st.tabs(["| Berdasarkan Jumlah Paket - JP |", "| Berdasarkan Nilai Paket - JP |"])
