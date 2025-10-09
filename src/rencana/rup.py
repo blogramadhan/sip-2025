@@ -5,7 +5,6 @@ import numpy as np
 import plotly.express as px
 import duckdb
 from datetime import datetime
-from babel.numbers import format_currency
 from st_aggrid import AgGrid, GridUpdateMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
 from streamlit_extras.metric_cards import style_metric_cards
