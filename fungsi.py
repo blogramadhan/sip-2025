@@ -20,6 +20,16 @@ def download_excel(df):
     df.to_excel(buffer, index=False, sheet_name='Sheet1')
     return buffer.getvalue()
 
+# Fungsi untuk memuat custom CSS
+def load_css():
+    # Load main CSS
+    with open('style.css') as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
+    # Load components CSS
+    with open('style_components.css') as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 # Fungsi untuk membuat logo
 def logo():
     st.logo(image="https://storage.googleapis.com/bukanamel/img/sip-spse-new.png", icon_image="https://storage.googleapis.com/bukanamel/img/sip-spse-icon.png", size="large")

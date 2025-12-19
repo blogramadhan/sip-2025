@@ -1,0 +1,283 @@
+/* ====================================
+   ADDITIONAL COMPONENTS - Simple
+   ==================================== */
+
+/* ====================================
+   SIDEBAR SECTION STYLING
+   ==================================== */
+/* Style untuk section headers di sidebar */
+[data-testid="stSidebarNav"] > ul > li > div {
+    position: relative;
+}
+
+/* Section header dengan background */
+[data-testid="stSidebarNav"] > ul > li > div > div {
+    background: linear-gradient(90deg, rgba(37, 99, 235, 0.08), transparent);
+    border-left: 3px solid var(--primary);
+    margin: 0.75rem 0.5rem 0.5rem 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0 6px 6px 0;
+    color: var(--text-primary) !important;
+}
+
+/* Spacing untuk section pertama */
+[data-testid="stSidebarNav"] > ul > li:first-child > div > div {
+    margin-top: 0.25rem;
+}
+
+/* Icon untuk section headers */
+[data-testid="stSidebarNav"] > ul > li:nth-child(1) > div > div::before {
+    content: "📋 ";
+    margin-right: 0.5rem;
+}
+
+[data-testid="stSidebarNav"] > ul > li:nth-child(2) > div > div::before {
+    content: "⚙️ ";
+    margin-right: 0.5rem;
+}
+
+[data-testid="stSidebarNav"] > ul > li:nth-child(3) > div > div::before {
+    content: "📊 ";
+    margin-right: 0.5rem;
+}
+
+/* Icon untuk menu items */
+/* Rencana Pengadaan */
+[data-testid="stSidebarNav"] a[href*="rup"]::before {
+    content: "📋 ";
+}
+
+/* Proses Pengadaan */
+[data-testid="stSidebarNav"] a[href*="tender"]::before {
+    content: "🏆 ";
+}
+
+[data-testid="stSidebarNav"] a[href*="nontender"]::before {
+    content: "📄 ";
+}
+
+[data-testid="stSidebarNav"] a[href*="pencatatan"]::before {
+    content: "✏️ ";
+}
+
+[data-testid="stSidebarNav"] a[href*="ekatalog"]::before {
+    content: "🏪 ";
+}
+
+[data-testid="stSidebarNav"] a[href*="tokodaring"]::before {
+    content: "🛒 ";
+}
+
+[data-testid="stSidebarNav"] a[href*="peserta"]::before {
+    content: "👥 ";
+}
+
+/* Monitoring */
+[data-testid="stSidebarNav"] a[href*="itkp"]::before {
+    content: "📈 ";
+}
+
+[data-testid="stSidebarNav"] a[href*="sikap"]::before {
+    content: "⭐ ";
+}
+
+[data-testid="stSidebarNav"] a[href*="belanja"]::before {
+    content: "💰 ";
+}
+
+/* ====================================
+   TAB ICONS - Auto add icons to tabs
+   ==================================== */
+/* Common tab text patterns with icons */
+.stTabs [data-baseweb="tab-list"] button:has([data-testid="stMarkdownContainer"]:not(:empty)) {
+    position: relative;
+}
+
+/* Specific tab icons based on content */
+.stTabs [data-baseweb="tab-list"] button[aria-label*="Jumlah Transaksi"]::before,
+.stTabs [data-baseweb="tab-list"] button div:has(p:contains("Jumlah Transaksi"))::before {
+    content: "📊 ";
+}
+
+.stTabs [data-baseweb="tab-list"] button[aria-label*="Nilai Transaksi"]::before,
+.stTabs [data-baseweb="tab-list"] button div:has(p:contains("Nilai Transaksi"))::before {
+    content: "💰 ";
+}
+
+.stTabs [data-baseweb="tab-list"] button[aria-label*="TRANSAKSI KATALOG"]::before {
+    content: "📦 ";
+}
+
+.stTabs [data-baseweb="tab-list"] button[aria-label*="ETALASE"]::before {
+    content: "🏪 ";
+}
+
+.stTabs [data-baseweb="tab-list"] button[aria-label*="TABEL"]::before {
+    content: "📋 ";
+}
+
+.stTabs [data-baseweb="tab-list"] button[aria-label*="Penyedia"]::before {
+    content: "🏢 ";
+}
+
+.stTabs [data-baseweb="tab-list"] button[aria-label*="Komoditas"]::before {
+    content: "📦 ";
+}
+
+.stTabs [data-baseweb="tab-list"] button[aria-label*="Perangkat"]::before,
+.stTabs [data-baseweb="tab-list"] button[aria-label*="Daerah"]::before {
+    content: "🏛️ ";
+}
+
+.stTabs [data-baseweb="tab-list"] button[aria-label*="Pelaku"]::before,
+.stTabs [data-baseweb="tab-list"] button[aria-label*="Usaha"]::before {
+    content: "👥 ";
+}
+
+.stTabs [data-baseweb="tab-list"] button[aria-label*="Charts"]::before,
+.stTabs [data-baseweb="tab-list"] button[aria-label*="Grafik"]::before {
+    content: "📈 ";
+}
+
+.stTabs [data-baseweb="tab-list"] button[aria-label*="Data"]::before,
+.stTabs [data-baseweb="tab-list"] button[aria-label*="Tabel"]::before {
+    content: "📊 ";
+}
+
+.stTabs [data-baseweb="tab-list"] button[aria-label*="Settings"]::before,
+.stTabs [data-baseweb="tab-list"] button[aria-label*="Pengaturan"]::before {
+    content: "⚙️ ";
+}
+
+/* ====================================
+   ENHANCED CONTAINER STYLING
+   ==================================== */
+[data-testid="stHorizontalBlock"] {
+    gap: 1rem;
+}
+
+/* ====================================
+   DATAFRAME STYLING
+   ==================================== */
+[data-testid="stDataFrame"] {
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+/* ====================================
+   FILE UPLOADER
+   ==================================== */
+[data-testid="stFileUploader"] {
+    background: var(--bg-card);
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 2rem;
+    transition: all 0.2s;
+}
+
+[data-testid="stFileUploader"]:hover {
+    border-color: var(--primary);
+    background: var(--bg-hover);
+}
+
+/* ====================================
+   PROGRESS BAR
+   ==================================== */
+.stProgress > div > div {
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 4px;
+}
+
+.stProgress > div {
+    background: var(--bg-card);
+    border-radius: 4px;
+}
+
+/* ====================================
+   INPUT FIELDS
+   ==================================== */
+.stTextInput > div > div > input,
+.stNumberInput > div > div > input {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+}
+
+.stTextInput > div > div > input:focus,
+.stNumberInput > div > div > input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* ====================================
+   CHECKBOX
+   ==================================== */
+.stCheckbox {
+    color: var(--text-primary);
+}
+
+.stCheckbox > label {
+    transition: all 0.2s;
+}
+
+.stCheckbox > label:hover {
+    color: var(--primary-light);
+}
+
+/* ====================================
+   SLIDER
+   ==================================== */
+.stSlider > div > div > div {
+    background: var(--primary);
+}
+
+/* ====================================
+   DATE INPUT
+   ==================================== */
+.stDateInput > div > div > input {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+}
+
+/* ====================================
+   MULTISELECT
+   ==================================== */
+.stMultiSelect > div > div {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+.stMultiSelect span {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    border-radius: 6px;
+}
+
+/* ====================================
+   CODE BLOCK
+   ==================================== */
+.stCodeBlock {
+    background: var(--bg-card);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+code {
+    background: var(--bg-card);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    color: var(--primary-light);
+}
+
+/* ====================================
+   TOAST NOTIFICATION
+   ==================================== */
+[data-baseweb="toast"] {
+    background: var(--bg-card);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}

@@ -1,5 +1,13 @@
 [theme]
-base="dark"
+base="light"
+primaryColor="#2563eb"
+backgroundColor="#ffffff"
+secondaryBackgroundColor="#f8fafc"
+textColor="#0f172a"
+font="sans serif"
 
 [client]
 showSidebarNavigation = true
+
+[server]
+maxUploadSize = 200

@@ -23,7 +23,7 @@ con = duckdb.connect(database=':memory:')
 st.title(f"PENILAIAN SIKAP")
 st.header(f"{pilih} - TAHUN {tahun}")
 
-menu_tender, menu_nontender = st.tabs(["| SIKAP TENDER |", "| SIKAP NON TENDER |"])
+menu_tender, menu_nontender = st.tabs(["⭐ SIKAP TENDER", "⭐ SIKAP NON TENDER"])
 
 # Fungsi untuk memproses data SIKAP
 def proses_data_sikap(jenis, kd_field):

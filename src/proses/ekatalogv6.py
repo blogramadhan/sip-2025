@@ -115,7 +115,7 @@ try:
     with st.container(border=True):
         st.subheader("Berdasarkan Perangkat Daerah (10 Besar)")
 
-        tab1, tab2 = st.tabs(["| Jumlah Transaksi Perangkat Daerah |", "| Nilai Transaksi Perangkat Daerah |"])
+        tab1, tab2 = st.tabs(["📊 Jumlah Transaksi Perangkat Daerah", "💰 Nilai Transaksi Perangkat Daerah"])
 
         # Query untuk Data Perangkat Daerah
         tabel_jumlah_pd = con.execute("""

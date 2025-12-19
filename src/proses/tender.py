@@ -42,7 +42,7 @@ datasets_rup = {
 st.title("TRANSAKSI TENDER")
 st.header(f"{pilih} - TAHUN {tahun}")
 
-menu_tender_1, menu_tender_2, menu_tender_3, menu_tender_4, menu_tender_5 = st.tabs(["| PENGUMUMAN |", "| SPPBJ |", "| KONTRAK |", "| SPMK |", "| BAPBAST |"])
+menu_tender_1, menu_tender_2, menu_tender_3, menu_tender_4, menu_tender_5 = st.tabs(["📢 PENGUMUMAN", "📋 SPPBJ", "📄 KONTRAK", "✅ SPMK", "📝 BAPBAST"])
 
 with menu_tender_1:
     try:
@@ -124,7 +124,7 @@ with menu_tender_1:
         with st.container(border=True):
 
             # Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Kualifikasi Paket
-            grafik_kp_1, grafik_kp_2 = st.tabs(["| Berdasarkan Jumlah Kualifikasi Paket |", "| Berdasarkan Nilai Kualifikasi Paket |"])
+            grafik_kp_1, grafik_kp_2 = st.tabs(["📊 Jumlah Kualifikasi Paket", "💰 Nilai Kualifikasi Paket"])
 
             with grafik_kp_1:
 
@@ -214,7 +214,7 @@ with menu_tender_1:
         with st.container(border=True):
 
             # Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Jenis Pengadaan
-            grafik_jp_1, grafik_jp_2 = st.tabs(["| Berdasarkan Jumlah Jenis Pengadaan |", "| Berdasarkan Nilai Jenis Pengadaan |"])
+            grafik_jp_1, grafik_jp_2 = st.tabs(["📊 Jumlah Jenis Pengadaan", "💰 Nilai Jenis Pengadaan"])
 
             with grafik_jp_1:
 
@@ -304,7 +304,7 @@ with menu_tender_1:
         with st.container(border=True):
 
             # Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Metode Pemilihan
-            grafik_mp_1, grafik_mp_2 = st.tabs(["| Berdasarkan Jumlah Metode Pemilihan |", "| Berdasarkan Nilai Metode Pemilihan |"])
+            grafik_mp_1, grafik_mp_2 = st.tabs(["📊 Jumlah Metode Pemilihan", "💰 Nilai Metode Pemilihan"])
 
             with grafik_mp_1:
 
@@ -394,7 +394,7 @@ with menu_tender_1:
         with st.container(border=True):
 
             # Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Metode Evaluasi
-            grafik_me_1, grafik_me_2 = st.tabs(["| Berdasarkan Jumlah Metode Evaluasi |", "| Berdasarkan Nilai Metode Evaluasi |"])
+            grafik_me_1, grafik_me_2 = st.tabs(["📊 Jumlah Metode Evaluasi", "💰 Nilai Metode Evaluasi"])
 
             with grafik_me_1:
 
@@ -485,7 +485,7 @@ with menu_tender_1:
         with st.container(border=True):
 
             # Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Metode Kualifikasi
-            grafik_mk_1, grafik_mk_2 = st.tabs(["| Berdasarkan Jumlah Metode Kualifikasi |", "| Berdasarkan Nilai Metode Kualifikasi |"])
+            grafik_mk_1, grafik_mk_2 = st.tabs(["📊 Jumlah Metode Kualifikasi", "💰 Nilai Metode Kualifikasi"])
 
             with grafik_mk_1:
 
@@ -576,7 +576,7 @@ with menu_tender_1:
         with st.container(border=True):
 
             ### Tabel dan Grafik Jumlah dan Nilai Transaksi SPSE - Tender - Pengumuman Berdasarkan Kontrak Pembayaran
-            grafik_kontrak_1, grafik_kontrak_2 = st.tabs(["| Berdasarkan Jumlah Kontrak Pembayaran |", "| Berdasarkan Nilai Kontrak Pembayaran |"])
+            grafik_kontrak_1, grafik_kontrak_2 = st.tabs(["📊 Jumlah Kontrak Pembayaran", "💰 Nilai Kontrak Pembayaran"])
 
             with grafik_kontrak_1:
 

@@ -42,7 +42,7 @@ datasets_rup = {
 st.title(f"TRANSAKSI NON TENDER")
 st.header(f"{pilih} - TAHUN {tahun}")
 
-menu_nontender_1, menu_nontender_2, menu_nontender_3, menu_nontender_4, menu_nontender_5 = st.tabs(["| PENGUMUMAN |", "| SPPBJ |", "| KONTRAK |", "| SPMK |", "| BAPBAST |"])
+menu_nontender_1, menu_nontender_2, menu_nontender_3, menu_nontender_4, menu_nontender_5 = st.tabs(["📢 PENGUMUMAN", "📋 SPPBJ", "📄 KONTRAK", "✅ SPMK", "📝 BAPBAST"])
 
 with menu_nontender_1:
     try:
@@ -119,7 +119,7 @@ with menu_nontender_1:
 
         # Visualisasi berdasarkan kualifikasi paket
         with st.container(border=True):
-            tab1, tab2 = st.tabs(["| Jumlah Kualifikasi Paket |", "| Nilai Kualifikasi Paket |"])
+            tab1, tab2 = st.tabs(["📊 Jumlah Kualifikasi Paket", "💰 Nilai Kualifikasi Paket"])
             
             with tab1:
                 st.subheader("Jumlah Kualifikasi Paket")
@@ -199,7 +199,7 @@ with menu_nontender_1:
 
         # Visualisasi berdasarkan jenis pengadaan
         with st.container(border=True):
-            tab1, tab2 = st.tabs(["| Jumlah Jenis Pengadaan |", "| Nilai Jenis Pengadaan |"])
+            tab1, tab2 = st.tabs(["📊 Jumlah Jenis Pengadaan", "💰 Nilai Jenis Pengadaan"])
             
             with tab1:
                 st.subheader("Jumlah Jenis Pengadaan")
@@ -279,7 +279,7 @@ with menu_nontender_1:
 
         # Visualisasi berdasarkan metode pemilihan
         with st.container(border=True):
-            tab1, tab2 = st.tabs(["| Jumlah Metode Pemilihan |", "| Nilai Metode Pemilihan |"])
+            tab1, tab2 = st.tabs(["📊 Jumlah Metode Pemilihan", "💰 Nilai Metode Pemilihan"])
             
             with tab1:
                 st.subheader("Jumlah Metode Pemilihan")
@@ -359,7 +359,7 @@ with menu_nontender_1:
 
         # Visualisasi berdasarkan kontrak pembayaran
         with st.container(border=True):
-            tab1, tab2 = st.tabs(["| Jumlah Kontrak Pembayaran |", "| Nilai Kontrak Pembayaran |"])
+            tab1, tab2 = st.tabs(["📊 Jumlah Kontrak Pembayaran", "💰 Nilai Kontrak Pembayaran"])
             
             with tab1:
                 st.subheader("Jumlah Kontrak Pembayaran")

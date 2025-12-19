@@ -39,7 +39,7 @@ datasets_rup = {
 st.title("TRANSAKSI E-KATALOG VERSI 5")
 st.header(f"{pilih} - TAHUN {tahun}")
 
-menu_purchasing_1_1, menu_purchasing_1_2, menu_purchasing_1_3 = st.tabs(["| TRANSAKSI KATALOG |", "| TRANSAKSI KATALOG (ETALASE) |", "| TABEL NILAI ETALASE |"])
+menu_purchasing_1_1, menu_purchasing_1_2, menu_purchasing_1_3 = st.tabs(["📦 TRANSAKSI KATALOG", "🏪 TRANSAKSI KATALOG (ETALASE)", "📋 TABEL NILAI ETALASE"])
 
 try:
     with menu_purchasing_1_1:
@@ -124,7 +124,7 @@ try:
         with st.container(border=True):
             st.subheader("Berdasarkan Kualifikasi Usaha")
             
-            tab1, tab2 = st.tabs(["| Jumlah Transaksi Penyedia |", "| Nilai Transaksi Penyedia |"])
+            tab1, tab2 = st.tabs(["📊 Jumlah Transaksi Penyedia", "💰 Nilai Transaksi Penyedia"])
             
             with tab1:
                 tabel_jumlah_ukm = con.execute("""
@@ -199,7 +199,7 @@ try:
         with st.container(border=True):
             st.subheader("Berdasarkan Nama Komoditas (10 Besar)")
             
-            tab1, tab2 = st.tabs(["| Jumlah Transaksi Tiap Komoditas |", "| Nilai Transaksi Tiap Komoditas |"])
+            tab1, tab2 = st.tabs(["📊 Jumlah Transaksi Tiap Komoditas", "💰 Nilai Transaksi Tiap Komoditas"])
             
             with tab1:
                 komoditas_filter = f"AND kd_instansi_katalog = '{kodeRUP}'" if jenis_katalog == "Lokal" else ""
@@ -322,7 +322,7 @@ try:
         with st.container(border=True):
             st.subheader("Berdasarkan Perangkat Daerah (10 Besar)")
             
-            tab1, tab2 = st.tabs(["| Jumlah Transaksi Perangkat Daerah |", "| Nilai Transaksi Perangkat Daerah |"])
+            tab1, tab2 = st.tabs(["📊 Jumlah Transaksi Perangkat Daerah", "💰 Nilai Transaksi Perangkat Daerah"])
             
             with tab1:
                 tabel_jumlah_pd = con.execute("""
@@ -444,7 +444,7 @@ try:
         with st.container(border=True):
             st.subheader("Berdasarkan Pelaku Usaha (10 Besar)")
             
-            tab1, tab2 = st.tabs(["| Jumlah Transaksi Pelaku Usaha |", "| Nilai Transaksi Pelaku Usaha |"])
+            tab1, tab2 = st.tabs(["📊 Jumlah Transaksi Pelaku Usaha", "💰 Nilai Transaksi Pelaku Usaha"])
             
             with tab1:
                 tabel_jumlah_pu = con.execute("""
@@ -629,7 +629,7 @@ try:
         with st.container(border=True):
             st.subheader("Berdasarkan Kualifikasi Usaha")
 
-            tab1, tab2 = st.tabs(["| Jumlah Transaksi Penyedia |", "| Nilai Transaksi Penyedia |"])
+            tab1, tab2 = st.tabs(["📊 Jumlah Transaksi Penyedia", "💰 Nilai Transaksi Penyedia"])
 
             with tab1:
                 tabel_etalase_jumlah_ukm = con.execute("""
@@ -704,7 +704,7 @@ try:
         with st.container(border=True):
             st.subheader("Berdasarkan Perangkat Daerah (10 Besar)")
 
-            tab1, tab2 = st.tabs(["| Jumlah Transaksi |", "| Nilai Transaksi |"])
+            tab1, tab2 = st.tabs(["📊 Jumlah Transaksi", "💰 Nilai Transaksi"])
             
             with tab1:
                 tabel_etalase_jumlah_pd = con.execute("""
@@ -828,7 +828,7 @@ try:
 
             st.subheader("Berdasarkan Pelaku Usaha (10 Besar)")
             
-            tab1, tab2 = st.tabs(["| Jumlah Transaksi |", "| Nilai Transaksi |"])
+            tab1, tab2 = st.tabs(["📊 Jumlah Transaksi", "💰 Nilai Transaksi"])
             
             with tab1:
                 # Query data jumlah transaksi

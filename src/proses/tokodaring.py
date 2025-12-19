@@ -83,7 +83,7 @@ try:
     with st.container(border=True):
         st.subheader("Berdasarkan Perangkat Daerah (10 Besar)")
         
-        tab_pd_jumlah, tab_pd_nilai = st.tabs(["| Jumlah Transaksi |", "| Nilai Transaksi |"])
+        tab_pd_jumlah, tab_pd_nilai = st.tabs(["📊 Jumlah Transaksi", "💰 Nilai Transaksi"])
         
         # Tab Jumlah Transaksi Perangkat Daerah
         with tab_pd_jumlah:
@@ -179,7 +179,7 @@ try:
     with st.container(border=True):
         st.subheader("Berdasarkan Pelaku Usaha (10 Besar)")
         
-        tab_pu_jumlah, tab_pu_nilai = st.tabs(["| Jumlah Transaksi |", "| Nilai Transaksi |"])
+        tab_pu_jumlah, tab_pu_nilai = st.tabs(["📊 Jumlah Transaksi", "💰 Nilai Transaksi"])
         
         # Tab Jumlah Transaksi Pelaku Usaha
         with tab_pu_jumlah:

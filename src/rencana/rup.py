@@ -72,8 +72,8 @@ st.header(f"{pilih} TAHUN {tahun}")
 
 # Buat Tab Menu
 menu_rup_1, menu_rup_2, menu_rup_3, menu_rup_4, menu_rup_5, menu_rup_6 = st.tabs([
-    "| PROFIL RUP |", "| STRUKTUR ANGGARAN |", "| RUP PAKET PENYEDIA |", 
-    "| RUP PAKET SWAKELOLA |", "| PERSENTASE INPUT RUP |", "| PERSENTASE INPUT RUP (31 MAR) |"
+    "📊 PROFIL RUP", "💰 STRUKTUR ANGGARAN", "📦 RUP PAKET PENYEDIA",
+    "🏗️ RUP PAKET SWAKELOLA", "📈 PERSENTASE INPUT RUP", "📅 PERSENTASE INPUT RUP (31 MAR)"
 ])
 
 with menu_rup_1:
@@ -214,7 +214,7 @@ with menu_rup_1:
             st.subheader(f"STATUS UKM DAN PDN - {periode_data}")
 
             ### Tabel dan Grafik RUP Status UKM Perangkat Daerah
-            grafik_rup_ukm_pd_tab_1, grafik_rup_ukm_pd_tab_2 = st.tabs(["| Berdasarkan Jumlah Paket - UKM |", "| Berdasarkan Nilai Paket - UKM |"])
+            grafik_rup_ukm_pd_tab_1, grafik_rup_ukm_pd_tab_2 = st.tabs(["📊 Jumlah Paket - UKM", "💰 Nilai Paket - UKM"])
 
             with grafik_rup_ukm_pd_tab_1:
 
@@ -299,7 +299,7 @@ with menu_rup_1:
             st.divider()
 
             ### Tabel dan Grafik RUP Status PDN Perangkat Daerah
-            grafik_rup_pdn_pd_tab_1, grafik_rup_pdn_pd_tab_2 = st.tabs(["| Berdasarkan Jumlah Paket - PDN |", "| Berdasarkan Nilai Paket - PDN |"])
+            grafik_rup_pdn_pd_tab_1, grafik_rup_pdn_pd_tab_2 = st.tabs(["📊 Jumlah Paket - PDN", "💰 Nilai Paket - PDN"])
 
             with grafik_rup_pdn_pd_tab_1:
 
@@ -386,7 +386,7 @@ with menu_rup_1:
             st.subheader(f"BERDASARKAN METODE PENGADAAN - {periode_data}")
 
             ### Tabel dan Grafik RUP Berdasarkan Metode Pengadaan Perangkat Daerah
-            grafik_rup_mp_pd_tab_1, grafik_rup_mp_pd_tab_2 = st.tabs(["| Berdasarkan Jumlah Paket - MP |", "| Berdasarkan Nilai Paket - MP |"])
+            grafik_rup_mp_pd_tab_1, grafik_rup_mp_pd_tab_2 = st.tabs(["📊 Jumlah Paket - MP", "💰 Nilai Paket - MP"])
 
             with grafik_rup_mp_pd_tab_1:
 
@@ -473,7 +473,7 @@ with menu_rup_1:
             st.subheader(f"BERDASARKAN JENIS PENGADAAN - {periode_data}")
 
             ### Tabel dan Grafik RUP Berdasarkan jenis pengadaan Perangkat Daerah
-            grafik_rup_jp_pd_tab_1, grafik_rup_jp_pd_tab_2 = st.tabs(["| Berdasarkan Jumlah Paket - JP |", "| Berdasarkan Nilai Paket - JP |"])
+            grafik_rup_jp_pd_tab_1, grafik_rup_jp_pd_tab_2 = st.tabs(["📊 Jumlah Paket - JP", "💰 Nilai Paket - JP"])
 
             with grafik_rup_jp_pd_tab_1:
 

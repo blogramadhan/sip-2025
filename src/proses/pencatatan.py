@@ -39,7 +39,7 @@ datasets_rup = {
 st.title(f"TRANSAKSI PENCATATAN")
 st.header(f"{pilih} - TAHUN {tahun}")
 
-menu_pencatatan_1, menu_pencatatan_2 = st.tabs(["| PENCATATAN NON TENDER |", "| PENCATATAN SWAKELOLA |"])
+menu_pencatatan_1, menu_pencatatan_2 = st.tabs(["📝 PENCATATAN NON TENDER", "🏗️ PENCATATAN SWAKELOLA"])
 
 with menu_pencatatan_1:
     try:
@@ -120,7 +120,7 @@ with menu_pencatatan_1:
         with st.container(border=True):
 
             ### Tabel dan Grafik untuk Analisis Transaksi
-            grafik_cnt_1, grafik_cnt_2, grafik_cnt_3, grafik_cnt_4 = st.tabs(["| Jumlah Transaksi - Kategori Pengadaan |","| Nilai Transaksi - Kategori Pengadaan |","| Jumlah Transaksi - Metode Pemilihan |","| Nilai Transaksi - Metode Pemilihan |"])
+            grafik_cnt_1, grafik_cnt_2, grafik_cnt_3, grafik_cnt_4 = st.tabs(["📊 Jumlah Transaksi - Kategori Pengadaan","💰 Nilai Transaksi - Kategori Pengadaan","📊 Jumlah Transaksi - Metode Pemilihan","💰 Nilai Transaksi - Metode Pemilihan"])
             
             with grafik_cnt_1:
 
