@@ -61,29 +61,39 @@ with menu_tender_1:
 
         st.subheader("PENGUMUMAN TENDER")
 
-        st.divider()
+        # Filter Section dengan Container
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Data")
 
-        SPSE_radio_1, SPSE_radio_2, SPSE_radio_3, SPSE_radio_4, SPSE_radio_5 = st.columns((1,1,1,1,6))
-        with SPSE_radio_1:
-            sumber_dana_unik_array = dfSPSETenderPengumuman['sumber_dana'].unique()
-            sumber_dana_unik_array_ok = np.insert(sumber_dana_unik_array, 0, "Gabungan")
-            sumber_dana = st.radio("**Sumber Dana**", sumber_dana_unik_array_ok, key="Sumber_Dana_Tender_pengumuman")
-        with SPSE_radio_2:
-            status_tender_unik_array = dfSPSETenderPengumuman['status_tender'].unique()
-            status_tender_unik_array_ok = np.insert(status_tender_unik_array, 0, "Gabungan")
-            status_tender = st.radio("**Status Tender**", status_tender_unik_array_ok, key="Status_Tender_Pengumuman")
-        with SPSE_radio_3:
-            status_pdn_unik_array = dfSPSETenderPengumuman['status_pdn'].unique()
-            status_pdn_unik_array_ok = np.insert(status_pdn_unik_array, 0, "Gabungan")
-            status_pdn = st.radio("**Status PDN**", status_pdn_unik_array_ok, key="Status_PDN_Pengumuman")
-        with SPSE_radio_4:
-            status_ukm_unik_array = dfSPSETenderPengumuman['status_ukm'].unique()
-            status_ukm_unik_array_ok = np.insert(status_ukm_unik_array, 0, "Gabungan")
-            status_ukm = st.radio("**Status UKM**", status_ukm_unik_array_ok, key="Status_UKM_Pengumuman")
-        with SPSE_radio_5:
+            # Baris pertama - 4 kolom untuk filter kategori
+            col1, col2, col3, col4 = st.columns(4)
+
+            with col1:
+                sumber_dana_unik_array = dfSPSETenderPengumuman['sumber_dana'].unique()
+                sumber_dana_unik_array_ok = np.insert(sumber_dana_unik_array, 0, "Gabungan")
+                sumber_dana = st.selectbox("💵 Sumber Dana", sumber_dana_unik_array_ok, key="Sumber_Dana_Tender_pengumuman")
+
+            with col2:
+                status_tender_unik_array = dfSPSETenderPengumuman['status_tender'].unique()
+                status_tender_unik_array_ok = np.insert(status_tender_unik_array, 0, "Gabungan")
+                status_tender = st.selectbox("📊 Status Tender", status_tender_unik_array_ok, key="Status_Tender_Pengumuman")
+
+            with col3:
+                status_pdn_unik_array = dfSPSETenderPengumuman['status_pdn'].unique()
+                status_pdn_unik_array_ok = np.insert(status_pdn_unik_array, 0, "Gabungan")
+                status_pdn = st.selectbox("🏭 Status PDN", status_pdn_unik_array_ok, key="Status_PDN_Pengumuman")
+
+            with col4:
+                status_ukm_unik_array = dfSPSETenderPengumuman['status_ukm'].unique()
+                status_ukm_unik_array_ok = np.insert(status_ukm_unik_array, 0, "Gabungan")
+                status_ukm = st.selectbox("🏪 Status UKM", status_ukm_unik_array_ok, key="Status_UKM_Pengumuman")
+
+            # Baris kedua - Filter perangkat daerah (full width)
             nama_satker_unik_array = dfSPSETenderPengumuman['nama_satker'].unique()
             nama_satker_unik_array_ok = np.insert(nama_satker_unik_array, 0, "Semua Perangkat Daerah")
-            nama_satker = st.selectbox("Pilih Perangkat Daerah :", nama_satker_unik_array_ok, key='Nama_Satker_Pengumuman')
+            nama_satker = st.selectbox("🏛️ Perangkat Daerah", nama_satker_unik_array_ok, key='Nama_Satker_Pengumuman')
+
+        st.divider()
 
         SPSETenderPengumuman_filter_query = f"SELECT * FROM dfSPSETenderPengumuman WHERE 1=1"
 
@@ -100,24 +110,33 @@ with menu_tender_1:
 
         SPSETenderPengumuman_filter = con.execute(SPSETenderPengumuman_filter_query).df()
 
-        # Tampilkan header dan tombol unduh
-        col1, col2 = st.columns([8,2])
-        col1.write(f"Anda memilih : **{sumber_dana}**, **{status_tender}**, **{status_pdn}**, dan **{status_ukm}**")
-        col2.download_button(
-            label="📥 Unduh Data Pengumuman Tender",
-            data=download_excel(SPSETenderPengumuman_filter),
-            file_name=f"Tender-Pengumuman-{kodeFolder}-{tahun}.xlsx",
-            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
-        
+        # Hitung metrik
         jumlah_trx_spse_pengumuman = SPSETenderPengumuman_filter['kd_tender'].unique().shape[0]
         nilai_trx_spse_pengumuman_pagu = SPSETenderPengumuman_filter['pagu'].sum()
         nilai_trx_spse_pengumuman_hps = SPSETenderPengumuman_filter['hps'].sum()
 
-        data_umum_1, data_umum_2, data_umum_3 = st.columns(3)
-        data_umum_1.metric(label="Jumlah Tender Diumumkan", value="{:,}".format(jumlah_trx_spse_pengumuman))
-        data_umum_2.metric(label="Nilai Pagu Tender Diumumkan", value="{:,.2f}".format(nilai_trx_spse_pengumuman_pagu))
-        data_umum_3.metric(label="Nilai HPS Tender Diumumkan", value="{:,.2f}".format(nilai_trx_spse_pengumuman_hps))
+        # Tombol unduh di atas kanan
+        col_spacer, col_download = st.columns([8, 2])
+        with col_download:
+            st.download_button(
+                label="📥 Unduh Excel",
+                data=download_excel(SPSETenderPengumuman_filter),
+                file_name=f"Tender-Pengumuman-{kodeFolder}-{tahun}.xlsx",
+                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                use_container_width=True
+            )
+
+        # Metric cards
+        col_metric1, col_metric2, col_metric3 = st.columns(3)
+
+        with col_metric1:
+            st.metric(label="Jumlah Tender", value="{:,}".format(jumlah_trx_spse_pengumuman))
+        with col_metric2:
+            st.metric(label="Nilai Pagu", value="{:,.0f}".format(nilai_trx_spse_pengumuman_pagu))
+        with col_metric3:
+            st.metric(label="Nilai HPS", value="{:,.0f}".format(nilai_trx_spse_pengumuman_hps))
+
+        style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
 
         st.divider()
 
@@ -673,38 +692,21 @@ with menu_tender_2:
         # Membaca dataset SPPBJ
         dfSPSETenderSPPBJ = read_df_duckdb(datasets["TenderSPPBJ"])
 
-        col1, col2 = st.columns([7,3])
-        col1.subheader("SPPBJ TENDER") 
-        col2.download_button(
-            label="📥 Unduh Data SPPBJ Tender",
-            data=download_excel(dfSPSETenderSPPBJ),
-            file_name=f"Tender-SPPBJ-{kodeFolder}-{tahun}.xlsx",
-            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
+        st.subheader("SPPBJ TENDER")
+
+        # Filter Section dengan Container
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Data")
+
+            col1, col2 = st.columns([3, 7])
+            with col1:
+                status_kontrak_options = ['Semua'] + list(dfSPSETenderSPPBJ['status_kontrak'].unique())
+                status_kontrak_TSPPBJ = st.selectbox("📊 Status Kontrak", status_kontrak_options, key='Tender_Status_SPPBJ')
+            with col2:
+                opd_options = ['SEMUA PERANGKAT DAERAH'] + list(dfSPSETenderSPPBJ['nama_satker'].unique())
+                opd_TSPPBJ = st.selectbox("🏛️ Perangkat Daerah", opd_options, key='Tender_OPD_SPPBJ')
 
         st.divider()
-
-        # Menghitung total
-        jumlah_trx_spse_sppbj_total = dfSPSETenderSPPBJ['kd_tender'].unique().shape[0]
-        nilai_trx_spse_sppbj_final_total = dfSPSETenderSPPBJ['harga_final'].sum()
-
-        # Menampilkan metrik total
-        col1, col2 = st.columns(2)
-        col1.metric("Jumlah Total Tender SPPBJ", f"{jumlah_trx_spse_sppbj_total:,}")
-        col2.metric("Nilai Total Tender SPPBJ", f"{nilai_trx_spse_sppbj_final_total:,.2f}")
-        style_metric_cards()
-
-        st.divider()
-
-        # Kontrol filter
-        col1, col2 = st.columns([2,8])
-        with col1:
-            status_kontrak_options = ['Semua'] + list(dfSPSETenderSPPBJ['status_kontrak'].unique())
-            status_kontrak_TSPPBJ = st.radio("**Status Kontrak**", status_kontrak_options, key='Tender_Status_SPPBJ')
-        with col2:
-            opd_options = ['SEMUA PERANGKAT DAERAH'] + list(dfSPSETenderSPPBJ['nama_satker'].unique())
-            opd_TSPPBJ = st.selectbox("Pilih Perangkat Daerah:", opd_options, key='Tender_OPD_SPPBJ')
-        st.write(f"Anda memilih: **{status_kontrak_TSPPBJ}** dari **{opd_TSPPBJ}**")
 
         # Mendapatkan data terfilter
         if status_kontrak_TSPPBJ == 'Semua' and opd_TSPPBJ == 'SEMUA PERANGKAT DAERAH':
@@ -730,11 +732,23 @@ with menu_tender_2:
         jumlah_trx_spse_sppbj = dfSPSETenderSPPBJ_filter['kd_tender'].unique().shape[0]
         nilai_trx_spse_sppbj_final = dfSPSETenderSPPBJ_filter['harga_final'].sum()
 
-        # Menampilkan metrik terfilter
+        # Tombol unduh di atas kanan
+        col_spacer, col_download = st.columns([8, 2])
+        with col_download:
+            st.download_button(
+                label="📥 Unduh Excel",
+                data=download_excel(dfSPSETenderSPPBJ_filter),
+                file_name=f"Tender-SPPBJ-{kodeFolder}-{tahun}.xlsx",
+                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                use_container_width=True
+            )
+
+        # Metric cards
         col1, col2 = st.columns(2)
-        col1.metric("Jumlah Tender SPPBJ", f"{jumlah_trx_spse_sppbj:,}")
-        col2.metric("Nilai Tender SPPBJ", f"{nilai_trx_spse_sppbj_final:,.2f}")
-        style_metric_cards()
+        col1.metric(label="Jumlah Tender SPPBJ", value=f"{jumlah_trx_spse_sppbj:,}")
+        col2.metric(label="Nilai Tender SPPBJ", value=f"{nilai_trx_spse_sppbj_final:,.0f}")
+
+        style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
 
         st.divider()
         
@@ -773,37 +787,21 @@ with menu_tender_3:
         # Membaca dataset Kontrak
         dfSPSETenderKontrak = read_df_duckdb(datasets["TenderKontrak"])
 
-        col1, col2 = st.columns([7,3])
-        col1.subheader("KONTRAK TENDER")
-        col2.download_button(
-            label="📥 Unduh Data Kontrak Tender",
-            data=download_excel(dfSPSETenderKontrak),
-            file_name=f"Tender-Kontrak-{kodeFolder}-{tahun}.xlsx",
-            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
+        st.subheader("KONTRAK TENDER")
+
+        # Filter Section dengan Container
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Data")
+
+            col1, col2 = st.columns([3, 7])
+            with col1:
+                status_kontrak_options = ['Semua'] + list(dfSPSETenderKontrak['status_kontrak'].unique())
+                status_kontrak = st.selectbox("📊 Status Kontrak", status_kontrak_options, key='Tender_Status_Kontrak')
+            with col2:
+                opd_options = ['SEMUA PERANGKAT DAERAH'] + list(dfSPSETenderKontrak['nama_satker'].unique())
+                opd = st.selectbox("🏛️ Perangkat Daerah", opd_options, key='Tender_OPD_Kontrak')
 
         st.divider()
-
-        # Menghitung total
-        jumlah_trx_spse_kontrak_total = dfSPSETenderKontrak['kd_tender'].nunique()
-        nilai_trx_spse_kontrak_nilaikontrak_total = dfSPSETenderKontrak['nilai_kontrak'].sum()
-
-        # Menampilkan metrik total
-        col1, col2 = st.columns(2)
-        col1.metric("Jumlah Total Tender Berkontrak", f"{jumlah_trx_spse_kontrak_total:,}")
-        col2.metric("Nilai Total Tender Berkontrak", f"{nilai_trx_spse_kontrak_nilaikontrak_total:,.2f}")
-
-        st.divider()
-
-        # Kontrol filter
-        col1, col2 = st.columns([2,8])
-        with col1:
-            status_kontrak_options = ['Semua'] + list(dfSPSETenderKontrak['status_kontrak'].unique())
-            status_kontrak = st.radio("**Status Kontrak**", status_kontrak_options, key='Tender_Status_Kontrak')
-        with col2:
-            opd_options = ['SEMUA PERANGKAT DAERAH'] + list(dfSPSETenderKontrak['nama_satker'].unique())
-            opd = st.selectbox("Pilih Perangkat Daerah:", opd_options, key='Tender_OPD_Kontrak')
-        st.write(f"Anda memilih: **{status_kontrak}** dari **{opd}**")
 
         # Mendapatkan data terfilter
         if status_kontrak == 'Semua' and opd == 'SEMUA PERANGKAT DAERAH':
@@ -825,10 +823,23 @@ with menu_tender_3:
                 AND nama_satker = '{opd}'
             """).df()
 
-        # Menampilkan metrik terfilter
+        # Tombol unduh di atas kanan
+        col_spacer, col_download = st.columns([8, 2])
+        with col_download:
+            st.download_button(
+                label="📥 Unduh Excel",
+                data=download_excel(filtered_df),
+                file_name=f"Tender-Kontrak-{kodeFolder}-{tahun}.xlsx",
+                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                use_container_width=True
+            )
+
+        # Metric cards
         col1, col2 = st.columns(2)
-        col1.metric("Jumlah Tender Berkontrak", f"{filtered_df['kd_tender'].nunique():,}")
-        col2.metric("Nilai Tender Berkontrak", f"{filtered_df['nilai_kontrak'].sum():,.2f}")
+        col1.metric(label="Jumlah Tender Berkontrak", value=f"{filtered_df['kd_tender'].nunique():,}")
+        col2.metric(label="Nilai Tender Berkontrak", value=f"{filtered_df['nilai_kontrak'].sum():,.0f}")
+
+        style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
 
         st.divider()
 
@@ -887,45 +898,43 @@ with menu_tender_4:
         dfSPSETenderKontrak_filter_kolom = dfSPSETenderKontrak[["kd_tender", "nilai_kontrak", "nilai_pdn_kontrak", "nilai_umk_kontrak"]]
         dfSPSETenderSPMK_OK = dfSPSETenderSPMK.merge(dfSPSETenderKontrak_filter_kolom, how='left', on='kd_tender')
 
-        # Header dan tombol unduh
-        col1, col2 = st.columns([7,3])
-        col1.subheader("SPMK TENDER")
-        col2.download_button(
-            label="📥 Unduh Data SPMK Tender",
-            data=download_excel(dfSPSETenderSPMK_OK),
-            file_name=f"Tender-SPMK-{kodeFolder}-{tahun}.xlsx",
-            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
+        st.subheader("SPMK TENDER")
+
+        # Filter Section dengan Container
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Data")
+
+            opd_options = ["SEMUA PERANGKAT DAERAH"] + list(dfSPSETenderSPMK_OK['nama_satker'].unique())
+            opd_TSPMK = st.selectbox("🏛️ Perangkat Daerah", opd_options, key='Tender_OPD_SPMK')
 
         st.divider()
-
-        jumlah_spmk = dfSPSETenderSPMK_OK['kd_tender'].nunique()
-        nilai_spmk = dfSPSETenderSPMK_OK['nilai_kontrak'].sum()
-
-        col1, col2 = st.columns(2)
-        col1.metric("Jumlah Total SPMK", f"{jumlah_spmk:,}")
-        col2.metric("Nilai Total SPMK", f"{nilai_spmk:,.2f}")
-
-        st.divider()
-
-        # Filter berdasarkan OPD
-        opd_options = ["SEMUA PERANGKAT DAERAH"] + list(dfSPSETenderSPMK_OK['nama_satker'].unique())
-        opd_TSPMK = st.selectbox("Pilih Perangkat Daerah:", opd_options, key='Tender_OPD_SPMK')
-        st.write(f"Anda memilih: **{opd_TSPMK}**")
 
         # Ambil data terfilter dan metrik
         if opd_TSPMK == "SEMUA PERANGKAT DAERAH":
             filtered_spmk = dfSPSETenderSPMK_OK
         else:
             filtered_spmk = dfSPSETenderSPMK_OK[dfSPSETenderSPMK_OK['nama_satker'] == opd_TSPMK]
-            
+
         jumlah_spmk = filtered_spmk['kd_tender'].nunique()
         nilai_spmk = filtered_spmk['nilai_kontrak'].sum()
 
-        # Tampilkan metrik
+        # Tombol unduh di atas kanan
+        col_spacer, col_download = st.columns([8, 2])
+        with col_download:
+            st.download_button(
+                label="📥 Unduh Excel",
+                data=download_excel(filtered_spmk),
+                file_name=f"Tender-SPMK-{kodeFolder}-{tahun}.xlsx",
+                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                use_container_width=True
+            )
+
+        # Metric cards
         col1, col2 = st.columns(2)
-        col1.metric("Jumlah Tender SPMK", f"{jumlah_spmk:,}")
-        col2.metric("Nilai Tender SPMK", f"{nilai_spmk:,.2f}")
+        col1.metric(label="Jumlah Tender SPMK", value=f"{jumlah_spmk:,}")
+        col2.metric(label="Nilai Tender SPMK", value=f"{nilai_spmk:,.0f}")
+
+        style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
 
         st.divider()
 
@@ -975,37 +984,21 @@ with menu_tender_5:
         # Baca dataset BAPBAST
         dfSPSETenderBAST = read_df_duckdb(datasets["TenderBAST"]).drop_duplicates(subset=['kd_tender'])
 
-        # Header dan tombol unduh
-        col1, col2 = st.columns([7,3])
-        col1.subheader("BAPBAST TENDER") 
-        col2.download_button(
-            label="📥 Unduh Data BAPBAST Tender",
-            data=download_excel(dfSPSETenderBAST),
-            file_name=f"Tender-BAPBAST-{kodeFolder}-{tahun}.xlsx",
-            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
+        st.subheader("BAPBAST TENDER")
+
+        # Filter Section dengan Container
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Data")
+
+            col1, col2 = st.columns([3, 7])
+            with col1:
+                status_options = ["Semua"] + list(dfSPSETenderBAST['status_kontrak'].unique())
+                status = st.selectbox("📊 Status Kontrak", status_options, key='Tender_Status_BAST')
+            with col2:
+                opd_options = ["SEMUA PERANGKAT DAERAH"] + list(dfSPSETenderBAST['nama_satker'].unique())
+                opd = st.selectbox("🏛️ Perangkat Daerah", opd_options, key='Tender_OPD_BAST')
 
         st.divider()
-
-        # Metrik total
-        jumlah_bast = dfSPSETenderBAST['kd_tender'].nunique()
-        nilai_bast = dfSPSETenderBAST['nilai_kontrak'].sum()
-
-        col3, col4 = st.columns(2)
-        col3.metric("Jumlah Total BAPBAST", f"{jumlah_bast:,}")
-        col4.metric("Nilai Total BAPBAST", f"{nilai_bast:,.2f}")
-
-        st.divider()
-
-        # Filter data
-        col5, col6 = st.columns([2,8])
-        with col5:
-            status_options = ["Semua"] + list(dfSPSETenderBAST['status_kontrak'].unique())
-            status = st.radio("**Status Kontrak**", status_options)
-        with col6:
-            opd_options = ["SEMUA PERANGKAT DAERAH"] + list(dfSPSETenderBAST['nama_satker'].unique())
-            opd = st.selectbox("Pilih Perangkat Daerah:", opd_options)
-        st.write(f"Anda memilih: **{status}** dari **{opd}**")
 
         # Data yang sudah difilter
         if status == "Semua" and opd == "SEMUA PERANGKAT DAERAH":
@@ -1031,9 +1024,23 @@ with menu_tender_5:
         jumlah_filter = filtered_df['kd_tender'].nunique()
         nilai_filter = filtered_df['nilai_kontrak'].sum()
 
-        col7, col8 = st.columns(2)
-        col7.metric("Jumlah BAPBAST", f"{jumlah_filter:,}")
-        col8.metric("Nilai BAPBAST", f"{nilai_filter:,.2f}")
+        # Tombol unduh di atas kanan
+        col_spacer, col_download = st.columns([8, 2])
+        with col_download:
+            st.download_button(
+                label="📥 Unduh Excel",
+                data=download_excel(filtered_df),
+                file_name=f"Tender-BAPBAST-{kodeFolder}-{tahun}.xlsx",
+                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                use_container_width=True
+            )
+
+        # Metric cards
+        col1, col2 = st.columns(2)
+        col1.metric(label="Jumlah BAPBAST", value=f"{jumlah_filter:,}")
+        col2.metric(label="Nilai BAPBAST", value=f"{nilai_filter:,.0f}")
+
+        style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
 
         st.divider()
 

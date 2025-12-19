@@ -11,78 +11,201 @@
 }
 
 /* Section header dengan background */
-[data-testid="stSidebarNav"] > ul > li > div > div {
-    background: linear-gradient(90deg, rgba(37, 99, 235, 0.08), transparent);
+[data-testid="stSidebarNav"] > ul > li > div > div,
+[data-testid="stSidebarNav"] > ul > li > div > span,
+[data-testid="stSidebarNav"] > ul > li > span {
+    background: linear-gradient(90deg, rgba(47, 110, 163, 0.1), transparent);
     border-left: 3px solid var(--primary);
     margin: 0.75rem 0.5rem 0.5rem 0.5rem;
     padding: 0.5rem 0.75rem;
     border-radius: 0 6px 6px 0;
-    color: var(--text-primary) !important;
+    color: var(--text-secondary) !important;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
 }
 
 /* Spacing untuk section pertama */
-[data-testid="stSidebarNav"] > ul > li:first-child > div > div {
+[data-testid="stSidebarNav"] > ul > li:first-child > div > div,
+[data-testid="stSidebarNav"] > ul > li:first-child > div > span,
+[data-testid="stSidebarNav"] > ul > li:first-child > span {
     margin-top: 0.25rem;
 }
 
-/* Icon untuk section headers */
-[data-testid="stSidebarNav"] > ul > li:nth-child(1) > div > div::before {
+/* Fallback: render section headers even if Streamlit doesn't output them */
+/* Untuk RENCANA PENGADAAN - gunakan first-of-type untuk link pertama */
+[data-testid="stSidebarNav"] ul li:has(> a[href*="rup.py"]):first-of-type::before {
+    content: "📋 RENCANA PENGADAAN";
+    background: linear-gradient(135deg, rgba(47, 110, 163, 0.12), rgba(47, 110, 163, 0.04));
+    border-left: 3px solid #2f6ea3;
+    margin: 0.25rem 0.625rem 0.25rem 0.625rem;
+    padding: 0.4rem 0.625rem;
+    border-radius: 5px;
+    color: #2f6ea3;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    display: block;
+    box-shadow: 0 1px 3px rgba(47, 110, 163, 0.1);
+}
+
+/* Untuk PROSES PENGADAAN - link pertama yang mengandung tender.py */
+[data-testid="stSidebarNav"] ul li:has(> a[href*="tender.py"])::before {
+    content: "⚙️ PROSES PENGADAAN";
+    background: linear-gradient(135deg, rgba(47, 110, 163, 0.12), rgba(47, 110, 163, 0.04));
+    border-left: 3px solid #2f6ea3;
+    margin: 0.5rem 0.625rem 0.25rem 0.625rem;
+    padding: 0.4rem 0.625rem;
+    border-radius: 5px;
+    color: #2f6ea3;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    display: block;
+    box-shadow: 0 1px 3px rgba(47, 110, 163, 0.1);
+}
+
+/* Untuk MONITORING - link pertama yang mengandung itkp.py */
+[data-testid="stSidebarNav"] ul li:has(> a[href*="itkp.py"])::before {
+    content: "📊 MONITORING";
+    background: linear-gradient(135deg, rgba(47, 110, 163, 0.12), rgba(47, 110, 163, 0.04));
+    border-left: 3px solid #2f6ea3;
+    margin: 0.5rem 0.625rem 0.25rem 0.625rem;
+    padding: 0.4rem 0.625rem;
+    border-radius: 5px;
+    color: #2f6ea3;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    display: block;
+    box-shadow: 0 1px 3px rgba(47, 110, 163, 0.1);
+}
+
+/* Icon untuk section headers - only if Streamlit renders them natively */
+[data-testid="stSidebarNav"] > ul > li:nth-child(1) > div > div:not(:empty)::before {
     content: "📋 ";
     margin-right: 0.5rem;
 }
 
-[data-testid="stSidebarNav"] > ul > li:nth-child(2) > div > div::before {
+[data-testid="stSidebarNav"] > ul > li:nth-child(2) > div > div:not(:empty)::before {
     content: "⚙️ ";
     margin-right: 0.5rem;
 }
 
-[data-testid="stSidebarNav"] > ul > li:nth-child(3) > div > div::before {
+[data-testid="stSidebarNav"] > ul > li:nth-child(3) > div > div:not(:empty)::before {
     content: "📊 ";
     margin-right: 0.5rem;
 }
 
-/* Icon untuk menu items */
+/* Icon untuk menu items dengan spacing yang proporsional */
 /* Rencana Pengadaan */
-[data-testid="stSidebarNav"] a[href*="rup"]::before {
-    content: "📋 ";
+[data-testid="stSidebarNav"] a[href*="rup.py"]::before,
+[data-testid="stSidebarNav"] a[aria-label*="Profil RUP"]::before,
+[data-testid="stSidebarNav"] a:has(span:contains("Profil RUP"))::before {
+    content: "🗂️";
+    margin-right: 0.4rem;
+    font-size: 0.95rem;
+    display: inline-block;
+    width: 1.15rem;
+    text-align: center;
+    vertical-align: middle;
 }
 
 /* Proses Pengadaan */
 [data-testid="stSidebarNav"] a[href*="tender"]::before {
-    content: "🏆 ";
+    content: "🏆";
+    margin-right: 0.4rem;
+    font-size: 0.95rem;
+    display: inline-block;
+    width: 1.15rem;
+    text-align: center;
+    vertical-align: middle;
 }
 
 [data-testid="stSidebarNav"] a[href*="nontender"]::before {
-    content: "📄 ";
+    content: "📄";
+    margin-right: 0.4rem;
+    font-size: 0.95rem;
+    display: inline-block;
+    width: 1.15rem;
+    text-align: center;
+    vertical-align: middle;
 }
 
 [data-testid="stSidebarNav"] a[href*="pencatatan"]::before {
-    content: "✏️ ";
+    content: "✏️";
+    margin-right: 0.4rem;
+    font-size: 0.95rem;
+    display: inline-block;
+    width: 1.15rem;
+    text-align: center;
+    vertical-align: middle;
 }
 
 [data-testid="stSidebarNav"] a[href*="ekatalog"]::before {
-    content: "🏪 ";
+    content: "🏪";
+    margin-right: 0.4rem;
+    font-size: 0.95rem;
+    display: inline-block;
+    width: 1.15rem;
+    text-align: center;
+    vertical-align: middle;
 }
 
 [data-testid="stSidebarNav"] a[href*="tokodaring"]::before {
-    content: "🛒 ";
+    content: "🛒";
+    margin-right: 0.4rem;
+    font-size: 0.95rem;
+    display: inline-block;
+    width: 1.15rem;
+    text-align: center;
+    vertical-align: middle;
 }
 
 [data-testid="stSidebarNav"] a[href*="peserta"]::before {
-    content: "👥 ";
+    content: "👥";
+    margin-right: 0.4rem;
+    font-size: 0.95rem;
+    display: inline-block;
+    width: 1.15rem;
+    text-align: center;
+    vertical-align: middle;
 }
 
 /* Monitoring */
 [data-testid="stSidebarNav"] a[href*="itkp"]::before {
-    content: "📈 ";
+    content: "📈";
+    margin-right: 0.4rem;
+    font-size: 0.95rem;
+    display: inline-block;
+    width: 1.15rem;
+    text-align: center;
+    vertical-align: middle;
 }
 
 [data-testid="stSidebarNav"] a[href*="sikap"]::before {
-    content: "⭐ ";
+    content: "⭐";
+    margin-right: 0.4rem;
+    font-size: 0.95rem;
+    display: inline-block;
+    width: 1.15rem;
+    text-align: center;
+    vertical-align: middle;
 }
 
 [data-testid="stSidebarNav"] a[href*="belanja"]::before {
-    content: "💰 ";
+    content: "💰";
+    margin-right: 0.4rem;
+    font-size: 0.95rem;
+    display: inline-block;
+    width: 1.15rem;
+    text-align: center;
+    vertical-align: middle;
 }
 
 /* ====================================
@@ -280,4 +403,90 @@ code {
     background: var(--bg-card);
     border-radius: 8px;
     border: 1px solid var(--border);
+}
+
+/* ====================================
+   FILTER SECTION ENHANCEMENT
+   ==================================== */
+/* Container dengan border yang berisi Filter Data */
+.element-container:has(h4:contains("Filter Data")) {
+    background: linear-gradient(135deg, rgba(47, 110, 163, 0.03), rgba(122, 166, 194, 0.02));
+    border-left: 4px solid var(--primary);
+}
+
+/* Styling untuk label selectbox di filter */
+[data-testid="stSelectbox"] label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Compact spacing untuk filter columns */
+.stSelectbox {
+    margin-bottom: 0.5rem;
+}
+
+/* ====================================
+   ENHANCED METRIC CARDS WITH ICONS
+   ==================================== */
+/* Styling simpel dan elegan untuk metric cards */
+[data-testid="stMetric"] {
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+[data-testid="stMetric"]:hover {
+    box-shadow: 0 4px 12px rgba(47, 110, 163, 0.12);
+    transform: translateY(-2px);
+}
+
+/* Label metric dengan font weight medium */
+[data-testid="stMetric"] label {
+    color: #64748b;
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Nilai metric dengan warna yang lembut */
+[data-testid="stMetric"] [data-testid="stMetricValue"] {
+    color: #2f6ea3;
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+/* Subtle hover effect pada nilai */
+[data-testid="stMetric"]:hover [data-testid="stMetricValue"] {
+    color: #4f86b8;
+}
+
+/* ====================================
+   DOWNLOAD BUTTON ENHANCEMENT
+   ==================================== */
+/* Styling simpel untuk download button */
+.stDownloadButton {
+    margin-bottom: 0.75rem;
+}
+
+.stDownloadButton > button {
+    height: 2.75rem;
+    font-weight: 600;
+    font-size: 0.875rem;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+    transition: all 0.25s ease;
+}
+
+.stDownloadButton > button:hover {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+.stDownloadButton > button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
 }
