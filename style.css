@@ -93,7 +93,7 @@ section[data-testid="stAppViewContainer"] > div {
 }
 
 [data-testid="stSidebar"] > div:first-child {
-    padding-top: 1rem;
+    padding-top: 0;
 }
 
 /* Sidebar Logo Container */
@@ -137,8 +137,8 @@ section[data-testid="stAppViewContainer"] > div {
 
 /* Custom sidebar brand (fallback for st.logo) */
 [data-testid="stSidebar"] .sidebar-brand {
-    padding: 0.75rem 1rem 0.5rem 1rem;
-    margin-bottom: 0.75rem;
+    padding: 0 1rem 0.5rem 1rem;
+    margin: -0.5rem 0 0.5rem 0;
     text-align: center;
 }
 [data-testid="stSidebar"] .sidebar-brand img {
