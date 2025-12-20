@@ -1,7 +1,28 @@
+---
+marp: true
+theme: gaia
+paginate: true
+backgroundColor: #f6f7fb
+style: |
+  section {
+    color: #0f172a;
+    background: linear-gradient(180deg, #f6f7fb 0%, #e8f0fb 100%);
+    font-size: 26px;
+    line-height: 1.35;
+  }
+  h1, h2, h3 { color: #1f3f5b; }
+  h1 { font-size: 52px; }
+  h2 { font-size: 38px; }
+  h3 { font-size: 30px; }
+  li { margin: 0.2em 0; }
+  table { font-size: 22px; }
+  pre, code { font-size: 20px; }
+---
+
 # Sistem Informasi Pelaporan Pengadaan (SIP) 2025
 
-Tanggal: __/__/____
-Pemapar: __________________
+Tanggal: 21/12/2025
+Pemapar: KURNIA RAMADHAN, ST.,M.ENG
 
 ---
 
