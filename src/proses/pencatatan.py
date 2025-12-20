@@ -1,6 +1,7 @@
 # Library Utama
 import streamlit as st
 import pandas as pd
+import numpy as np
 import plotly.express as px
 import duckdb
 from datetime import datetime
@@ -39,7 +40,7 @@ datasets_rup = {
 st.title(f"TRANSAKSI PENCATATAN")
 st.header(f"{pilih} - TAHUN {tahun}")
 
-menu_pencatatan_1, menu_pencatatan_2 = st.tabs(["PENCATATAN NON TENDER", "PENCATATAN SWAKELOLA"])
+menu_pencatatan_1, menu_pencatatan_2 = st.tabs(["📝 PENCATATAN NON TENDER", "🤝 PENCATATAN SWAKELOLA"])
 
 with menu_pencatatan_1:
     try:
@@ -65,35 +66,55 @@ with menu_pencatatan_1:
         with st.container(border=True):
             st.markdown("#### 🔍 Filter Data")
 
-            # Baris pertama - 3 kolom untuk filter kategori
-            col1, col2, col3 = st.columns(3)
-
-            with col1:
-                sumber_dana_options = ['Gabungan'] + list(dfGabung['sumber_dana'].unique())
-                sumber_dana_cnt = st.selectbox("💵 Sumber Dana", sumber_dana_options, key="CatatNonTender")
-
-            with col2:
-                status_pdn_options = ['Gabungan'] + list(dfGabung['status_pdn'].unique())
-                status_pdn_cnt = st.selectbox("🏭 Status PDN", status_pdn_options, key="StatusPDN_CatatNonTender")
-
-            with col3:
-                status_ukm_options = ['Gabungan'] + list(dfGabung['status_ukm'].unique())
-                status_ukm_cnt = st.selectbox("🏪 Status UKM", status_ukm_options, key="StatusUKM_CatatNonTender")
+            sumber_dana_unik_array = dfGabung['sumber_dana'].unique()
+            sumber_dana_unik_array_ok = np.insert(sumber_dana_unik_array, 0, "Gabungan")
+            sumber_dana_cnt = st.selectbox("💵 Sumber Dana", sumber_dana_unik_array_ok, key="CatatNonTender")
 
         st.divider()
-        
+
+        dfGabung_base = dfGabung if sumber_dana_cnt == "Gabungan" else dfGabung[dfGabung['sumber_dana'] == sumber_dana_cnt]
+
+        # Filter Detail Data
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Detail Data")
+
+            col1, col2 = st.columns(2)
+            with col1:
+                status_tender_unik_array = dfGabung_base['status_nontender_pct_ket'].unique()
+                status_tender_unik_array_ok = np.insert(status_tender_unik_array, 0, "Gabungan")
+                status_tender_cnt = st.selectbox("📊 Status Pencatatan", status_tender_unik_array_ok, key="Status_CatatNonTender")
+            with col2:
+                status_pdn_unik_array = dfGabung_base['status_pdn'].unique()
+                status_pdn_unik_array_ok = np.insert(status_pdn_unik_array, 0, "Gabungan")
+                status_pdn_cnt = st.selectbox("🏭 Status PDN", status_pdn_unik_array_ok, key="StatusPDN_CatatNonTender")
+
+            col3, col4 = st.columns(2)
+            with col3:
+                status_ukm_unik_array = dfGabung_base['status_ukm'].unique()
+                status_ukm_unik_array_ok = np.insert(status_ukm_unik_array, 0, "Gabungan")
+                status_ukm_cnt = st.selectbox("🏪 Status UKM", status_ukm_unik_array_ok, key="StatusUKM_CatatNonTender")
+            with col4:
+                nama_satker_unik_array = dfGabung_base['nama_satker'].unique()
+                nama_satker_unik_array_ok = np.insert(nama_satker_unik_array, 0, "Semua Perangkat Daerah")
+                nama_satker_cnt = st.selectbox("🏛️ Perangkat Daerah", nama_satker_unik_array_ok, key='Nama_Satker_CatatNonTender')
+
+        st.divider()
+
         # Menerapkan Filter Data
-        dfGabung_filter_query = "SELECT * FROM dfGabung WHERE 1=1"
-        
-        if sumber_dana_cnt != 'Gabungan':
-            dfGabung_filter_query += f" AND sumber_dana = '{sumber_dana_cnt}'"
-            
-        if status_pdn_cnt != 'Gabungan':
+        dfGabung_filter_query = "SELECT * FROM dfGabung_base WHERE 1=1"
+
+        if status_tender_cnt != "Gabungan":
+            dfGabung_filter_query += f" AND status_nontender_pct_ket = '{status_tender_cnt}'"
+
+        if status_pdn_cnt != "Gabungan":
             dfGabung_filter_query += f" AND status_pdn = '{status_pdn_cnt}'"
-            
-        if status_ukm_cnt != 'Gabungan':
+
+        if status_ukm_cnt != "Gabungan":
             dfGabung_filter_query += f" AND status_ukm = '{status_ukm_cnt}'"
-            
+
+        if nama_satker_cnt != "Semua Perangkat Daerah":
+            dfGabung_filter_query += f" AND nama_satker = '{nama_satker_cnt}'"
+
         dfGabung_filter = con.execute(dfGabung_filter_query).df()
 
         # Tombol unduh di atas kanan
@@ -466,13 +487,14 @@ with menu_pencatatan_2:
             st.markdown("#### 🔍 Filter Data")
 
             # Filter Sumber Dana
-            sumber_dana_options = ['Gabungan'] + list(dfGabung['sumber_dana'].unique())
-            sumber_dana_cs = st.selectbox("💵 Sumber Dana", sumber_dana_options, key="CatatSwakelola")
+            sumber_dana_unik_array = dfGabung['sumber_dana'].unique()
+            sumber_dana_unik_array_ok = np.insert(sumber_dana_unik_array, 0, "Gabungan")
+            sumber_dana_cs = st.selectbox("💵 Sumber Dana", sumber_dana_unik_array_ok, key="CatatSwakelola")
 
         st.divider()
 
         # Filter data berdasarkan sumber dana
-        dfGabung_filter = dfGabung if sumber_dana_cs == 'Gabungan' else dfGabung[dfGabung['sumber_dana'] == sumber_dana_cs]
+        dfGabung_filter = dfGabung if sumber_dana_cs == "Gabungan" else dfGabung[dfGabung['sumber_dana'] == sumber_dana_cs]
 
         # Tombol unduh di atas kanan
         col_spacer, col_download = st.columns([8, 2])
@@ -504,19 +526,21 @@ with menu_pencatatan_2:
 
             col1, col2 = st.columns([3, 7])
             with col1:
-                status_options = ['Gabungan'] + list(dfGabung_filter['status_swakelola_pct_ket'].unique())
-                status_swakelola_cs = st.selectbox("📊 Status Swakelola", status_options, key="Status_Swakelola")
+                status_unik_array = dfGabung_filter['status_swakelola_pct_ket'].unique()
+                status_unik_array_ok = np.insert(status_unik_array, 0, "Gabungan")
+                status_swakelola_cs = st.selectbox("📊 Status Swakelola", status_unik_array_ok, key="Status_Swakelola")
             with col2:
-                satker_options = ['SEMUA PERANGKAT DAERAH'] + list(dfGabung_filter['nama_satker'].unique())
-                status_opd_cs = st.selectbox("🏛️ Perangkat Daerah", satker_options, key="OPD_Swakelola")
+                satker_unik_array = dfGabung_filter['nama_satker'].unique()
+                satker_unik_array_ok = np.insert(satker_unik_array, 0, "SEMUA PERANGKAT DAERAH")
+                status_opd_cs = st.selectbox("🏛️ Perangkat Daerah", satker_unik_array_ok, key="OPD_Swakelola")
 
         st.divider()
 
         # Query dan Tampilkan Data
         where_conditions = []
-        if status_swakelola_cs != 'Gabungan':
+        if status_swakelola_cs != "Gabungan":
             where_conditions.append(f"status_swakelola_pct_ket = '{status_swakelola_cs}'")
-        if status_opd_cs != 'SEMUA PERANGKAT DAERAH':
+        if status_opd_cs != "SEMUA PERANGKAT DAERAH":
             where_conditions.append(f"nama_satker = '{status_opd_cs}'")
         
         where_sql = " AND ".join(where_conditions)

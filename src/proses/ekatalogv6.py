@@ -65,23 +65,25 @@ try:
 
     st.divider()
 
-    # Filter Data dengan Radio Button
-    KATALOGV6_radio_1, KATALOGV6_radio_2, KATALOGV6_radio_3, KATALOGV6_radio_4, KATALOGV6_radio_5, _ = st.columns((1,1,1,1,1,5))  
-    with KATALOGV6_radio_1:
-        nama_sumber_dana = np.insert(dfECATV6['sumber_dana'].unique(), 0, "Gabungan")
-        nama_sumber_dana = st.radio("**Sumber Dana**", nama_sumber_dana)
-    with KATALOGV6_radio_2:
-        status_paket = np.insert(dfECATV6['status_pkt'].unique(), 0, "Gabungan")
-        status_paket = st.radio("**Status Paket**", status_paket)
-    with KATALOGV6_radio_3:
-        status_kirim = np.insert(dfECATV6['status_pengiriman'].unique(), 0, "Gabungan")
-        status_kirim = st.radio("**Status Pengiriman**", status_kirim)
-    with KATALOGV6_radio_4:
-        status_pdn_array = np.insert(dfECATV6['status_pdn'].unique(), 0, "Gabungan")
-        status_pdn = st.radio("**Status PDN**", status_pdn_array)
-    with KATALOGV6_radio_5:
-        status_ukm_array = np.insert(dfECATV6['status_ukm'].unique(), 0, "Gabungan") 
-        status_ukm = st.radio("**Status UKM**", status_ukm_array)
+    # Filter Data
+    with st.container(border=True):
+        st.markdown("#### 🔍 Filter Data")
+        KATALOGV6_select_1, KATALOGV6_select_2, KATALOGV6_select_3, KATALOGV6_select_4, KATALOGV6_select_5 = st.columns((1, 1, 1, 1, 1))
+        with KATALOGV6_select_1:
+            nama_sumber_dana = np.insert(dfECATV6['sumber_dana'].unique(), 0, "Gabungan")
+            nama_sumber_dana = st.selectbox("💵 Sumber Dana", nama_sumber_dana, key="Ekatalogv6_Sumber_Dana")
+        with KATALOGV6_select_2:
+            status_paket = np.insert(dfECATV6['status_pkt'].unique(), 0, "Gabungan")
+            status_paket = st.selectbox("📦 Status Paket", status_paket, key="Ekatalogv6_Status_Paket")
+        with KATALOGV6_select_3:
+            status_kirim = np.insert(dfECATV6['status_pengiriman'].unique(), 0, "Gabungan")
+            status_kirim = st.selectbox("🚚 Status Pengiriman", status_kirim, key="Ekatalogv6_Status_Pengiriman")
+        with KATALOGV6_select_4:
+            status_pdn_array = np.insert(dfECATV6['status_pdn'].unique(), 0, "Gabungan")
+            status_pdn = st.selectbox("🏭 Status PDN", status_pdn_array, key="Ekatalogv6_Status_PDN")
+        with KATALOGV6_select_5:
+            status_ukm_array = np.insert(dfECATV6['status_ukm'].unique(), 0, "Gabungan")
+            status_ukm = st.selectbox("🏪 Status UKM", status_ukm_array, key="Ekatalogv6_Status_UKM")
         
     st.write(f"Anda memilih : **{nama_sumber_dana}**, **{status_paket}**, **{status_kirim}**, **{status_pdn}**, **{status_ukm}**")
 
@@ -108,6 +110,8 @@ try:
     col1.metric(label="Jumlah Produk Katalog", value="{:,}".format(df_ECATV6_filter['jml_jenis_produk'].sum()))
     col2.metric(label="Jumlah Transaksi Katalog", value="{:,}".format(df_ECATV6_filter['kd_paket'].nunique()))
     col3.metric(label="Nilai Transaksi Katalog", value="{:,.2f}".format(df_ECATV6_filter['total_harga'].sum()))
+
+    style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
 
     st.divider()
 
@@ -224,6 +228,3 @@ try:
 
 except Exception as e:
     st.error(f"Error: {e}")
-
-# Mengatur Tampilan Kartu Metrik
-style_metric_cards(background_color="#000", border_left_color="#D3D3D3")

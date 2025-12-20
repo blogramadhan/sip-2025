@@ -39,7 +39,7 @@ datasets_rup = {
 st.title("TRANSAKSI E-KATALOG VERSI 5")
 st.header(f"{pilih} - TAHUN {tahun}")
 
-menu_purchasing_1_1, menu_purchasing_1_2, menu_purchasing_1_3 = st.tabs(["TRANSAKSI KATALOG", "TRANSAKSI KATALOG (ETALASE)", "TABEL NILAI ETALASE"])
+menu_purchasing_1_1, menu_purchasing_1_2, menu_purchasing_1_3 = st.tabs(["🛍️ TRANSAKSI KATALOG", "🏷️ TRANSAKSI KATALOG (ETALASE)", "📊 TABEL NILAI ETALASE"])
 
 try:
     with menu_purchasing_1_1:
@@ -75,21 +75,23 @@ try:
         st.divider()
 
         # Filter options
-        KATALOG_radio_1, KATALOG_radio_2, KATALOG_radio_3, KATALOG_radio_4, KATALOG_radio_5 = st.columns((1,1,1,1,6))
-        with KATALOG_radio_1:
-            jenis_katalog_array = np.insert(dfECAT_OK['jenis_katalog'].unique(), 0, "Gabungan")
-            jenis_katalog = st.radio("**Jenis Katalog**", jenis_katalog_array)
-        with KATALOG_radio_2:
-            nama_sumber_dana = st.radio("**Sumber Dana**", ["Gabungan", "APBD", "BLUD"])
-        with KATALOG_radio_3:
-            status_pdn_array = np.insert(dfECAT_OK['status_pdn'].unique(), 0, "Gabungan") 
-            status_pdn = st.radio("**Status PDN**", status_pdn_array)
-        with KATALOG_radio_4:
-            status_ukm_array = np.insert(dfECAT_OK['status_ukm'].unique(), 0, "Gabungan")
-            status_ukm = st.radio("**Status UKM**", status_ukm_array)
-        with KATALOG_radio_5:
-            status_paket_array = np.insert(dfECAT_OK['status_paket'].unique(), 0, "Gabungan")
-            status_paket = st.radio("**Status Paket**", status_paket_array)
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Data")
+            KATALOG_select_1, KATALOG_select_2, KATALOG_select_3, KATALOG_select_4, KATALOG_select_5 = st.columns((1, 1, 1, 1, 1.5))
+            with KATALOG_select_1:
+                jenis_katalog_array = np.insert(dfECAT_OK['jenis_katalog'].unique(), 0, "Gabungan")
+                jenis_katalog = st.selectbox("🗂️ Jenis Katalog", jenis_katalog_array, key="Ekatalog_Jenis_Katalog")
+            with KATALOG_select_2:
+                nama_sumber_dana = st.selectbox("💵 Sumber Dana", ["Gabungan", "APBD", "BLUD"], key="Ekatalog_Sumber_Dana")
+            with KATALOG_select_3:
+                status_pdn_array = np.insert(dfECAT_OK['status_pdn'].unique(), 0, "Gabungan")
+                status_pdn = st.selectbox("🏭 Status PDN", status_pdn_array, key="Ekatalog_Status_PDN")
+            with KATALOG_select_4:
+                status_ukm_array = np.insert(dfECAT_OK['status_ukm'].unique(), 0, "Gabungan")
+                status_ukm = st.selectbox("🏪 Status UKM", status_ukm_array, key="Ekatalog_Status_UKM")
+            with KATALOG_select_5:
+                status_paket_array = np.insert(dfECAT_OK['status_paket'].unique(), 0, "Gabungan")
+                status_paket = st.selectbox("📦 Status Paket", status_paket_array, key="Ekatalog_Status_Paket")
 
         st.write(f"Anda memilih : **{status_paket}**, **{jenis_katalog}**, **{nama_sumber_dana}**, **{status_pdn}**, **{status_ukm}**")
 
@@ -117,6 +119,8 @@ try:
         col2.metric(label="Jumlah Penyedia Katalog", value="{:,}".format(df_ECAT_filter['kd_penyedia'].nunique()))
         col3.metric(label="Jumlah Transaksi Katalog", value="{:,}".format(df_ECAT_filter['no_paket'].nunique()))
         col4.metric(label="Nilai Transaksi Katalog", value="{:,.2f}".format(df_ECAT_filter['total_harga'].sum()))
+
+        style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
 
         st.divider()
 
@@ -572,18 +576,20 @@ try:
         st.divider()
 
         # Filter data
-        col_filter1, col_filter2, col_filter3, col_filter4 = st.columns((1,1,2,6))
-        
-        with col_filter1:
-            jenis_katalog_array = np.insert(dfECAT_OK['jenis_katalog'].unique(), 0, "Gabungan")
-            jenis_katalog_etalase = st.radio("**Jenis Katalog**", jenis_katalog_array, key="Etalase_Jenis_Katalog")
-        
-        with col_filter2:
-            nama_sumber_dana_etalase = st.radio("**Sumber Dana**", ["Gabungan", "APBD", "BLUD"], key="Etalase_Sumber_Dana")
-        
-        with col_filter3:
-            status_paket_array = np.insert(dfECAT_OK['status_paket'].unique(), 0, "Gabungan")
-            status_paket_etalase = st.radio("**Status Paket**", status_paket_array, key="Etalase_Status_Paket")
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Data")
+            col_filter1, col_filter2, col_filter3 = st.columns((1, 1, 1))
+            
+            with col_filter1:
+                jenis_katalog_array = np.insert(dfECAT_OK['jenis_katalog'].unique(), 0, "Gabungan")
+                jenis_katalog_etalase = st.selectbox("🗂️ Jenis Katalog", jenis_katalog_array, key="Etalase_Jenis_Katalog")
+            
+            with col_filter2:
+                nama_sumber_dana_etalase = st.selectbox("💵 Sumber Dana", ["Gabungan", "APBD", "BLUD"], key="Etalase_Sumber_Dana")
+            
+            with col_filter3:
+                status_paket_array = np.insert(dfECAT_OK['status_paket'].unique(), 0, "Gabungan")
+                status_paket_etalase = st.selectbox("📦 Status Paket", status_paket_array, key="Etalase_Status_Paket")
 
         # Query data berdasarkan filter
         df_ECAT_ETALASE_Query = "SELECT * FROM dfECAT_OK WHERE 1=1"
@@ -602,8 +608,7 @@ try:
 
         df_ECAT_ETALASE = con.execute(df_ECAT_ETALASE_Query).df()
 
-        with col_filter4:
-            nama_komoditas = st.selectbox("Pilih Etalase Belanja:", df_ECAT_ETALASE['nama_komoditas'].unique(), key="Etalase_Nama_Komoditas")
+        nama_komoditas = st.selectbox("🏷️ Etalase Belanja", df_ECAT_ETALASE['nama_komoditas'].unique(), key="Etalase_Nama_Komoditas")
         
         st.write(f"Filter: **{jenis_katalog_etalase}** | **{nama_sumber_dana_etalase}** | **{status_paket_etalase}**")
 
@@ -622,6 +627,8 @@ try:
         col2.metric(label="Jumlah Penyedia", value=f"{jumlah_penyedia:,}")
         col3.metric(label="Jumlah Transaksi", value=f"{jumlah_trx:,}")
         col4.metric(label="Nilai Transaksi", value=f"Rp {nilai_trx:,.2f}")
+
+        style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
 
         st.divider()
 
@@ -998,5 +1005,3 @@ try:
             
 except Exception as e:
     st.error(f"Error: {e}")
-
-style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
