@@ -133,24 +133,29 @@ section[data-testid="stAppViewContainer"] > div {
     margin-bottom: 0.75rem;
 }
 
-/* Tampilkan icon saat collapsed dan sembunyikan logo lebar (berdasarkan src) */
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img[src*="sip-spse-new.png"] {
-    display: none !important;
-}
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img[src*="sip-spse-icon.png"] {
-    display: block !important;
-    visibility: visible !important;
-}
+/* Sidebar collapsed state handled by disabling collapse button */
 
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] a:last-child img {
-    width: 48px !important;
-    height: 48px !important;
-    max-width: 48px !important;
-    max-height: 48px !important;
-    object-fit: contain;
-    display: block !important;
+/* Custom sidebar brand (fallback for st.logo) */
+[data-testid="stSidebar"] .sidebar-brand {
+    padding: 0.75rem 1rem 0.5rem 1rem;
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+[data-testid="stSidebar"] .sidebar-brand img {
+    display: block;
     margin: 0 auto;
-    visibility: visible !important;
+    object-fit: contain;
+    height: auto;
+}
+[data-testid="stSidebar"] .sidebar-brand .brand-full {
+    width: 100%;
+    max-width: 100%;
+    max-height: 72px;
+}
+[data-testid="stSidebar"] .sidebar-brand .brand-icon {
+    width: 48px;
+    height: 48px;
+    display: none;
 }
 
 /* Sidebar collapse button styling */
@@ -168,10 +173,14 @@ section[data-testid="stAppViewContainer"] > div {
 
 /* Nonaktifkan tombol minimize sidebar */
 [data-testid="collapsedControl"],
+[data-testid="stSidebarCollapseButton"],
+[data-testid="stSidebarCollapseButton"] button,
 button[title="Collapse sidebar"],
 button[title="Expand sidebar"],
-[data-testid="baseButton-header"] {
+button[aria-label="Collapse sidebar"],
+button[aria-label="Expand sidebar"] {
     display: none !important;
+    pointer-events: none !important;
 }
 
 /* Sidebar Navigation Container - Padding lebih rapat */
@@ -192,6 +201,13 @@ button[title="Expand sidebar"],
 
 [data-testid="stSidebarNav"] > ul > li:first-child > div > div {
     margin-top: 0;
+}
+
+/* Garis pemisah antar section */
+[data-testid="stSidebarNav"] > ul > li:not(:first-child) > div {
+    border-top: 1px solid var(--border);
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
 }
 
 /* Section Divider */

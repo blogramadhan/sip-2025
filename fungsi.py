@@ -32,7 +32,15 @@ def load_css():
 
 # Fungsi untuk membuat logo
 def logo():
-    st.logo(image="https://storage.googleapis.com/bukanamel/img/sip-spse-new.png", icon_image="https://storage.googleapis.com/bukanamel/img/sip-spse-icon.png", size="large")
+    st.sidebar.markdown(
+        """
+        <div class="sidebar-brand">
+            <img class="brand-full" src="https://storage.googleapis.com/bukanamel/img/sip-spse-new.png" alt="SIP Logo">
+            <img class="brand-icon" src="https://storage.googleapis.com/bukanamel/img/sip-spse-icon.png" alt="SIP Icon">
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 # Fungsi region config
 def region_config():
@@ -81,8 +89,8 @@ def get_pages():
     ]
 
     return {
-        "": beranda,
+        "🏠 Beranda": beranda,
         "📋 Rencana": rencana_pengadaan,
-        "Proses Pengadaan": proses_pengadaan,
-        "Monitoring Pengadaan": monitoring_pengadaan,
+        "⚖️ Proses": proses_pengadaan,
+        "📊 Monitoring": monitoring_pengadaan,
     }
