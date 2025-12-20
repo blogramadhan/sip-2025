@@ -59,34 +59,28 @@ with menu_pencatatan_1:
         dfGabung['status_pdn'] = dfGabung['status_pdn'].fillna('Tanpa Status')
         dfGabung['status_ukm'] = dfGabung['status_ukm'].fillna('Tanpa Status')
 
-        # Menampilkan Header dan Tombol Unduh
-        col1, col2 = st.columns((7,3))
-        with col1:
-            st.subheader("PENCATATAN NON TENDER")
-        with col2:
-            st.download_button(
-                label = "📥 Download Data Pencatatan Non Tender",
-                data = download_excel(dfGabung),
-                file_name = f"SPSEPencatatanNonTender-{kodeFolder}-{tahun}.xlsx",
-                mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            )
+        st.subheader("PENCATATAN NON TENDER")
+
+        # Filter Section dengan Container
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Data")
+
+            # Baris pertama - 3 kolom untuk filter kategori
+            col1, col2, col3 = st.columns(3)
+
+            with col1:
+                sumber_dana_options = ['Gabungan'] + list(dfGabung['sumber_dana'].unique())
+                sumber_dana_cnt = st.selectbox("💵 Sumber Dana", sumber_dana_options, key="CatatNonTender")
+
+            with col2:
+                status_pdn_options = ['Gabungan'] + list(dfGabung['status_pdn'].unique())
+                status_pdn_cnt = st.selectbox("🏭 Status PDN", status_pdn_options, key="StatusPDN_CatatNonTender")
+
+            with col3:
+                status_ukm_options = ['Gabungan'] + list(dfGabung['status_ukm'].unique())
+                status_ukm_cnt = st.selectbox("🏪 Status UKM", status_ukm_options, key="StatusUKM_CatatNonTender")
 
         st.divider()
-
-        # Filter Data Berdasarkan Sumber Dana, Status PDN, dan Status UKM
-        SPSE_radio_1, SPSE_radio_2, SPSE_radio_3, _ = st.columns((1,1,1,7))
-        
-        with SPSE_radio_1:
-            sumber_dana_options = ['Gabungan'] + list(dfGabung['sumber_dana'].unique())
-            sumber_dana_cnt = st.radio("**Sumber Dana**", sumber_dana_options, key="CatatNonTender")
-            
-        with SPSE_radio_2:
-            status_pdn_options = ['Gabungan'] + list(dfGabung['status_pdn'].unique())
-            status_pdn_cnt = st.radio("**Status PDN**", status_pdn_options, key="StatusPDN_CatatNonTender")
-            
-        with SPSE_radio_3:
-            status_ukm_options = ['Gabungan'] + list(dfGabung['status_ukm'].unique())
-            status_ukm_cnt = st.radio("**Status UKM**", status_ukm_options, key="StatusUKM_CatatNonTender")
         
         # Menerapkan Filter Data
         dfGabung_filter_query = "SELECT * FROM dfGabung WHERE 1=1"
@@ -101,11 +95,22 @@ with menu_pencatatan_1:
             dfGabung_filter_query += f" AND status_ukm = '{status_ukm_cnt}'"
             
         dfGabung_filter = con.execute(dfGabung_filter_query).df()
-        
+
+        # Tombol unduh di atas kanan
+        col_spacer, col_download = st.columns([8, 2])
+        with col_download:
+            st.download_button(
+                label="📥 Unduh Excel",
+                data=download_excel(dfGabung_filter),
+                file_name=f"PencatatanNonTender-{kodeFolder}-{tahun}.xlsx",
+                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                use_container_width=True
+            )
+
         # Menghitung Jumlah Paket Berdasarkan Status
         status_counts = {
             'Berjalan': len(dfGabung_filter[dfGabung_filter['status_nontender_pct_ket'] == 'Paket Sedang Berjalan']),
-            'Selesai': len(dfGabung_filter[dfGabung_filter['status_nontender_pct_ket'] == 'Paket Selesai']), 
+            'Selesai': len(dfGabung_filter[dfGabung_filter['status_nontender_pct_ket'] == 'Paket Selesai']),
             'Dibatalkan': len(dfGabung_filter[dfGabung_filter['status_nontender_pct_ket'] == 'Paket Dibatalkan'])
         }
 
@@ -114,6 +119,8 @@ with menu_pencatatan_1:
         col1.metric("Pencatatan NonTender Berjalan", f"{status_counts['Berjalan']:,}")
         col2.metric("Pencatatan NonTender Selesai", f"{status_counts['Selesai']:,}")
         col3.metric("Pencatatan NonTender Dibatalkan", f"{status_counts['Dibatalkan']:,}")
+
+        style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
 
         st.divider()
 
@@ -452,52 +459,64 @@ with menu_pencatatan_2:
         ]]
         dfGabung = dfCatatSwakelola.merge(dfCatatSwakelolaRealisasi, how='left', on='kd_swakelola_pct')
 
-        # Header dan Tombol Unduh
-        col1, col2 = st.columns((7,3))
-        with col1:
-            st.subheader(f"PENCATATAN SWAKELOLA TAHUN {tahun}")
-        with col2:
-            st.download_button(
-                label = "📥 Download Data Pencatatan Swakelola",
-                data = download_excel(dfGabung),
-                file_name = f"SPSEPencatatanSwakelola-{kodeFolder}-{tahun}.xlsx",
-                mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            )
-            
+        st.subheader("PENCATATAN SWAKELOLA")
+
+        # Filter Section dengan Container
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Data")
+
+            # Filter Sumber Dana
+            sumber_dana_options = ['Gabungan'] + list(dfGabung['sumber_dana'].unique())
+            sumber_dana_cs = st.selectbox("💵 Sumber Dana", sumber_dana_options, key="CatatSwakelola")
+
         st.divider()
 
-        # Filter Data Berdasarkan Sumber Dana
-        sumber_dana_options = ['Gabungan'] + list(dfGabung['sumber_dana'].unique())
-        sumber_dana_cs = st.radio("**Sumber Dana :**", sumber_dana_options, key="CatatSwakelola")
+        # Filter data berdasarkan sumber dana
         dfGabung_filter = dfGabung if sumber_dana_cs == 'Gabungan' else dfGabung[dfGabung['sumber_dana'] == sumber_dana_cs]
 
+        # Tombol unduh di atas kanan
+        col_spacer, col_download = st.columns([8, 2])
+        with col_download:
+            st.download_button(
+                label="📥 Unduh Excel",
+                data=download_excel(dfGabung_filter),
+                file_name=f"PencatatanSwakelola-{kodeFolder}-{tahun}.xlsx",
+                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                use_container_width=True
+            )
+
         # Menampilkan Metrik Status Paket
-        status_counts = {status: len(dfGabung_filter[dfGabung_filter['status_swakelola_pct_ket'] == f'Paket {status}']) 
+        status_counts = {status: len(dfGabung_filter[dfGabung_filter['status_swakelola_pct_ket'] == f'Paket {status}'])
                         for status in ['Sedang Berjalan', 'Selesai', 'Dibatalkan']}
-        
+
         col1, col2, col3 = st.columns(3)
         col1.metric("Pencatatan Swakelola Berjalan", f"{status_counts['Sedang Berjalan']:,}")
         col2.metric("Pencatatan Swakelola Selesai", f"{status_counts['Selesai']:,}")
         col3.metric("Pencatatan Swakelola Dibatalkan", f"{status_counts['Dibatalkan']:,}")
 
+        style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
+
         st.divider()
 
-        # Filter Berdasarkan Status dan Satker
-        SPSE_CS_radio_1, SPSE_CS_radio_2 = st.columns((2,8))
-        with SPSE_CS_radio_1:
-            status_options = ['Gabungan'] + list(dfGabung_filter['status_swakelola_pct_ket'].unique())
-            status_swakelola_cs = st.radio("**Status Swakelola :**", status_options)
-        with SPSE_CS_radio_2:
-            satker_options = ['Semua Perangkat Daerah'] + list(dfGabung_filter['nama_satker'].unique())
-            status_opd_cs = st.selectbox("**Pilih Satker :**", satker_options)
-        
+        # Filter Section untuk Detail Data
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Detail Data")
+
+            col1, col2 = st.columns([3, 7])
+            with col1:
+                status_options = ['Gabungan'] + list(dfGabung_filter['status_swakelola_pct_ket'].unique())
+                status_swakelola_cs = st.selectbox("📊 Status Swakelola", status_options, key="Status_Swakelola")
+            with col2:
+                satker_options = ['SEMUA PERANGKAT DAERAH'] + list(dfGabung_filter['nama_satker'].unique())
+                status_opd_cs = st.selectbox("🏛️ Perangkat Daerah", satker_options, key="OPD_Swakelola")
+
         st.divider()
 
         # Query dan Tampilkan Data
         where_conditions = []
         if status_swakelola_cs != 'Gabungan':
             where_conditions.append(f"status_swakelola_pct_ket = '{status_swakelola_cs}'")
-        if status_opd_cs != 'Semua Perangkat Daerah':
+        if status_opd_cs != 'SEMUA PERANGKAT DAERAH':
             where_conditions.append(f"nama_satker = '{status_opd_cs}'")
         
         where_sql = " AND ".join(where_conditions)

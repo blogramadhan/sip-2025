@@ -141,16 +141,18 @@ section[data-testid="stAppViewContainer"] > div {
 /* Tampilkan logo kedua (icon robot) saat collapsed */
 [data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] a:last-child {
     display: inline-block !important;
+    visibility: visible !important;
 }
 
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img {
-    width: 48px;
-    height: 48px;
-    max-width: 48px;
-    max-height: 48px;
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] a:last-child img {
+    width: 48px !important;
+    height: 48px !important;
+    max-width: 48px !important;
+    max-height: 48px !important;
     object-fit: contain;
-    display: block;
+    display: block !important;
     margin: 0 auto;
+    visibility: visible !important;
 }
 
 /* Sidebar collapse button styling */
@@ -188,14 +190,25 @@ section[data-testid="stAppViewContainer"] > div {
 
 /* Section Divider */
 [data-testid="stSidebarNav"] > ul > li {
-    border-bottom: none;
+    position: relative;
     margin-bottom: 0.5rem;
-    padding-bottom: 0.125rem;
+    padding-bottom: 0.5rem;
+}
+
+[data-testid="stSidebarNav"] > ul > li::after {
+    content: "";
+    display: block;
+    height: 1px;
+    background: #d0d7e2;
+    margin: 0.4rem 0.75rem 0;
 }
 
 [data-testid="stSidebarNav"] > ul > li:last-child {
-    border-bottom: none;
     margin-bottom: 0;
+}
+
+[data-testid="stSidebarNav"] > ul > li:last-child::after {
+    display: none;
 }
 
 /* Sidebar navigation links - Jarak lebih rapat */

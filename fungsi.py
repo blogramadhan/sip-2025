@@ -56,13 +56,15 @@ def region_config():
 
 # Fungsi untuk mendapatkan konfigurasi menu navigasi sidebar
 def get_pages():
-    return [
+    beranda = [
         st.Page("beranda.py", title="Beranda", icon="🏠", default=True),
+    ]
 
-        # Kategori Rencana
+    rencana_pengadaan = [
         st.Page("src/rencana/rup.py", title="RUP", icon="📋"),
+    ]
 
-        # Kategori Proses
+    proses_pengadaan = [
         st.Page("src/proses/tender.py", title="Tender", icon="⚖️"),
         st.Page("src/proses/nontender.py", title="Non Tender", icon="📝"),
         st.Page("src/proses/pencatatan.py", title="Pencatatan", icon="✍️"),
@@ -70,9 +72,17 @@ def get_pages():
         st.Page("src/proses/ekatalogv6.py", title="E-Katalog v6", icon="📖"),
         st.Page("src/proses/tokodaring.py", title="Toko Daring", icon="🛒"),
         st.Page("src/proses/pesertatender.py", title="Peserta Tender", icon="👥"),
+    ]
 
-        # Kategori Monitoring
+    monitoring_pengadaan = [
         st.Page("src/monitoring/itkp.py", title="ITKP", icon="📊"),
         st.Page("src/monitoring/jenisbelanja.py", title="Jenis Belanja", icon="💰"),
         st.Page("src/monitoring/nilaisikap.py", title="Nilai SIKAP", icon="📈"),
     ]
+
+    return {
+        "": beranda,
+        "Rencana Pengadaan": rencana_pengadaan,
+        "Proses Pengadaan": proses_pengadaan,
+        "Monitoring Pengadaan": monitoring_pengadaan,
+    }
