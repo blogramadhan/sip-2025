@@ -61,25 +61,32 @@ with menu_nontender_1:
 
         st.subheader("PENGUMUMAN NON TENDER")
 
-        st.divider()
+        # Filter Section dengan Container
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Data")
 
-        # Filter options
-        SPSE_NT_radio_1, SPSE_NT_radio_2, SPSE_NT_radio_3, SPSE_NT_radio_4, SPSE_NT_radio_5 = st.columns((1,1,1,1,6))
-        with SPSE_NT_radio_1:
-            sumber_dana_array = np.insert(dfNonTenderPengumuman['sumber_dana'].unique(), 0, "Gabungan")
-            sumber_dana_nt = st.radio("**Sumber Dana**", sumber_dana_array, key="Sumber_Dana_NT_Pengumuman")
-        with SPSE_NT_radio_2:
-            status_array = np.insert(dfNonTenderPengumuman['status_nontender'].unique(), 0, "Gabungan")
-            status_nontender = st.radio("**Status Non Tender**", status_array, key="Status_NT_Pengumuman")
-        with SPSE_NT_radio_3:
-            status_pdn_array = np.insert(dfNonTenderPengumuman['status_pdn'].unique(), 0, "Gabungan")
-            status_pdn = st.radio("**Status PDN**", status_pdn_array, key="Status_PDN_NT_Pengumuman")
-        with SPSE_NT_radio_4:
-            status_ukm_array = np.insert(dfNonTenderPengumuman['status_ukm'].unique(), 0, "Gabungan")
-            status_ukm = st.radio("**Status UKM**", status_ukm_array, key="Status_UKM_NT_Pengumuman")
-        with SPSE_NT_radio_5:
+            col1, col2, col3, col4 = st.columns(4)
+
+            with col1:
+                sumber_dana_array = np.insert(dfNonTenderPengumuman['sumber_dana'].unique(), 0, "Gabungan")
+                sumber_dana_nt = st.selectbox("💵 Sumber Dana", sumber_dana_array, key="Sumber_Dana_NT_Pengumuman")
+
+            with col2:
+                status_array = np.insert(dfNonTenderPengumuman['status_nontender'].unique(), 0, "Gabungan")
+                status_nontender = st.selectbox("📊 Status Non Tender", status_array, key="Status_NT_Pengumuman")
+
+            with col3:
+                status_pdn_array = np.insert(dfNonTenderPengumuman['status_pdn'].unique(), 0, "Gabungan")
+                status_pdn = st.selectbox("🏭 Status PDN", status_pdn_array, key="Status_PDN_NT_Pengumuman")
+
+            with col4:
+                status_ukm_array = np.insert(dfNonTenderPengumuman['status_ukm'].unique(), 0, "Gabungan")
+                status_ukm = st.selectbox("🏪 Status UKM", status_ukm_array, key="Status_UKM_NT_Pengumuman")
+
             nama_satker_array = np.insert(dfNonTenderPengumuman['nama_satker'].unique(), 0, "Semua Perangkat Daerah")
-            nama_satker = st.selectbox("**Perangkat Daerah**", nama_satker_array, key="Nama_Satker_NT_Pengumuman")
+            nama_satker = st.selectbox("🏛️ Perangkat Daerah", nama_satker_array, key="Nama_Satker_NT_Pengumuman")
+
+        st.divider()
         
         # Build filter query
         filter_query = "SELECT * FROM dfNonTenderPengumuman WHERE 1=1"
@@ -96,21 +103,24 @@ with menu_nontender_1:
         
         df_filter = con.execute(filter_query).df()
 
-        # Tampilkan header dan tombol unduh
-        col1, col2 = st.columns([7,3])
-        col1.write(f"Anda memilih : **{sumber_dana_nt}**, **{status_nontender}**, **{status_pdn}**, **{status_ukm}**, dan **{nama_satker}**")
-        col2.download_button(
-            label="📥 Unduh Data Pengumuman Non Tender",
-            data=download_excel(df_filter),
-            file_name=f"NonTender-Pengumuman-{kodeFolder}-{tahun}.xlsx",
-            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
+        # Tombol unduh di atas kanan
+        col_spacer, col_download = st.columns([8, 2])
+        with col_download:
+            st.download_button(
+                label="📥 Unduh Excel",
+                data=download_excel(df_filter),
+                file_name=f"NonTender-Pengumuman-{kodeFolder}-{tahun}.xlsx",
+                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                use_container_width=True
+            )
         
         # Metrics
         col1, col2, col3 = st.columns(3)
         col1.metric(label="Jumlah Paket Non Tender", value="{:,}".format(df_filter['kd_nontender'].nunique()))
-        col2.metric(label="Nilai Pagu", value="{:,.2f}".format(df_filter['pagu'].sum()))
-        col3.metric(label="Nilai HPS", value="{:,.2f}".format(df_filter['hps'].sum()))
+        col2.metric(label="Nilai Pagu", value="{:,.0f}".format(df_filter['pagu'].sum()))
+        col3.metric(label="Nilai HPS", value="{:,.0f}".format(df_filter['hps'].sum()))
+
+        style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
 
         st.divider()
 
@@ -446,55 +456,61 @@ with menu_nontender_2:
         # Baca dataset SPPBJ non tender
         dfNonTenderSPPBJ = read_df_duckdb(datasets["NonTenderSPPBJ"])
 
-        # Header dan tombol unduh
-        col1, col2 = st.columns((7,3))
-        col1.subheader("SPPBJ NON TENDER")
-        col2.download_button(
-            label="📥 Unduh Data SPPBJ Non Tender",
-            data=download_excel(dfNonTenderSPPBJ),
-            file_name=f"NonTender-SPPBJ-{kodeFolder}-{tahun}.xlsx",
-            mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
+        st.subheader("SPPBJ NON TENDER")
 
-        # Metrik total
-        jumlah_total = dfNonTenderSPPBJ['kd_nontender'].nunique()
-        nilai_total = dfNonTenderSPPBJ['harga_final'].sum()
-        
+        # Filter Section dengan Container
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Data")
+
+            col1, col2 = st.columns([3, 7])
+            with col1:
+                status_kontrak_options = ['Semua'] + list(dfNonTenderSPPBJ['status_kontrak'].unique())
+                status_kontrak_nt = st.selectbox("📊 Status Kontrak", status_kontrak_options, key="NonTender_Status_SPPBJ")
+            with col2:
+                opd_options = ['SEMUA PERANGKAT DAERAH'] + list(dfNonTenderSPPBJ['nama_satker'].unique())
+                opd_nt = st.selectbox("🏛️ Perangkat Daerah", opd_options, key="NonTender_OPD_SPPBJ")
+
         st.divider()
-        col_metrik1, col_metrik2 = st.columns(2)
-        col_metrik1.metric("Jumlah Total Non Tender SPPBJ", f"{jumlah_total:,}")
-        col_metrik2.metric("Nilai Total Non Tender SPPBJ", f"{nilai_total:,.2f}")
 
-        # Filter data
-        st.divider()
-        col_filter1, col_filter2 = st.columns((2,8))
-        with col_filter1:
-            status_kontrak_options = np.append(["Semua"], dfNonTenderSPPBJ['status_kontrak'].unique())
-            status_kontrak_nt = st.radio("**Status Kontrak**", status_kontrak_options)
-        with col_filter2:
-            # Tambahkan opsi "Semua" untuk perangkat daerah
-            opd_options = np.append(["Semua"], dfNonTenderSPPBJ['nama_satker'].unique())
-            opd_nt = st.selectbox("Pilih Perangkat Daerah:", opd_options)
-        
-        st.write(f"Anda memilih: **{status_kontrak_nt}** dari **{opd_nt}**")
+        if status_kontrak_nt == 'Semua' and opd_nt == 'SEMUA PERANGKAT DAERAH':
+            dfNonTenderSPPBJ_filter = dfNonTenderSPPBJ
+        elif status_kontrak_nt == 'Semua':
+            dfNonTenderSPPBJ_filter = con.execute(f"""
+                SELECT * FROM dfNonTenderSPPBJ
+                WHERE nama_satker = '{opd_nt}'
+            """).df()
+        elif opd_nt == 'SEMUA PERANGKAT DAERAH':
+            dfNonTenderSPPBJ_filter = con.execute(f"""
+                SELECT * FROM dfNonTenderSPPBJ
+                WHERE status_kontrak = '{status_kontrak_nt}'
+            """).df()
+        else:
+            dfNonTenderSPPBJ_filter = con.execute(f"""
+                SELECT * FROM dfNonTenderSPPBJ
+                WHERE status_kontrak = '{status_kontrak_nt}'
+                AND nama_satker = '{opd_nt}'
+            """).df()
 
-        # Data terfilter dan metrik
-        filter_query = "SELECT * FROM dfNonTenderSPPBJ WHERE 1=1"
-        if status_kontrak_nt != "Semua":
-            filter_query += f" AND status_kontrak = '{status_kontrak_nt}'"
-        if opd_nt != "Semua":
-            filter_query += f" AND nama_satker = '{opd_nt}'"
-            
-        dfNonTenderSPPBJ_filter = con.execute(filter_query).df()
-        
+        # Tombol unduh di atas kanan
+        col_spacer, col_download = st.columns([8, 2])
+        with col_download:
+            st.download_button(
+                label="📥 Unduh Excel",
+                data=download_excel(dfNonTenderSPPBJ_filter),
+                file_name=f"NonTender-SPPBJ-{kodeFolder}-{tahun}.xlsx",
+                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                use_container_width=True
+            )
+
         jumlah_filter = dfNonTenderSPPBJ_filter['kd_nontender'].nunique()
         nilai_filter = dfNonTenderSPPBJ_filter['harga_final'].sum()
-        
+
         col_metrik1, col_metrik2 = st.columns(2)
         col_metrik1.metric("Jumlah Non Tender SPPBJ", f"{jumlah_filter:,}")
-        col_metrik2.metric("Nilai Non Tender SPPBJ", f"{nilai_filter:,.2f}")
+        col_metrik2.metric("Nilai Non Tender SPPBJ", f"{nilai_filter:,.0f}")
 
-        # Tabel data
+        style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
+
         st.divider()
         tabel_sppbj_nt_tampil = con.execute("""
             SELECT nama_paket AS NAMA_PAKET, no_sppbj AS NO_SPPBJ, tgl_sppbj AS TGL_SPPBJ, 
@@ -536,53 +552,61 @@ with menu_nontender_3:
         # Baca data dan siapkan unduhan
         dfSPSENonTenderKontrak = read_df_duckdb(datasets["NonTenderKontrak"])
 
-        # Header dan tombol unduh
-        col1, col2 = st.columns((7,3))
-        col1.subheader("KONTRAK NON TENDER")
-        col2.download_button(
-            label = "📥 Download Data Non Tender KONTRAK",
-            data = download_excel(dfSPSENonTenderKontrak),
-            file_name = f"SPSENonTenderKONTRAK-{kodeFolder}-{tahun}.xlsx",
-            mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        )
+        st.subheader("KONTRAK NON TENDER")
 
-        # Metrik total
+        # Filter Section dengan Container
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Data")
+
+            col1, col2 = st.columns([3, 7])
+            with col1:
+                status_options = ["Semua"] + list(dfSPSENonTenderKontrak['status_kontrak'].unique())
+                status_kontrak = st.selectbox("📊 Status Kontrak", status_options, key='NonTender_Kontrak')
+            with col2:
+                opd_options = ["SEMUA PERANGKAT DAERAH"] + list(dfSPSENonTenderKontrak['nama_satker'].unique())
+                opd = st.selectbox("🏛️ Perangkat Daerah", opd_options, key='NonTender_Kontrak_OPD')
+
         st.divider()
-        jumlah_total = dfSPSENonTenderKontrak['kd_nontender'].nunique()
-        nilai_total = dfSPSENonTenderKontrak['nilai_kontrak'].sum()
-        
-        col1, col2 = st.columns(2)
-        col1.metric(label="Jumlah Total Non Tender KONTRAK", value="{:,}".format(jumlah_total))
-        col2.metric(label="Nilai Total Non Tender KONTRAK", value="{:,.2f}".format(nilai_total))
 
-        # Filter data
-        st.divider()
-        col1, col2 = st.columns((2,8))
-        with col1:
-            status_options = ["Semua"] + list(dfSPSENonTenderKontrak['status_kontrak'].unique())
-            status_kontrak = st.radio("**Status Kontrak**", status_options, key='NonTender_Kontrak')
-        with col2:
-            opd_options = ["Semua"] + list(dfSPSENonTenderKontrak['nama_satker'].unique())
-            opd = st.selectbox("Pilih Perangkat Daerah:", opd_options, key='NonTender_Kontrak_OPD')
-        st.write(f"Anda memilih: **{status_kontrak}** dari **{opd}**")
+        if status_kontrak == "Semua" and opd == "SEMUA PERANGKAT DAERAH":
+            df_filter = dfSPSENonTenderKontrak
+        elif status_kontrak == "Semua":
+            df_filter = con.execute(f"""
+                SELECT * FROM dfSPSENonTenderKontrak
+                WHERE nama_satker = '{opd}'
+            """).df()
+        elif opd == "SEMUA PERANGKAT DAERAH":
+            df_filter = con.execute(f"""
+                SELECT * FROM dfSPSENonTenderKontrak
+                WHERE status_kontrak = '{status_kontrak}'
+            """).df()
+        else:
+            df_filter = con.execute(f"""
+                SELECT * FROM dfSPSENonTenderKontrak
+                WHERE status_kontrak = '{status_kontrak}'
+                AND nama_satker = '{opd}'
+            """).df()
 
-        # Data terfilter
-        filter_query = "SELECT * FROM dfSPSENonTenderKontrak WHERE 1=1"
-        if status_kontrak != "Semua":
-            filter_query += f" AND status_kontrak = '{status_kontrak}'"
-        if opd != "Semua":
-            filter_query += f" AND nama_satker = '{opd}'"
-        df_filter = con.execute(filter_query).df()
-        
-        # Metrik terfilter
+        # Tombol unduh di atas kanan
+        col_spacer, col_download = st.columns([8, 2])
+        with col_download:
+            st.download_button(
+                label="📥 Unduh Excel",
+                data=download_excel(df_filter),
+                file_name=f"SPSENonTenderKONTRAK-{kodeFolder}-{tahun}.xlsx",
+                mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                use_container_width=True
+            )
+
         jumlah_filter = df_filter['kd_nontender'].nunique()
         nilai_filter = df_filter['nilai_kontrak'].sum()
-        
+
         col1, col2 = st.columns(2)
         col1.metric(label="Jumlah Non Tender KONTRAK", value="{:,}".format(jumlah_filter))
-        col2.metric(label="Nilai Non Tender KONTRAK", value="{:,.2f}".format(nilai_filter))
+        col2.metric(label="Nilai Non Tender KONTRAK", value="{:,.0f}".format(nilai_filter))
 
-        # Tabel data
+        style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
+
         st.divider()
         tabel_kontrak = con.execute("""
             SELECT nama_paket AS NAMA_PAKET, no_kontrak AS NO_KONTRAK, tgl_kontrak AS TGL_KONTRAK, 
