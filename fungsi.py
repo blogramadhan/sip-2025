@@ -82,7 +82,7 @@ def get_pages():
 
     return {
         "": beranda,
-        "Rencana Pengadaan": rencana_pengadaan,
+        "📋 Rencana": rencana_pengadaan,
         "Proses Pengadaan": proses_pengadaan,
         "Monitoring Pengadaan": monitoring_pengadaan,
     }

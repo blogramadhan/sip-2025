@@ -58,8 +58,10 @@ try:
 
     # st.dataframe(dfRUPPP_filter)
 
-    satker_options = ["SEMUA PERANGKAT DAERAH"] + list(namaopd)
-    satker = st.selectbox("Pilih Perangkat Daerah :", satker_options, key="jenis_belanja")
+    with st.container(border=True):
+        st.markdown("#### 🔍 Filter Data")
+        satker_options = ["SEMUA PERANGKAT DAERAH"] + list(namaopd)
+        satker = st.selectbox("🏛️ Perangkat Daerah", satker_options, key="jenis_belanja")
 
     if satker == "SEMUA PERANGKAT DAERAH":
         dfRUPPP_PD_Profil = dfRUPPP_filter
@@ -115,7 +117,7 @@ try:
     col_bt1, col_bt2, col_bt3 = st.columns(3)
     col_bt1.metric(label="Belanja Tidak Terduga", value=format_currency(belanja_tidak_terduga, 'IDR', locale='id_ID').replace('Rp', 'Rp. '))
 
+    style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
+
 except Exception as e:
     st.error(f"Error: {e}")
-
-style_metric_cards(background_color="#000", border_left_color="#D3D3D3")

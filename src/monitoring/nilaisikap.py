@@ -63,6 +63,8 @@ def proses_data_sikap(jenis, kd_field):
         col1.metric(label=label_paket, value="{:,}".format(jumlah_paket_selesai))
         col2.metric(label="Jumlah Paket Sudah Dinilai", value="{:,}".format(jumlah_paket_dinilai))
         col3.metric(label="Jumlah Paket Belum Dinilai", value="{:,}".format(selisih_paket))
+
+        style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
         
         st.divider()
         
@@ -126,6 +128,3 @@ with menu_tender:
 
 with menu_nontender:
     proses_data_sikap("NonTender", "kd_nontender")
-
-# Styling
-style_metric_cards(background_color="#000", border_left_color="#D3D3D3")

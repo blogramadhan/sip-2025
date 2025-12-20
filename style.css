@@ -122,8 +122,8 @@ section[data-testid="stAppViewContainer"] > div {
     margin: 0 auto;
 }
 
-/* Sembunyikan logo kedua (icon) saat expanded */
-[data-testid="stSidebar"]:not([data-collapsed="true"]) [data-testid="stLogo"] a:last-child {
+/* Sembunyikan icon saat expanded (berdasarkan src) */
+[data-testid="stSidebar"]:not([data-collapsed="true"]) [data-testid="stLogo"] img[src*="sip-spse-icon.png"] {
     display: none !important;
 }
 
@@ -133,14 +133,12 @@ section[data-testid="stAppViewContainer"] > div {
     margin-bottom: 0.75rem;
 }
 
-/* Sembunyikan logo pertama (lebar) saat collapsed */
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] a:first-child {
+/* Tampilkan icon saat collapsed dan sembunyikan logo lebar (berdasarkan src) */
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img[src*="sip-spse-new.png"] {
     display: none !important;
 }
-
-/* Tampilkan logo kedua (icon robot) saat collapsed */
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] a:last-child {
-    display: inline-block !important;
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img[src*="sip-spse-icon.png"] {
+    display: block !important;
     visibility: visible !important;
 }
 
@@ -166,6 +164,11 @@ section[data-testid="stAppViewContainer"] > div {
 [data-testid="collapsedControl"]:hover {
     background: var(--bg-hover) !important;
     border-color: var(--primary) !important;
+}
+
+/* Nonaktifkan tombol minimize sidebar */
+[data-testid="collapsedControl"] {
+    display: none !important;
 }
 
 /* Sidebar Navigation Container - Padding lebih rapat */

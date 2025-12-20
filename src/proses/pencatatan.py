@@ -73,49 +73,7 @@ with menu_pencatatan_1:
         st.divider()
 
         dfGabung_base = dfGabung if sumber_dana_cnt == "Gabungan" else dfGabung[dfGabung['sumber_dana'] == sumber_dana_cnt]
-
-        # Filter Detail Data
-        with st.container(border=True):
-            st.markdown("#### 🔍 Filter Detail Data")
-
-            col1, col2 = st.columns(2)
-            with col1:
-                status_tender_unik_array = dfGabung_base['status_nontender_pct_ket'].unique()
-                status_tender_unik_array_ok = np.insert(status_tender_unik_array, 0, "Gabungan")
-                status_tender_cnt = st.selectbox("📊 Status Pencatatan", status_tender_unik_array_ok, key="Status_CatatNonTender")
-            with col2:
-                status_pdn_unik_array = dfGabung_base['status_pdn'].unique()
-                status_pdn_unik_array_ok = np.insert(status_pdn_unik_array, 0, "Gabungan")
-                status_pdn_cnt = st.selectbox("🏭 Status PDN", status_pdn_unik_array_ok, key="StatusPDN_CatatNonTender")
-
-            col3, col4 = st.columns(2)
-            with col3:
-                status_ukm_unik_array = dfGabung_base['status_ukm'].unique()
-                status_ukm_unik_array_ok = np.insert(status_ukm_unik_array, 0, "Gabungan")
-                status_ukm_cnt = st.selectbox("🏪 Status UKM", status_ukm_unik_array_ok, key="StatusUKM_CatatNonTender")
-            with col4:
-                nama_satker_unik_array = dfGabung_base['nama_satker'].unique()
-                nama_satker_unik_array_ok = np.insert(nama_satker_unik_array, 0, "Semua Perangkat Daerah")
-                nama_satker_cnt = st.selectbox("🏛️ Perangkat Daerah", nama_satker_unik_array_ok, key='Nama_Satker_CatatNonTender')
-
-        st.divider()
-
-        # Menerapkan Filter Data
-        dfGabung_filter_query = "SELECT * FROM dfGabung_base WHERE 1=1"
-
-        if status_tender_cnt != "Gabungan":
-            dfGabung_filter_query += f" AND status_nontender_pct_ket = '{status_tender_cnt}'"
-
-        if status_pdn_cnt != "Gabungan":
-            dfGabung_filter_query += f" AND status_pdn = '{status_pdn_cnt}'"
-
-        if status_ukm_cnt != "Gabungan":
-            dfGabung_filter_query += f" AND status_ukm = '{status_ukm_cnt}'"
-
-        if nama_satker_cnt != "Semua Perangkat Daerah":
-            dfGabung_filter_query += f" AND nama_satker = '{nama_satker_cnt}'"
-
-        dfGabung_filter = con.execute(dfGabung_filter_query).df()
+        dfGabung_filter = dfGabung_base
 
         # Tombol unduh di atas kanan
         col_spacer, col_download = st.columns([8, 2])
@@ -390,14 +348,26 @@ with menu_pencatatan_1:
                     st.plotly_chart(figcntmpn, theme=None, use_container_width=True)
 
         st.divider()
-        
-        SPSE_CNT_radio_1, SPSE_CNT_radio_2 = st.columns((2,8))
-        with SPSE_CNT_radio_1:
-            status_options = ['Gabungan'] + list(dfGabung_filter['status_nontender_pct_ket'].unique())
-            status_nontender_cnt = st.radio("**Status NonTender :**", status_options)
-        with SPSE_CNT_radio_2:
-            satker_options = ['Semua Perangkat Daerah'] + list(dfGabung_filter['nama_satker'].unique())
-            status_opd_cnt = st.selectbox("**Pilih Satker :**", satker_options)
+
+        # Filter Detail Data
+        with st.container(border=True):
+            st.markdown("#### 🔍 Filter Detail Data")
+
+            col1, col2 = st.columns(2)
+            with col1:
+                status_options = ['Gabungan'] + list(dfGabung_filter['status_nontender_pct_ket'].unique())
+                status_nontender_cnt = st.selectbox("📊 Status Pencatatan", status_options, key="Status_Detail_CatatNonTender")
+            with col2:
+                status_pdn_options = ['Gabungan'] + list(dfGabung_filter['status_pdn'].unique())
+                status_pdn_cnt = st.selectbox("🏭 Status PDN", status_pdn_options, key="StatusPDN_Detail_CatatNonTender")
+
+            col3, col4 = st.columns(2)
+            with col3:
+                status_ukm_options = ['Gabungan'] + list(dfGabung_filter['status_ukm'].unique())
+                status_ukm_cnt = st.selectbox("🏪 Status UKM", status_ukm_options, key="StatusUKM_Detail_CatatNonTender")
+            with col4:
+                satker_options = ['Semua Perangkat Daerah'] + list(dfGabung_filter['nama_satker'].unique())
+                status_opd_cnt = st.selectbox("🏛️ Perangkat Daerah", satker_options, key="OPD_Detail_CatatNonTender")
 
         st.divider()
 
@@ -405,6 +375,10 @@ with menu_pencatatan_1:
         where_clauses = []
         if status_nontender_cnt != 'Gabungan':
             where_clauses.append(f"status_nontender_pct_ket = '{status_nontender_cnt}'")
+        if status_pdn_cnt != 'Gabungan':
+            where_clauses.append(f"status_pdn = '{status_pdn_cnt}'")
+        if status_ukm_cnt != 'Gabungan':
+            where_clauses.append(f"status_ukm = '{status_ukm_cnt}'")
         if status_opd_cnt != 'Semua Perangkat Daerah':
             where_clauses.append(f"nama_satker = '{status_opd_cnt}'")
             

@@ -79,10 +79,12 @@ except Exception as e:
 st.title(f"PREDIKSI ITKP")
 st.header(f"{pilih} - TAHUN {tahun}")
 
-st.divider()
+with st.container(border=True):
+    st.markdown("#### 🔍 Filter Data")
+    opd_options = ["Semua Perangkat Daerah"] + list(dfRUPPP['nama_satker'].unique())
+    opd = st.selectbox("🏛️ Perangkat Daerah", opd_options, key='itkp_profil')
 
-opd_options = ["Semua Perangkat Daerah"] + list(dfRUPPP['nama_satker'].unique())
-opd = st.selectbox("Pilih Perangkat Daerah :", opd_options, key='itkp_profil')
+st.divider()
 
 ### Query RUP
 # Menyiapkan query SQL untuk data RUP
@@ -162,6 +164,8 @@ try:
     
     for i, (label, value) in enumerate(metrik_data):
         cols[i].metric(label=label, value=value)
+
+    style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
         
 except Exception as e:
     st.error(f"Gagal mengolah data ITKP RUP: {e}")
@@ -191,6 +195,8 @@ try:
     
     for i, (label, value) in enumerate(metrik_data):
         cols[i].metric(label=label, value=value)
+
+    style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
         
 except Exception as e:
     st.error(f"Gagal mengolah data ITKP E-Tendering: {e}")
@@ -220,6 +226,8 @@ try:
     
     for i, (label, value) in enumerate(metrik_data):
         cols[i].metric(label=label, value=value)
+
+    style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
         
 except Exception as e:
     st.error(f"Gagal mengolah data ITKP Non E-Tendering: {e}")
@@ -249,6 +257,8 @@ try:
     
     for i, (label, value) in enumerate(metrik_data):
         cols[i].metric(label=label, value=value)
+
+    style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
         
 except Exception as e:
     st.error(f"Gagal mengolah data ITKP E-Kontrak: {e}")
@@ -278,6 +288,8 @@ try:
     
     for i, (label, value) in enumerate(metrik_data):
         cols[i].metric(label=label, value=value)
+
+    style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
         
 except Exception as e:
     st.error(f"Gagal mengolah data ITKP E-Katalog: {e}")
@@ -299,9 +311,8 @@ try:
     
     for i, (label, value) in enumerate(metrik_data):
         cols[i].metric(label=label, value=value)
+
+    style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
         
 except Exception as e:
     st.error(f"Gagal mengolah data ITKP Toko Daring: {e}")
-
-
-style_metric_cards(background_color="#000", border_left_color="#D3D3D3")

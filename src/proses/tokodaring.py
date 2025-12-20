@@ -46,11 +46,13 @@ try:
     st.divider()
 
     # Filter data
-    col1, col2 = st.columns(2)
-    with col1:
-        status_verifikasi = st.radio("**Status Verifikasi**", ["Gabungan", "Verified", "Unverified"])
-    with col2:
-        status_ppmse = st.radio("**Status Konfirmasi PPMSE**", ["Gagal", "Selesai"])
+    with st.container(border=True):
+        st.markdown("#### 🔍 Filter Data")
+        col1, col2 = st.columns(2)
+        with col1:
+            status_verifikasi = st.selectbox("✅ Status Verifikasi", ["Gabungan", "Verified", "Unverified"], key="Status_Verifikasi_TokoDaring")
+        with col2:
+            status_ppmse = st.selectbox("📨 Status Konfirmasi PPMSE", ["Gagal", "Selesai"], key="Status_PPMSE_TokoDaring")
     
     st.write(f"Filter aktif: **{status_verifikasi}** dan **{status_ppmse}**")
 
@@ -76,6 +78,8 @@ try:
         label="Nilai Transaksi Toko Daring", 
         value="{:,.2f}".format(df_BELA_filter['valuasi'].sum())
     )
+
+    style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
 
     st.divider()
 
@@ -273,5 +277,3 @@ try:
 
 except Exception as e:
     st.error(f"Error: {e}")
-
-style_metric_cards(background_color="#000", border_left_color="#D3D3D3")

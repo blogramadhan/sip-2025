@@ -58,8 +58,10 @@ try:
         )
 
     # Filter berdasarkan sumber dana
-    sumber_dana_options = ["SEMUA"] + list(df_PesertaTenderDetail['sumber_dana'].unique())
-    sumber_dana_pt = st.radio("**Sumber Dana :**", sumber_dana_options, key="DataPesertaTender")
+    with st.container(border=True):
+        st.markdown("#### 🔍 Filter Data")
+        sumber_dana_options = ["SEMUA"] + list(df_PesertaTenderDetail['sumber_dana'].unique())
+        sumber_dana_pt = st.selectbox("💵 Sumber Dana", sumber_dana_options, key="DataPesertaTender")
     
     # Filter data
     df_filtered = df_PesertaTenderDetail if sumber_dana_pt == "SEMUA" else df_PesertaTenderDetail.query(f"sumber_dana == '{sumber_dana_pt}'")
@@ -76,15 +78,19 @@ try:
     cols[2].metric(label="Jumlah Peserta Yang Menang", value="{:,}".format(len(peserta_menang)))
     cols[3].metric(label="Nilai Total Terkoreksi Rp. (Pemenang)", value="{:,.2f}".format(peserta_menang['nilai_terkoreksi'].sum()))
 
+    style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
+
     st.divider()
 
     # Filter berdasarkan status dan satker
-    col_status, col_satker = st.columns((2,8))
-    with col_status:
-        status_pemenang_pt = st.radio("**Tabel Data Peserta :**", ["SEMUA", "PEMENANG", "MENDAFTAR", "MENAWAR"])
-    with col_satker:
-        satker_options = ["SEMUA"] + list(df_filtered['nama_satker'].unique())
-        status_opd_pt = st.selectbox("**Pilih Satker :**", satker_options)
+    with st.container(border=True):
+        st.markdown("#### 🔍 Filter Detail Data")
+        col_status, col_satker = st.columns((2, 8))
+        with col_status:
+            status_pemenang_pt = st.selectbox("📊 Tabel Data Peserta", ["SEMUA", "PEMENANG", "MENDAFTAR", "MENAWAR"], key="Status_PesertaTender")
+        with col_satker:
+            satker_options = ["SEMUA"] + list(df_filtered['nama_satker'].unique())
+            status_opd_pt = st.selectbox("🏛️ Pilih Satker", satker_options, key="Satker_PesertaTender")
 
     # Query conditions
     query_conditions = {
@@ -121,6 +127,8 @@ try:
         value="{:,.2f}".format(jumlah_PeserteTender['NILAI_TERKOREKSI'].sum())
     )
 
+    style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10)
+
     st.divider()
 
     # Konfigurasi tabel
@@ -150,5 +158,3 @@ try:
 
 except Exception as e:
     st.error(f"Error: {e}")
-
-style_metric_cards(background_color="#000", border_left_color="#D3D3D3")
