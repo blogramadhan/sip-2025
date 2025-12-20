@@ -66,7 +66,7 @@ try:
         col1, col2 = st.columns([8,2])
         col1.subheader("TRANSAKSI E-KATALOG")
         col2.download_button(
-            label="📥 Unduh Transaksi E-Katalog",
+            label="📥 Excel",
             data=download_excel(dfECAT_OK),
             file_name=f"Transaksi_E-Katalog_{pilih}_{tahun}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -566,7 +566,7 @@ try:
             st.subheader("TRANSAKSI E-KATALOG (ETALASE)")
         with etalase2:
             st.download_button(
-                label="📥 Data Transaksi E-Katalog",
+                label="📥 Excel",
                 data=download_excel(dfECAT_OK),
                 file_name=f"TransaksiEKATALOG-{kodeFolder}-{tahun}.xlsx",
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -967,7 +967,7 @@ try:
             st.subheader("TABEL NILAI ETALASE")
         with col2:
             st.download_button(
-                label = "📥 Download Tabel Nilai Etalase",
+                label = "📥 Excel",
                 data = download_excel(df_etalase),
                 file_name = f"TabelNilaiEtalase-{kodeFolder}-{tahun}.xlsx",
                 mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'

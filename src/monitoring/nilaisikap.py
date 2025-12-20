@@ -90,7 +90,7 @@ def proses_data_sikap(jenis, kd_field):
         
         # Tombol unduh
         st.download_button(
-            label = f"📥 Download Data SIKAP {jenis}",
+            label = "📥 Excel",
             data = download_excel(df_sikap_final),
             file_name = f"SIKAP{jenis}-{kodeFolder}-{tahun}.xlsx",
             mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'

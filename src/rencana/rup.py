@@ -152,14 +152,14 @@ with menu_rup_1:
             st.subheader(f"{opd} - {periode_data}")
         with ProfilPD2:
             st.download_button(
-                label="📥 Paket RUP Penyedia",
+                label="📥 RUP Penyedia",
                 data=unduh_RUPPP_PD_Profil,
                 file_name=f"ProfilRUPPP_{opd}_{tahun}{file_suffix}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
         with ProfilPD3:
             st.download_button(
-                label="📥 Paket RUP Swakelola",
+                label="📥 RUP Swakelola",
                 data=unduh_RUPPS_PD_Profil,
                 file_name=f"ProfilRUPPS_{opd}_{tahun}{file_suffix}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -611,7 +611,7 @@ with menu_rup_3:
         # Tombol unduh data
         unduhRUPPP_PD = download_excel(dfRUPPP_PD)
         st.download_button(
-            label="📥 Unduh RUP PAKET PENYEDIA",
+            label="📥 Paket Penyedia",
             data=unduhRUPPP_PD,
             file_name=f"RUP_PAKET_PENYEDIA_{rup_pp}_{tahun}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -662,7 +662,7 @@ with menu_rup_4:
         # Tombol unduh data
         unduhRUPPS_PD = download_excel(dfRUPPS_PD)
         st.download_button(
-            label="📥 Unduh RUP PAKET SWAKELOLA",
+            label="📥 Paket Swakelola",
             data=unduhRUPPS_PD,
             file_name=f"RUP_PAKET_SWAKELOLA_{rup_ps}_{tahun}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -720,7 +720,7 @@ with menu_rup_5:
         
         # Download button
         st.download_button(
-            label="📥 Unduh  % Input RUP",
+            label="📥 % Input",
             data=download_excel(ir_gabung_final),
             file_name=f"TabelPersenInputRUP_{pilih}_{tahun}.xlsx", 
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
@@ -782,7 +782,7 @@ with menu_rup_6:
         
         # Download button
         st.download_button(
-            label="📥 Unduh  % Input RUP (31 Mar)",
+            label="📥 % Input (31 Mar)",
             data=download_excel(ir_gabung_final31),
             file_name=f"TabelPersenInputRUP31Mar_{pilih}_{tahun}.xlsx", 
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"

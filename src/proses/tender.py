@@ -119,7 +119,7 @@ with menu_tender_1:
         col_spacer, col_download = st.columns([8, 2])
         with col_download:
             st.download_button(
-                label="📥 Unduh Excel",
+                label="📥 Pengumuman Tender",
                 data=download_excel(SPSETenderPengumuman_filter),
                 file_name=f"Tender-Pengumuman-{kodeFolder}-{tahun}.xlsx",
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -736,7 +736,7 @@ with menu_tender_2:
         col_spacer, col_download = st.columns([8, 2])
         with col_download:
             st.download_button(
-                label="📥 Unduh Excel",
+                label="📥 SPPBJ",
                 data=download_excel(dfSPSETenderSPPBJ_filter),
                 file_name=f"Tender-SPPBJ-{kodeFolder}-{tahun}.xlsx",
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -827,7 +827,7 @@ with menu_tender_3:
         col_spacer, col_download = st.columns([8, 2])
         with col_download:
             st.download_button(
-                label="📥 Unduh Excel",
+                label="📥 Kontrak",
                 data=download_excel(filtered_df),
                 file_name=f"Tender-Kontrak-{kodeFolder}-{tahun}.xlsx",
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -922,7 +922,7 @@ with menu_tender_4:
         col_spacer, col_download = st.columns([8, 2])
         with col_download:
             st.download_button(
-                label="📥 Unduh Excel",
+                label="📥 SPMK",
                 data=download_excel(filtered_spmk),
                 file_name=f"Tender-SPMK-{kodeFolder}-{tahun}.xlsx",
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -1028,7 +1028,7 @@ with menu_tender_5:
         col_spacer, col_download = st.columns([8, 2])
         with col_download:
             st.download_button(
-                label="📥 Unduh Excel",
+                label="📥 BASPBAST",
                 data=download_excel(filtered_df),
                 file_name=f"Tender-BAPBAST-{kodeFolder}-{tahun}.xlsx",
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

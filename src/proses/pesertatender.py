@@ -51,7 +51,7 @@ try:
         st.subheader("PESERTA TENDER")
     with col2:
         st.download_button(
-            label = "📥 Download Data Peserta Tender",
+            label = "📥 Excel",
             data = download_excel(df_PesertaTenderDetail),
             file_name = f"SPSEPesertaTenderDetail-{kodeFolder}-{tahun}.xlsx",
             mime = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'

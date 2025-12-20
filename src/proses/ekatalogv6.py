@@ -57,7 +57,7 @@ try:
     col1, col2 = st.columns([8,2])
     col1.subheader("TRANSAKSI E-KATALOG V6")
     col2.download_button(
-        label="📥 Unduh Transaksi E-Katalog V6",
+        label="📥 Excel",
         data=download_excel(dfECATV6),
         file_name=f"Transaksi_E-Katalog_V6_{pilih}_{tahun}.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"

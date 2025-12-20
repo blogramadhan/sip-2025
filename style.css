@@ -167,7 +167,10 @@ section[data-testid="stAppViewContainer"] > div {
 }
 
 /* Nonaktifkan tombol minimize sidebar */
-[data-testid="collapsedControl"] {
+[data-testid="collapsedControl"],
+button[title="Collapse sidebar"],
+button[title="Expand sidebar"],
+[data-testid="baseButton-header"] {
     display: none !important;
 }
 

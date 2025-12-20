@@ -79,7 +79,7 @@ with menu_pencatatan_1:
         col_spacer, col_download = st.columns([8, 2])
         with col_download:
             st.download_button(
-                label="📥 Unduh Excel",
+                label="📥 Excel",
                 data=download_excel(dfGabung_filter),
                 file_name=f"PencatatanNonTender-{kodeFolder}-{tahun}.xlsx",
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -474,7 +474,7 @@ with menu_pencatatan_2:
         col_spacer, col_download = st.columns([8, 2])
         with col_download:
             st.download_button(
-                label="📥 Unduh Excel",
+                label="📥 Excel",
                 data=download_excel(dfGabung_filter),
                 file_name=f"PencatatanSwakelola-{kodeFolder}-{tahun}.xlsx",
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',

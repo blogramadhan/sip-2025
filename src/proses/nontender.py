@@ -107,7 +107,7 @@ with menu_nontender_1:
         col_spacer, col_download = st.columns([8, 2])
         with col_download:
             st.download_button(
-                label="📥 Unduh Excel",
+                label="📥 Excel",
                 data=download_excel(df_filter),
                 file_name=f"NonTender-Pengumuman-{kodeFolder}-{tahun}.xlsx",
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -495,7 +495,7 @@ with menu_nontender_2:
         col_spacer, col_download = st.columns([8, 2])
         with col_download:
             st.download_button(
-                label="📥 Unduh Excel",
+                label="📥 Excel",
                 data=download_excel(dfNonTenderSPPBJ_filter),
                 file_name=f"NonTender-SPPBJ-{kodeFolder}-{tahun}.xlsx",
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -591,7 +591,7 @@ with menu_nontender_3:
         col_spacer, col_download = st.columns([8, 2])
         with col_download:
             st.download_button(
-                label="📥 Unduh Excel",
+                label="📥 Excel",
                 data=download_excel(df_filter),
                 file_name=f"SPSENonTenderKONTRAK-{kodeFolder}-{tahun}.xlsx",
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -678,7 +678,7 @@ with menu_nontender_4:
         col_spacer, col_download = st.columns([8, 2])
         with col_download:
             st.download_button(
-                label="📥 Unduh Excel",
+                label="📥 Excel",
                 data=download_excel(filtered_spmk),
                 file_name=f"NonTender-SPMK-{kodeFolder}-{tahun}.xlsx",
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -782,7 +782,7 @@ with menu_nontender_5:
         col_spacer, col_download = st.columns([8, 2])
         with col_download:
             st.download_button(
-                label="📥 Unduh Excel",
+                label="📥 Excel",
                 data=download_excel(filtered_df),
                 file_name=f"NonTender-BAPBAST-{kodeFolder}-{tahun}.xlsx",
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
