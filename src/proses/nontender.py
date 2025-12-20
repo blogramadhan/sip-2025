@@ -42,7 +42,7 @@ datasets_rup = {
 st.title(f"TRANSAKSI NON TENDER")
 st.header(f"{pilih} - TAHUN {tahun}")
 
-menu_nontender_1, menu_nontender_2, menu_nontender_3, menu_nontender_4, menu_nontender_5 = st.tabs(["📢 PENGUMUMAN", "📋 SPPBJ", "📄 KONTRAK", "✅ SPMK", "📝 BAPBAST"])
+menu_nontender_1, menu_nontender_2, menu_nontender_3, menu_nontender_4, menu_nontender_5 = st.tabs(["PENGUMUMAN", "SPPBJ", "KONTRAK", "SPMK", "BAPBAST"])
 
 with menu_nontender_1:
     try:

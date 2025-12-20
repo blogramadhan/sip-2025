@@ -54,11 +54,25 @@ def region_config():
         "KAB. KATINGAN": {"folder": "ktg", "RUP": "D236", "LPSE": "438"}
     }
 
-# Fungsi untuk membuat menu sidebar
-def sidebar_menu():
-    pages = {
-        "SIRUP": [
-            st.Page("SIRUP.py", title="SIRUP"),
-        ],
-    }
-    return st.navigation(pages)
+# Fungsi untuk mendapatkan konfigurasi menu navigasi sidebar
+def get_pages():
+    return [
+        st.Page("beranda.py", title="Beranda", icon="🏠", default=True),
+
+        # Kategori Rencana
+        st.Page("src/rencana/rup.py", title="RUP", icon="📋"),
+
+        # Kategori Proses
+        st.Page("src/proses/tender.py", title="Tender", icon="⚖️"),
+        st.Page("src/proses/nontender.py", title="Non Tender", icon="📝"),
+        st.Page("src/proses/pencatatan.py", title="Pencatatan", icon="✍️"),
+        st.Page("src/proses/ekatalog.py", title="E-Katalog", icon="📚"),
+        st.Page("src/proses/ekatalogv6.py", title="E-Katalog v6", icon="📖"),
+        st.Page("src/proses/tokodaring.py", title="Toko Daring", icon="🛒"),
+        st.Page("src/proses/pesertatender.py", title="Peserta Tender", icon="👥"),
+
+        # Kategori Monitoring
+        st.Page("src/monitoring/itkp.py", title="ITKP", icon="📊"),
+        st.Page("src/monitoring/jenisbelanja.py", title="Jenis Belanja", icon="💰"),
+        st.Page("src/monitoring/nilaisikap.py", title="Nilai SIKAP", icon="📈"),
+    ]

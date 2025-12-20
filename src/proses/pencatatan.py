@@ -39,7 +39,7 @@ datasets_rup = {
 st.title(f"TRANSAKSI PENCATATAN")
 st.header(f"{pilih} - TAHUN {tahun}")
 
-menu_pencatatan_1, menu_pencatatan_2 = st.tabs(["📝 PENCATATAN NON TENDER", "🏗️ PENCATATAN SWAKELOLA"])
+menu_pencatatan_1, menu_pencatatan_2 = st.tabs(["PENCATATAN NON TENDER", "PENCATATAN SWAKELOLA"])
 
 with menu_pencatatan_1:
     try:

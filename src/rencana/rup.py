@@ -68,12 +68,12 @@ except Exception as e:
 #####
 
 st.title("RENCANA PENGADAAN")
-st.header(f"{pilih} TAHUN {tahun}")
+st.header(f"{pilih} - TAHUN {tahun}")
 
 # Buat Tab Menu
 menu_rup_1, menu_rup_2, menu_rup_3, menu_rup_4, menu_rup_5, menu_rup_6 = st.tabs([
-    "📊 PROFIL RUP", "💰 STRUKTUR ANGGARAN", "📦 RUP PAKET PENYEDIA",
-    "🏗️ RUP PAKET SWAKELOLA", "📈 PERSENTASE INPUT RUP", "📅 PERSENTASE INPUT RUP (31 MAR)"
+    "📊 PROFIL RUP", "💰 STRUKTUR ANGGARAN", "📦 PAKET PENYEDIA",
+    "🏗️ PAKET SWAKELOLA", "📈 % INPUT RUP", "📅 % INPUT RUP (31 MAR)"
 ])
 
 with menu_rup_1:
@@ -597,7 +597,7 @@ with menu_rup_2:
         st.error(f"Error: {e}")
 
 with menu_rup_3:
-    st.subheader("RUP PAKET PENYEDIA")
+    st.subheader("PAKET PENYEDIA")
 
     try:
         # Pilih Perangkat Daerah
@@ -648,7 +648,7 @@ with menu_rup_3:
         st.error(f"Error: {e}")
 
 with menu_rup_4:
-    st.subheader("RUP PAKET SWAKELOLA")
+    st.subheader("PAKET SWAKELOLA")
 
     try:
         # Pilih Perangkat Daerah
@@ -697,7 +697,7 @@ with menu_rup_4:
         st.error(f"Error: {e}")
 
 with menu_rup_5:
-    st.subheader("PERSENTASE INPUT RUP")
+    st.subheader("% INPUT RUP")
 
     try:
         # Query data dari database
@@ -751,7 +751,7 @@ with menu_rup_5:
         st.error(f"Error: {e}")
 
 with menu_rup_6:
-    st.subheader("PERSENTASE INPUT RUP (31 MAR)")
+    st.subheader("% INPUT RUP (31 MAR)")
 
     try:
         # Baca dataset RUP 31 Mar
