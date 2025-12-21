@@ -37,7 +37,7 @@ try:
     col1, col2 = st.columns((7,3))
     col1.header(f"{pilih} - TAHUN {tahun}")
     col2.download_button(
-        label="📥 Excel",
+        label="📥 Transaksi Toko Daring",
         data=download_excel(dfBELA),
         file_name=f"TransaksiTokoDaring-{kodeFolder}-{tahun}.xlsx",
         mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'

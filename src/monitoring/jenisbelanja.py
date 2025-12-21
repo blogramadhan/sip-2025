@@ -91,7 +91,7 @@ try:
         st.subheader(f"{satker}")
     with ProfilPD2:
         st.download_button(
-            label="📥 Excel",
+            label="📥 Jenis Belanja",
             data=download_excel(dfRUPPP_filter),
             file_name=f"ProfilRUPMAK_{tahun}.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
