@@ -113,13 +113,13 @@ Pemerintah Provinsi Kalimantan Barat
 ## 📋 Agenda Presentasi
 
 1. **Latar Belakang & Tujuan**
-2. **Arsitektur Sistem & Teknologi**
-3. **Fitur Utama Aplikasi**
-4. **Tour Modul: Rencana, Proses, Monitoring**
-5. **Cakupan Data & Integrasi**
-6. **Workflow Penggunaan**
-7. **Demo & Best Practices**
-8. **Roadmap & Pengembangan**
+2. **Fitur Utama Aplikasi**
+3. **Tour Modul: Rencana, Proses, Monitoring**
+4. **Sumber Data & Integrasi**
+5. **Cakupan Regional**
+6. **User Interface Highlights**
+7. **Fitur Export & Pelaporan**
+8. **Dampak & Live Showcase**
 
 ---
 
@@ -159,7 +159,7 @@ Dashboard terintegrasi untuk monitoring pengadaan dari **perencanaan** hingga **
 - **15 Daerah** (Provinsi + 14 Kab/Kota)
 - **Multi-Tahun** (2023-2025 + historis)
 - **Sumber Dana** (APBD/APBN/Lainnya)
-- **Status PDN/UKM** (TKDN >= 40%)
+- **Status PDN/UKM**
 - **Perangkat Daerah** spesifik
 
 ### 2️⃣ Visualisasi Interaktif
@@ -174,7 +174,7 @@ Dashboard terintegrasi untuk monitoring pengadaan dari **perencanaan** hingga **
 
 ### 3️⃣ Ekspor & Pelaporan
 - **Excel Export** dengan format mata uang Rupiah
-- **Auto-naming** file: `Modul-Daerah-Tahun.xlsx`
+- **Auto-naming** file: Modul-Daerah-Tahun.xlsx
 - **Metadata Filter** tercatat di setiap ekspor
 - **Siap Pakai** tanpa cleaning tambahan
 
@@ -419,14 +419,6 @@ Platform penilaian kinerja penyedia barang/jasa pemerintah
 
 ---
 
-## 🌍 Cakupan Regional (Lanjutan)
-
-### Skalabilitas
-✅ Penambahan daerah mudah via region_config()
-✅ Multi-tenant architecture ready
-
----
-
 ## 🎨 User Interface Highlights
 
 ### Navigation Sidebar
@@ -456,7 +448,7 @@ Platform penilaian kinerja penyedia barang/jasa pemerintah
 #### Konten Excel
 - ✅ **Header Metadata**: Filter yang diterapkan
 - ✅ **Data Ter-filter**: Sesuai seleksi user
-- ✅ **Format Mata Uang**: Rupiah dengan separator (Babel)
+- ✅ **Format Mata Uang**: Rupiah dengan separator
 - ✅ **Column Headers**: Deskriptif & konsisten
 
 ---
