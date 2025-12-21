@@ -97,8 +97,6 @@ style: |
   }
 ---
 
-<!-- _class: lead -->
-
 # Sistem Informasi Pelaporan
 # Pengadaan Barang dan Jasa
 ## **SIP 2025**
@@ -112,8 +110,6 @@ Pemerintah Provinsi Kalimantan Barat
 
 ---
 
-<!-- _class: content -->
-
 ## 📋 Agenda Presentasi
 
 1. **Latar Belakang & Tujuan**
@@ -126,8 +122,6 @@ Pemerintah Provinsi Kalimantan Barat
 8. **Roadmap & Pengembangan**
 
 ---
-
-<!-- _class: content -->
 
 ## 🎯 Latar Belakang
 
@@ -145,8 +139,6 @@ Dashboard terintegrasi untuk monitoring pengadaan dari **perencanaan** hingga **
 
 ---
 
-<!-- _class: content -->
-
 ## 🎯 Tujuan Aplikasi SIP 2025
 
 ### Untuk UKPBJ & PPK
@@ -158,17 +150,6 @@ Dashboard terintegrasi untuk monitoring pengadaan dari **perencanaan** hingga **
 - Dashboard metrik kunci capaian belanja PDN, UKM, dan ITKP
 - Laporan siap pakai untuk paparan dan audit
 - Mengawasi tata kelola lintas sistem
-
----
-
-<!-- _class: content -->
-
-## 🎯 Tujuan Aplikasi SIP 2025 (Lanjutan)
-
-### Untuk Analis Data
-- Export data ter-filter untuk analisis lanjutan
-- Integrasi data historis untuk trend analysis
-- Format data standar untuk BI tools
 
 ---
 
@@ -189,8 +170,6 @@ Dashboard terintegrasi untuk monitoring pengadaan dari **perencanaan** hingga **
 
 ---
 
-<!-- _class: content -->
-
 ## ✨ Fitur Utama (2/2)
 
 ### 3️⃣ Ekspor & Pelaporan
@@ -201,35 +180,6 @@ Dashboard terintegrasi untuk monitoring pengadaan dari **perencanaan** hingga **
 
 ---
 
-<!-- _class: content -->
-
-## 🗺️ Peta Modul SIP 2025
-
-```
-┌─────────────────────────────────────────────────────┐
-│              SISTEM INFORMASI PELAPORAN             │
-└─────────────────────────────────────────────────────┘
-                          │
-          ┌───────────────┼───────────────┐
-          ▼               ▼               ▼
-    ┌─────────┐     ┌─────────┐    ┌──────────┐
-    │ RENCANA │────▶│ PROSES  │───▶│MONITORING│
-    └─────────┘     └─────────┘    └──────────┘
-         │               │               │
-         │               │               │
-      📋 RUP        ⚖️ Tender        📊 ITKP
-                    📝 Non-Tender    💰 Jenis Belanja
-                    ✍️ Pencatatan     📈 Nilai SiKAP
-                    📚 E-Katalog v5
-                    📖 E-Katalog v6
-                    🛒 Toko Daring
-                    👥 Peserta Tender
-```
-
----
-
-<!-- _class: content -->
-
 ## 📋 Modul RENCANA: RUP
 
 ### Fokus Utama
@@ -239,11 +189,8 @@ Konsolidasi **Rencana Umum Pengadaan** dari SIRUP untuk baseline perencanaan
 - ✅ **Profil RUP**: Total pagu, jumlah paket penyedia & swakelola
 - 📊 **Struktur Anggaran**: Breakdown per perangkat daerah
 - 📈 **Persentase Input RUP**: Tingkat kelengkapan data
-- 🎯 **Target vs Realisasi**: Perbandingan rencana dengan eksekusi
 
 ---
-
-<!-- _class: content -->
 
 ## 📋 Modul RENCANA: RUP (Lanjutan)
 
@@ -254,8 +201,6 @@ Konsolidasi **Rencana Umum Pengadaan** dari SIRUP untuk baseline perencanaan
 - Export Excel ter-filter
 
 ---
-
-<!-- _class: content -->
 
 ## ⚖️ Modul PROSES: Tender
 
@@ -268,8 +213,6 @@ Konsolidasi **Rencana Umum Pengadaan** dari SIRUP untuk baseline perencanaan
 
 ---
 
-<!-- _class: content -->
-
 ## ⚖️ Modul PROSES: Tender (Lanjutan)
 
 ### Analisis Mendalam
@@ -280,8 +223,6 @@ Konsolidasi **Rencana Umum Pengadaan** dari SIRUP untuk baseline perencanaan
 - ⏱️ **Timeline**: Durasi proses tender
 
 ---
-
-<!-- _class: content -->
 
 ## 📝 Modul PROSES: Non-Tender & Pencatatan
 
@@ -297,8 +238,6 @@ Konsolidasi **Rencana Umum Pengadaan** dari SIRUP untuk baseline perencanaan
 
 ---
 
-<!-- _class: content -->
-
 ## 📝 Modul PROSES: Non-Tender & Pencatatan (Lanjutan)
 
 ### Output Terintegrasi
@@ -307,8 +246,6 @@ Konsolidasi **Rencana Umum Pengadaan** dari SIRUP untuk baseline perencanaan
 - Trend adopsi e-procurement
 
 ---
-
-<!-- _class: content -->
 
 ## 📚 Modul PROSES: E-Katalog v5 & v6
 
@@ -326,8 +263,6 @@ Konsolidasi **Rencana Umum Pengadaan** dari SIRUP untuk baseline perencanaan
 
 ---
 
-<!-- _class: content -->
-
 ## 📚 Modul PROSES: E-Katalog v5 & v6 (Lanjutan)
 
 ### Insight
@@ -336,8 +271,6 @@ Konsolidasi **Rencana Umum Pengadaan** dari SIRUP untuk baseline perencanaan
 📈 Trend penggunaan per periode
 
 ---
-
-<!-- _class: content -->
 
 ## 🛒 Modul PROSES: Toko Daring
 
@@ -352,8 +285,6 @@ Platform marketplace untuk transaksi pengadaan online
 
 ---
 
-<!-- _class: content -->
-
 ## 🛒 Modul PROSES: Toko Daring (Lanjutan)
 
 ### Metrik Kunci
@@ -363,8 +294,6 @@ Platform marketplace untuk transaksi pengadaan online
 - 📦 Jumlah produk/jasa terjual
 
 ---
-
-<!-- _class: content -->
 
 ## 👥 Modul PROSES: Peserta Tender
 
@@ -383,8 +312,6 @@ Platform marketplace untuk transaksi pengadaan online
 
 ---
 
-<!-- _class: content -->
-
 ## 👥 Modul PROSES: Peserta Tender (Lanjutan)
 
 #### Insight Strategis
@@ -393,8 +320,6 @@ Platform marketplace untuk transaksi pengadaan online
 - Peluang untuk UKM lokal
 
 ---
-
-<!-- _class: content -->
 
 ## 📊 Modul MONITORING: ITKP
 
@@ -413,8 +338,6 @@ Platform marketplace untuk transaksi pengadaan online
 
 ---
 
-<!-- _class: content -->
-
 ## 📊 Modul MONITORING: ITKP (Lanjutan)
 
 ### Output
@@ -424,8 +347,6 @@ Platform marketplace untuk transaksi pengadaan online
 - **Trend Historis**: Perbandingan periode
 
 ---
-
-<!-- _class: content -->
 
 ## 📈 Modul MONITORING: Nilai SiKAP
 
@@ -442,8 +363,6 @@ Platform penilaian kinerja penyedia barang/jasa pemerintah
 
 ---
 
-<!-- _class: content -->
-
 ## 📈 Modul MONITORING: Nilai SiKAP (Lanjutan)
 
 #### Analisis
@@ -454,8 +373,6 @@ Platform penilaian kinerja penyedia barang/jasa pemerintah
 
 ---
 
-<!-- _class: content -->
-
 ## 💰 Modul MONITORING: Jenis Belanja
 
 ### Klasifikasi Belanja Pemerintah
@@ -465,26 +382,7 @@ Platform penilaian kinerja penyedia barang/jasa pemerintah
 2. **🏗️ Belanja Modal**: Aset & infrastruktur
 3. **🆘 Belanja Tak Terduga**: Emergency & force majeure
 
-#### Analisis PDN (Produk Dalam Negeri)
-- **TKDN >= 40%**: Memenuhi syarat PDN
-- **TKDN < 40%**: Non-PDN
-- **Capaian Target**: % terhadap total belanja
-
 ---
-
-<!-- _class: content -->
-
-## 💰 Modul MONITORING: Jenis Belanja (Lanjutan)
-
-### Metrik Output
-- Komposisi belanja per jenis
-- Perbandingan PDN vs Non-PDN
-- Distribusi per perangkat daerah
-- Trend alokasi anggaran
-
----
-
-<!-- _class: content -->
 
 ## 🗄️ Sumber Data & Integrasi
 
@@ -497,14 +395,12 @@ Platform penilaian kinerja penyedia barang/jasa pemerintah
 | **BELA** | Toko Daring Realisasi | Mingguan | Parquet |
 
 ### Storage Infrastructure
-- **URL**: `https://s3-sip.pbj.my.id`
+- **URL**: https://s3-sip.pbj.my.id
 - **Format**: Parquet (columnar, compressed)
 - **Akses**: DuckDB read langsung tanpa ETL
 - **Snapshot**: Data 31 Maret tersimpan untuk baseline
 
 ---
-
-<!-- _class: content -->
 
 ## 🌍 Cakupan Regional
 
@@ -512,59 +408,24 @@ Platform penilaian kinerja penyedia barang/jasa pemerintah
 
 | Region | Kode RUP | Kode LPSE | Folder |
 |--------|----------|-----------|--------|
-| Prov. Kalbar | D197 | 97 | `prov` |
-| Kota Pontianak | D199 | 62 | `ptk` |
-| Kab. Kubu Raya | D202 | 188 | `kkr` |
-| Kab. Mempawah | D552 | 118 | `mpw` |
-| Kota Singkawang | D200 | 132 | `skw` |
-| Kab. Bengkayang | D206 | 444 | `bky` |
+| Prov. Kalbar | D197 | 97 | prov |
+| Kota Pontianak | D199 | 62 | ptk |
+| Kab. Kubu Raya | D202 | 188 | kkr |
+| Kab. Mempawah | D552 | 118 | mpw |
+| Kota Singkawang | D200 | 132 | skw |
+| Kab. Bengkayang | D206 | 444 | bky |
 
 **+ 9 kabupaten lainnya** (Landak, Sanggau, Sekadau, Melawi, Sintang, Kapuas Hulu, Ketapang, Tanggerang, Katingan)
 
 ---
 
-<!-- _class: content -->
-
 ## 🌍 Cakupan Regional (Lanjutan)
 
 ### Skalabilitas
-✅ Penambahan daerah mudah via `region_config()`
+✅ Penambahan daerah mudah via region_config()
 ✅ Multi-tenant architecture ready
 
 ---
-
-<!-- _class: content -->
-
-## 🔄 Workflow Penggunaan
-
-```mermaid
-flowchart LR
-    A[🏠 Akses<br/>Beranda] --> B[🗺️ Pilih<br/>Modul]
-    B --> C[📍 Filter<br/>Daerah & Tahun]
-    C --> D[🔍 Filter<br/>Detail]
-    D --> E[📊 Lihat<br/>Metrik & Grafik]
-    E --> F[📋 Analisis<br/>Tabel]
-    F --> G[💾 Export<br/>Excel]
-
-    style A fill:#667eea,color:#fff
-    style B fill:#764ba2,color:#fff
-    style C fill:#667eea,color:#fff
-    style D fill:#764ba2,color:#fff
-    style E fill:#667eea,color:#fff
-    style F fill:#764ba2,color:#fff
-    style G fill:#667eea,color:#fff
-```
-
-### Best Practice
-1️⃣ Mulai dari **Beranda** untuk overview
-2️⃣ Pilih **Daerah & Tahun** sebelum filter detail
-3️⃣ Gunakan **Filter Bertahap** untuk fokus analisis
-4️⃣ **Compare Periods** untuk trend analysis
-5️⃣ **Export Teratur** untuk arsip laporan
-
----
-
-<!-- _class: content -->
 
 ## 🎨 User Interface Highlights
 
@@ -583,28 +444,14 @@ flowchart LR
 
 ---
 
-<!-- _class: content -->
-
-## 🎨 User Interface Highlights (Lanjutan)
-
-### Responsive Design
-- Wide layout untuk data maksimal
-- Custom CSS untuk branding
-- Dark mode ready (`.streamlit/config.toml`)
-
----
-
-<!-- _class: content -->
-
 ## 📥 Fitur Export & Pelaporan
 
 ### Auto-Generated Excel
 
 #### Format File
-```
 [Modul]-[Daerah]-[Tahun].xlsx
-```
-**Contoh**: `Tender-PROV_KALBAR-2025.xlsx`
+
+**Contoh**: Tender-PROV_KALBAR-2025.xlsx
 
 #### Konten Excel
 - ✅ **Header Metadata**: Filter yang diterapkan
@@ -614,254 +461,15 @@ flowchart LR
 
 ---
 
-<!-- _class: content -->
-
 ## 📥 Fitur Export & Pelaporan (Lanjutan)
 
 #### Use Cases
 - 📊 Bahan paparan pimpinan
 - 🔍 Audit & inspeksi
-- 📈 Analisis lanjutan di Excel/BI tools
+- 📈 Analisis lanjutan di Excel
 - 📁 Arsip dokumentasi
 
 ---
-
-<!-- _class: content -->
-
-## ⚡ Performa & Optimasi
-
-### Caching Strategy
-```python
-@st.cache_data(ttl=21600)  # 6 jam
-def read_df_duckdb(url, format='parquet'):
-    return duckdb.read_parquet(url).df()
-```
-
-### Benefits
-- ⚡ **Response Time** < 2 detik untuk query kompleks
-- 💾 **Memory Efficient** dengan lazy loading
-- 🔄 **Auto-refresh** setiap 6 jam
-- 📊 **Jutaan Baris** tanpa performance hit
-
----
-
-<!-- _class: content -->
-
-## ⚡ Performa & Optimasi (Lanjutan)
-
-### DuckDB Advantages
-- SQL query langsung ke Parquet
-- In-memory processing super cepat
-- Filter & agregasi optimized
-- Zero ETL overhead
-
----
-
-<!-- _class: content -->
-
-## 🔐 Data Quality & Governance
-
-### Data Validation
-- ✅ Schema consistency check
-- ✅ Null value handling
-- ✅ Data type enforcement
-- ✅ Range & format validation
-
-### Historical Tracking
-- 📅 **Snapshot 31 Maret**: Baseline tahunan
-- 🔄 **Daily Updates**: Data terkini
-- 📊 **Trend Analysis**: Year-over-year comparison
-- 🗄️ **Retention**: 3 tahun data historis
-
----
-
-<!-- _class: content -->
-
-## 🔐 Data Quality & Governance (Lanjutan)
-
-### Compliance
-- 📋 Sesuai format LKPP resmi
-- 🔒 Akses terkontrol via infrastructure
-- 📝 Audit trail ready
-- 🎯 SPIP & SOP compliant
-
----
-
-<!-- _class: content -->
-
-## 📊 Contoh Metrik Dashboard
-
-### Card Metrik Utama
-```
-┌─────────────────────┬─────────────────────┐
-│  💰 Total Pagu      │  📋 Jumlah Paket    │
-│  Rp 1.2 Triliun     │  1,234 paket        │
-└─────────────────────┴─────────────────────┘
-┌─────────────────────┬─────────────────────┐
-│  ⚖️ Tender          │  📝 Non-Tender      │
-│  Rp 850 M (892)     │  Rp 350 M (342)     │
-└─────────────────────┴─────────────────────┘
-```
-
-### Grafik Populer
-- 🥧 **Pie Chart**: Distribusi per kategori
-- 📊 **Bar Chart**: TOP 10 perangkat daerah
-- 📈 **Line Chart**: Trend bulanan
-- 🗺️ **Treemap**: Hierarki alokasi anggaran
-
----
-
-<!-- _class: content -->
-
-## 🎯 Use Case: Monitoring Tender
-
-### Scenario
-Kepala UKPBJ ingin memantau progres tender Q4 2025
-
-### Steps
-1. **Akses Modul Tender** dari sidebar
-2. **Filter**: Prov. Kalbar, Tahun 2025, Q4
-3. **Lihat Metrik**:
-   - 125 paket diumumkan
-   - 98 SPPBJ terbit
-   - 87 kontrak ditandatangani
-   - 65 SPMK diterbitkan
-   - 42 BAST selesai
-
----
-
-<!-- _class: content -->
-
-## 🎯 Use Case: Monitoring Tender (Lanjutan)
-
-### Steps (Lanjutan)
-4. **Identifikasi**: 40% paket belum BAST
-5. **Deep Dive**: Filter perangkat daerah tertunda
-6. **Export**: Download Excel untuk koordinasi
-7. **Action**: Follow-up ke satker terkait
-
----
-
-<!-- _class: content -->
-
-## 🎯 Use Case: Analisis ITKP
-
-### Scenario
-Analis ingin evaluasi capaian ITKP tahun berjalan
-
-### Steps
-1. **Akses Modul ITKP** dari Monitoring
-2. **Filter**: Semua daerah, Tahun 2025
-3. **Review Dashboard**:
-   - Prediksi ITKP: 85.2 (Target: 80)
-   - Area kuat: RUP (95%), E-Tendering (88%)
-   - Area lemah: Toko Daring (65%)
-
----
-
-<!-- _class: content -->
-
-## 🎯 Use Case: Analisis ITKP (Lanjutan)
-
-### Steps (Lanjutan)
-4. **Drill-down**: Filter daerah dengan Toko Daring rendah
-5. **Insight**: 3 kabupaten belum adopsi BELA
-6. **Export**: Data per daerah untuk pembinaan
-7. **Rekomendasi**: Sosialisasi Toko Daring ke 3 kabupaten
-
----
-
-<!-- _class: content -->
-
-## 🎯 Use Case: Pelaporan PDN
-
-### Scenario
-Pimpinan perlu laporan capaian PDN untuk rapat koordinasi
-
-### Steps
-1. **Akses Modul Jenis Belanja**
-2. **Filter**: Provinsi Kalbar, 2025, TKDN >= 40%
-3. **Lihat Capaian**:
-   - Total Belanja: Rp 1.2 T
-   - Belanja PDN: Rp 780 M (65%)
-   - Target: 60% ✅ **TERCAPAI**
-
----
-
-<!-- _class: content -->
-
-## 🎯 Use Case: Pelaporan PDN (Lanjutan)
-
-### Steps (Lanjutan)
-4. **Breakdown**:
-   - Belanja Modal: 72% PDN
-   - Belanja Operasi: 58% PDN
-5. **TOP Satker**: Rank perangkat daerah
-6. **Export Excel**: Untuk lampiran paparan
-7. **Presentasi**: Data siap pakai dalam 5 menit
-
----
-
-<!-- _class: content -->
-
-## 🛠️ Tips & Best Practices
-
-### Untuk Efisiensi Analisis
-✅ **Gunakan Filter Bertahap**: Daerah → Tahun → Detail
-✅ **Simpan Filter Favorit**: Catat kombinasi sering dipakai
-✅ **Bandingkan Periode**: Gunakan multi-tahun untuk trend
-✅ **Export Berkala**: Arsip data per periode pelaporan
-
-### Untuk Kualitas Data
-✅ **Cek Timestamp**: Pastikan data ter-update
-✅ **Validasi Outlier**: Review nilai ekstrem
-✅ **Cross-check**: Bandingkan antar modul (RUP vs SPSE)
-✅ **Laporkan Anomali**: Koordinasi dengan tim data
-
----
-
-<!-- _class: content -->
-
-## 🛠️ Tips & Best Practices (Lanjutan)
-
-### Untuk Kolaborasi
-✅ **Standarisasi Naming**: Excel file konsisten
-✅ **Dokumentasi Filter**: Catat asumsi analisis
-✅ **Share Insight**: Distribusikan temuan ke stakeholder
-
----
-
-<!-- _class: content -->
-
-## ❓ FAQ - Troubleshooting
-
-### Q: Data kosong setelah filter?
-**A**: Pastikan periode/tahun sesuai ketersediaan data di sistem sumber
-
-### Q: Grafik tidak tampil?
-**A**: Cek koneksi internet, refresh browser, atau clear cache Streamlit
-
-### Q: Export Excel gagal?
-**A**: Pastikan data tidak terlalu besar (>100K baris), coba filter lebih spesifik
-
-### Q: Angka tidak sesuai dengan SPSE?
-**A**: Cek timestamp update data, mungkin ada delay sinkronisasi
-
----
-
-<!-- _class: content -->
-
-## ❓ FAQ - Troubleshooting (Lanjutan)
-
-### Q: Ingin tambah daerah baru?
-**A**: Hubungi admin untuk update `region_config()` di `fungsi.py`
-
-### Q: Performa lambat?
-**A**: Tunggu cache selesai di first load, berikutnya akan cepat
-
----
-
-<!-- _class: content -->
 
 ## 📊 Dampak & Manfaat
 
@@ -877,8 +485,6 @@ Pimpinan perlu laporan capaian PDN untuk rapat koordinasi
 
 ---
 
-<!-- _class: content -->
-
 ## 📊 Dampak & Manfaat (Lanjutan)
 
 ### Transparansi & Akuntabilitas
@@ -887,8 +493,6 @@ Pimpinan perlu laporan capaian PDN untuk rapat koordinasi
 - 🏆 **Performance**: Ranking objektif per satker
 
 ---
-
-<!-- _class: lead -->
 
 # **DEMO**
 
@@ -899,8 +503,6 @@ Pimpinan perlu laporan capaian PDN untuk rapat koordinasi
 **URL**: [https://sip-spse.kalbarprov.go.id](https://sip-spse.kalbarprov.go.id)
 
 ---
-
-<!-- _class: lead -->
 
 # Terima Kasih
 
