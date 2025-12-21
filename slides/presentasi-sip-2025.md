@@ -20,11 +20,11 @@ style: |
     background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
   }
   h1 {
-    color: #ffffff;
+    color: #f8fafc;
     font-size: 56px;
     font-weight: 700;
     margin-bottom: 0.3em;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+    text-shadow: 0 2px 6px rgba(0,0,0,0.45), 0 10px 24px rgba(0,0,0,0.35);
   }
   h2 {
     color: #1e293b;
@@ -172,71 +172,6 @@ Dashboard terintegrasi untuk monitoring pengadaan dari **perencanaan** hingga **
 
 ---
 
-<!-- _class: content -->
-
-## 🏗️ Arsitektur Sistem
-
-### Alur Data & Komponen
-
-```
-┌──────────────────────────────────────────────────────────┐
-│                      👤 PENGGUNA                         │
-└────────────────────┬─────────────────────────────────────┘
-                     │
-                     ▼
-┌──────────────────────────────────────────────────────────┐
-│                   🖥️ STREAMLIT UI                        │
-└────────────────────┬─────────────────────────────────────┘
-                     │
-        ┌────────────┼────────────┐
-        ▼            ▼            ▼
-   📋 RENCANA   ⚖️ PROSES    📊 MONITORING
-      (RUP)    (Tender/      (ITKP/SiKAP/
-               E-Katalog)    Jns Belanja)
-        │            │            │
-        └────────────┼────────────┘
-                     ▼
-         🔧 Fungsi Utilitas (fungsi.py)
-                     │
-                     ▼
-         ⚡ DuckDB In-Memory Engine
-                     │
-                     ▼
-         💾 S3 Parquet Storage
-         └─> 📂 SIRUP | SPSE | E-Katalog | SiKAP
-```
-
----
-
-<!-- _class: content -->
-
-## 💻 Stack Teknologi
-
-### Frontend & Interface
-- **Streamlit** - Framework dashboard interaktif Python
-- **Plotly Express** - Visualisasi grafik modern & responsif
-- **Streamlit AgGrid** - Tabel interaktif dengan filter & sort
-- **Custom CSS** - Styling kustom untuk branding
-
-### Backend & Data Processing
-- **DuckDB** - SQL engine in-memory untuk query cepat
-- **Pandas** - Manipulasi & transformasi data
-- **Parquet** - Format storage columnar efisien
-
----
-
-<!-- _class: content -->
-
-## 💻 Stack Teknologi (Lanjutan)
-
-### Infrastructure
-- **S3-Compatible Storage** - `https://s3-sip.pbj.my.id`
-- **Cache Strategy** - TTL 6 jam untuk performa optimal
-
----
-
-<!-- _class: content -->
-
 ## ✨ Fitur Utama (1/2)
 
 ### 1️⃣ Filter Multi-Dimensi
@@ -263,12 +198,6 @@ Dashboard terintegrasi untuk monitoring pengadaan dari **perencanaan** hingga **
 - **Auto-naming** file: `Modul-Daerah-Tahun.xlsx`
 - **Metadata Filter** tercatat di setiap ekspor
 - **Siap Pakai** tanpa cleaning tambahan
-
-### 4️⃣ Performa & Skalabilitas
-- **Lazy Loading** Parquet via DuckDB
-- **Caching 6 jam** untuk response cepat
-- **Jutaan Baris** data tanpa lag
-- **Multi-Regional** scalable dengan config
 
 ---
 
