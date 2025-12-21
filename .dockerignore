@@ -49,3 +49,9 @@ htmlcov/
 # Logs
 *.log
 logs/
+
+# Cache directories (will be created at runtime)
+.cache/
+*.db
+*.db-shm
+*.db-wal

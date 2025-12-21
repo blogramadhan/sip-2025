@@ -1,3 +1,18 @@
 /venv
 .venv
 vscode
+
+# Cache directories
+.cache/
+*.db
+*.db-shm
+*.db-wal
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,19 +1,86 @@
 # Library Utama
 import streamlit as st
 import pandas as pd
-import duckdb
 import io
 # Library Currency
 from babel.numbers import format_currency
+# Import Cache Manager
+from cache_manager import get_cache_manager, cached_read_parquet, get_duckdb_pool
 
-# Fungsi untuk membaca dan mengunduh dataframe
-@st.cache_data(ttl=21600)
+# Fungsi untuk membaca dan mengunduh dataframe dengan Advanced Caching
+@st.cache_data(ttl=21600, show_spinner=False)
 def read_df(url, format='parquet'):
+    """Load DataFrame dengan basic Streamlit caching"""
     return pd.read_parquet(url) if format=='parquet' else pd.read_excel(url)
 
-@st.cache_data(ttl=21600) 
+@st.cache_data(ttl=21600, show_spinner=False)
 def read_df_duckdb(url, format='parquet'):
-    return duckdb.read_parquet(url).df() if format=='parquet' else duckdb.read_xlsx(url).df()
+    """
+    Load DataFrame menggunakan DuckDB dengan multi-layer caching
+
+    Fitur:
+    - Memory cache layer untuk akses ultra-cepat
+    - Persistent disk cache dengan DuckDB
+    - Automatic cache invalidation setelah 6 jam
+    - Compressed parquet storage untuk efisiensi
+    """
+    try:
+        # Try cache first
+        if format == 'parquet':
+            return cached_read_parquet(url)
+        else:
+            # For Excel, use DuckDB direct
+            con = get_duckdb_pool().get_connection()
+            df = con.execute(f"SELECT * FROM read_xlsx('{url}')").df()
+            get_duckdb_pool().return_connection(con)
+
+            # Cache hasil
+            cache_mgr = get_cache_manager()
+            cache_mgr.set_cached_data(url, df, {'format': 'xlsx'})
+
+            return df
+    except Exception as e:
+        st.error(f"Error loading {url}: {str(e)}")
+        # Fallback to pandas jika DuckDB gagal
+        return pd.read_parquet(url) if format=='parquet' else pd.read_excel(url)
+
+def execute_cached_query(query, dataframes_dict, cache_key=None):
+    """
+    Execute DuckDB query dengan intelligent caching
+
+    Args:
+        query: SQL query string
+        dataframes_dict: Dictionary of {table_name: dataframe}
+        cache_key: Optional cache key untuk hasil query
+
+    Returns:
+        Query result DataFrame
+    """
+    con = get_duckdb_pool().get_connection()
+
+    try:
+        # Register all dataframes as tables
+        for table_name, df in dataframes_dict.items():
+            con.register(table_name, df)
+
+        # Check cache jika ada cache_key
+        if cache_key:
+            cache_mgr = get_cache_manager()
+            cached_result = cache_mgr.get_cached_data(cache_key)
+            if cached_result is not None:
+                return cached_result
+
+        # Execute query
+        result = con.execute(query).df()
+
+        # Cache result
+        if cache_key:
+            cache_mgr.set_cached_data(cache_key, result)
+
+        return result
+
+    finally:
+        get_duckdb_pool().return_connection(con)
 
 def download_excel(df):
     buffer = io.BytesIO()

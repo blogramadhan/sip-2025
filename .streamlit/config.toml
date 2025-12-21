@@ -8,6 +8,17 @@ font="sans serif"
 
 [client]
 showSidebarNavigation = true
+showErrorDetails = true
 
 [server]
 maxUploadSize = 200
+headless = true
+enableCORS = false
+enableXsrfProtection = true
+
+[runner]
+magicEnabled = true
+fastReruns = true
+
+[cache]
+persistDataFrames = true
