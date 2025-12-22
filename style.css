@@ -118,7 +118,8 @@ section[data-testid="stAppViewContainer"] > div {
         width: 5rem !important;
     }
 
-    [data-testid="stSidebar"][data-collapsed="true"] {
+    [data-testid="stSidebar"][data-collapsed="true"],
+    [data-testid="stSidebar"][aria-expanded="false"] {
         min-width: 5rem !important;
         width: 5rem !important;
     }
@@ -143,153 +144,113 @@ section[data-testid="stAppViewContainer"] > div {
 }
 
 /* Smooth overflow for collapsed state */
-[data-testid="stSidebar"][data-collapsed="true"] > div {
+[data-testid="stSidebar"][data-collapsed="true"] > div,
+[data-testid="stSidebar"][aria-expanded="false"] > div {
     overflow-x: hidden !important;
     overflow-y: auto !important;
 }
 
-[data-testid="stSidebar"][data-collapsed="true"] {
+[data-testid="stSidebar"][data-collapsed="true"],
+[data-testid="stSidebar"][aria-expanded="false"] {
     overflow: hidden !important;
 }
 
-/* Sidebar Logo Container */
+/* ====================================
+   SIDEBAR LOGO - Simplified & Fixed
+   ==================================== */
+
+/* Logo Container - Base styling */
 [data-testid="stSidebar"] [data-testid="stLogo"] {
-    padding: 1rem 1.25rem 1rem 1.25rem;
+    padding: 1rem 1.25rem;
     margin-bottom: 1rem;
-    display: block !important;
     text-align: center;
-    visibility: visible !important;
-    opacity: 1 !important;
-    position: relative !important;
-    z-index: 10 !important;
-    pointer-events: none !important;
+    position: relative;
+    z-index: 1;
 }
 
-/* Logo links - Sembunyikan link yang tidak diperlukan */
+/* Logo links */
 [data-testid="stSidebar"] [data-testid="stLogo"] a {
-    display: inline-block !important;
-    text-align: center;
-    line-height: 0;
-    visibility: visible !important;
-    pointer-events: none !important;
+    display: block;
 }
 
-/* Pastikan logo container selalu terlihat */
-[data-testid="stSidebar"] [data-testid="stLogo"] > * {
-    visibility: visible !important;
+/* All logo images - Base styling */
+[data-testid="stSidebar"] [data-testid="stLogo"] img {
+    margin: 0 auto;
+    object-fit: contain;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* Logo lebar untuk sidebar expanded - styling untuk semua logo */
-[data-testid="stSidebar"] [data-testid="stLogo"] img,
-[data-testid="stSidebar"] img[alt*="Logo"],
-[data-testid="stSidebar"] img[alt*="logo"] {
-    width: 100% !important;
-    max-width: 100% !important;
-    max-height: 100px !important;
-    min-height: 60px !important;
-    height: auto !important;
-    object-fit: contain !important;
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    margin: 0 auto !important;
-    padding: 0.5rem !important;
-    background: rgba(255, 255, 255, 0.6) !important;
-    border-radius: 12px !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
-    position: relative !important;
-    z-index: 1 !important;
-    pointer-events: none !important;
+/* === SIDEBAR EXPANDED (default state) === */
+/* Show main logo, hide icon when expanded */
+[data-testid="stSidebar"] [data-testid="stLogo"] img:not([src*="icon"]) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100px;
+    min-height: 60px;
+    padding: 0.5rem;
 }
 
-/* Sembunyikan icon saat expanded (berdasarkan src) */
-[data-testid="stSidebar"]:not([data-collapsed="true"]) [data-testid="stLogo"] img[src*="icon"] {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    height: 0 !important;
-    width: 0 !important;
+[data-testid="stSidebar"] [data-testid="stLogo"] img[src*="icon"] {
+    display: none;
 }
 
-/* Tampilkan logo utama saat expanded */
-[data-testid="stSidebar"]:not([data-collapsed="true"]) [data-testid="stLogo"] img:not([src*="icon"]),
-[data-testid="stSidebar"]:not([data-collapsed="true"]) [data-testid="stLogo"] a img:not([src*="icon"]),
-[data-testid="stSidebar"]:not([data-collapsed="true"]) [data-testid="stLogo"] > a > img:not([src*="icon"]) {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    max-height: 100px !important;
-    min-height: 60px !important;
-    width: auto !important;
-}
-
-/* Force show main logo image */
-[data-testid="stSidebar"] [data-testid="stLogo"] a[href] img[src*="sip-spse-new"],
-[data-testid="stSidebar"] [data-testid="stLogo"] a[href] img[src*="logo"]:not([src*="icon"]) {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}
-
-/* Logo saat sidebar collapsed */
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] {
+/* === SIDEBAR COLLAPSED === */
+/* Hide main logo, show icon when collapsed */
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"],
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stLogo"] {
     padding: 0.75rem 0.5rem;
-    margin-bottom: 1rem;
 }
 
-/* Sembunyikan logo utama saat collapsed */
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img:not([src*="icon"]) {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    height: 0 !important;
-    width: 0 !important;
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img:not([src*="icon"]),
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stLogo"] img:not([src*="icon"]) {
+    display: none;
 }
 
-/* Tampilkan icon saat collapsed */
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img[src*="icon"] {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    width: 48px !important;
-    height: 48px !important;
-    min-height: 48px !important;
-    max-height: 48px !important;
-    margin: 0 auto !important;
-    padding: 0.25rem !important;
-    background: rgba(255, 255, 255, 0.8) !important;
-    border-radius: 12px !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
-    pointer-events: none !important;
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img[src*="icon"],
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stLogo"] img[src*="icon"] {
+    display: block;
+    width: 48px;
+    height: 48px;
+    padding: 0.25rem;
+    background: rgba(255, 255, 255, 0.8);
 }
 
 /* Sembunyikan teks pada navigation saat collapsed */
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a span:not([data-testid="stMarkdownContainer"]) {
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a span:not([data-testid="stMarkdownContainer"]),
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarNav"] a span:not([data-testid="stMarkdownContainer"]) {
     display: none;
 }
 
 /* Sembunyikan section headers saat collapsed */
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] > ul > li > div > div {
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] > ul > li > div > div,
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarNav"] > ul > li > div > div {
     display: none;
 }
 
 /* Center icons saat collapsed */
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a {
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a,
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarNav"] a {
     justify-content: center;
     padding: 0.75rem 0.5rem;
     margin: 0.25rem 0.25rem;
 }
 
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a span[data-testid="stMarkdownContainer"] {
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a span[data-testid="stMarkdownContainer"],
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarNav"] a span[data-testid="stMarkdownContainer"] {
     font-size: 1.25rem;
 }
 
 /* Tooltips untuk collapsed state */
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a {
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a,
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarNav"] a {
     position: relative;
 }
 
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a:hover::after {
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a:hover::after,
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarNav"] a:hover::after {
     content: attr(aria-label);
     position: absolute;
     left: 100%;
@@ -305,11 +266,13 @@ section[data-testid="stAppViewContainer"] > div {
 }
 
 /* Active state untuk collapsed sidebar */
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a[aria-selected="true"]::after {
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a[aria-selected="true"]::after,
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarNav"] a[aria-selected="true"]::after {
     display: none;
 }
 
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a[aria-selected="true"] {
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a[aria-selected="true"],
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarNav"] a[aria-selected="true"] {
     background: linear-gradient(135deg, #2f6ea3, #4f86b8);
     border-radius: 8px;
 }
@@ -346,13 +309,16 @@ section[data-testid="stAppViewContainer"] > div {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* Sidebar collapse button styling */
+/* Sidebar collapse button styling - MUST be above logo */
 [data-testid="collapsedControl"] {
     background: var(--bg-card) !important;
     border: 1px solid var(--border) !important;
     border-radius: 0 8px 8px 0 !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
     transition: all 0.3s ease !important;
+    position: fixed !important;
+    z-index: 9999 !important;
+    pointer-events: auto !important;
 }
 
 [data-testid="collapsedControl"]:hover {
@@ -370,7 +336,7 @@ section[data-testid="stAppViewContainer"] > div {
 [data-testid="stSidebarCollapseButton"] button,
 button[kind="headerNoPadding"] {
     position: relative !important;
-    z-index: 100 !important;
+    z-index: 9998 !important;
     background: transparent !important;
     border: none !important;
     padding: 0.5rem !important;
@@ -396,7 +362,7 @@ button[kind="headerNoPadding"]:hover svg {
 /* Pastikan collapse button container selalu di atas */
 [data-testid="stSidebarCollapseButton"] {
     position: relative !important;
-    z-index: 100 !important;
+    z-index: 9998 !important;
     pointer-events: auto !important;
 }
 
@@ -404,7 +370,7 @@ button[kind="headerNoPadding"]:hover svg {
 [data-testid="stSidebar"] header,
 [data-testid="stSidebar"] [data-testid="stHeader"] {
     position: relative !important;
-    z-index: 100 !important;
+    z-index: 9997 !important;
     pointer-events: auto !important;
 }
 
@@ -412,7 +378,7 @@ button[kind="headerNoPadding"]:hover svg {
 [data-testid="stSidebar"] header button,
 [data-testid="stSidebar"] [data-testid="stHeader"] button {
     position: relative !important;
-    z-index: 101 !important;
+    z-index: 9998 !important;
     pointer-events: auto !important;
 }
 
@@ -520,19 +486,25 @@ button[kind="headerNoPadding"]:hover svg {
 
 /* Hide widgets when sidebar is collapsed */
 [data-testid="stSidebar"][data-collapsed="true"] .stSelectbox,
+[data-testid="stSidebar"][aria-expanded="false"] .stSelectbox,
 [data-testid="stSidebar"][data-collapsed="true"] .stRadio,
-[data-testid="stSidebar"][data-collapsed="true"] .stMarkdown:not([data-testid="stSidebarNav"] .stMarkdown) {
+[data-testid="stSidebar"][aria-expanded="false"] .stRadio,
+[data-testid="stSidebar"][data-collapsed="true"] .stMarkdown:not([data-testid="stSidebarNav"] .stMarkdown),
+[data-testid="stSidebar"][aria-expanded="false"] .stMarkdown:not([data-testid="stSidebarNav"] .stMarkdown) {
     display: none;
 }
 
 /* Sembunyikan divider saat collapsed */
 [data-testid="stSidebar"][data-collapsed="true"] hr,
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stMarkdown"] hr {
+[data-testid="stSidebar"][aria-expanded="false"] hr,
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stMarkdown"] hr,
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stMarkdown"] hr {
     display: none;
 }
 
 /* Adjust section dividers when collapsed */
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] > ul > li::after {
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] > ul > li::after,
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stSidebarNav"] > ul > li::after {
     margin: 0.4rem 0.25rem 0;
 }
 
