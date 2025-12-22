@@ -109,8 +109,11 @@ def style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", 
 
 # Fungsi untuk membuat logo
 def logo():
-    # Menggunakan st.logo untuk support collapse otomatis
-    # Gunakan path lokal untuk logo utama dan icon
+    """
+    Menggunakan st.logo untuk support collapse otomatis
+    Logo utama (1350x600): Tampil saat sidebar expanded
+    Logo icon (800x800): Tampil saat sidebar collapsed
+    """
     import os
     import sys
 
@@ -129,24 +132,39 @@ def logo():
     logo_path = os.path.join(base_dir, "public", "sip-spse.png")
     icon_path = os.path.join(base_dir, "public", "sip-spse-icon.png")
 
+    # Debug: Print paths
+    # st.sidebar.caption(f"Base dir: {base_dir}")
+
     # Verifikasi file exists sebelum digunakan
     if not os.path.exists(logo_path):
-        st.warning(f"Logo file not found at: {logo_path}")
+        st.sidebar.warning(f"⚠️ Logo file not found at: {logo_path}")
+        st.sidebar.caption("Trying to load logo from expected location...")
         return
 
     if not os.path.exists(icon_path):
-        st.warning(f"Icon file not found at: {icon_path}")
+        st.sidebar.warning(f"⚠️ Icon file not found at: {icon_path}")
+        st.sidebar.caption("Trying to load icon from expected location...")
         return
 
     try:
+        # st.logo akan otomatis switch antara logo dan icon
+        # berdasarkan state sidebar (expanded/collapsed)
         st.logo(
-            logo_path,
-            icon_image=icon_path
+            image=logo_path,        # Logo untuk sidebar expanded
+            icon_image=icon_path,   # Icon untuk sidebar collapsed
+            link=None,              # Tidak ada link
+            size="large"            # Ukuran large untuk proporsi yang baik
         )
     except Exception as e:
-        st.error(f"Error loading logo: {str(e)}")
-        st.error(f"Logo path: {logo_path}")
-        st.error(f"Icon path: {icon_path}")
+        st.sidebar.error(f"❌ Error loading logo: {str(e)}")
+        st.sidebar.caption(f"Logo path: {logo_path}")
+        st.sidebar.caption(f"Icon path: {icon_path}")
+        # Fallback: tampilkan image biasa
+        try:
+            with st.sidebar:
+                st.image(logo_path, use_container_width=True)
+        except:
+            pass
 
 # Fungsi region config
 def region_config():

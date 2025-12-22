@@ -60,13 +60,13 @@ section.main > div {
 
 /* Adjust main content when sidebar is collapsed */
 section[data-testid="stAppViewContainer"] {
-    transition: all 0.3s ease-in-out !important;
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 .block-container {
     max-width: 100% !important;
     padding: 2rem 3rem !important;
-    transition: all 0.3s ease-in-out !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 /* Fix untuk konten utama */
@@ -77,7 +77,7 @@ section[data-testid="stAppViewContainer"] {
 
 /* Expand content area when sidebar is collapsed */
 .stApp {
-    transition: all 0.3s ease-in-out !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
 section[data-testid="stAppViewContainer"] {
@@ -89,6 +89,25 @@ section[data-testid="stAppViewContainer"] > div {
     visibility: visible !important;
 }
 
+/* Prevent sidebar from disappearing - Critical Fix */
+[data-testid="stSidebar"],
+section[data-testid="stSidebar"] {
+    transform: none !important;
+    left: 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+}
+
+/* Smooth transition for sidebar state changes */
+[data-testid="stSidebar"].st-emotion-cache-0,
+[data-testid="stSidebar"][class*="st-emotion-cache"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+    transform: translateX(0) !important;
+}
+
 /* ====================================
    SIDEBAR
    ==================================== */
@@ -96,7 +115,13 @@ section[data-testid="stAppViewContainer"] > div {
     background: linear-gradient(180deg, #f2f5f9 0%, #ffffff 100%) !important;
     border-right: 1px solid var(--border);
     box-shadow: 2px 0 10px rgba(15, 23, 42, 0.06);
-    transition: all 0.3s ease-in-out !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    min-width: 18rem !important;
+    width: 18rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    opacity: 1 !important;
+    visibility: visible !important;
 }
 
 [data-testid="stSidebar"] * {
@@ -106,28 +131,43 @@ section[data-testid="stAppViewContainer"] > div {
 /* Sidebar width - expanded dan collapsed */
 @media (min-width: 768px) {
     [data-testid="stSidebar"] {
-        min-width: 18rem;
-        width: 18rem;
-        transition: all 0.3s ease-in-out !important;
+        min-width: 18rem !important;
+        width: 18rem !important;
     }
 
-    /* Saat sidebar collapsed */
-    [data-testid="stSidebar"][aria-expanded="false"],
-    [data-testid="stSidebar"].collapsed {
-        min-width: 5rem !important;
-        width: 5rem !important;
-    }
-
-    [data-testid="stSidebar"][data-collapsed="true"],
+    /* Saat sidebar collapsed - CRITICAL FIX */
     [data-testid="stSidebar"][aria-expanded="false"] {
         min-width: 5rem !important;
         width: 5rem !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+    }
+
+    [data-testid="stSidebar"].collapsed {
+        min-width: 5rem !important;
+        width: 5rem !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
+    }
+
+    /* Jika menggunakan attribute data-collapsed */
+    section[data-testid="stSidebar"][data-collapsed="true"] {
+        min-width: 5rem !important;
+        width: 5rem !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        display: flex !important;
     }
 }
 
 [data-testid="stSidebar"] > div {
     background: transparent;
     overflow-x: hidden !important;
+    width: 100% !important;
+    display: block !important;
+    visibility: visible !important;
 }
 
 [data-testid="stSidebar"] > div:first-child {
@@ -165,12 +205,25 @@ section[data-testid="stAppViewContainer"] > div {
     margin-bottom: 1rem;
     text-align: center;
     position: relative;
-    z-index: 1;
+    z-index: 2;
+    display: block !important;
+    visibility: visible !important;
+    overflow: visible !important;
+    min-height: 80px;
 }
 
 /* Logo links */
 [data-testid="stSidebar"] [data-testid="stLogo"] a {
-    display: block;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100%;
+    overflow: visible !important;
+}
+
+/* Ensure logo wrapper doesn't hide content */
+[data-testid="stSidebar"] [data-testid="stLogo"] > * {
+    overflow: visible !important;
 }
 
 /* All logo images - Base styling */
@@ -180,42 +233,90 @@ section[data-testid="stAppViewContainer"] > div {
     background: rgba(255, 255, 255, 0.6);
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
 }
 
 /* === SIDEBAR EXPANDED (default state) === */
 /* Show main logo, hide icon when expanded */
 [data-testid="stSidebar"] [data-testid="stLogo"] img:not([src*="icon"]) {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    max-height: 100px;
-    min-height: 60px;
-    padding: 0.5rem;
+    display: block !important;
+    width: auto !important;
+    max-width: 100% !important;
+    height: 70px !important;
+    max-height: 70px !important;
+    padding: 0.5rem !important;
+    visibility: visible !important;
+    object-fit: contain !important;
 }
 
 [data-testid="stSidebar"] [data-testid="stLogo"] img[src*="icon"] {
-    display: none;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
 }
 
 /* === SIDEBAR COLLAPSED === */
 /* Hide main logo, show icon when collapsed */
 [data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"],
 [data-testid="stSidebar"][aria-expanded="false"] [data-testid="stLogo"] {
-    padding: 0.75rem 0.5rem;
+    padding: 0.75rem 0.5rem !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    visibility: visible !important;
 }
 
+/* Hide main logo when collapsed */
 [data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img:not([src*="icon"]),
 [data-testid="stSidebar"][aria-expanded="false"] [data-testid="stLogo"] img:not([src*="icon"]) {
-    display: none;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
 }
 
+/* Show icon logo when collapsed - FORCE DISPLAY */
 [data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img[src*="icon"],
 [data-testid="stSidebar"][aria-expanded="false"] [data-testid="stLogo"] img[src*="icon"] {
-    display: block;
-    width: 48px;
-    height: 48px;
-    padding: 0.25rem;
-    background: rgba(255, 255, 255, 0.8);
+    display: block !important;
+    position: relative !important;
+    width: 56px !important;
+    height: 56px !important;
+    max-width: 56px !important;
+    max-height: 56px !important;
+    min-width: 56px !important;
+    min-height: 56px !important;
+    padding: 0.25rem !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin: 0 auto !important;
+    object-fit: contain !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Additional specificity - target by link wrapper */
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] a img[src*="icon"],
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stLogo"] a img[src*="icon"] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Override Streamlit's emotion cache classes for collapsed icon */
+[data-testid="stSidebar"][aria-expanded="false"] [data-testid="stLogo"] a[class*="emotion"] img[src*="icon"],
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] a[class*="emotion"] img[src*="icon"] {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 56px !important;
+    height: 56px !important;
 }
 
 /* Sembunyikan teks pada navigation saat collapsed */
@@ -319,12 +420,23 @@ section[data-testid="stAppViewContainer"] > div {
     position: fixed !important;
     z-index: 9999 !important;
     pointer-events: auto !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    top: 0.75rem !important;
+    left: 0 !important;
 }
 
 [data-testid="collapsedControl"]:hover {
     background: var(--primary) !important;
     border-color: var(--primary) !important;
     box-shadow: 0 4px 12px rgba(47, 110, 163, 0.3) !important;
+    transform: translateX(2px);
+}
+
+[data-testid="collapsedControl"] svg {
+    color: var(--text-secondary) !important;
+    transition: color 0.2s ease !important;
 }
 
 [data-testid="collapsedControl"]:hover svg {
@@ -343,16 +455,20 @@ button[kind="headerNoPadding"] {
     border-radius: 8px !important;
     transition: all 0.2s ease !important;
     pointer-events: auto !important;
+    display: block !important;
+    visibility: visible !important;
+    cursor: pointer !important;
 }
 
 [data-testid="stSidebarCollapseButton"] button:hover,
 button[kind="headerNoPadding"]:hover {
     background: var(--bg-hover) !important;
+    transform: scale(1.1);
 }
 
 button[kind="headerNoPadding"] svg {
     color: var(--text-secondary) !important;
-    transition: color 0.2s ease !important;
+    transition: all 0.2s ease !important;
 }
 
 button[kind="headerNoPadding"]:hover svg {
@@ -364,6 +480,8 @@ button[kind="headerNoPadding"]:hover svg {
     position: relative !important;
     z-index: 9998 !important;
     pointer-events: auto !important;
+    display: block !important;
+    visibility: visible !important;
 }
 
 /* Pastikan header sidebar tidak terhalang oleh logo */
@@ -372,6 +490,8 @@ button[kind="headerNoPadding"]:hover svg {
     position: relative !important;
     z-index: 9997 !important;
     pointer-events: auto !important;
+    display: block !important;
+    visibility: visible !important;
 }
 
 /* Tombol X atau hamburger di header */
@@ -380,6 +500,9 @@ button[kind="headerNoPadding"]:hover svg {
     position: relative !important;
     z-index: 9998 !important;
     pointer-events: auto !important;
+    display: block !important;
+    visibility: visible !important;
+    cursor: pointer !important;
 }
 
 /* Sidebar Navigation Container - Padding lebih rapat */
