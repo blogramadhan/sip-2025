@@ -3,12 +3,14 @@
 ## Masalah yang Diperbaiki
 
 ### 1. ✅ Logo Ukuran Proporsional (Sidebar Expanded)
-**Masalah:** Logo ukuran tidak proporsional saat sidebar expanded
+**Masalah:** Logo ukuran tidak proporsional terhadap lebar sidebar
 **Solusi:**
-- Set height tetap: `70px` untuk logo utama (1350x600px)
-- Width: `auto` agar rasio aspek terjaga (2.25:1)
+- Width: `100%` untuk mengisi penuh lebar sidebar (288px)
+- Height: `auto` agar rasio aspek terjaga (2.25:1)
+- Max-height: `100px` untuk membatasi tinggi maksimal
 - `object-fit: contain` untuk menjaga proporsi
-- File: `style.css` line 231-240
+- Container padding: `1.25rem 1rem` untuk spacing optimal
+- File: `style.css` line 241-250
 
 ### 2. ✅ Icon Logo Muncul (Sidebar Collapsed)
 **Masalah:** Icon logo tidak muncul saat sidebar collapsed (80px)
@@ -54,11 +56,13 @@
 | Properti | Sidebar Expanded | Sidebar Collapsed |
 |----------|------------------|-------------------|
 | **File** | `sip-spse.png` (1350×600) | `sip-spse-icon.png` (800×800) |
-| **Display Size** | 70px height, auto width | 56px × 56px |
+| **Display Size** | 100% width, 120-180px height | 56px × 56px |
 | **Aspect Ratio** | 2.25:1 (preserved) | 1:1 (square) |
 | **Background** | rgba(255,255,255,0.6) | rgba(255,255,255,0.9) |
 | **Border Radius** | 12px | 12px |
-| **Padding** | 0.5rem | 0.25rem |
+| **Image Padding** | 0.25rem | 0.25rem |
+| **Container Padding** | 0.5rem | 0.75rem 0.5rem |
+| **Container Min Height** | 180px | auto |
 
 ## Cara Testing
 

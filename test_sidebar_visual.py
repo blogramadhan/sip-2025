@@ -49,10 +49,13 @@ with col1:
         st.markdown("""
         **Sidebar Expanded (288px):**
         1. Logo utama muncul (horizontal)
-        2. Ukuran proporsional (~70px height)
-        3. Tidak terdistorsi (rasio 2.25:1)
-        4. Background putih transparan
-        5. Border radius halus
+        2. Width: 100% dari sidebar (~272px efektif)
+        3. Height: auto, 120-180px range (2X BESAR!)
+        4. Tidak terdistorsi (rasio 2.25:1)
+        5. Ukuran SANGAT BESAR & proporsional
+        6. Background putih transparan
+        7. Border radius halus
+        8. Minimal padding untuk maksimalkan ukuran
 
         **Sidebar Collapsed (80px):**
         1. Logo utama hilang
@@ -129,6 +132,7 @@ Exists: {os.path.exists(logo_path)}
 Size: {os.path.getsize(logo_path) if os.path.exists(logo_path) else 'N/A'} bytes
 Dimensions: 1350 × 600 px
 Aspect Ratio: 2.25:1
+Display: 100% width (~250px), height 80-120px
         """)
 
     with col_info2:

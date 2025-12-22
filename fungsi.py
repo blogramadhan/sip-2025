@@ -116,6 +116,7 @@ def logo():
     """
     import os
     import sys
+    import base64
 
     # Coba berbagai cara untuk mendapatkan path yang benar
     # 1. Dari file ini
@@ -147,14 +148,24 @@ def logo():
         return
 
     try:
-        # st.logo akan otomatis switch antara logo dan icon
-        # berdasarkan state sidebar (expanded/collapsed)
-        st.logo(
-            image=logo_path,        # Logo untuk sidebar expanded
-            icon_image=icon_path,   # Icon untuk sidebar collapsed
-            link=None,              # Tidak ada link
-            size="large"            # Ukuran large untuk proporsi yang baik
-        )
+        def _img_to_base64(path):
+            with open(path, "rb") as f:
+                return base64.b64encode(f.read()).decode("ascii")
+
+        logo_b64 = _img_to_base64(logo_path)
+        icon_b64 = _img_to_base64(icon_path)
+
+        # Render HTML agar ukuran & toggle collapsed/expanded bisa dikontrol penuh via CSS.
+        with st.sidebar:
+            st.markdown(
+                f"""
+                <div class="sidebar-brand">
+                    <img class="brand-full" src="data:image/png;base64,{logo_b64}" alt="SIP SPSE" />
+                    <img class="brand-icon" src="data:image/png;base64,{icon_b64}" alt="SIP SPSE Icon" />
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
     except Exception as e:
         st.sidebar.error(f"❌ Error loading logo: {str(e)}")
         st.sidebar.caption(f"Logo path: {logo_path}")
