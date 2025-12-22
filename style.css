@@ -147,36 +147,76 @@ section[data-testid="stAppViewContainer"] > div {
 [data-testid="stSidebar"] [data-testid="stLogo"] {
     padding: 1rem 1.25rem 1rem 1.25rem;
     margin-bottom: 1rem;
-    display: block;
+    display: block !important;
     text-align: center;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 10 !important;
 }
 
 /* Logo links - Sembunyikan link yang tidak diperlukan */
 [data-testid="stSidebar"] [data-testid="stLogo"] a {
-    display: inline-block;
+    display: inline-block !important;
     text-align: center;
     line-height: 0;
+    visibility: visible !important;
 }
 
-/* Logo lebar untuk sidebar expanded */
-[data-testid="stSidebar"]:not([data-collapsed="true"]) [data-testid="stLogo"] img {
-    width: 100%;
-    max-width: 100%;
-    max-height: 100px;
-    min-height: 60px;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    margin: 0 auto;
-    padding: 0.5rem;
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+/* Pastikan logo container selalu terlihat */
+[data-testid="stSidebar"] [data-testid="stLogo"] > * {
+    visibility: visible !important;
+}
+
+/* Logo lebar untuk sidebar expanded - styling untuk semua logo */
+[data-testid="stSidebar"] [data-testid="stLogo"] img,
+[data-testid="stSidebar"] img[alt*="Logo"],
+[data-testid="stSidebar"] img[alt*="logo"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 100px !important;
+    min-height: 60px !important;
+    height: auto !important;
+    object-fit: contain !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    margin: 0 auto !important;
+    padding: 0.5rem !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
+    position: relative !important;
+    z-index: 1 !important;
 }
 
 /* Sembunyikan icon saat expanded (berdasarkan src) */
-[data-testid="stSidebar"]:not([data-collapsed="true"]) [data-testid="stLogo"] img[src*="sip-spse-icon.png"] {
+[data-testid="stSidebar"]:not([data-collapsed="true"]) [data-testid="stLogo"] img[src*="icon"] {
     display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+}
+
+/* Tampilkan logo utama saat expanded */
+[data-testid="stSidebar"]:not([data-collapsed="true"]) [data-testid="stLogo"] img:not([src*="icon"]),
+[data-testid="stSidebar"]:not([data-collapsed="true"]) [data-testid="stLogo"] a img:not([src*="icon"]),
+[data-testid="stSidebar"]:not([data-collapsed="true"]) [data-testid="stLogo"] > a > img:not([src*="icon"]) {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    max-height: 100px !important;
+    min-height: 60px !important;
+    width: auto !important;
+}
+
+/* Force show main logo image */
+[data-testid="stSidebar"] [data-testid="stLogo"] a[href] img[src*="sip-spse-new"],
+[data-testid="stSidebar"] [data-testid="stLogo"] a[href] img[src*="logo"]:not([src*="icon"]) {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 /* Logo saat sidebar collapsed */
@@ -185,14 +225,24 @@ section[data-testid="stAppViewContainer"] > div {
     margin-bottom: 1rem;
 }
 
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img[src*="sip-spse-logo"] {
+/* Sembunyikan logo utama saat collapsed */
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img:not([src*="icon"]) {
     display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
 }
 
-[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img[src*="sip-spse-icon.png"] {
+/* Tampilkan icon saat collapsed */
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img[src*="icon"] {
     display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     width: 48px !important;
     height: 48px !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
     margin: 0 auto !important;
     padding: 0.25rem !important;
     background: rgba(255, 255, 255, 0.8) !important;

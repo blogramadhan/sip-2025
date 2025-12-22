@@ -100,9 +100,10 @@ def load_css():
 # Fungsi untuk membuat logo
 def logo():
     # Menggunakan st.logo untuk support collapse otomatis
+    # Gunakan URL untuk logo utama dan path lokal untuk icon
     st.logo(
-        image="https://storage.googleapis.com/bukanamel/img/sip-spse-new.png",
-        icon_image="public/sip-spse-icon.png",  # Icon untuk collapsed state
+        "https://storage.googleapis.com/bukanamel/img/sip-spse-new.png",
+        icon_image="public/sip-spse-icon.png"
     )
 
 # Fungsi region config
