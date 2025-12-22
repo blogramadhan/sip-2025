@@ -6,7 +6,6 @@ import duckdb
 from datetime import datetime
 from st_aggrid import AgGrid, GridUpdateMode
 from st_aggrid.grid_options_builder import GridOptionsBuilder
-from streamlit_extras.metric_cards import style_metric_cards
 from fungsi import *
 
 # Membuat UKPBJ

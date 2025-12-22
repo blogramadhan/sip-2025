@@ -97,6 +97,16 @@ def load_css():
     with open('style_components.css') as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
+# Fungsi pengganti style_metric_cards yang tidak bergantung pada streamlit_extras
+def style_metric_cards(background_color="#f8fafc", border_left_color="#2f6ea3", border_color="#e2e8f0", border_size_px=1, border_radius_px=10):
+    """
+    Fungsi pengganti untuk style_metric_cards dari streamlit_extras
+    Karena ada konflik dependency dengan streamlit_theme
+    """
+    # Styling sudah dihandle oleh CSS global di style.css dan style_components.css
+    # Fungsi ini dibuat agar tidak perlu mengubah semua file yang sudah menggunakannya
+    pass
+
 # Fungsi untuk membuat logo
 def logo():
     # Menggunakan st.logo untuk support collapse otomatis

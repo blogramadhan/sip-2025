@@ -4,7 +4,6 @@ import pandas as pd
 import numpy as np
 import duckdb
 from datetime import datetime
-from streamlit_extras.metric_cards import style_metric_cards
 from st_aggrid import GridOptionsBuilder, AgGrid, GridUpdateMode
 from fungsi import *
 
