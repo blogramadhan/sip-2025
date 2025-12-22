@@ -55,3 +55,9 @@ logs/
 *.db
 *.db-shm
 *.db-wal
+
+# IMPORTANT: DO NOT ignore these directories
+!public/
+!public/*.png
+!public/*.jpg
+!public/*.svg

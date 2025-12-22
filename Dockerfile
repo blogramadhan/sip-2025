@@ -26,6 +26,9 @@ COPY . .
 RUN mkdir -p .cache .cache/parquet && \
     chmod -R 755 .cache
 
+# Ensure public directory has correct permissions
+RUN chmod -R 755 public
+
 # Create non-root user for security
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser

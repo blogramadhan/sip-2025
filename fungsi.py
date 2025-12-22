@@ -100,10 +100,17 @@ def load_css():
 # Fungsi untuk membuat logo
 def logo():
     # Menggunakan st.logo untuk support collapse otomatis
-    # Gunakan URL untuk logo utama dan path lokal untuk icon
+    # Gunakan path lokal untuk logo utama dan icon
+    import os
+
+    # Dapatkan base directory aplikasi
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    logo_path = os.path.join(base_dir, "public", "sip-spse.png")
+    icon_path = os.path.join(base_dir, "public", "sip-spse-icon.png")
+
     st.logo(
-        "https://storage.googleapis.com/bukanamel/img/sip-spse-new.png",
-        icon_image="public/sip-spse-icon.png"
+        logo_path,
+        icon_image=icon_path
     )
 
 # Fungsi region config

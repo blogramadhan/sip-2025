@@ -131,6 +131,15 @@ section[data-testid="stAppViewContainer"] > div {
 
 [data-testid="stSidebar"] > div:first-child {
     padding-top: 0;
+    position: relative;
+    z-index: 1;
+}
+
+/* Pastikan header sidebar (yang berisi collapse button) selalu di atas */
+[data-testid="stSidebar"] > div > div:first-child {
+    position: relative !important;
+    z-index: 100 !important;
+    pointer-events: auto !important;
 }
 
 /* Smooth overflow for collapsed state */
@@ -153,6 +162,7 @@ section[data-testid="stAppViewContainer"] > div {
     opacity: 1 !important;
     position: relative !important;
     z-index: 10 !important;
+    pointer-events: none !important;
 }
 
 /* Logo links - Sembunyikan link yang tidak diperlukan */
@@ -161,6 +171,7 @@ section[data-testid="stAppViewContainer"] > div {
     text-align: center;
     line-height: 0;
     visibility: visible !important;
+    pointer-events: none !important;
 }
 
 /* Pastikan logo container selalu terlihat */
@@ -188,6 +199,7 @@ section[data-testid="stAppViewContainer"] > div {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05) !important;
     position: relative !important;
     z-index: 1 !important;
+    pointer-events: none !important;
 }
 
 /* Sembunyikan icon saat expanded (berdasarkan src) */
@@ -248,6 +260,7 @@ section[data-testid="stAppViewContainer"] > div {
     background: rgba(255, 255, 255, 0.8) !important;
     border-radius: 12px !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+    pointer-events: none !important;
 }
 
 /* Sembunyikan teks pada navigation saat collapsed */
@@ -353,13 +366,17 @@ section[data-testid="stAppViewContainer"] > div {
 }
 
 /* Styling untuk tombol collapse di dalam sidebar */
+[data-testid="stSidebarCollapseButton"],
 [data-testid="stSidebarCollapseButton"] button,
 button[kind="headerNoPadding"] {
+    position: relative !important;
+    z-index: 100 !important;
     background: transparent !important;
     border: none !important;
     padding: 0.5rem !important;
     border-radius: 8px !important;
     transition: all 0.2s ease !important;
+    pointer-events: auto !important;
 }
 
 [data-testid="stSidebarCollapseButton"] button:hover,
@@ -374,6 +391,29 @@ button[kind="headerNoPadding"] svg {
 
 button[kind="headerNoPadding"]:hover svg {
     color: var(--primary) !important;
+}
+
+/* Pastikan collapse button container selalu di atas */
+[data-testid="stSidebarCollapseButton"] {
+    position: relative !important;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+}
+
+/* Pastikan header sidebar tidak terhalang oleh logo */
+[data-testid="stSidebar"] header,
+[data-testid="stSidebar"] [data-testid="stHeader"] {
+    position: relative !important;
+    z-index: 100 !important;
+    pointer-events: auto !important;
+}
+
+/* Tombol X atau hamburger di header */
+[data-testid="stSidebar"] header button,
+[data-testid="stSidebar"] [data-testid="stHeader"] button {
+    position: relative !important;
+    z-index: 101 !important;
+    pointer-events: auto !important;
 }
 
 /* Sidebar Navigation Container - Padding lebih rapat */
