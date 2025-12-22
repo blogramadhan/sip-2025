@@ -112,16 +112,41 @@ def logo():
     # Menggunakan st.logo untuk support collapse otomatis
     # Gunakan path lokal untuk logo utama dan icon
     import os
+    import sys
 
-    # Dapatkan base directory aplikasi
+    # Coba berbagai cara untuk mendapatkan path yang benar
+    # 1. Dari file ini
     base_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # 2. Fallback ke current working directory jika perlu
+    if not os.path.exists(os.path.join(base_dir, "public")):
+        base_dir = os.getcwd()
+
+    # 3. Fallback ke parent directory dari streamlit main script
+    if not os.path.exists(os.path.join(base_dir, "public")) and hasattr(sys.modules['__main__'], '__file__'):
+        base_dir = os.path.dirname(os.path.abspath(sys.modules['__main__'].__file__))
+
     logo_path = os.path.join(base_dir, "public", "sip-spse.png")
     icon_path = os.path.join(base_dir, "public", "sip-spse-icon.png")
 
-    st.logo(
-        logo_path,
-        icon_image=icon_path
-    )
+    # Verifikasi file exists sebelum digunakan
+    if not os.path.exists(logo_path):
+        st.warning(f"Logo file not found at: {logo_path}")
+        return
+
+    if not os.path.exists(icon_path):
+        st.warning(f"Icon file not found at: {icon_path}")
+        return
+
+    try:
+        st.logo(
+            logo_path,
+            icon_image=icon_path
+        )
+    except Exception as e:
+        st.error(f"Error loading logo: {str(e)}")
+        st.error(f"Logo path: {logo_path}")
+        st.error(f"Icon path: {icon_path}")
 
 # Fungsi region config
 def region_config():

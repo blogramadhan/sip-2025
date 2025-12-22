@@ -26,8 +26,27 @@ COPY . .
 RUN mkdir -p .cache .cache/parquet && \
     chmod -R 755 .cache
 
-# Ensure public directory has correct permissions
-RUN chmod -R 755 public
+# Ensure public directory exists and has correct permissions
+RUN if [ -d "public" ]; then \
+        echo "Public directory found, setting permissions..."; \
+        chmod -R 755 public; \
+        ls -la public/; \
+    else \
+        echo "WARNING: Public directory not found!"; \
+        ls -la; \
+    fi
+
+# Verify logo files exist
+RUN if [ -f "public/sip-spse.png" ]; then \
+        echo "✓ Logo file found: public/sip-spse.png ($(stat -c%s public/sip-spse.png) bytes)"; \
+    else \
+        echo "✗ Logo file NOT found: public/sip-spse.png"; \
+    fi && \
+    if [ -f "public/sip-spse-icon.png" ]; then \
+        echo "✓ Icon file found: public/sip-spse-icon.png ($(stat -c%s public/sip-spse-icon.png) bytes)"; \
+    else \
+        echo "✗ Icon file NOT found: public/sip-spse-icon.png"; \
+    fi
 
 # Create non-root user for security
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app

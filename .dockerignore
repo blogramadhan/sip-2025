@@ -61,3 +61,10 @@ logs/
 !public/*.png
 !public/*.jpg
 !public/*.svg
+
+# Build and test artifacts
+build-and-test.sh
+build.log
+debug_output.txt
+test_logo.py
+debug_docker.py
