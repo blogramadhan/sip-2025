@@ -6,6 +6,10 @@ secondaryBackgroundColor="#f8fafc"
 textColor="#0f172a"
 font="sans serif"
 
+[ui]
+hideTopBar = false
+hideSidebarNav = false
+
 [client]
 showSidebarNavigation = true
 showErrorDetails = true

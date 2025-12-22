@@ -42,18 +42,42 @@ body {
 
 .main {
     background: var(--bg-dark) !important;
-    padding: 1.5rem !important;
+    padding: 1rem 0.5rem !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+/* Maximize content width */
+.main > div {
+    max-width: 100% !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+section.main > div {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+/* Adjust main content when sidebar is collapsed */
+section[data-testid="stAppViewContainer"] {
+    transition: all 0.3s ease-in-out !important;
 }
 
 .block-container {
-    max-width: 1400px !important;
-    padding: 2rem 1rem !important;
+    max-width: 100% !important;
+    padding: 2rem 3rem !important;
+    transition: all 0.3s ease-in-out !important;
 }
 
 /* Fix untuk konten utama */
 .main .block-container {
     display: block !important;
     visibility: visible !important;
+}
+
+/* Expand content area when sidebar is collapsed */
+.stApp {
+    transition: all 0.3s ease-in-out !important;
 }
 
 section[data-testid="stAppViewContainer"] {
@@ -72,6 +96,11 @@ section[data-testid="stAppViewContainer"] > div {
     background: linear-gradient(180deg, #f2f5f9 0%, #ffffff 100%) !important;
     border-right: 1px solid var(--border);
     box-shadow: 2px 0 10px rgba(15, 23, 42, 0.06);
+    transition: all 0.3s ease-in-out !important;
+}
+
+[data-testid="stSidebar"] * {
+    transition: all 0.2s ease-in-out !important;
 }
 
 /* Sidebar width - expanded dan collapsed */
@@ -79,27 +108,45 @@ section[data-testid="stAppViewContainer"] > div {
     [data-testid="stSidebar"] {
         min-width: 18rem;
         width: 18rem;
+        transition: all 0.3s ease-in-out !important;
     }
 
     /* Saat sidebar collapsed */
+    [data-testid="stSidebar"][aria-expanded="false"],
+    [data-testid="stSidebar"].collapsed {
+        min-width: 5rem !important;
+        width: 5rem !important;
+    }
+
     [data-testid="stSidebar"][data-collapsed="true"] {
-        min-width: 5rem;
-        width: 5rem;
+        min-width: 5rem !important;
+        width: 5rem !important;
     }
 }
 
 [data-testid="stSidebar"] > div {
     background: transparent;
+    overflow-x: hidden !important;
 }
 
 [data-testid="stSidebar"] > div:first-child {
     padding-top: 0;
 }
 
+/* Smooth overflow for collapsed state */
+[data-testid="stSidebar"][data-collapsed="true"] > div {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+
+[data-testid="stSidebar"][data-collapsed="true"] {
+    overflow: hidden !important;
+}
+
 /* Sidebar Logo Container */
 [data-testid="stSidebar"] [data-testid="stLogo"] {
-    padding: 0.75rem 1rem 0.5rem 1rem;
-    margin-bottom: 0.75rem;
+    padding: 1rem 1.25rem 1rem 1.25rem;
+    margin-bottom: 1rem;
     display: block;
     text-align: center;
 }
@@ -115,11 +162,16 @@ section[data-testid="stAppViewContainer"] > div {
 [data-testid="stSidebar"]:not([data-collapsed="true"]) [data-testid="stLogo"] img {
     width: 100%;
     max-width: 100%;
-    max-height: 60px;
+    max-height: 100px;
+    min-height: 60px;
     height: auto;
     object-fit: contain;
     display: block;
     margin: 0 auto;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 /* Sembunyikan icon saat expanded (berdasarkan src) */
@@ -129,16 +181,80 @@ section[data-testid="stAppViewContainer"] > div {
 
 /* Logo saat sidebar collapsed */
 [data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] {
-    padding: 0.5rem;
-    margin-bottom: 0.75rem;
+    padding: 0.75rem 0.5rem;
+    margin-bottom: 1rem;
 }
 
-/* Sidebar collapsed state handled by disabling collapse button */
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img[src*="sip-spse-logo"] {
+    display: none !important;
+}
+
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stLogo"] img[src*="sip-spse-icon.png"] {
+    display: block !important;
+    width: 48px !important;
+    height: 48px !important;
+    margin: 0 auto !important;
+    padding: 0.25rem !important;
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Sembunyikan teks pada navigation saat collapsed */
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a span:not([data-testid="stMarkdownContainer"]) {
+    display: none;
+}
+
+/* Sembunyikan section headers saat collapsed */
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] > ul > li > div > div {
+    display: none;
+}
+
+/* Center icons saat collapsed */
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a {
+    justify-content: center;
+    padding: 0.75rem 0.5rem;
+    margin: 0.25rem 0.25rem;
+}
+
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a span[data-testid="stMarkdownContainer"] {
+    font-size: 1.25rem;
+}
+
+/* Tooltips untuk collapsed state */
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a {
+    position: relative;
+}
+
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a:hover::after {
+    content: attr(aria-label);
+    position: absolute;
+    left: 100%;
+    margin-left: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--primary);
+    color: white;
+    border-radius: 6px;
+    white-space: nowrap;
+    font-size: 0.875rem;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Active state untuk collapsed sidebar */
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a[aria-selected="true"]::after {
+    display: none;
+}
+
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] a[aria-selected="true"] {
+    background: linear-gradient(135deg, #2f6ea3, #4f86b8);
+    border-radius: 8px;
+}
 
 /* Custom sidebar brand (fallback for st.logo) */
 [data-testid="stSidebar"] .sidebar-brand {
-    padding: 0 1rem 0.5rem 1rem;
-    margin: -0.85rem 0 0.5rem 0;
+    padding: 1rem 1.25rem 1rem 1.25rem;
+    margin: 0 0 1rem 0;
     text-align: center;
 }
 [data-testid="stSidebar"] .sidebar-brand img {
@@ -150,12 +266,21 @@ section[data-testid="stAppViewContainer"] > div {
 [data-testid="stSidebar"] .sidebar-brand .brand-full {
     width: 100%;
     max-width: 100%;
-    max-height: 72px;
+    max-height: 100px;
+    min-height: 60px;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 [data-testid="stSidebar"] .sidebar-brand .brand-icon {
     width: 48px;
     height: 48px;
     display: none;
+    padding: 0.25rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 /* Sidebar collapse button styling */
@@ -164,23 +289,41 @@ section[data-testid="stAppViewContainer"] > div {
     border: 1px solid var(--border) !important;
     border-radius: 0 8px 8px 0 !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.3s ease !important;
 }
 
 [data-testid="collapsedControl"]:hover {
-    background: var(--bg-hover) !important;
+    background: var(--primary) !important;
     border-color: var(--primary) !important;
+    box-shadow: 0 4px 12px rgba(47, 110, 163, 0.3) !important;
 }
 
-/* Nonaktifkan tombol minimize sidebar */
-[data-testid="collapsedControl"],
-[data-testid="stSidebarCollapseButton"],
+[data-testid="collapsedControl"]:hover svg {
+    color: white !important;
+}
+
+/* Styling untuk tombol collapse di dalam sidebar */
 [data-testid="stSidebarCollapseButton"] button,
-button[title="Collapse sidebar"],
-button[title="Expand sidebar"],
-button[aria-label="Collapse sidebar"],
-button[aria-label="Expand sidebar"] {
-    display: none !important;
-    pointer-events: none !important;
+button[kind="headerNoPadding"] {
+    background: transparent !important;
+    border: none !important;
+    padding: 0.5rem !important;
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+}
+
+[data-testid="stSidebarCollapseButton"] button:hover,
+button[kind="headerNoPadding"]:hover {
+    background: var(--bg-hover) !important;
+}
+
+button[kind="headerNoPadding"] svg {
+    color: var(--text-secondary) !important;
+    transition: color 0.2s ease !important;
+}
+
+button[kind="headerNoPadding"]:hover svg {
+    color: var(--primary) !important;
 }
 
 /* Sidebar Navigation Container - Padding lebih rapat */
@@ -283,6 +426,24 @@ button[aria-label="Expand sidebar"] {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 8px;
+}
+
+/* Hide widgets when sidebar is collapsed */
+[data-testid="stSidebar"][data-collapsed="true"] .stSelectbox,
+[data-testid="stSidebar"][data-collapsed="true"] .stRadio,
+[data-testid="stSidebar"][data-collapsed="true"] .stMarkdown:not([data-testid="stSidebarNav"] .stMarkdown) {
+    display: none;
+}
+
+/* Sembunyikan divider saat collapsed */
+[data-testid="stSidebar"][data-collapsed="true"] hr,
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stMarkdown"] hr {
+    display: none;
+}
+
+/* Adjust section dividers when collapsed */
+[data-testid="stSidebar"][data-collapsed="true"] [data-testid="stSidebarNav"] > ul > li::after {
+    margin: 0.4rem 0.25rem 0;
 }
 
 /* ====================================
@@ -532,6 +693,11 @@ hr {
     border-radius: 10px;
     padding: 1rem;
     border: 1px solid var(--border);
+    width: 100% !important;
+}
+
+.js-plotly-plot .plotly {
+    width: 100% !important;
 }
 
 /* ====================================
@@ -546,6 +712,7 @@ hr {
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid var(--border);
+    width: 100% !important;
 }
 
 .ag-header-cell {
@@ -558,6 +725,17 @@ hr {
 
 .ag-row:hover {
     background: var(--bg-hover);
+}
+
+/* Ensure dataframe tables are full width */
+[data-testid="stDataFrame"],
+[data-testid="stTable"] {
+    width: 100% !important;
+}
+
+[data-testid="stDataFrame"] > div,
+[data-testid="stTable"] > div {
+    width: 100% !important;
 }
 
 /* ====================================
@@ -626,6 +804,26 @@ strong {
 }
 
 /* ====================================
+   COLUMNS - Optimize spacing
+   ==================================== */
+[data-testid="column"] {
+    padding: 0 0.5rem !important;
+}
+
+[data-testid="column"]:first-child {
+    padding-left: 0 !important;
+}
+
+[data-testid="column"]:last-child {
+    padding-right: 0 !important;
+}
+
+/* Wide layout optimization for columns */
+.row-widget.stHorizontal {
+    gap: 1rem !important;
+}
+
+/* ====================================
    ANIMATIONS
    ==================================== */
 @keyframes fadeIn {
@@ -646,9 +844,23 @@ strong {
 /* ====================================
    RESPONSIVE
    ==================================== */
+/* Wide screen optimization */
+@media (min-width: 1920px) {
+    .block-container {
+        padding: 2rem 4rem !important;
+    }
+}
+
+@media (min-width: 2560px) {
+    .block-container {
+        padding: 2rem 6rem !important;
+    }
+}
+
+/* Tablet and mobile */
 @media (max-width: 768px) {
     .block-container {
-        padding: 1rem 0.5rem;
+        padding: 1rem 0.5rem !important;
     }
 
     h1 {

@@ -99,14 +99,10 @@ def load_css():
 
 # Fungsi untuk membuat logo
 def logo():
-    st.sidebar.markdown(
-        """
-        <div class="sidebar-brand">
-            <img class="brand-full" src="https://storage.googleapis.com/bukanamel/img/sip-spse-new.png" alt="SIP Logo">
-            <img class="brand-icon" src="https://storage.googleapis.com/bukanamel/img/sip-spse-icon.png" alt="SIP Icon">
-        </div>
-        """,
-        unsafe_allow_html=True,
+    # Menggunakan st.logo untuk support collapse otomatis
+    st.logo(
+        image="https://storage.googleapis.com/bukanamel/img/sip-spse-new.png",
+        icon_image="public/sip-spse-icon.png",  # Icon untuk collapsed state
     )
 
 # Fungsi region config
