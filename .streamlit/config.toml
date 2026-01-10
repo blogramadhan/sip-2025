@@ -13,6 +13,7 @@ hideSidebarNav = false
 [client]
 showSidebarNavigation = true
 showErrorDetails = true
+toolbarMode = "auto"
 
 [server]
 maxUploadSize = 200

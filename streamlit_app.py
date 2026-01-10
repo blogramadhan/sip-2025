@@ -8,7 +8,7 @@ st.set_page_config(
     page_title="Sistem Informasi Pelaporan Pengadaan Barang dan Jasa",
     page_icon=":bar_chart:",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",
 )
 
 # Load custom CSS
