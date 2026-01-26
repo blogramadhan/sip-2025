@@ -76,23 +76,172 @@ th { background-color: #f0f0f0; }
 <section id="i.-latar-belakang" class="level2">
 <h2 class="anchored" data-anchor-id="i.-latar-belakang">I. LATAR BELAKANG</h2>
 <p>Pemerintah Provinsi Kalimantan Barat dalam melaksanakan kegiatan pengadaan barang dan jasa telah mengembangkan <strong>Sistem Informasi Pelaporan Pengadaan Barang dan Jasa (SIP-SPSE)</strong> sebagai platform terintegrasi untuk monitoring dan pelaporan kegiatan pengadaan. Aplikasi ini mengkonsolidasikan data dari berbagai sumber sistem pengadaan elektronik termasuk SIRUP (Sistem Informasi Rencana Umum Pengadaan), SPSE (Sistem Pengadaan Secara Elektronik), SIKAP (Sistem Informasi Kinerja Penyedia), E-Katalog, dan Toko Daring BELA.</p>
-<p>Aplikasi SIP-SPSE telah beroperasi dan melayani kebutuhan monitoring pengadaan untuk 15 (lima belas) wilayah di lingkungan Pemerintah Provinsi Kalimantan Barat dan Kabupaten/Kota mitra. Untuk menjamin keberlangsungan operasional sistem, keamanan data, serta peningkatan kualitas layanan secara berkelanjutan, diperlukan kegiatan pemeliharaan aplikasi yang terencana dan sistematis.</p>
+<p>Aplikasi SIP-SPSE telah beroperasi dan melayani kebutuhan monitoring pengadaan untuk 15 (lima belas) wilayah di lingkungan Pemerintah Provinsi Kalimantan Barat dan Kabupaten/Kota mitra. Sejak diluncurkan, aplikasi ini telah mengelola dan mengintegrasikan data dari lebih dari 10.000+ paket pengadaan tahunan dengan total nilai pengadaan mencapai triliunan rupiah, melayani ratusan pengguna dari berbagai satuan kerja perangkat daerah (SKPD), dan memproses data real-time dari 5 sumber data eksternal yang berbeda.</p>
+<section id="kondisi-dan-statistik-sistem-saat-ini" class="level3">
+<h3 class="anchored" data-anchor-id="kondisi-dan-statistik-sistem-saat-ini">Kondisi dan Statistik Sistem Saat Ini:</h3>
+<p><strong>A. Volume Data dan Transaksi:</strong> - Total paket RUP yang dikelola: ±12.000 paket per tahun - Total paket tender (lelang/seleksi): ±3.500 paket per tahun - Total paket non-tender: ±2.000 paket per tahun - Total transaksi e-katalog: ±5.000 transaksi per tahun - Total penyedia terdaftar dengan skor SIKAP: ±2.500 penyedia - Volume data Parquet storage: ±15 GB (meningkat 20% per tahun)</p>
+<p><strong>B. Pengguna dan Akses:</strong> - Jumlah pengguna aktif: ±250 pengguna dari 15 wilayah - Rata-rata concurrent users: 30-50 pengguna - Peak usage: Akhir triwulan dan akhir tahun anggaran - Jam operasional: 24/7 dengan maintenance window terjadwal</p>
+<p><strong>C. Performa dan Ketersediaan:</strong> - Uptime sistem tahun berjalan: 98.5% - Average response time: 2-4 detik - Cache hit rate: 75-80% - Data refresh cycle: Harian (SIRUP, SPSE), Mingguan (SIKAP, E-Katalog, BELA)</p>
+<p><strong>D. Tantangan Operasional:</strong> 1. Kebutuhan monitoring dan troubleshooting 24/7 2. Perubahan format data dan API dari sumber eksternal (LKPP) 3. Peningkatan volume data yang memerlukan optimasi storage dan query 4. Kebutuhan peningkatan fitur sesuai feedback pengguna 5. Keamanan data dan compliance terhadap regulasi 6. Sinkronisasi data yang kompleks dari 5 sistem berbeda</p>
+<p>Untuk menjamin keberlangsungan operasional sistem, keamanan data, akurasi informasi, serta peningkatan kualitas layanan secara berkelanjutan, diperlukan kegiatan pemeliharaan aplikasi yang terencana, sistematis, dan profesional dengan dukungan tim yang kompeten.</p>
 <p>Berdasarkan hal tersebut, perlu disusun Kerangka Acuan Kerja (KAK) sebagai pedoman pelaksanaan kegiatan Pemeliharaan Aplikasi SIP-SPSE Tahun Anggaran 2025.</p>
 <hr>
 </section>
-<section id="ii.-dasar-hukum" class="level2">
-<h2 class="anchored" data-anchor-id="ii.-dasar-hukum">II. DASAR HUKUM</h2>
+</section>
+<section id="ii.-definisi-dan-istilah" class="level2">
+<h2 class="anchored" data-anchor-id="ii.-definisi-dan-istilah">II. DEFINISI DAN ISTILAH</h2>
+<p>Untuk keseragaman pemahaman, berikut definisi istilah yang digunakan dalam dokumen ini:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 52%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Istilah</th>
+<th>Definisi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>SIP-SPSE</strong></td>
+<td>Sistem Informasi Pelaporan Pengadaan Barang dan Jasa - aplikasi terintegrasi untuk monitoring dan pelaporan kegiatan pengadaan</td>
+</tr>
+<tr class="even">
+<td><strong>SIRUP</strong></td>
+<td>Sistem Informasi Rencana Umum Pengadaan - sistem untuk perencanaan pengadaan</td>
+</tr>
+<tr class="odd">
+<td><strong>SPSE</strong></td>
+<td>Sistem Pengadaan Secara Elektronik - platform e-procurement</td>
+</tr>
+<tr class="even">
+<td><strong>SIKAP</strong></td>
+<td>Sistem Informasi Kinerja Penyedia - sistem penilaian kinerja vendor</td>
+</tr>
+<tr class="odd">
+<td><strong>ITKP</strong></td>
+<td>Indikator Tata Kelola Pengadaan - metrik untuk menilai kualitas proses pengadaan</td>
+</tr>
+<tr class="even">
+<td><strong>E-Katalog</strong></td>
+<td>Platform katalog elektronik untuk e-purchasing barang/jasa standar</td>
+</tr>
+<tr class="odd">
+<td><strong>BELA</strong></td>
+<td>Belanja Langsung - marketplace online pengadaan</td>
+</tr>
+<tr class="even">
+<td><strong>RUP</strong></td>
+<td>Rencana Umum Pengadaan - dokumen perencanaan pengadaan tahunan</td>
+</tr>
+<tr class="odd">
+<td><strong>PPK</strong></td>
+<td>Pejabat Pembuat Komitmen - pejabat yang bertanggung jawab atas pelaksanaan pengadaan</td>
+</tr>
+<tr class="even">
+<td><strong>SKPD</strong></td>
+<td>Satuan Kerja Perangkat Daerah - unit organisasi pemerintah daerah</td>
+</tr>
+<tr class="odd">
+<td><strong>Uptime</strong></td>
+<td>Persentase waktu sistem tersedia dan dapat diakses</td>
+</tr>
+<tr class="even">
+<td><strong>Downtime</strong></td>
+<td>Periode waktu sistem tidak dapat diakses atau tidak berfungsi</td>
+</tr>
+<tr class="odd">
+<td><strong>SLA</strong></td>
+<td>Service Level Agreement - kesepakatan tingkat layanan</td>
+</tr>
+<tr class="even">
+<td><strong>KPI</strong></td>
+<td>Key Performance Indicator - indikator kinerja kunci</td>
+</tr>
+<tr class="odd">
+<td><strong>Bug</strong></td>
+<td>Kesalahan atau cacat dalam program yang menyebabkan hasil tidak sesuai harapan</td>
+</tr>
+<tr class="even">
+<td><strong>Enhancement</strong></td>
+<td>Peningkatan atau penambahan fitur aplikasi</td>
+</tr>
+<tr class="odd">
+<td><strong>Parquet</strong></td>
+<td>Format file kolumnar untuk data analytics yang efisien</td>
+</tr>
+<tr class="even">
+<td><strong>DuckDB</strong></td>
+<td>In-memory analytical database engine</td>
+</tr>
+<tr class="odd">
+<td><strong>Streamlit</strong></td>
+<td>Framework Python untuk membuat web aplikasi data science</td>
+</tr>
+<tr class="even">
+<td><strong>Cache</strong></td>
+<td>Penyimpanan sementara data untuk mempercepat akses</td>
+</tr>
+<tr class="odd">
+<td><strong>API</strong></td>
+<td>Application Programming Interface - antarmuka untuk integrasi sistem</td>
+</tr>
+<tr class="even">
+<td><strong>Incident</strong></td>
+<td>Kejadian yang mengganggu atau berisiko mengganggu layanan</td>
+</tr>
+<tr class="odd">
+<td><strong>UAT</strong></td>
+<td>User Acceptance Testing - pengujian penerimaan oleh pengguna</td>
+</tr>
+<tr class="even">
+<td><strong>Backup</strong></td>
+<td>Salinan data untuk keperluan pemulihan</td>
+</tr>
+<tr class="odd">
+<td><strong>Recovery</strong></td>
+<td>Proses pemulihan sistem atau data setelah kegagalan</td>
+</tr>
+<tr class="even">
+<td><strong>Force Majeure</strong></td>
+<td>Kondisi di luar kendali yang mempengaruhi pelaksanaan kontrak</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="iii.-dasar-hukum" class="level2">
+<h2 class="anchored" data-anchor-id="iii.-dasar-hukum">III. DASAR HUKUM</h2>
+<section id="a.-peraturan-perundang-undangan-tingkat-pusat" class="level3">
+<h3 class="anchored" data-anchor-id="a.-peraturan-perundang-undangan-tingkat-pusat">A. Peraturan Perundang-undangan Tingkat Pusat</h3>
 <ol type="1">
 <li>Undang-Undang Nomor 11 Tahun 2008 tentang Informasi dan Transaksi Elektronik sebagaimana telah diubah dengan Undang-Undang Nomor 19 Tahun 2016;</li>
-<li>Peraturan Presiden Nomor 12 Tahun 2021 tentang Perubahan atas Peraturan Presiden Nomor 16 Tahun 2018 tentang Pengadaan Barang/Jasa Pemerintah;</li>
+<li>Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik;</li>
+<li>Undang-Undang Nomor 25 Tahun 2009 tentang Pelayanan Publik;</li>
+<li>Undang-Undang Nomor 23 Tahun 2014 tentang Pemerintahan Daerah sebagaimana telah diubah beberapa kali terakhir dengan Undang-Undang Nomor 9 Tahun 2015;</li>
+<li>Peraturan Pemerintah Nomor 82 Tahun 2012 tentang Penyelenggaraan Sistem dan Transaksi Elektronik;</li>
+<li>Peraturan Pemerintah Nomor 71 Tahun 2019 tentang Penyelenggaraan Sistem dan Transaksi Elektronik;</li>
+<li>Peraturan Presiden Nomor 16 Tahun 2018 tentang Pengadaan Barang/Jasa Pemerintah sebagaimana telah diubah dengan Peraturan Presiden Nomor 12 Tahun 2021;</li>
 <li>Peraturan Presiden Nomor 95 Tahun 2018 tentang Sistem Pemerintahan Berbasis Elektronik;</li>
+<li>Peraturan Menteri Komunikasi dan Informatika Nomor 4 Tahun 2016 tentang Sistem Manajemen Pengamanan Informasi;</li>
 <li>Peraturan LKPP Nomor 12 Tahun 2021 tentang Pedoman Pelaksanaan Pengadaan Barang/Jasa Pemerintah Melalui Penyedia;</li>
-<li>Peraturan Daerah Provinsi Kalimantan Barat tentang Anggaran Pendapatan dan Belanja Daerah Tahun Anggaran 2025.</li>
+<li>Peraturan LKPP Nomor 14 Tahun 2022 tentang Standar Teknis Sistem Pengadaan Secara Elektronik (SPSE);</li>
+<li>Peraturan Kepala Badan Siber dan Sandi Negara tentang Pedoman Teknis Evaluasi Keamanan Teknologi Informasi dan Komunikasi.</li>
+</ol>
+</section>
+<section id="b.-peraturan-daerah" class="level3">
+<h3 class="anchored" data-anchor-id="b.-peraturan-daerah">B. Peraturan Daerah</h3>
+<ol type="1">
+<li>Peraturan Daerah Provinsi Kalimantan Barat tentang Anggaran Pendapatan dan Belanja Daerah Tahun Anggaran 2025;</li>
+<li>Peraturan Gubernur Kalimantan Barat tentang Kebijakan Teknologi Informasi dan Komunikasi (jika ada);</li>
+<li>Keputusan Gubernur Kalimantan Barat tentang Penetapan Dokumen Pelaksanaan Anggaran (DPA) Tahun Anggaran 2025.</li>
 </ol>
 <hr>
 </section>
-<section id="iii.-maksud-dan-tujuan" class="level2">
-<h2 class="anchored" data-anchor-id="iii.-maksud-dan-tujuan">III. MAKSUD DAN TUJUAN</h2>
+</section>
+<section id="iv.-maksud-dan-tujuan" class="level2">
+<h2 class="anchored" data-anchor-id="iv.-maksud-dan-tujuan">IV. MAKSUD DAN TUJUAN</h2>
 <section id="a.-maksud" class="level3">
 <h3 class="anchored" data-anchor-id="a.-maksud">A. Maksud</h3>
 <p>Kegiatan pemeliharaan aplikasi SIP-SPSE dimaksudkan untuk:</p>
@@ -115,8 +264,8 @@ th { background-color: #f0f0f0; }
 <hr>
 </section>
 </section>
-<section id="iv.-ruang-lingkup-pekerjaan" class="level2">
-<h2 class="anchored" data-anchor-id="iv.-ruang-lingkup-pekerjaan">IV. RUANG LINGKUP PEKERJAAN</h2>
+<section id="v.-ruang-lingkup-pekerjaan" class="level2">
+<h2 class="anchored" data-anchor-id="v.-ruang-lingkup-pekerjaan">V. RUANG LINGKUP PEKERJAAN</h2>
 <section id="a.-pemeliharaan-infrastruktur" class="level3">
 <h3 class="anchored" data-anchor-id="a.-pemeliharaan-infrastruktur">A. Pemeliharaan Infrastruktur</h3>
 <table class="caption-top table">
@@ -164,9 +313,39 @@ th { background-color: #f0f0f0; }
 <section id="b.-pemeliharaan-modul-aplikasi" class="level3">
 <h3 class="anchored" data-anchor-id="b.-pemeliharaan-modul-aplikasi">B. Pemeliharaan Modul Aplikasi</h3>
 <p>Aplikasi SIP-SPSE terdiri dari 11 (sebelas) modul yang harus dipelihara:</p>
-<p><strong>1. Modul Rencana Pengadaan:</strong> - RUP (Rencana Umum Pengadaan) - Konsolidasi data SIRUP termasuk paket penyedia, paket swakelola, struktur anggaran, dan alokasi per satuan kerja.</p>
-<p><strong>2. Modul Proses Pengadaan:</strong> - Tender - Analisis siklus tender elektronik (pengumuman hingga BAST) - Non Tender - Monitoring pengadaan langsung dan penunjukan langsung - Pencatatan - Tracking pencatatan transaksi di SPSE - E-Katalog v5 - Monitoring paket e-purchasing katalog nasional (legacy) - E-Katalog v6 - Monitoring katalog modern dengan detail vendor dan status transaksi - Toko Daring - Monitoring marketplace online BELA - Peserta Tender - Analisis statistik peserta lelang, distribusi, dan status SIKaP</p>
-<p><strong>3. Modul Monitoring:</strong> - ITKP (Indikator Tata Kelola Pengadaan) - Prediksi indikator kinerja pengadaan - Nilai SIKAP - Tampilan skor kinerja penyedia - Jenis Belanja - Analisis komposisi belanja (modal/barang/jasa, PDN vs non-PDN)</p>
+<p><strong>1. Modul RUP (Rencana Umum Pengadaan)</strong></p>
+<p>Detail Fitur: - Konsolidasi data SIRUP dari berbagai satuan kerja - Visualisasi struktur anggaran per SKPD dan per jenis belanja - Tracking paket penyedia vs paket swakelola - Analisis pagu anggaran dan realisasi - Filter multi-dimensi (wilayah, SKPD, jenis paket, sumber dana) - Export data untuk pelaporan</p>
+<p>Tanggung Jawab Pemeliharaan: - Memastikan sinkronisasi harian data SIRUP berjalan normal - Validasi akurasi perhitungan agregasi dan subtotal - Monitoring perubahan struktur data SIRUP dari LKPP - Optimasi query untuk dataset besar (&gt;10K records) - Bug fixing terkait filter dan pencarian</p>
+<p><strong>2. Modul Tender</strong></p>
+<p>Detail Fitur: - Dashboard status tender (pengumuman, kualifikasi, evaluasi, pemenang) - Timeline visualization untuk setiap tahapan tender - Analisis metode pemilihan (lelang umum, sederhana, pemilihan langsung) - Statistik peserta dan tingkat kompetisi - Monitoring dokumen BAST (Berita Acara Serah Terima) - Alerting untuk paket tender bermasalah atau terlambat</p>
+<p>Tanggung Jawab Pemeliharaan: - Sinkronisasi harian data tender dari SPSE - Validasi mapping status tender - Perbaikan bug terkait perhitungan timeline - Optimasi loading untuk data tender historis - Update sesuai perubahan regulasi lelang</p>
+<p><strong>3. Modul Non Tender</strong></p>
+<p>Detail Fitur: - Monitoring pengadaan langsung dan penunjukan langsung - Tracking proses dari pengumuman hingga kontrak - Analisis nilai dan volume non-tender per wilayah - Compliance check terhadap threshold non-tender - Statistik vendor pemenang non-tender</p>
+<p>Tanggung Jawab Pemeliharaan: - Sinkronisasi harian data non-tender - Validasi business rules compliance - Bug fixing terkait filter dan aggregasi - Performance optimization</p>
+<p><strong>4. Modul Pencatatan</strong></p>
+<p>Detail Fitur: - Tracking pencatatan transaksi pengadaan di SPSE - Monitoring dokumen pendukung pencatatan - Analisis volume dan nilai pencatatan per periode - Validasi kelengkapan data pencatatan</p>
+<p>Tanggung Jawab Pemeliharaan: - Sinkronisasi data pencatatan - Validasi completeness data - Bug fixing dan performance tuning</p>
+<p><strong>5. Modul E-Katalog v5 (Legacy)</strong></p>
+<p>Detail Fitur: - Monitoring transaksi e-purchasing katalog nasional versi lama - Statistik penggunaan e-katalog per SKPD - Analisis produk katalog yang sering digunakan - Tracking nilai transaksi e-katalog</p>
+<p>Tanggung Jawab Pemeliharaan: - Sinkronisasi mingguan data e-katalog v5 - Maintain kompatibilitas dengan API legacy - Monitoring untuk eventual deprecation</p>
+<p><strong>6. Modul E-Katalog v6 (Modern)</strong></p>
+<p>Detail Fitur: - Dashboard modern untuk transaksi e-katalog terbaru - Detail informasi vendor dan produk katalog - Status tracking dari order hingga delivery - Rating dan review produk katalog - Integrasi dengan sistem pembayaran</p>
+<p>Tanggung Jawab Pemeliharaan: - Sinkronisasi mingguan data e-katalog v6 - Adaptasi terhadap perubahan API e-katalog - Enhancement fitur sesuai feedback pengguna - Performance optimization untuk large dataset</p>
+<p><strong>7. Modul Toko Daring (BELA)</strong></p>
+<p>Detail Fitur: - Monitoring transaksi marketplace online BELA - Statistik merchant dan produk - Tracking order dan delivery status - Analisis tren belanja online - Comparison dengan e-katalog</p>
+<p>Tanggung Jawab Pemeliharaan: - Sinkronisasi mingguan data BELA - Validasi integritas data transaksi - Bug fixing dan feature enhancement - API adaptation untuk perubahan platform BELA</p>
+<p><strong>8. Modul Peserta Tender</strong></p>
+<p>Detail Fitur: - Analisis statistik peserta tender per paket - Distribusi peserta per wilayah dan kategori - Tingkat kompetisi dan rata-rata peserta - Integrasi dengan skor SIKAP peserta - Analisis win rate vendor - Blacklist dan vendor monitoring</p>
+<p>Tanggung Jawab Pemeliharaan: - Data aggregation dari multiple sources - Calculation accuracy untuk statistik kompleks - Performance optimization untuk analisis besar - Visualization enhancement</p>
+<p><strong>9. Modul ITKP (Indikator Tata Kelola Pengadaan)</strong></p>
+<p>Detail Fitur: - Prediksi scoring ITKP berdasarkan data aktual - Breakdown indikator per dimensi - Benchmarking antar wilayah - Rekomendasi perbaikan skor - Historical trend analysis - Early warning untuk indikator rendah</p>
+<p>Tanggung Jawab Pemeliharaan: - Update formula sesuai ketentuan LKPP terbaru - Validasi akurasi perhitungan - Enhancement algoritma prediksi - Bug fixing calculation logic</p>
+<p><strong>10. Modul Nilai SIKAP</strong></p>
+<p>Detail Fitur: - Display skor kinerja penyedia - Kategorisasi penyedia (baik, cukup, kurang) - Historical tracking perubahan skor - Filter dan pencarian penyedia - Integration dengan modul tender untuk vendor screening</p>
+<p>Tanggung Jawab Pemeliharaan: - Sinkronisasi mingguan data SIKAP - Validasi scoring accuracy - Enhancement tampilan dan filter - Bug fixing</p>
+<p><strong>11. Modul Jenis Belanja</strong></p>
+<p>Detail Fitur: - Analisis komposisi belanja (modal/barang/jasa) - Breakdown PDN (Produk Dalam Negeri) vs non-PDN - Trend analysis belanja per periode - Compliance monitoring terhadap target PDN - Benchmarking antar wilayah - Drill-down capability ke level paket</p>
+<p>Tanggung Jawab Pemeliharaan: - Data aggregation dan calculation accuracy - Enhancement visualization dan reporting - Performance optimization - Bug fixing terkait categorization</p>
 </section>
 <section id="c.-pemeliharaan-integrasi-data" class="level3">
 <h3 class="anchored" data-anchor-id="c.-pemeliharaan-integrasi-data">C. Pemeliharaan Integrasi Data</h3>
@@ -335,8 +514,8 @@ th { background-color: #f0f0f0; }
 <hr>
 </section>
 </section>
-<section id="v.-spesifikasi-teknis" class="level2">
-<h2 class="anchored" data-anchor-id="v.-spesifikasi-teknis">V. SPESIFIKASI TEKNIS</h2>
+<section id="vi.-spesifikasi-teknis" class="level2">
+<h2 class="anchored" data-anchor-id="vi.-spesifikasi-teknis">VI. SPESIFIKASI TEKNIS</h2>
 <section id="a.-arsitektur-sistem" class="level3">
 <h3 class="anchored" data-anchor-id="a.-arsitektur-sistem">A. Arsitektur Sistem</h3>
 <pre><code>┌─────────────────────────────────────────────────────────┐
@@ -453,62 +632,339 @@ th { background-color: #f0f0f0; }
 </tr>
 </tbody>
 </table>
+</section>
+<section id="d.-keamanan-sistem" class="level3">
+<h3 class="anchored" data-anchor-id="d.-keamanan-sistem">D. Keamanan Sistem</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Aspek Keamanan</th>
+<th>Implementasi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Authentication</td>
+<td>Multi-level user access control</td>
+</tr>
+<tr class="even">
+<td>Authorization</td>
+<td>Role-based access control (RBAC)</td>
+</tr>
+<tr class="odd">
+<td>Data Encryption</td>
+<td>TLS 1.3 untuk data in-transit</td>
+</tr>
+<tr class="even">
+<td>Audit Trail</td>
+<td>Logging aktivitas pengguna dan sistem</td>
+</tr>
+<tr class="odd">
+<td>Backup Security</td>
+<td>Encrypted backup dengan retention policy</td>
+</tr>
+<tr class="even">
+<td>Vulnerability Management</td>
+<td>Regular security scanning dan patching</td>
+</tr>
+<tr class="odd">
+<td>Network Security</td>
+<td>Firewall, IP whitelisting untuk akses admin</td>
+</tr>
+<tr class="even">
+<td>DDOS Protection</td>
+<td>Rate limiting dan traffic monitoring</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="e.-monitoring-dan-observability" class="level3">
+<h3 class="anchored" data-anchor-id="e.-monitoring-dan-observability">E. Monitoring dan Observability</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 43%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Komponen</th>
+<th>Tools/Metode</th>
+<th>Metrik</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Application Monitoring</td>
+<td>Health check endpoint</td>
+<td>Response time, error rate, request count</td>
+</tr>
+<tr class="even">
+<td>Infrastructure Monitoring</td>
+<td>Docker stats, system metrics</td>
+<td>CPU, memory, disk usage</td>
+</tr>
+<tr class="odd">
+<td>Log Management</td>
+<td>Centralized logging</td>
+<td>Error logs, access logs, audit logs</td>
+</tr>
+<tr class="even">
+<td>Performance Monitoring</td>
+<td>Query profiling</td>
+<td>Database query time, cache performance</td>
+</tr>
+<tr class="odd">
+<td>Uptime Monitoring</td>
+<td>External monitoring service</td>
+<td>Availability, downtime alerts</td>
+</tr>
+</tbody>
+</table>
 <hr>
 </section>
 </section>
-<section id="vi.-keluaran-output" class="level2">
-<h2 class="anchored" data-anchor-id="vi.-keluaran-output">VI. KELUARAN (OUTPUT)</h2>
+<section id="vii.-keluaran-output" class="level2">
+<h2 class="anchored" data-anchor-id="vii.-keluaran-output">VII. KELUARAN (OUTPUT)</h2>
 <p>Keluaran yang diharapkan dari kegiatan pemeliharaan ini adalah:</p>
+<section id="a.-deliverables-rutin" class="level3">
+<h3 class="anchored" data-anchor-id="a.-deliverables-rutin">A. Deliverables Rutin</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 15%">
-<col style="width: 38%">
-<col style="width: 46%">
+<col style="width: 9%">
+<col style="width: 23%">
+<col style="width: 25%">
+<col style="width: 18%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>No</th>
+<th>Keluaran</th>
+<th>Frekuensi</th>
+<th>Format</th>
+<th>Deadline</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Laporan Pemeliharaan Bulanan</td>
+<td>Bulanan</td>
+<td>PDF + Excel</td>
+<td>Tanggal 5 bulan berikutnya</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Laporan Insiden</td>
+<td>Per Kejadian</td>
+<td>PDF</td>
+<td>1x24 jam setelah resolusi</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Log Perubahan Sistem</td>
+<td>Setiap Perubahan</td>
+<td>Markdown/PDF</td>
+<td>Real-time update</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Monitoring Report</td>
+<td>Mingguan</td>
+<td>Dashboard + PDF</td>
+<td>Setiap Senin pagi</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Backup Verification Report</td>
+<td>Mingguan</td>
+<td>PDF</td>
+<td>Setiap Senin</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="b.-deliverables-periodik" class="level3">
+<h3 class="anchored" data-anchor-id="b.-deliverables-periodik">B. Deliverables Periodik</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 23%">
+<col style="width: 25%">
+<col style="width: 18%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>No</th>
+<th>Keluaran</th>
+<th>Frekuensi</th>
+<th>Format</th>
+<th>Deadline</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Performance Analysis Report</td>
+<td>Triwulanan</td>
+<td>PDF + PPT</td>
+<td>Minggu pertama setelah akhir triwulan</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Capacity Planning Report</td>
+<td>Semesteran</td>
+<td>PDF + Excel</td>
+<td>2 minggu setelah akhir semester</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Security Audit Report</td>
+<td>Semesteran</td>
+<td>PDF</td>
+<td>2 minggu setelah akhir semester</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>User Satisfaction Survey</td>
+<td>Triwulanan</td>
+<td>PDF + Excel</td>
+<td>Minggu kedua setelah survey</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="c.-deliverables-akhir-kontrak" class="level3">
+<h3 class="anchored" data-anchor-id="c.-deliverables-akhir-kontrak">C. Deliverables Akhir Kontrak</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 29%">
+<col style="width: 35%">
+<col style="width: 23%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>No</th>
 <th>Keluaran</th>
 <th>Keterangan</th>
+<th>Format</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>1</td>
-<td>Laporan Bulanan Pemeliharaan</td>
-<td>Dokumentasi aktivitas pemeliharaan setiap bulan</td>
+<td>Laporan Akhir Komprehensif</td>
+<td>Summary 12 bulan pemeliharaan, achievements, challenges, recommendations</td>
+<td>PDF + PPT</td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>Laporan Insiden</td>
-<td>Dokumentasi setiap insiden dan penanganannya</td>
+<td>Dokumentasi Sistem Terupdate</td>
+<td>Architecture, API docs, user manual, troubleshooting guide</td>
+<td>PDF + HTML</td>
 </tr>
 <tr class="odd">
 <td>3</td>
-<td>Log Perubahan Sistem</td>
-<td>Catatan setiap perubahan/update yang dilakukan</td>
+<td>Source Code &amp; Configuration</td>
+<td>Semua perubahan yang dilakukan selama masa kontrak</td>
+<td>Git Repository</td>
 </tr>
 <tr class="even">
 <td>4</td>
-<td>Dokumentasi Teknis Terbaru</td>
-<td>Update dokumentasi sistem jika ada perubahan</td>
+<td>Knowledge Base</td>
+<td>FAQ, best practices, lesson learned</td>
+<td>Wiki/Confluence</td>
 </tr>
 <tr class="odd">
 <td>5</td>
-<td>Backup Data</td>
-<td>Backup berkala sesuai jadwal yang ditetapkan</td>
+<td>Backup Final &amp; Restore Guide</td>
+<td>Full backup data dan prosedur restore</td>
+<td>Encrypted Archive + PDF</td>
 </tr>
 <tr class="even">
 <td>6</td>
-<td>Laporan Akhir Pemeliharaan</td>
-<td>Laporan komprehensif di akhir periode kontrak</td>
+<td>Handover Document</td>
+<td>Prosedur serah terima, akses, kredensial (sealed)</td>
+<td>PDF (Confidential)</td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="d.-spesifikasi-detail-laporan-bulanan" class="level3">
+<h3 class="anchored" data-anchor-id="d.-spesifikasi-detail-laporan-bulanan">D. Spesifikasi Detail Laporan Bulanan</h3>
+<p>Laporan bulanan harus mencakup minimal:</p>
+<ol type="1">
+<li><strong>Executive Summary (1-2 halaman)</strong>
+<ul>
+<li>Key metrics: Uptime, response time, incidents</li>
+<li>Major achievements dan issues</li>
+<li>Action items untuk bulan depan</li>
+</ul></li>
+<li><strong>System Availability (2-3 halaman)</strong>
+<ul>
+<li>Uptime percentage dengan breakdown per hari</li>
+<li>Downtime analysis dengan root cause</li>
+<li>Scheduled vs unscheduled downtime</li>
+<li>Comparison dengan bulan sebelumnya</li>
+</ul></li>
+<li><strong>Performance Metrics (2-3 halaman)</strong>
+<ul>
+<li>Response time trends dengan grafik</li>
+<li>Resource utilization (CPU, Memory, Disk)</li>
+<li>Cache hit rate dan optimization efforts</li>
+<li>User concurrency analysis</li>
+</ul></li>
+<li><strong>Data Synchronization (1-2 halaman)</strong>
+<ul>
+<li>Status sync per data source</li>
+<li>Success rate dan failure analysis</li>
+<li>Data volume dan growth trend</li>
+<li>API changes atau issues</li>
+</ul></li>
+<li><strong>Maintenance Activities (3-4 halaman)</strong>
+<ul>
+<li>Preventive maintenance checklist</li>
+<li>Corrective actions (bug fixes)</li>
+<li>Adaptive changes (regulation updates)</li>
+<li>Perfective improvements (enhancements)</li>
+</ul></li>
+<li><strong>Incident Management (2-3 halaman)</strong>
+<ul>
+<li>Incident log dengan detail</li>
+<li>Response dan resolution time</li>
+<li>Root cause analysis untuk major incidents</li>
+<li>Preventive measures implemented</li>
+</ul></li>
+<li><strong>Security &amp; Compliance (1-2 halaman)</strong>
+<ul>
+<li>Security events dan threats</li>
+<li>Patch management status</li>
+<li>Compliance status</li>
+<li>Vulnerability findings dan remediation</li>
+</ul></li>
+<li><strong>User Support (1-2 halaman)</strong>
+<ul>
+<li>Support tickets statistics</li>
+<li>Common issues dan resolutions</li>
+<li>User feedback dan satisfaction</li>
+<li>Training atau assistance provided</li>
+</ul></li>
+<li><strong>Recommendations &amp; Next Steps (1-2 halaman)</strong>
+<ul>
+<li>Identified improvements</li>
+<li>Risk mitigation plans</li>
+<li>Planned activities untuk bulan depan</li>
+<li>Resource needs atau concerns</li>
+</ul></li>
+</ol>
 <hr>
 </section>
-<section id="vii.-jangka-waktu-pelaksanaan" class="level2">
-<h2 class="anchored" data-anchor-id="vii.-jangka-waktu-pelaksanaan">VII. JANGKA WAKTU PELAKSANAAN</h2>
+</section>
+<section id="viii.-jangka-waktu-pelaksanaan" class="level2">
+<h2 class="anchored" data-anchor-id="viii.-jangka-waktu-pelaksanaan">VIII. JANGKA WAKTU PELAKSANAAN</h2>
 <p>Jangka waktu pelaksanaan kegiatan pemeliharaan adalah <strong>12 (dua belas) bulan kalender</strong> terhitung sejak Surat Perintah Kerja (SPK) diterbitkan.</p>
 <table class="caption-top table">
 <thead>
@@ -548,8 +1004,8 @@ th { background-color: #f0f0f0; }
 </table>
 <hr>
 </section>
-<section id="viii.-kualifikasi-penyedia" class="level2">
-<h2 class="anchored" data-anchor-id="viii.-kualifikasi-penyedia">VIII. KUALIFIKASI PENYEDIA</h2>
+<section id="ix.-kualifikasi-penyedia" class="level2">
+<h2 class="anchored" data-anchor-id="ix.-kualifikasi-penyedia">IX. KUALIFIKASI PENYEDIA</h2>
 <section id="a.-persyaratan-administrasi" class="level3">
 <h3 class="anchored" data-anchor-id="a.-persyaratan-administrasi">A. Persyaratan Administrasi</h3>
 <ol type="1">
@@ -562,66 +1018,138 @@ th { background-color: #f0f0f0; }
 <section id="b.-persyaratan-teknis" class="level3">
 <h3 class="anchored" data-anchor-id="b.-persyaratan-teknis">B. Persyaratan Teknis</h3>
 <ol type="1">
-<li>Memiliki tenaga ahli dengan kompetensi:</li>
+<li><strong>Memiliki tenaga ahli dengan kompetensi:</strong></li>
 </ol>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 12%">
-<col style="width: 24%">
-<col style="width: 39%">
-<col style="width: 24%">
+<col style="width: 5%">
+<col style="width: 11%">
+<col style="width: 30%">
+<col style="width: 27%">
+<col style="width: 11%">
+<col style="width: 13%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>No</th>
 <th>Posisi</th>
-<th>Kualifikasi</th>
+<th>Kualifikasi Minimal</th>
+<th>Kompetensi Teknis</th>
 <th>Jumlah</th>
+<th>Alokasi</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>1</td>
 <td>Project Manager</td>
-<td>S1 Teknik Informatika/SI, pengalaman min. 5 tahun</td>
+<td>• S1 Teknik Informatika/SI/sejenis<br>• Pengalaman min. 5 tahun<br>• Sertifikat PMP/Prince2 (preferred)</td>
+<td>• Project management<br>• Risk management<br>• Stakeholder communication<br>• Budgeting &amp; reporting</td>
 <td>1 orang</td>
+<td>Full-time</td>
 </tr>
 <tr class="even">
 <td>2</td>
-<td>Full Stack Developer</td>
-<td>S1 Teknik Informatika/SI, menguasai Python, Streamlit</td>
-<td>2 orang</td>
+<td>Technical Lead</td>
+<td>• S1 Teknik Informatika/SI<br>• Pengalaman min. 4 tahun<br>• Pengalaman arsitektur sistem</td>
+<td>• System architecture<br>• Python advanced<br>• Database design<br>• Technical decision making</td>
+<td>1 orang</td>
+<td>Full-time</td>
 </tr>
 <tr class="odd">
 <td>3</td>
-<td>Database Administrator</td>
-<td>S1 Teknik Informatika/SI, menguasai DuckDB, SQL</td>
-<td>1 orang</td>
+<td>Full Stack Developer</td>
+<td>• S1 Teknik Informatika/SI<br>• Pengalaman min. 3 tahun<br>• Portfolio aplikasi web</td>
+<td>• Python &amp; Streamlit<br>• Pandas &amp; data processing<br>• Plotly visualization<br>• API integration<br>• Git version control</td>
+<td>2 orang</td>
+<td>Full-time</td>
 </tr>
 <tr class="even">
 <td>4</td>
-<td>DevOps Engineer</td>
-<td>S1 Teknik Informatika/SI, menguasai Docker, Linux</td>
+<td>Database Administrator</td>
+<td>• S1 Teknik Informatika/SI<br>• Pengalaman min. 3 tahun<br>• Sertifikat DBA (preferred)</td>
+<td>• DuckDB proficient<br>• SQL advanced<br>• Query optimization<br>• Backup &amp; recovery<br>• Data migration</td>
 <td>1 orang</td>
+<td>Full-time</td>
 </tr>
 <tr class="odd">
 <td>5</td>
+<td>DevOps Engineer</td>
+<td>• S1 Teknik Informatika/SI<br>• Pengalaman min. 3 tahun<br>• Pengalaman containerization</td>
+<td>• Docker &amp; containerization<br>• Linux system admin<br>• CI/CD pipeline<br>• Monitoring tools<br>• Shell scripting</td>
+<td>1 orang</td>
+<td>Full-time</td>
+</tr>
+<tr class="even">
+<td>6</td>
 <td>Technical Support</td>
-<td>D3/S1 Teknik Informatika/SI</td>
+<td>• D3/S1 Teknik Informatika/SI<br>• Pengalaman min. 2 tahun<br>• Customer service oriented</td>
+<td>• Troubleshooting<br>• User training<br>• Documentation<br>• Ticketing system<br>• Communication skills</td>
 <td>2 orang</td>
+<td>Full-time</td>
 </tr>
 </tbody>
 </table>
+<p><strong>Catatan Penting:</strong> - Minimal 1 orang dari tim harus memiliki pengalaman dengan sistem pengadaan pemerintah (SPSE/SIRUP) - CV dan portofolio setiap personel wajib dilampirkan - Penggantian personel hanya diizinkan dengan persetujuan PPK dan kualifikasi setara/lebih baik - Kehadiran personel kunci (PM, Tech Lead) di kantor minimal 3 hari per minggu</p>
 <ol start="2" type="1">
-<li>Memiliki pemahaman tentang sistem pengadaan barang/jasa pemerintah (SPSE, SIRUP, SIKAP);</li>
-<li>Memiliki kemampuan dalam pengembangan dashboard dan visualisasi data;</li>
-<li>Memiliki sertifikasi atau bukti kompetensi yang relevan.</li>
+<li><strong>Persyaratan Perusahaan:</strong>
+<ul>
+<li>Memiliki pengalaman minimal 2 (dua) tahun dalam pemeliharaan aplikasi berbasis web</li>
+<li>Memiliki minimal 3 (tiga) referensi proyek sejenis dari instansi pemerintah atau swasta</li>
+<li>Memiliki kantor operasional yang jelas dan dapat diverifikasi</li>
+<li>Memiliki infrastruktur pendukung (server development, testing environment)</li>
+</ul></li>
+<li><strong>Persyaratan Kompetensi:</strong>
+<ul>
+<li>Memiliki pemahaman tentang sistem pengadaan barang/jasa pemerintah (SPSE, SIRUP, SIKAP)</li>
+<li>Memiliki kemampuan dalam pengembangan dashboard dan visualisasi data</li>
+<li>Memiliki pengalaman dalam integrasi multi-sumber data</li>
+<li>Memiliki kemampuan dalam performance tuning dan optimization</li>
+</ul></li>
+<li><strong>Sertifikasi (Preferred but not mandatory):</strong>
+<ul>
+<li>Project Management Professional (PMP) / Prince2 untuk PM</li>
+<li>Database certification (Oracle, PostgreSQL, atau sejenis) untuk DBA</li>
+<li>Cloud certification (AWS, GCP, atau sejenis) untuk DevOps</li>
+<li>ITIL Foundation untuk Technical Support</li>
+<li>Certified Ethical Hacker (CEH) atau sejenis untuk security awareness</li>
+</ul></li>
+</ol>
+</section>
+<section id="c.-jaminan-dan-asuransi" class="level3">
+<h3 class="anchored" data-anchor-id="c.-jaminan-dan-asuransi">C. Jaminan dan Asuransi</h3>
+<ol type="1">
+<li><strong>Jaminan Pemeliharaan</strong>
+<ul>
+<li>Nilai: 5% dari nilai kontrak</li>
+<li>Bentuk: Bank garansi atau surety bond</li>
+<li>Masa berlaku: Selama masa kontrak + 1 bulan</li>
+<li>Dicairkan jika penyedia cidera janji atau kinerja tidak memenuhi standar</li>
+</ul></li>
+<li><strong>Jaminan Kerahasiaan Data</strong>
+<ul>
+<li>Penyedia wajib menandatangani Non-Disclosure Agreement (NDA)</li>
+<li>Sanksi pelanggaran sesuai ketentuan hukum yang berlaku</li>
+<li>Penyedia bertanggung jawab atas keamanan data yang diakses</li>
+</ul></li>
+<li><strong>Asuransi Tanggung Gugat</strong>
+<ul>
+<li>Penyedia wajib memiliki asuransi pertanggungjawaban profesional</li>
+<li>Coverage minimal Rp 500.000.000,-</li>
+<li>Untuk menutup risiko kerugian akibat kelalaian atau kesalahan</li>
+</ul></li>
+<li><strong>Masa Garansi</strong>
+<ul>
+<li>Garansi 3 (tiga) bulan setelah masa kontrak berakhir</li>
+<li>Mencakup bug fixing untuk masalah yang timbul dari pekerjaan selama masa kontrak</li>
+<li>Tidak mencakup perubahan requirement baru atau force majeure</li>
+</ul></li>
 </ol>
 <hr>
 </section>
 </section>
-<section id="ix.-metode-pelaksanaan" class="level2">
-<h2 class="anchored" data-anchor-id="ix.-metode-pelaksanaan">IX. METODE PELAKSANAAN</h2>
+<section id="x.-metode-pelaksanaan" class="level2">
+<h2 class="anchored" data-anchor-id="x.-metode-pelaksanaan">X. METODE PELAKSANAAN</h2>
 <section id="a.-manajemen-layanan" class="level3">
 <h3 class="anchored" data-anchor-id="a.-manajemen-layanan">A. Manajemen Layanan</h3>
 <ol type="1">
@@ -710,24 +1238,95 @@ th { background-color: #f0f0f0; }
 </tr>
 </tbody>
 </table>
+<p><strong>Prosedur Recovery:</strong> 1. Identifikasi tingkat kerusakan dan pilih strategi recovery 2. Restore dari backup terdekat (RTO target: 2 jam) 3. Verifikasi integritas data hasil restore 4. Testing fungsional sistem 5. Dokumentasi insiden dan langkah recovery</p>
+<p><strong>Recovery Point Objective (RPO):</strong> Maksimal 24 jam <strong>Recovery Time Objective (RTO):</strong> Maksimal 4 jam untuk sistem kritis</p>
+</section>
+<section id="d.-monitoring-dan-pelaporan" class="level3">
+<h3 class="anchored" data-anchor-id="d.-monitoring-dan-pelaporan">D. Monitoring dan Pelaporan</h3>
+<p><strong>1. Monitoring Harian:</strong> - Status availability sistem - Performa aplikasi (response time, error rate) - Kapasitas storage dan resource - Status sinkronisasi data - Alert dan notifikasi insiden</p>
+<p><strong>2. Laporan Mingguan:</strong> - Summary uptime dan downtime - Statistik penggunaan per wilayah - Insiden dan resolusi - Performa sistem (trend analysis)</p>
+<p><strong>3. Laporan Bulanan:</strong> - Executive summary ketersediaan sistem - Statistik penggunaan detail - Analisis tren performa - Daftar perubahan dan enhancement - Rekomendasi perbaikan - Plan untuk bulan berikutnya</p>
+<p><strong>4. Laporan Insiden (Sesuai Kejadian):</strong> - Kronologi kejadian - Root cause analysis - Dampak terhadap layanan - Langkah mitigasi dan resolusi - Preventive action</p>
+</section>
+<section id="e.-koordinasi-dan-komunikasi" class="level3">
+<h3 class="anchored" data-anchor-id="e.-koordinasi-dan-komunikasi">E. Koordinasi dan Komunikasi</h3>
+<p><strong>1. Mekanisme Koordinasi:</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 27%">
+<col style="width: 29%">
+<col style="width: 24%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Kegiatan</th>
+<th>Frekuensi</th>
+<th>Peserta</th>
+<th>Media</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Daily Standup</td>
+<td>Harian</td>
+<td>Tim internal</td>
+<td>Online meeting</td>
+</tr>
+<tr class="even">
+<td>Progress Review</td>
+<td>Mingguan</td>
+<td>Tim + PPK</td>
+<td>Meeting/Video call</td>
+</tr>
+<tr class="odd">
+<td>Steering Committee</td>
+<td>Bulanan</td>
+<td>Stakeholder + Tim</td>
+<td>Formal meeting</td>
+</tr>
+<tr class="even">
+<td>Incident Response</td>
+<td>Sesuai kebutuhan</td>
+<td>Tim teknis</td>
+<td>Teleconference/Chat</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2. Kanal Komunikasi:</strong> - Email: [email-support@domain.go.id] (Jam kerja) - Hotline: [Nomor telepon] (Darurat 24/7) - Ticketing System: [URL sistem tiket] (Preferred) - WhatsApp Group: [Untuk koordinasi cepat] - Knowledge Base: [URL dokumentasi]</p>
 <hr>
 </section>
 </section>
-<section id="x.-pembiayaan" class="level2">
-<h2 class="anchored" data-anchor-id="x.-pembiayaan">X. PEMBIAYAAN</h2>
+<section id="xi.-pembiayaan" class="level2">
+<h2 class="anchored" data-anchor-id="xi.-pembiayaan">XI. PEMBIAYAAN</h2>
+<section id="a.-sumber-pembiayaan" class="level3">
+<h3 class="anchored" data-anchor-id="a.-sumber-pembiayaan">A. Sumber Pembiayaan</h3>
 <p>Biaya pemeliharaan aplikasi SIP-SPSE dibebankan pada:</p>
 <ul>
 <li><strong>Mata Anggaran:</strong> [Disesuaikan dengan DPA]</li>
 <li><strong>Program:</strong> [Disesuaikan dengan DPA]</li>
 <li><strong>Kegiatan:</strong> [Disesuaikan dengan DPA]</li>
+<li><strong>Sub Kegiatan:</strong> Pemeliharaan Aplikasi Sistem Informasi Pelaporan Pengadaan</li>
 <li><strong>Tahun Anggaran:</strong> 2025</li>
+<li><strong>Sumber Dana:</strong> APBD Provinsi Kalimantan Barat</li>
 </ul>
-<p>Rincian komponen biaya:</p>
+</section>
+<section id="b.-rincian-komponen-biaya" class="level3">
+<h3 class="anchored" data-anchor-id="b.-rincian-komponen-biaya">B. Rincian Komponen Biaya</h3>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 16%">
+<col style="width: 22%">
+<col style="width: 34%">
+<col style="width: 19%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>No</th>
 <th>Komponen</th>
+<th>Sub Komponen</th>
+<th>Persentase Estimasi</th>
 <th>Keterangan</th>
 </tr>
 </thead>
@@ -735,35 +1334,1031 @@ th { background-color: #f0f0f0; }
 <tr class="odd">
 <td>1</td>
 <td>Biaya Tenaga Ahli</td>
-<td>Gaji tim pemeliharaan</td>
+<td>- Project Manager<br>- Technical Lead<br>- Full Stack Developer (2)<br>- Database Administrator<br>- DevOps Engineer<br>- Technical Support (2)</td>
+<td>60-70%</td>
+<td>Gaji dan tunjangan tim pemeliharaan selama 12 bulan</td>
 </tr>
 <tr class="even">
 <td>2</td>
 <td>Biaya Infrastruktur</td>
-<td>Server, storage, bandwidth</td>
+<td>- Server/Cloud hosting<br>- Storage (S3-compatible)<br>- Bandwidth<br>- Backup storage<br>- Monitoring tools</td>
+<td>15-20%</td>
+<td>Biaya operasional infrastruktur 12 bulan</td>
 </tr>
 <tr class="odd">
 <td>3</td>
 <td>Biaya Lisensi</td>
-<td>Software berlisensi (jika ada)</td>
+<td>- Software berlisensi (jika ada)<br>- SSL certificate<br>- Security tools<br>- Monitoring services</td>
+<td>3-5%</td>
+<td>License renewal dan subscription</td>
 </tr>
 <tr class="even">
 <td>4</td>
 <td>Biaya Operasional</td>
-<td>Transportasi, komunikasi</td>
+<td>- Transportasi<br>- Komunikasi<br>- Meeting &amp; koordinasi<br>- Dokumentasi &amp; pelaporan</td>
+<td>5-8%</td>
+<td>Biaya operasional rutin</td>
 </tr>
 <tr class="odd">
 <td>5</td>
 <td>Biaya Lain-lain</td>
-<td>Kontingensi</td>
+<td>- Kontingensi<br>- Emergency response<br>- Pelatihan<br>- Sertifikasi</td>
+<td>5-7%</td>
+<td>Buffer untuk kebutuhan tak terduga</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="c.-tata-cara-pembayaran" class="level3">
+<h3 class="anchored" data-anchor-id="c.-tata-cara-pembayaran">C. Tata Cara Pembayaran</h3>
+<p><strong>1. Mekanisme Pembayaran:</strong></p>
+<p>Pembayaran dilakukan secara bertahap (termin) sebagai berikut:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 31%">
+<col style="width: 21%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Termin</th>
+<th>Waktu Pembayaran</th>
+<th>Persentase</th>
+<th>Syarat Pembayaran</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Bulan ke-1</td>
+<td>15%</td>
+<td>• Serah terima awal<br>• Berita Acara Handover<br>• Laporan bulan pertama</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Bulan ke-2</td>
+<td>8%</td>
+<td>• Laporan bulanan lengkap<br>• System uptime ≥ 99%<br>• Tidak ada sanksi</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Bulan ke-3</td>
+<td>8%</td>
+<td>• Laporan bulanan lengkap<br>• System uptime ≥ 99%<br>• Tidak ada sanksi</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Bulan ke-4</td>
+<td>8%</td>
+<td>• Laporan bulanan lengkap<br>• System uptime ≥ 99%<br>• Tidak ada sanksi</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Bulan ke-5</td>
+<td>8%</td>
+<td>• Laporan bulanan lengkap<br>• System uptime ≥ 99%<br>• Tidak ada sanksi</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Bulan ke-6</td>
+<td>8%</td>
+<td>• Laporan bulanan lengkap<br>• System uptime ≥ 99%<br>• Evaluasi tengah periode<br>• Tidak ada sanksi</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Bulan ke-7</td>
+<td>7%</td>
+<td>• Laporan bulanan lengkap<br>• System uptime ≥ 99%<br>• Tidak ada sanksi</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Bulan ke-8</td>
+<td>7%</td>
+<td>• Laporan bulanan lengkap<br>• System uptime ≥ 99%<br>• Tidak ada sanksi</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Bulan ke-9</td>
+<td>7%</td>
+<td>• Laporan bulanan lengkap<br>• System uptime ≥ 99%<br>• Tidak ada sanksi</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Bulan ke-10</td>
+<td>7%</td>
+<td>• Laporan bulanan lengkap<br>• System uptime ≥ 99%<br>• Tidak ada sanksi</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>Bulan ke-11</td>
+<td>7%</td>
+<td>• Laporan bulanan lengkap<br>• System uptime ≥ 99%<br>• Tidak ada sanksi</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>Bulan ke-12</td>
+<td>10%</td>
+<td>• Laporan bulanan lengkap<br>• Laporan akhir komprehensif<br>• Serah terima akhir<br>• System uptime ≥ 99%<br>• Tidak ada outstanding issues<br>• Tidak ada sanksi<br>• Knowledge transfer selesai</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total: 100%</strong></p>
+<p><strong>2. Dokumen Persyaratan Pembayaran:</strong></p>
+<p>Setiap termin pembayaran harus dilengkapi dengan: - Kuitansi bermaterai - Faktur pajak (jika PKP) - Berita Acara Pemeriksaan Pekerjaan - Laporan sesuai periode (bulanan atau akhir) - Bukti pemenuhan KPI periode terkait - Surat pernyataan tidak ada sanksi yang belum diselesaikan - SPTJM (Surat Pertanggungjawaban Mutlak) kebenaran dokumen</p>
+<p><strong>3. Proses Verifikasi Pembayaran:</strong></p>
+<ol type="1">
+<li>Penyedia mengajukan tagihan dengan melampirkan dokumen lengkap</li>
+<li>PPK melakukan verifikasi dokumen dan kinerja (maks 5 hari kerja)</li>
+<li>Jika memenuhi syarat, PPK menerbitkan Berita Acara Pemeriksaan</li>
+<li>Dokumen diteruskan ke Bendahara untuk proses pembayaran</li>
+<li>Pembayaran dilakukan sesuai mekanisme APBD (maks 14 hari kerja setelah verifikasi)</li>
+</ol>
+<p><strong>4. Pemotongan dan Pajak:</strong></p>
+<p>Pembayaran akan dipotong: - PPh Pasal 23 sebesar 2% (untuk jasa) - PPN 11% (jika penyedia adalah PKP) - Denda/sanksi (jika ada)</p>
+<p><strong>5. Retensi:</strong></p>
+<p>Tidak ada retensi khusus, namun: - Pembayaran termin terakhir (10%) baru dilakukan setelah serah terima akhir - Jaminan pemeliharaan tetap berlaku hingga +1 bulan setelah kontrak</p>
+<hr>
+</section>
+</section>
+<section id="xii.-kriteria-evaluasi-kinerja" class="level2">
+<h2 class="anchored" data-anchor-id="xii.-kriteria-evaluasi-kinerja">XII. KRITERIA EVALUASI KINERJA</h2>
+<p>Evaluasi kinerja penyedia akan dilakukan secara berkala berdasarkan parameter berikut:</p>
+<section id="a.-key-performance-indicator-kpi" class="level3">
+<h3 class="anchored" data-anchor-id="a.-key-performance-indicator-kpi">A. Key Performance Indicator (KPI)</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 8%">
+<col style="width: 22%">
+<col style="width: 16%">
+<col style="width: 14%">
+<col style="width: 38%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>No</th>
+<th>Indikator</th>
+<th>Target</th>
+<th>Bobot</th>
+<th>Metode Pengukuran</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>System Uptime</td>
+<td>≥ 99%</td>
+<td>25%</td>
+<td>Monitoring tool log</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Response Time</td>
+<td>&lt; 3 detik</td>
+<td>15%</td>
+<td>Performance monitoring</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Incident Resolution Time</td>
+<td>Sesuai SLA</td>
+<td>20%</td>
+<td>Ticketing system data</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Data Synchronization Success</td>
+<td>≥ 98%</td>
+<td>15%</td>
+<td>Sync log analysis</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>User Satisfaction</td>
+<td>≥ 4.0/5.0</td>
+<td>10%</td>
+<td>Survey triwulanan</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Documentation Quality</td>
+<td>Lengkap &amp; up-to-date</td>
+<td>5%</td>
+<td>Document review</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Proactive Monitoring</td>
+<td>100% adherence</td>
+<td>5%</td>
+<td>Monitoring checklist</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Change Success Rate</td>
+<td>≥ 95%</td>
+<td>5%</td>
+<td>Change management log</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="b.-penilaian-kinerja" class="level3">
+<h3 class="anchored" data-anchor-id="b.-penilaian-kinerja">B. Penilaian Kinerja</h3>
+<p><strong>Kategori Nilai:</strong> - <strong>Sangat Baik (90-100):</strong> Bonus reputasi untuk pekerjaan selanjutnya - <strong>Baik (80-89):</strong> Kinerja sesuai harapan - <strong>Cukup (70-79):</strong> Perlu perbaikan, peringatan tertulis - <strong>Kurang (&lt; 70):</strong> Denda sesuai ketentuan kontrak</p>
+<p><strong>Periode Evaluasi:</strong> - Evaluasi bulanan untuk KPI operasional - Evaluasi triwulanan untuk kepuasan pengguna - Evaluasi semesteran untuk kinerja keseluruhan - Evaluasi akhir tahun untuk perpanjangan kontrak</p>
+<hr>
+</section>
+</section>
+<section id="xiii.-manajemen-risiko" class="level2">
+<h2 class="anchored" data-anchor-id="xiii.-manajemen-risiko">XIII. MANAJEMEN RISIKO</h2>
+<section id="a.-identifikasi-risiko" class="level3">
+<h3 class="anchored" data-anchor-id="a.-identifikasi-risiko">A. Identifikasi Risiko</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 31%">
+<col style="width: 22%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>No</th>
+<th>Risiko</th>
+<th>Dampak</th>
+<th>Probabilitas</th>
+<th>Mitigasi</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Perubahan API sumber data eksternal</td>
+<td>Tinggi</td>
+<td>Sedang</td>
+<td>Monitoring API changes, adaptasi cepat, redundansi data source</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Lonjakan traffic di akhir periode</td>
+<td>Sedang</td>
+<td>Tinggi</td>
+<td>Auto-scaling, load balancing, cache optimization</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Kehilangan data akibat kegagalan sistem</td>
+<td>Tinggi</td>
+<td>Rendah</td>
+<td>Backup berkala, disaster recovery plan, redundant storage</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Serangan keamanan siber</td>
+<td>Tinggi</td>
+<td>Sedang</td>
+<td>Security hardening, regular patching, penetration testing</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Ketergantungan pada personel kunci</td>
+<td>Sedang</td>
+<td>Sedang</td>
+<td>Knowledge transfer, dokumentasi lengkap, backup team</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Perubahan regulasi LKPP mendadak</td>
+<td>Sedang</td>
+<td>Sedang</td>
+<td>Monitoring regulasi, arsitektur adaptif, consultation with LKPP</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Keterbatasan anggaran pemeliharaan</td>
+<td>Sedang</td>
+<td>Rendah</td>
+<td>Optimasi resource, prioritas fitur, cost control</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Kegagalan infrastruktur cloud/hosting</td>
+<td>Tinggi</td>
+<td>Rendah</td>
+<td>Multi-AZ deployment, disaster recovery site, SLA provider</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="b.-rencana-kontingensi" class="level3">
+<h3 class="anchored" data-anchor-id="b.-rencana-kontingensi">B. Rencana Kontingensi</h3>
+<p><strong>1. Sistem Down Total (Severity: Critical)</strong> - Aktivasi tim emergency response dalam 30 menit - Komunikasi ke semua stakeholder - Rollback ke versi stabil terakhir - Aktivasi disaster recovery jika diperlukan - Post-mortem analysis wajib dilakukan</p>
+<p><strong>2. Kegagalan Sinkronisasi Data (Severity: High)</strong> - Identifikasi sumber masalah (API down/format changed) - Gunakan data cache terakhir - Manual sync jika memungkinkan - Koordinasi dengan LKPP jika masalah dari source - Update user tentang delay data</p>
+<p><strong>3. Performa Menurun (Severity: Medium)</strong> - Analisis bottleneck (query, cache, network) - Optimasi query dan cache - Scaling resource jika diperlukan - Review dan refactoring code</p>
+<hr>
+</section>
+</section>
+<section id="xiv.-ketentuan-sanksi-dan-denda" class="level2">
+<h2 class="anchored" data-anchor-id="xiv.-ketentuan-sanksi-dan-denda">XIV. KETENTUAN SANKSI DAN DENDA</h2>
+<section id="a.-jenis-pelanggaran-dan-sanksi" class="level3">
+<h3 class="anchored" data-anchor-id="a.-jenis-pelanggaran-dan-sanksi">A. Jenis Pelanggaran dan Sanksi</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 50%">
+<col style="width: 21%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>No</th>
+<th>Jenis Pelanggaran</th>
+<th>Sanksi</th>
+<th>Denda</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Uptime &lt; 95%</td>
+<td>Peringatan tertulis ke-1</td>
+<td>0.5% nilai kontrak per bulan</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Uptime &lt; 90%</td>
+<td>Peringatan tertulis ke-2</td>
+<td>1% nilai kontrak per bulan</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Uptime &lt; 85%</td>
+<td>Pemutusan kontrak</td>
+<td>5% nilai kontrak</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Keterlambatan laporan bulanan &gt; 5 hari</td>
+<td>Peringatan tertulis</td>
+<td>Rp 500.000 per hari</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Tidak merespon insiden kritis &gt; 2 jam</td>
+<td>Peringatan tertulis</td>
+<td>0.1% nilai kontrak per kejadian</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Kehilangan data tanpa backup</td>
+<td>Pemutusan kontrak</td>
+<td>10% nilai kontrak + ganti rugi</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Pelanggaran keamanan data</td>
+<td>Pemutusan kontrak</td>
+<td>Sesuai kerugian yang timbul</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Ketidakhadiran meeting tanpa pemberitahuan</td>
+<td>Teguran lisan</td>
+<td>Rp 250.000 per kejadian</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="b.-mekanisme-pengenaan-sanksi" class="level3">
+<h3 class="anchored" data-anchor-id="b.-mekanisme-pengenaan-sanksi">B. Mekanisme Pengenaan Sanksi</h3>
+<ol type="1">
+<li>Identifikasi pelanggaran berdasarkan monitoring atau laporan</li>
+<li>Verifikasi pelanggaran oleh PPK dan tim teknis</li>
+<li>Pemberitahuan tertulis kepada penyedia (maks 3 hari kerja)</li>
+<li>Kesempatan klarifikasi dari penyedia (2 hari kerja)</li>
+<li>Keputusan final dari PPK</li>
+<li>Pengenaan sanksi dan pemotongan pembayaran</li>
+</ol>
+</section>
+<section id="c.-ketentuan-force-majeure" class="level3">
+<h3 class="anchored" data-anchor-id="c.-ketentuan-force-majeure">C. Ketentuan Force Majeure</h3>
+<p>Sanksi tidak diberlakukan untuk kondisi force majeure yang meliputi: - Bencana alam (gempa bumi, banjir, kebakaran) - Kerusuhan atau huru-hara - Perang atau kondisi darurat nasional - Kebijakan pemerintah yang berdampak langsung - Gangguan infrastruktur dari pihak ketiga di luar kendali</p>
+<p><strong>Syarat pengakuan force majeure:</strong> - Pemberitahuan dalam 2x24 jam sejak kejadian - Bukti dokumentasi kejadian - Upaya mitigasi yang telah dilakukan - Persetujuan dari PPK</p>
+<hr>
+</section>
+</section>
+<section id="xv.-kriteria-penerimaan-pekerjaan" class="level2">
+<h2 class="anchored" data-anchor-id="xv.-kriteria-penerimaan-pekerjaan">XV. KRITERIA PENERIMAAN PEKERJAAN</h2>
+<section id="a.-kriteria-penerimaan-bulanan" class="level3">
+<h3 class="anchored" data-anchor-id="a.-kriteria-penerimaan-bulanan">A. Kriteria Penerimaan Bulanan</h3>
+<p>Pekerjaan dinyatakan diterima setiap bulan jika memenuhi:</p>
+<ol type="1">
+<li><strong>Ketersediaan Sistem:</strong>
+<ul>
+<li>Uptime mencapai target minimal 99%</li>
+<li>Tidak ada downtime tidak terencana &gt; 2 jam</li>
+</ul></li>
+<li><strong>Penanganan Insiden:</strong>
+<ul>
+<li>Semua insiden kritis terselesaikan sesuai SLA</li>
+<li>Dokumentasi lengkap untuk setiap insiden</li>
+</ul></li>
+<li><strong>Pelaporan:</strong>
+<ul>
+<li>Laporan bulanan diserahkan tepat waktu</li>
+<li>Laporan lengkap sesuai format yang ditentukan</li>
+</ul></li>
+<li><strong>Sinkronisasi Data:</strong>
+<ul>
+<li>Data tersinkronisasi sesuai jadwal</li>
+<li>Data accuracy rate ≥ 98%</li>
+</ul></li>
+</ol>
+</section>
+<section id="b.-kriteria-penerimaan-akhir-serah-terima-pekerjaan" class="level3">
+<h3 class="anchored" data-anchor-id="b.-kriteria-penerimaan-akhir-serah-terima-pekerjaan">B. Kriteria Penerimaan Akhir (Serah Terima Pekerjaan)</h3>
+<p>Pekerjaan dinyatakan selesai dan diterima jika memenuhi:</p>
+<ol type="1">
+<li><strong>Dokumen Serah Terima:</strong>
+<ul>
+<li>Laporan akhir komprehensif</li>
+<li>Dokumentasi sistem terupdate</li>
+<li>Panduan operasional dan troubleshooting</li>
+<li>Source code dan konfigurasi (jika ada perubahan)</li>
+<li>Dokumentasi perubahan selama masa kontrak</li>
+</ul></li>
+<li><strong>Knowledge Transfer:</strong>
+<ul>
+<li>Pelatihan kepada tim internal</li>
+<li>Sesi handover dengan dokumentasi</li>
+<li>Transfer akses dan kredensial</li>
+</ul></li>
+<li><strong>Kondisi Sistem:</strong>
+<ul>
+<li>Sistem berjalan normal dan stabil</li>
+<li>Tidak ada bug kritis yang outstanding</li>
+<li>Semua fitur berfungsi sesuai spesifikasi</li>
+<li>Backup data terbaru tersedia</li>
+</ul></li>
+<li><strong>Administrasi:</strong>
+<ul>
+<li>Semua laporan bulanan lengkap</li>
+<li>Tidak ada sanksi yang belum diselesaikan</li>
+<li>Berita Acara Serah Terima ditandatangani</li>
+</ul></li>
+</ol>
+</section>
+<section id="c.-user-acceptance-test-uat" class="level3">
+<h3 class="anchored" data-anchor-id="c.-user-acceptance-test-uat">C. User Acceptance Test (UAT)</h3>
+<p>Untuk setiap perubahan signifikan atau enhancement:</p>
+<ol type="1">
+<li><strong>Persiapan UAT:</strong>
+<ul>
+<li>Test case disusun bersama PPK</li>
+<li>Environment testing disiapkan</li>
+<li>Test data representatif</li>
+</ul></li>
+<li><strong>Pelaksanaan UAT:</strong>
+<ul>
+<li>Eksekusi test case oleh tim PPK</li>
+<li>Dokumentasi hasil testing</li>
+<li>Identifikasi bug/issue</li>
+</ul></li>
+<li><strong>Kriteria Pass UAT:</strong>
+<ul>
+<li>100% critical test case passed</li>
+<li>&lt; 5% non-critical issues</li>
+<li>Performance sesuai requirement</li>
+</ul></li>
+<li><strong>Sign-off:</strong>
+<ul>
+<li>Berita Acara UAT ditandatangani</li>
+<li>Issue list untuk follow-up</li>
+<li>Jadwal deployment ke production</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="xvi.-hak-dan-kewajiban" class="level2">
+<h2 class="anchored" data-anchor-id="xvi.-hak-dan-kewajiban">XVI. HAK DAN KEWAJIBAN</h2>
+<section id="a.-hak-penyedia-jasa" class="level3">
+<h3 class="anchored" data-anchor-id="a.-hak-penyedia-jasa">A. Hak Penyedia Jasa</h3>
+<ol type="1">
+<li>Menerima pembayaran sesuai kontrak dan jadwal yang disepakati</li>
+<li>Mendapatkan akses ke sistem dan infrastruktur yang diperlukan</li>
+<li>Mendapatkan informasi dan data yang diperlukan untuk pemeliharaan</li>
+<li>Mengajukan perubahan lingkup pekerjaan jika ada perubahan requirement</li>
+<li>Mendapatkan dukungan dari tim internal untuk koordinasi</li>
+</ol>
+</section>
+<section id="b.-kewajiban-penyedia-jasa" class="level3">
+<h3 class="anchored" data-anchor-id="b.-kewajiban-penyedia-jasa">B. Kewajiban Penyedia Jasa</h3>
+<ol type="1">
+<li>Melaksanakan pekerjaan sesuai KAK dan kontrak</li>
+<li>Menjaga kerahasiaan data dan informasi</li>
+<li>Menyediakan tenaga ahli sesuai kualifikasi yang dipersyaratkan</li>
+<li>Membuat laporan berkala sesuai ketentuan</li>
+<li>Bertanggung jawab atas kualitas pekerjaan</li>
+<li>Mengikuti prosedur dan kebijakan yang berlaku</li>
+<li>Memberikan garansi untuk pekerjaan yang dilakukan</li>
+<li>Melakukan knowledge transfer di akhir periode</li>
+</ol>
+</section>
+<section id="c.-hak-pemberi-kerja-ppk" class="level3">
+<h3 class="anchored" data-anchor-id="c.-hak-pemberi-kerja-ppk">C. Hak Pemberi Kerja (PPK)</h3>
+<ol type="1">
+<li>Mendapatkan layanan pemeliharaan sesuai KAK</li>
+<li>Meminta laporan dan dokumentasi pekerjaan</li>
+<li>Melakukan evaluasi kinerja secara berkala</li>
+<li>Meminta perubahan atau enhancement sesuai kebutuhan</li>
+<li>Menolak pekerjaan yang tidak sesuai spesifikasi</li>
+<li>Memberikan sanksi atas pelanggaran kontrak</li>
+<li>Memutuskan kontrak jika terjadi pelanggaran serius</li>
+</ol>
+</section>
+<section id="d.-kewajiban-pemberi-kerja-ppk" class="level3">
+<h3 class="anchored" data-anchor-id="d.-kewajiban-pemberi-kerja-ppk">D. Kewajiban Pemberi Kerja (PPK)</h3>
+<ol type="1">
+<li>Melakukan pembayaran sesuai termin dan ketentuan</li>
+<li>Menyediakan akses dan infrastruktur yang diperlukan</li>
+<li>Memberikan informasi dan koordinasi yang dibutuhkan</li>
+<li>Melakukan evaluasi secara objektif dan transparan</li>
+<li>Menyediakan narasumber untuk konsultasi teknis</li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="xvii.-ketentuan-perubahan-kontrak" class="level2">
+<h2 class="anchored" data-anchor-id="xvii.-ketentuan-perubahan-kontrak">XVII. KETENTUAN PERUBAHAN KONTRAK</h2>
+<section id="a.-addendum-kontrak" class="level3">
+<h3 class="anchored" data-anchor-id="a.-addendum-kontrak">A. Addendum Kontrak</h3>
+<p>Perubahan terhadap kontrak dapat dilakukan melalui addendum dengan ketentuan:</p>
+<ol type="1">
+<li><strong>Perubahan yang Diizinkan:</strong>
+<ul>
+<li>Perubahan lingkup pekerjaan minor (&lt; 10% nilai kontrak)</li>
+<li>Perubahan personel dengan kualifikasi setara atau lebih baik</li>
+<li>Penyesuaian jadwal karena force majeure</li>
+<li>Perubahan spesifikasi teknis karena regulasi baru</li>
+<li>Penambahan/pengurangan fitur sesuai kebutuhan</li>
+</ul></li>
+<li><strong>Prosedur Perubahan:</strong>
+<ul>
+<li>Penyedia mengajukan permohonan tertulis dengan justifikasi</li>
+<li>PPK melakukan kajian dan verifikasi</li>
+<li>Negosiasi perubahan dan dampaknya</li>
+<li>Persetujuan dari pejabat berwenang</li>
+<li>Penandatanganan addendum kontrak</li>
+<li>Sosialisasi perubahan kepada stakeholder</li>
+</ul></li>
+<li><strong>Batasan Perubahan:</strong>
+<ul>
+<li>Total perubahan maksimal 10% dari nilai kontrak awal</li>
+<li>Tidak boleh merubah esensi/tujuan utama pekerjaan</li>
+<li>Harus sesuai dengan peraturan pengadaan yang berlaku</li>
+<li>Tidak boleh merugikan negara</li>
+</ul></li>
+</ol>
+</section>
+<section id="b.-perpanjangan-kontrak" class="level3">
+<h3 class="anchored" data-anchor-id="b.-perpanjangan-kontrak">B. Perpanjangan Kontrak</h3>
+<ol type="1">
+<li><strong>Ketentuan Perpanjangan:</strong>
+<ul>
+<li>Perpanjangan dapat dilakukan maksimal 1 (satu) kali untuk periode 12 bulan</li>
+<li>Syarat: Kinerja periode sebelumnya minimal kategori “Baik” (≥ 80)</li>
+<li>Harus ada ketersediaan anggaran di tahun berikutnya</li>
+<li>Didasarkan pada kebutuhan operasional yang berkelanjutan</li>
+</ul></li>
+<li><strong>Prosedur Perpanjangan:</strong>
+<ul>
+<li>Evaluasi kinerja menyeluruh di bulan ke-10</li>
+<li>Rekomendasi perpanjangan dari PPK</li>
+<li>Persetujuan dari pejabat berwenang</li>
+<li>Negosiasi harga (jika ada penyesuaian)</li>
+<li>Penerbitan SPK perpanjangan</li>
+</ul></li>
+</ol>
+</section>
+<section id="c.-pemutusan-kontrak" class="level3">
+<h3 class="anchored" data-anchor-id="c.-pemutusan-kontrak">C. Pemutusan Kontrak</h3>
+<p><strong>1. Pemutusan oleh Pemberi Kerja:</strong></p>
+<p>Kontrak dapat diputuskan sepihak oleh PPK jika: - Penyedia cidera janji berat (uptime &lt; 85% berturut-turut 2 bulan) - Penyedia tidak mampu melanjutkan pekerjaan - Penyedia melakukan pelanggaran serius (kehilangan data, breach keamanan) - Penyedia pailit atau mengalami masalah hukum serius</p>
+<p>Konsekuensi: - Pencairan jaminan pemeliharaan - Blacklist sesuai ketentuan LKPP - Tuntutan ganti rugi jika ada kerugian negara - Pekerjaan dilanjutkan oleh penyedia lain</p>
+<p><strong>2. Pemutusan oleh Penyedia:</strong></p>
+<p>Penyedia dapat mengajukan pemutusan jika: - Pemberi kerja tidak melakukan pembayaran &gt; 3 bulan berturut-turut tanpa alasan yang sah - Force majeure yang berkepanjangan - Perubahan lingkup pekerjaan yang fundamental tanpa penyesuaian kontrak</p>
+<p>Prosedur: - Pemberitahuan tertulis 30 hari sebelumnya - Negosiasi penyelesaian - Serah terima pekerjaan yang sudah dilakukan - Pembayaran sesuai progres pekerjaan</p>
+<p><strong>3. Pemutusan Bersama:</strong></p>
+<p>Dapat dilakukan dengan kesepakatan kedua belah pihak dengan syarat: - Tidak merugikan kepentingan negara - Ada kompensasi yang adil untuk kedua belah pihak - Dilakukan serah terima pekerjaan dengan baik</p>
+<hr>
+</section>
+</section>
+<section id="xviii.-penyelesaian-perselisihan" class="level2">
+<h2 class="anchored" data-anchor-id="xviii.-penyelesaian-perselisihan">XVIII. PENYELESAIAN PERSELISIHAN</h2>
+<section id="a.-hierarki-penyelesaian" class="level3">
+<h3 class="anchored" data-anchor-id="a.-hierarki-penyelesaian">A. Hierarki Penyelesaian</h3>
+<p><strong>1. Musyawarah (Tingkat Pertama):</strong> - Perselisihan diselesaikan terlebih dahulu melalui musyawarah - Melibatkan Project Manager dan PPK - Waktu maksimal: 14 hari kerja - Hasil dicatat dalam Berita Acara</p>
+<p><strong>2. Mediasi (Tingkat Kedua):</strong> - Jika musyawarah gagal, dilakukan mediasi - Melibatkan pejabat yang lebih tinggi dari kedua belah pihak - Dapat melibatkan mediator independen - Waktu maksimal: 30 hari kerja - Hasil mediasi bersifat mengikat jika disepakati</p>
+<p><strong>3. Arbitrase atau Pengadilan (Tingkat Ketiga):</strong> - Jika mediasi gagal, dapat ditempuh jalur arbitrase atau pengadilan - Arbitrase melalui Badan Arbitrase Nasional Indonesia (BANI) - Atau melalui Pengadilan Negeri di wilayah pemberi kerja - Keputusan bersifat final dan mengikat</p>
+</section>
+<section id="b.-jenis-perselisihan" class="level3">
+<h3 class="anchored" data-anchor-id="b.-jenis-perselisihan">B. Jenis Perselisihan</h3>
+<p><strong>1. Perselisihan Teknis:</strong> - Interpretasi spesifikasi teknis - Kriteria penerimaan pekerjaan - Performance metrics dan KPI - Diselesaikan melalui expert judgment atau konsultan independen</p>
+<p><strong>2. Perselisihan Komersial:</strong> - Pembayaran dan penagihan - Denda dan sanksi - Perubahan lingkup dan harga - Diselesaikan sesuai ketentuan kontrak dan peraturan yang berlaku</p>
+<p><strong>3. Perselisihan Force Majeure:</strong> - Pengakuan kondisi force majeure - Dampak terhadap kewajiban para pihak - Kompensasi atau perpanjangan waktu - Diselesaikan dengan mempertimbangkan bukti dan kondisi faktual</p>
+</section>
+<section id="c.-prinsip-penyelesaian" class="level3">
+<h3 class="anchored" data-anchor-id="c.-prinsip-penyelesaian">C. Prinsip Penyelesaian</h3>
+<ol type="1">
+<li><strong>Itikad Baik:</strong>
+<ul>
+<li>Kedua belah pihak wajib beritikad baik dalam penyelesaian</li>
+<li>Mengutamakan kepentingan kelancaran pekerjaan</li>
+<li>Menghindari tindakan yang merugikan pihak lain</li>
+</ul></li>
+<li><strong>Transparansi:</strong>
+<ul>
+<li>Semua informasi relevan diungkapkan</li>
+<li>Dokumentasi lengkap dan akurat</li>
+<li>Komunikasi terbuka dan jujur</li>
+</ul></li>
+<li><strong>Win-Win Solution:</strong>
+<ul>
+<li>Mencari solusi yang menguntungkan kedua belah pihak</li>
+<li>Mempertimbangkan kepentingan jangka panjang</li>
+<li>Menjaga hubungan baik</li>
+</ul></li>
+<li><strong>Kepatuhan Hukum:</strong>
+<ul>
+<li>Penyelesaian sesuai peraturan perundangan yang berlaku</li>
+<li>Mempertimbangkan ketentuan pengadaan barang/jasa pemerintah</li>
+<li>Tidak melanggar kode etik dan integritas</li>
+</ul></li>
+</ol>
+<hr>
+</section>
+</section>
+<section id="xix.-lampiran" class="level2">
+<h2 class="anchored" data-anchor-id="xix.-lampiran">XIX. LAMPIRAN</h2>
+<section id="lampiran-a-format-laporan-bulanan" class="level3">
+<h3 class="anchored" data-anchor-id="lampiran-a-format-laporan-bulanan">Lampiran A: Format Laporan Bulanan</h3>
+<p><strong>LAPORAN PEMELIHARAAN APLIKASI SIP-SPSE</strong> <strong>BULAN: [Bulan] TAHUN: [Tahun]</strong></p>
+<p><strong>I. RINGKASAN EKSEKUTIF</strong> - Overview ketersediaan sistem bulan ini - Highlight pencapaian dan isu utama - Rekomendasi kunci</p>
+<p><strong>II. STATISTIK SISTEM</strong> - Uptime/Downtime - Response time rata-rata - Jumlah pengguna aktif - Volume data yang diproses</p>
+<p><strong>III. AKTIVITAS PEMELIHARAAN</strong> - Preventive maintenance yang dilakukan - Corrective maintenance (bug fixes) - Adaptive maintenance (penyesuaian) - Perfective maintenance (enhancement)</p>
+<p><strong>IV. INSIDEN DAN PENANGANAN</strong> | No | Tanggal | Kategori | Deskripsi | Status | Waktu Resolusi | |—-|———|———-|———–|——–|—————-| | | | | | | |</p>
+<p><strong>V. SINKRONISASI DATA</strong> | Sumber | Frekuensi | Success Rate | Isu | Tindakan | |——–|———–|————–|—–|———-| | SIRUP | Harian | | | | | SPSE | Harian | | | | | SIKAP | Mingguan | | | | | E-Katalog | Mingguan | | | | | BELA | Mingguan | | | |</p>
+<p><strong>VI. PERFORMA SISTEM</strong> - Grafik uptime - Grafik response time - Grafik penggunaan resource - Analisis tren</p>
+<p><strong>VII. RENCANA BULAN DEPAN</strong> - Scheduled maintenance - Enhancement yang direncanakan - Potensi risiko dan mitigasi</p>
+<p><strong>VIII. LAMPIRAN</strong> - Screenshot monitoring - Log insiden detail - Dokumentasi perubahan</p>
+<hr>
+</section>
+<section id="lampiran-b-format-berita-acara-serah-terima" class="level3">
+<h3 class="anchored" data-anchor-id="lampiran-b-format-berita-acara-serah-terima">Lampiran B: Format Berita Acara Serah Terima</h3>
+<p><strong>BERITA ACARA SERAH TERIMA PEKERJAAN</strong> <strong>PEMELIHARAAN APLIKASI SIP-SPSE</strong></p>
+<p>Pada hari ini [hari], tanggal [tanggal], bulan [bulan], tahun [tahun], yang bertanda tangan di bawah ini:</p>
+<p><strong>PIHAK PERTAMA:</strong> Nama : [Nama PPK] Jabatan : Pejabat Pembuat Komitmen NIP : [NIP] Instansi : [Nama SKPD]</p>
+<p>Selanjutnya disebut sebagai <strong>PIHAK PERTAMA</strong></p>
+<p><strong>PIHAK KEDUA:</strong> Nama Perusahaan : [Nama Penyedia] Direktur : [Nama Direktur] NPWP : [NPWP] Alamat : [Alamat]</p>
+<p>Selanjutnya disebut sebagai <strong>PIHAK KEDUA</strong></p>
+<p>Dengan ini menyatakan bahwa:</p>
+<ol type="1">
+<li>PIHAK KEDUA telah menyelesaikan pekerjaan sesuai kontrak</li>
+<li>PIHAK PERTAMA telah memeriksa dan menerima hasil pekerjaan</li>
+<li>Dokumentasi dan knowledge transfer telah dilaksanakan</li>
+<li>Sistem berjalan normal dan stabil</li>
+</ol>
+<p><strong>Dokumen yang diserahkan:</strong> - [ ] Laporan akhir pemeliharaan - [ ] Dokumentasi teknis sistem - [ ] Source code dan konfigurasi (jika ada perubahan) - [ ] Panduan operasional - [ ] Backup data terbaru - [ ] Akses dan kredensial sistem</p>
+<p><strong>Kondisi Sistem:</strong> - Uptime rata-rata periode kontrak: […]% - Status: Normal/Stabil - Outstanding issues: […]</p>
+<p>Demikian Berita Acara ini dibuat untuk dipergunakan sebagaimana mestinya.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>PIHAK PERTAMA</th>
+<th>PIHAK KEDUA</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>[TTD &amp; Materai]</td>
+<td>[TTD &amp; Materai]</td>
+</tr>
+<tr class="even">
+<td>[Nama]</td>
+<td>[Nama]</td>
+</tr>
+<tr class="odd">
+<td>NIP. […]</td>
+<td>Direktur</td>
 </tr>
 </tbody>
 </table>
 <hr>
 </section>
-<section id="xi.-penutup" class="level2">
-<h2 class="anchored" data-anchor-id="xi.-penutup">XI. PENUTUP</h2>
-<p>Kerangka Acuan Kerja ini disusun sebagai pedoman dalam pelaksanaan kegiatan Pemeliharaan Aplikasi SIP-SPSE Tahun Anggaran 2025. Hal-hal yang belum diatur dalam KAK ini akan diatur kemudian sesuai dengan ketentuan yang berlaku.</p>
+<section id="lampiran-c-service-level-agreement-sla-detail" class="level3">
+<h3 class="anchored" data-anchor-id="lampiran-c-service-level-agreement-sla-detail">Lampiran C: Service Level Agreement (SLA) Detail</h3>
+<p><strong>1. AVAILABILITY SLA</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 21%">
+<col style="width: 34%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Target</th>
+<th>Measurement</th>
+<th>Penalty</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Monthly Uptime</td>
+<td>≥ 99.0%</td>
+<td>Automated monitoring</td>
+<td>0.5% contract value per month below target</td>
+</tr>
+<tr class="even">
+<td>Quarterly Uptime</td>
+<td>≥ 99.2%</td>
+<td>Automated monitoring</td>
+<td>Additional 0.3% contract value</td>
+</tr>
+<tr class="odd">
+<td>Annual Uptime</td>
+<td>≥ 99.5%</td>
+<td>Automated monitoring</td>
+<td>Performance review impact</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Excluded from Uptime Calculation:</strong> - Scheduled maintenance windows (max 4 hours/month, notified 7 days prior) - Force majeure events - Issues caused by third-party systems (LKPP APIs) - DDoS attacks or security incidents beyond control</p>
+<p><strong>2. RESPONSE TIME SLA</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Page Type</th>
+<th>Target Response Time</th>
+<th>Measurement Method</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Dashboard Landing</td>
+<td>&lt; 2 seconds</td>
+<td>95th percentile</td>
+</tr>
+<tr class="even">
+<td>Data Tables</td>
+<td>&lt; 3 seconds</td>
+<td>95th percentile</td>
+</tr>
+<tr class="odd">
+<td>Complex Reports</td>
+<td>&lt; 5 seconds</td>
+<td>95th percentile</td>
+</tr>
+<tr class="even">
+<td>Data Export</td>
+<td>&lt; 10 seconds</td>
+<td>95th percentile</td>
+</tr>
+</tbody>
+</table>
+<p><strong>3. INCIDENT RESPONSE SLA</strong></p>
+<p>Detailed breakdown:</p>
+<p><strong>Critical (P1):</strong> - Definition: Complete system outage, data loss risk, security breach - Response Time: 30 minutes - Resolution Time: 4 hours - Communication: Immediate notification + hourly updates - Escalation: Automatic escalation to management if not resolved in 2 hours</p>
+<p><strong>High (P2):</strong> - Definition: Major feature not working, significant performance degradation - Response Time: 1 hour - Resolution Time: 8 hours - Communication: Initial response + updates every 4 hours - Escalation: Escalation if not resolved in 6 hours</p>
+<p><strong>Medium (P3):</strong> - Definition: Minor feature issue, workaround available - Response Time: 4 hours - Resolution Time: 24 hours - Communication: Acknowledgment + resolution update - Escalation: Daily review if not resolved</p>
+<p><strong>Low (P4):</strong> - Definition: Cosmetic issues, enhancement requests, questions - Response Time: 8 hours (next business day) - Resolution Time: 72 hours - Communication: Email acknowledgment - Escalation: Weekly review for backlog</p>
+<p><strong>4. DATA SYNC SLA</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 22%">
+<col style="width: 19%">
+<col style="width: 15%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Data Source</th>
+<th>Sync Frequency</th>
+<th>Success Rate</th>
+<th>Max Delay</th>
+<th>Alert Threshold</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>SIRUP</td>
+<td>Daily @ 02:00</td>
+<td>≥ 99%</td>
+<td>6 hours</td>
+<td>&gt; 3 hours delay</td>
+</tr>
+<tr class="even">
+<td>SPSE Tender</td>
+<td>Daily @ 03:00</td>
+<td>≥ 98%</td>
+<td>6 hours</td>
+<td>&gt; 3 hours delay</td>
+</tr>
+<tr class="odd">
+<td>SPSE Non-Tender</td>
+<td>Daily @ 04:00</td>
+<td>≥ 98%</td>
+<td>6 hours</td>
+<td>&gt; 3 hours delay</td>
+</tr>
+<tr class="even">
+<td>SIKAP</td>
+<td>Weekly @ Sun 01:00</td>
+<td>≥ 95%</td>
+<td>12 hours</td>
+<td>&gt; 6 hours delay</td>
+</tr>
+<tr class="odd">
+<td>E-Katalog</td>
+<td>Weekly @ Sun 02:00</td>
+<td>≥ 95%</td>
+<td>12 hours</td>
+<td>&gt; 6 hours delay</td>
+</tr>
+<tr class="even">
+<td>BELA</td>
+<td>Weekly @ Sun 03:00</td>
+<td>≥ 95%</td>
+<td>12 hours</td>
+<td>&gt; 6 hours delay</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="lampiran-d-daftar-perangkat-dan-akses" class="level3">
+<h3 class="anchored" data-anchor-id="lampiran-d-daftar-perangkat-dan-akses">Lampiran D: Daftar Perangkat dan Akses</h3>
+<p><strong>1. INFRASTRUKTUR SISTEM</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Komponen</th>
+<th>Spesifikasi</th>
+<th>Lokasi</th>
+<th>PIC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Application Server</td>
+<td>[…]</td>
+<td>[…]</td>
+<td>[…]</td>
+</tr>
+<tr class="even">
+<td>Database Server</td>
+<td>[…]</td>
+<td>[…]</td>
+<td>[…]</td>
+</tr>
+<tr class="odd">
+<td>Storage Server</td>
+<td>[…]</td>
+<td>[…]</td>
+<td>[…]</td>
+</tr>
+<tr class="even">
+<td>Backup Server</td>
+<td>[…]</td>
+<td>[…]</td>
+<td>[…]</td>
+</tr>
+</tbody>
+</table>
+<p><strong>2. AKSES SISTEM</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 31%">
+<col style="width: 26%">
+<col style="width: 21%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Level Akses</th>
+<th>Credential</th>
+<th>Purpose</th>
+<th>Holder</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Server Root</td>
+<td>SSH Key</td>
+<td>Infrastructure management</td>
+<td>DevOps Team</td>
+</tr>
+<tr class="even">
+<td>Database Admin</td>
+<td>DB Credentials</td>
+<td>Database operations</td>
+<td>DBA</td>
+</tr>
+<tr class="odd">
+<td>Application Admin</td>
+<td>App Admin Panel</td>
+<td>Application configuration</td>
+<td>Tech Lead</td>
+</tr>
+<tr class="even">
+<td>Monitoring Access</td>
+<td>Monitoring Dashboard</td>
+<td>System monitoring</td>
+<td>All Team</td>
+</tr>
+</tbody>
+</table>
+<p><strong>3. THIRD-PARTY SERVICES</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Service</th>
+<th>Provider</th>
+<th>Purpose</th>
+<th>Credentials Location</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>S3 Storage</td>
+<td>[…]</td>
+<td>Data storage</td>
+<td>Password vault</td>
+</tr>
+<tr class="even">
+<td>CDN</td>
+<td>[…]</td>
+<td>Content delivery</td>
+<td>Password vault</td>
+</tr>
+<tr class="odd">
+<td>Monitoring</td>
+<td>[…]</td>
+<td>System monitoring</td>
+<td>Password vault</td>
+</tr>
+<tr class="even">
+<td>Backup Service</td>
+<td>[…]</td>
+<td>Data backup</td>
+<td>Password vault</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="lampiran-e-checklist-preventive-maintenance" class="level3">
+<h3 class="anchored" data-anchor-id="lampiran-e-checklist-preventive-maintenance">Lampiran E: Checklist Preventive Maintenance</h3>
+<p><strong>HARIAN:</strong> - [ ] Cek status uptime dan availability - [ ] Review error logs untuk anomali - [ ] Monitor response time dan performa - [ ] Verifikasi proses sinkronisasi data berjalan - [ ] Cek kapasitas disk dan resource usage - [ ] Review security logs untuk aktivitas mencurigakan</p>
+<p><strong>MINGGUAN:</strong> - [ ] Review dan analisis tren performa - [ ] Optimasi cache dan cleanup data temporary - [ ] Backup verification dan restore test - [ ] Review pending tickets dan prioritas - [ ] Update dokumentasi jika ada perubahan - [ ] Security scan dan vulnerability check</p>
+<p><strong>BULANAN:</strong> - [ ] Full system health check - [ ] Database optimization (vacuum, analyze, reindex) - [ ] Review dan rotate log files - [ ] Test disaster recovery procedure - [ ] Update dependencies dan security patches - [ ] Capacity planning review - [ ] Generate monthly report - [ ] Stakeholder meeting dan review</p>
+<p><strong>TRIWULANAN:</strong> - [ ] Comprehensive security audit - [ ] User satisfaction survey - [ ] Performance benchmark testing - [ ] Documentation review dan update - [ ] Training refresher untuk tim - [ ] Disaster recovery drill</p>
+<p><strong>SEMESTERAN:</strong> - [ ] Architecture review - [ ] Capacity planning untuk 6 bulan kedepan - [ ] Major version updates evaluation - [ ] Business continuity plan review - [ ] Contract compliance audit</p>
+<hr>
+</section>
+<section id="lampiran-f-prosedur-eskalasi" class="level3">
+<h3 class="anchored" data-anchor-id="lampiran-f-prosedur-eskalasi">Lampiran F: Prosedur Eskalasi</h3>
+<p><strong>TINGKAT ESKALASI:</strong></p>
+<p><strong>Level 1: Technical Support</strong> - First responder untuk semua insiden - Handle P3 dan P4 independently - Eskalasi P1 dan P2 jika tidak dapat resolve dalam 30 menit - Contact: [Email/Phone]</p>
+<p><strong>Level 2: Senior Developer/Engineer</strong> - Handle P1 dan P2 incidents - Technical consultation untuk P3/P4 - Eskalasi ke Level 3 jika masalah kompleks atau P1 tidak resolve dalam 2 jam - Contact: [Email/Phone]</p>
+<p><strong>Level 3: Technical Lead/Architect</strong> - Handle critical issues yang memerlukan architectural decisions - Coordinate dengan external parties (LKPP, hosting provider) - Decision making untuk major changes - Contact: [Email/Phone]</p>
+<p><strong>Level 4: Project Manager</strong> - Overall project coordination - Client communication untuk major incidents - Contract dan commercial issues - Contact: [Email/Phone]</p>
+<p><strong>Level 5: Management (Both Sides)</strong> - Critical decisions affecting business continuity - Force majeure situations - Contract disputes - Contact: [Email/Phone PPK] &amp; [Email/Phone Vendor Management]</p>
+<p><strong>ESKALASI PATH:</strong></p>
+<pre><code>P4 (Low)     : L1 ━━━━━━━━━━━━━━━━━━━━━━━━━━→ Resolution
+
+P3 (Medium)  : L1 ━━━━━━━━━━━━━━━━━━━━━━━━━━→ Resolution
+                ↓ (if needed)
+               L2
+
+P2 (High)    : L1 ━→ L2 ━━━━━━━━━━━━━━━━━━━→ Resolution
+                      ↓ (if needed)
+                     L3
+
+P1 (Critical): L1 ━→ L2 ━→ L3 ━━━━━━━━━━━━→ Resolution
+                           ↓ (if needed)
+                          L4 ━→ L5</code></pre>
+<hr>
+</section>
+</section>
+<section id="xx.-penutup" class="level2">
+<h2 class="anchored" data-anchor-id="xx.-penutup">XX. PENUTUP</h2>
+<p>Kerangka Acuan Kerja ini disusun sebagai pedoman dalam pelaksanaan kegiatan Pemeliharaan Aplikasi SIP-SPSE Tahun Anggaran 2025. Hal-hal yang belum diatur dalam KAK ini akan diatur kemudian sesuai dengan ketentuan yang berlaku dan berdasarkan kesepakatan bersama antara Pemberi Kerja dan Penyedia Jasa.</p>
+<p>KAK ini merupakan dokumen yang mengikat dan menjadi acuan utama dalam pelaksanaan pekerjaan. Perubahan terhadap KAK ini hanya dapat dilakukan melalui addendum yang disepakati oleh kedua belah pihak dan sesuai dengan peraturan yang berlaku.</p>
 <p>Demikian Kerangka Acuan Kerja ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p>
 <hr>
 <p><br><br><br></p>
